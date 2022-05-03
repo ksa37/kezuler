@@ -33,3 +33,4 @@ jobs:
 
       - name: Deploy
         run: aws s3 sync ./build s3://kezulerbucket
+        working-directory: ${{ env.working-directory }}
