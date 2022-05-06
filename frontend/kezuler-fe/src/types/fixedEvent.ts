@@ -1,4 +1,12 @@
+interface UserFixedEvents {
+  userId: string;
+  startDate: string;
+  endDate: string;
+  fixedEvents: FixedEvent[];
+}
+
 interface FixedEvent {
+  userId?: string;
   eventId: string;
   eventTitle: string;
   eventDescription: string;
@@ -6,10 +14,11 @@ interface FixedEvent {
   eventTimeStartsAt: string;
   isEventOnline: boolean;
   eventZoomAddress: null | string;
-  eventPlaceLongitude: number;
-  eventPlaceLatitude: number;
+  eventPlaceLongitude: null | number;
+  eventPlaceLatitude: null | number;
   eventAttachment: string;
   participantImage: string[];
 }
 
 export default FixedEvent;
+export const UserFixedEvents;

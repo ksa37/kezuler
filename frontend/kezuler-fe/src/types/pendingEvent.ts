@@ -1,4 +1,10 @@
+interface UserPendingEvents {
+  userId: string;
+  pendingEvents: PendingEvent[];
+}
+
 interface PendingEvent {
+  userId?: string;
   eventId: string;
   eventTitle: string;
   eventDescription: string;
@@ -6,8 +12,8 @@ interface PendingEvent {
   eventTimeCandidates: EventTimeCandidate[];
   isEventOnline: boolean;
   eventZoomAddress: null | string;
-  eventPlaceLongitude: number;
-  eventPlaceLatitude: number;
+  eventPlaceLongitude: null | number;
+  eventPlaceLatitude: null | number;
   eventAttachment: string;
 }
 
@@ -24,3 +30,4 @@ interface EventTimeWithUser {
 type EventTimeCandidate = Record<string, EventTimeWithUser[]>;
 
 export default PendingEvent;
+export { UserPendingEvents, PossibleUser };
