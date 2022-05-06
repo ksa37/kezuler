@@ -3,7 +3,7 @@ interface PendingEvent {
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
-  eventTimeCandidates: Array;
+  eventTimeCandidates: EventTimeCandidate[];
   isEventOnline: boolean;
   eventZoomAddress: null | string;
   eventPlaceLongitude: number;
@@ -11,54 +11,16 @@ interface PendingEvent {
   eventAttachment: string;
 }
 
-// interface EventTimeCandidate {
+interface PossibleUser {
+  userId: string;
+  userImage: string;
+}
 
-// }
+interface EventTimeWithUser {
+  eventStartsAt: string;
+  possbileUsers: PossibleUser[];
+}
+
+type EventTimeCandidate = Record<string, EventTimeWithUser[]>;
 
 export default PendingEvent;
-
-// {
-//   "userId": "user0001",
-//   "pendingEvents": [
-//     {
-//       "eventId": "pendingevt01",
-//       "eventTitle": "17학번 회식",
-//       "eventDescription": "...",
-//       "eventTimeDuration": 60,
-//       "eventTimeCandidates": [
-//         {
-//           "2022-04-11": [
-//             {
-//               "eventStartsAt": "08:00",
-//               "possbileUsers": [
-//                 {
-//                   "userId": "user0002",
-//                   "userImage": "..."
-//                 },
-//                 {
-//                   "userId": "user0003",
-//                   "userImage": "..."
-//                 }
-//               ]
-//             },
-//             {
-//               "eventStartsAt": "13:00",
-//               "possbileUsers": [
-//                 {
-//                   "userId": "user0002",
-//                   "userImage": "..."
-//                 }
-//               ]
-//             },
-//             {
-//               "eventStartsAt": "19:00",
-//               "possbileUsers": []
-//             }
-//           ]
-//         }
-//       ],
-//       "isEventOnline": false,
-//       "eventZoomAddress": null,
-//       "eventPlaceLongitude": 126.9835766,
-//       "eventPlaceLatitude": 37.5707075
-//     },

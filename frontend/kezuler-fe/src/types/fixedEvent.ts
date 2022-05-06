@@ -9,7 +9,7 @@ interface FixedEvent {
   eventPlaceLongitude: number;
   eventPlaceLatitude: number;
   eventAttachment: string;
-  participantImage: Array<string>;
+  participantImage: string[];
 }
 
 export default FixedEvent;
