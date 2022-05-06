@@ -1,6 +1,7 @@
-import { Avatar, AvatarGroup, Card } from '@mui/material';
-import React from 'react';
-import FixedEvent from '../types/fixedEvent';
+import React from "react";
+import { Avatar, AvatarGroup, Card } from "@mui/material";
+
+import FixedEvent from "../types/fixedEvent";
 
 interface Props {
   onClick: () => void; // 미팅 요약뷰 팝업
@@ -17,8 +18,8 @@ function MeetingCard({ onClick, fixedEvent }: Props) {
       {eventTimeStartsAt}
       {eventTitle}
       <AvatarGroup max={maxAvatarNum} total={participantImages.length}>
-        {participantImages.map((participant) => {
-          <Avatar alt={participant.userId} src={participant.userImage} />;
+        {participantImages.map((image) => {
+          return <Avatar key={image} alt={image} src={image} />;
         })}
       </AvatarGroup>
     </Card>

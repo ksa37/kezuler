@@ -1,6 +1,7 @@
-import { Button } from '@mui/material';
-import React from 'react';
-import { KAKAO_AUTH_URL } from '../constants/Oauth';
+import React from "react";
+import { Button } from "@mui/material";
+
+import { KAKAO_AUTH_URL } from "../constants/Oauth";
 
 function Login() {
   return (
