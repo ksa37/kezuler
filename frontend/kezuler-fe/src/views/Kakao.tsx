@@ -8,9 +8,9 @@ function Kakao() {
   // const dispatch = useDispatch();
   const code = new URL(window.location.href).searchParams.get('code');
 
-  useEffect(async () => {
-    await kakaoLogin(code);
-  }, []);
+  // useEffect(async () => {
+  //   await kakaoLogin(code);
+  // }, []);
 
   return <div> heeloo </div>;
 }

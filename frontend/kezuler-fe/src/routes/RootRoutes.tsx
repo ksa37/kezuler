@@ -5,6 +5,7 @@ import React from 'react';
 import Login from '../views/Login';
 import Kakao from '../views/Kakao';
 import ButtonAppBar from '../components/ButtonAppBar';
+import CalendarView from '../views/CalendarView';
 
 function RootRoutes() {
   const isLoggedIn = false;
