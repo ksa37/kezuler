@@ -21,4 +21,4 @@ interface FixedEvent {
 }
 
 export default FixedEvent;
-export const UserFixedEvents;
+export type { UserFixedEvents };

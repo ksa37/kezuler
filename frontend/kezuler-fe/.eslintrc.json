@@ -18,8 +18,43 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "simple-import-sort"
     ],
     "rules": {
+        "simple-import-sort/imports": [
+            "warn",
+            {
+                "groups": [
+                    [
+                        "^react",
+                        "^(?!src)(?=@?\\w)"
+                    ],
+                    [
+                        "constants",
+                        "hooks",
+                        "reducers",
+                        "routes",
+                        "store",
+                        "types",
+                        "utils"
+                    ],
+                    [
+                        "views",
+                        "^\\.\\.(?!/?$)",
+                        "^\\.\\./?$",
+                        "^\\./(?=.*/)(?!/?$)",
+                        "^\\.(?!/?$)",
+                        "^\\./?$",
+                        "components"
+                    ],
+                    [
+                        "assets",
+                        "^.+\\.s?css$"
+                    ]
+                ]
+            }
+        ],
+        "import/order": "off"
     }
-}
+  }

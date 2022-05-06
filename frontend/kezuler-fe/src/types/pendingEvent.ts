@@ -24,10 +24,10 @@ interface PossibleUser {
 
 interface EventTimeWithUser {
   eventStartsAt: string;
-  possbileUsers: PossibleUser[];
+  possibleUsers: PossibleUser[];
 }
 
 type EventTimeCandidate = Record<string, EventTimeWithUser[]>;
 
 export default PendingEvent;
-export { UserPendingEvents, PossibleUser };
+export type { UserPendingEvents, PossibleUser, EventTimeCandidate };

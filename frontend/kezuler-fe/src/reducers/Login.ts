@@ -1,7 +1,8 @@
-import axios from 'axios';
-import PathName from '../constants/PathName';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SERVER_URI } from '../constants/Oauth';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+
+import { SERVER_URI } from "../constants/Oauth";
+import PathName from "../constants/PathName";
 
 export interface LoginState {
   value: number;
@@ -12,7 +13,7 @@ const initialState: LoginState = {
 };
 
 export const loginSlice = createSlice({
-  name: 'kakao-login',
+  name: "kakao-login",
   initialState,
   reducers: {
     increment: (state) => {
@@ -37,7 +38,7 @@ export default loginSlice.reducer;
 export function kakaoLogin(code: any) {
   return function ({ history }: any) {
     axios({
-      method: 'GET',
+      method: "GET",
       url: `http://${SERVER_URI}/oauth/callback/kakao?code=${code}`,
     })
       .then((res) => {
@@ -45,13 +46,13 @@ export function kakaoLogin(code: any) {
 
         const ACCESS_TOKEN = res.data.accessToken;
 
-        localStorage.setItem('token', ACCESS_TOKEN); //예시로 로컬에 저장함
+        localStorage.setItem("token", ACCESS_TOKEN); //예시로 로컬에 저장함
 
         history.replace(PathName.main); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
       })
       .catch((err) => {
-        console.log('소셜로그인 에러', err);
-        window.alert('로그인에 실패하였습니다.');
+        console.log("소셜로그인 에러", err);
+        window.alert("로그인에 실패하였습니다.");
         history.replace(PathName.login); // 로그인 실패하면 로그인화면으로 돌려보냄
       });
   };

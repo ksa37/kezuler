@@ -1,31 +1,39 @@
-import { Avatar, AvatarGroup } from '@mui/material';
-import React from 'react';
-import PendingEvent, { PossibleUser } from '../types/pendingEvent';
-import TimeProfileButton from './TimeProfileButton';
+import React from "react";
+import { Avatar, AvatarGroup } from "@mui/material";
+
+import PendingEvent, {
+  EventTimeCandidate,
+  PossibleUser,
+} from "../types/pendingEvent";
+
+import TimeProfileButton from "./TimeProfileButton";
 
 interface Props {
   onClick: () => void;
   date: string;
   duration: number;
-  eventTimeCandidates: EventTimeCandidate[];
+  eventTimeCandidate: EventTimeCandidate;
 }
 
 function TimeProfileButtonList({
   onClick,
   date,
   duration,
-  eventTimeCandidates,
+  eventTimeCandidate,
 }: Props) {
-  const timeCandidates = eventTimeCandidates[date];
+  const users = eventTimeCandidate[date];
   //duration 계산하는거 넣어야함
   return (
     <>
-      {timeCandidates.map((timeCandidate) => {
-        <TimeProfileButton
-          onClick={onClick}
-          time={timeCandidate.eventStartsAt}
-          possibleUsersList={timeCandidate.possibleUsers}
-        />;
+      {users.map((user) => {
+        return (
+          <TimeProfileButton
+            key={user.eventStartsAt}
+            onClick={onClick}
+            time={user.eventStartsAt}
+            possibleUsersList={user.possibleUsers}
+          />
+        );
       })}
     </>
   );
