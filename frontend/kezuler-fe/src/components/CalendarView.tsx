@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Calendar from "react-calendar";
+import React, { useState } from 'react';
+import Calendar from 'react-calendar';
 
 function CalendarView() {
   const [value, onChange] = useState(new Date());

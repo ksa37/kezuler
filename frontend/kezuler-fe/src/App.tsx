@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import RootRoutes from "./routes/RootRoutes";
+import RootRoutes from './routes/RootRoutes';
 
-import "./App.scss";
+import './App.scss';
 
 function App() {
   return (

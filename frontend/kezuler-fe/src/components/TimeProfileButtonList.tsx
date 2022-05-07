@@ -1,12 +1,12 @@
-import React from "react";
-import { Avatar, AvatarGroup } from "@mui/material";
+import React from 'react';
+import { Avatar, AvatarGroup } from '@mui/material';
 
 import PendingEvent, {
   EventTimeCandidate,
   PossibleUser,
-} from "../types/pendingEvent";
+} from '../types/pendingEvent';
 
-import TimeProfileButton from "./TimeProfileButton";
+import TimeProfileButton from './TimeProfileButton';
 
 interface Props {
   onClick: () => void;
