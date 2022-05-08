@@ -8,6 +8,7 @@ function Kakao() {
   console.log('hello!');
   // const dispatch = useDispatch();
   const code = new URL(window.location.href).searchParams.get('code');
+  console.log(code);
 
   // useEffect(async () => {
   //   await kakaoLogin(code);
