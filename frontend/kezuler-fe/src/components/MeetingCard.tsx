@@ -1,7 +1,7 @@
-import React from "react";
-import { Avatar, AvatarGroup, Card } from "@mui/material";
+import React from 'react';
+import { Avatar, AvatarGroup, Card } from '@mui/material';
 
-import FixedEvent from "../types/fixedEvent";
+import FixedEvent from '../types/fixedEvent';
 
 interface Props {
   onClick: () => void; // 미팅 요약뷰 팝업

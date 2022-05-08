@@ -1,11 +1,11 @@
-import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
-import PathName from "../constants/PathName";
+import PathName from '../constants/PathName';
 
-import Kakao from "../views/Kakao";
-import Login from "../views/Login";
-import ButtonAppBar from "../components/ButtonAppBar";
+import Kakao from '../views/Kakao';
+import Login from '../views/Login';
+import ButtonAppBar from '../components/ButtonAppBar';
 
 function RootRoutes() {
   const isLoggedIn = false;
