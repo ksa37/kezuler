@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    # paths:
+    #   - 'frontend/**'
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./frontend/kezuler-fe
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Install dependencies
+        run: yarn
+        working-directory: ${{ env.working-directory }}
+
+      - name: Build
+        run: yarn build
+        working-directory: ${{ env.working-directory }}
+
+      - name: Deploy
+        run: aws s3 sync ./build s3://kezulerbucket
+        working-directory: ${{ env.working-directory }}
