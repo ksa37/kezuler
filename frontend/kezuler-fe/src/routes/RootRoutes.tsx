@@ -1,11 +1,11 @@
+import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+
 import PathName from '../constants/PathName';
 
-import React from 'react';
-import Login from '../views/Login';
 import Kakao from '../views/Kakao';
+import Login from '../views/Login';
 import ButtonAppBar from '../components/ButtonAppBar';
-import CalendarView from '../views/CalendarView';
 
 function RootRoutes() {
   const isLoggedIn = false;
@@ -18,12 +18,12 @@ function RootRoutes() {
             <ButtonAppBar />
           </>
           <Routes>
-            <Route path={PathName.main} element={<>login</>}></Route>
-            <Route path={PathName.notification} element={<>login</>}></Route>
-            <Route path={PathName.setting} element={<>login</>}></Route>
-            <Route path={PathName.pending} element={<>login</>}></Route>
-            <Route path={PathName.delete} element={<>login</>}></Route>
-            <Route path={PathName.create} element={<>login</>}></Route>
+            <Route path={PathName.main} element={<>login</>} />
+            <Route path={PathName.notification} element={<>login</>} />
+            <Route path={PathName.setting} element={<>login</>} />
+            <Route path={PathName.pending} element={<>login</>} />
+            <Route path={PathName.delete} element={<>login</>} />
+            <Route path={PathName.create} element={<>login</>} />
             <Route
               path="/*"
               element={<Navigate replace to={PathName.login} />}
@@ -36,8 +36,8 @@ function RootRoutes() {
         //     <ButtonAppBar />
         //   </>
         <Routes>
-          <Route path={PathName.login} element={<Login />}></Route>
-          <Route path={PathName.kakaoRedirect} element={<Kakao />}></Route>
+          <Route path={PathName.login} element={<Login />} />
+          <Route path={PathName.kakaoRedirect} element={<Kakao />} />
           <Route path="/*" element={<Navigate replace to={PathName.login} />} />
         </Routes>
         // </>
