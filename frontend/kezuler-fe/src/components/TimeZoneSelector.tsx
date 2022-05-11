@@ -9,10 +9,10 @@ function TimeZoneSelector() {
       <h2>react-timezone-select</h2>
       <blockquote>Please make a selection</blockquote>
       <div className="select-wrapper">
-        <TimezoneSelect
+        {/* <TimezoneSelect
           value={selectedTimezone}
           onChange={setSelectedTimezone}
-        />
+        /> */}
       </div>
       <h3>Output:</h3>
       <div
