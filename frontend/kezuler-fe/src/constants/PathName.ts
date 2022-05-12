@@ -8,7 +8,7 @@ const PathName = {
   create: '/create',
   invite: '/invite',
 
-  kakaoRedirect: '/oauth/callback/kakao',
+  kakaoRedirect: '/oauth/kakao/token',
 } as const;
 type PathName = typeof PathName[keyof typeof PathName];
 
