@@ -9,8 +9,8 @@ interface PendingEvent {
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
-  eventTimeCandidates: EventTimeCandidate[];
-  isEventOnline: boolean;
+  eventTimeCandidates: null | EventTimeCandidate[];
+  isEventOnline: null | boolean;
   eventZoomAddress: null | string;
   eventPlaceLongitude: null | number;
   eventPlaceLatitude: null | number;
