@@ -54,20 +54,11 @@ export const createMeetingSlice = createSlice({
     setAttachment: (state, action: PayloadAction<string>) => {
       state.eventAttachment = action.payload;
     },
+    destroy: () => initialState,
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  setUserID,
-  setEventID,
-  setAttachment,
-  setCoordinate,
-  setDescription,
-  setOnOffline,
-  setTimeCandidate,
-  setTitle,
-  setZoomAddress,
-} = createMeetingSlice.actions;
+export const createMeetingActions = createMeetingSlice.actions;
 
 export default createMeetingSlice.reducer;

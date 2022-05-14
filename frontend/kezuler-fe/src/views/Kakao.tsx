@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 
-// import { useDispatch } from 'react-redux';
-import { kakaoLogin } from '../reducers/Login';
-// import Spinner from './Spinner';
+import useKakaoLogin from '../hooks/useKakaoLogin';
 
 function Kakao() {
-  console.log('hello!');
-  // const dispatch = useDispatch();
+  const { getKakaoToken } = useKakaoLogin();
   const code = new URL(window.location.href).searchParams.get('code');
-  console.log(code);
+
+  useEffect(() => {
+    if (code) {
+      console.log(code);
+      getKakaoToken(code);
+    }
+  }, [code]);
 
   // useEffect(async () => {
   //   await kakaoLogin(code);
