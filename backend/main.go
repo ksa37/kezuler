@@ -44,7 +44,7 @@ func main() {
 			}
 			kakaoAuthToken = strings.TrimSpace(splitToken[1])
 
-			utils.PostUser(w, r, kakaoAuthToken)
+			utils.PostUser(w, kakaoAuthToken)
 		}
 
 		if r.Method == "GET" {
