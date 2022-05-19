@@ -1,34 +1,31 @@
 import React from 'react';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
+import { useDispatch, useSelector } from 'react-redux';
 
-import TimeOptions from '../../constants/TimeOptions';
+import { CreateMeetingSteps } from '../../constants/Steps';
+import { RootState } from '../../reducers';
 
-import BlackButton from '../../components/BlackButton';
-import CalendarView from '../../components/CalendarView';
+import PutMeetingInfo from './PutMeetingInfo';
+import PutOnOffInfo from './PutOnOffInfo';
+import SelectOnOff from './SelectOnOff';
+import SelectTime from './SelectTime';
+// import { AppDispatch } from '../../store/store';
 
 function CreateMeeting() {
-  const handleClick = () => {
-    console.info('You clicked the Chip.');
-  };
+  // const dispatch = useDispatch<AppDispatch>();
+  const { step } = useSelector((state: RootState) => state.createMeeting);
 
-  return (
-    <div>
-      <CalendarView />
-
-      <Stack direction="row" spacing={1}>
-        {TimeOptions.map((timeOption) => (
-          <Chip
-            key={timeOption}
-            label={timeOption}
-            variant="outlined"
-            onClick={handleClick}
-          />
-        ))}
-      </Stack>
-      <BlackButton onClick={() => console.log('hello')} text="다음" />
-    </div>
-  );
+  switch (step) {
+    case CreateMeetingSteps.First:
+      return <SelectTime />;
+    case CreateMeetingSteps.Second:
+      return <SelectOnOff />;
+    case CreateMeetingSteps.Third:
+      return <PutOnOffInfo />;
+    case CreateMeetingSteps.Fourth:
+      return <PutMeetingInfo />;
+    default:
+      return <></>;
+  }
 }
 
 export default CreateMeeting;

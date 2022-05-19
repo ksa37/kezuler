@@ -9,17 +9,22 @@ interface PendingEvent {
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
+  declinedUsers: null | DeclinedUser[];
   eventTimeCandidates: null | EventTimeCandidate[];
-  isEventOnline: null | boolean;
   eventZoomAddress: null | string;
-  eventPlaceLongitude: null | number;
-  eventPlaceLatitude: null | number;
+  eventPlace: null | string;
   eventAttachment: string;
+}
+
+interface DeclinedUser {
+  userId: string;
+  userProfileImage: string;
+  userDeclineReason: string;
 }
 
 interface PossibleUser {
   userId: string;
-  userImage: string;
+  userProfileImage: string;
 }
 
 interface EventTimeWithUser {

@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import PathName from '../constants/PathName';
 
+import CreateMeeting from '../views/create-meeting/SelectTime';
 import Kakao from '../views/Kakao';
 import Login from '../views/Login';
 import ButtonAppBar from '../components/ButtonAppBar';
@@ -23,7 +24,7 @@ function RootRoutes() {
             <Route path={PathName.setting} element={<>login</>} />
             <Route path={PathName.pending} element={<>login</>} />
             <Route path={PathName.delete} element={<>login</>} />
-            <Route path={PathName.create} element={<>login</>} />
+            <Route path={PathName.create} element={<CreateMeeting />} />
             <Route
               path="/*"
               element={<Navigate replace to={PathName.login} />}

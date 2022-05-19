@@ -7,6 +7,7 @@ const PathName = {
   delete: '/delete',
   create: '/create',
   invite: '/invite',
+  share: '/share',
 
   kakaoRedirect: '/oauth/kakao/token',
 } as const;
