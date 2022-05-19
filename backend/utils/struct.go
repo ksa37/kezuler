@@ -58,3 +58,31 @@ type kakaoUserInfo struct {
 		} `json:"profile"`
 	} `json:"kakao_account"`
 }
+
+type T struct {
+	UserId        string `json:"userId"`
+	PendingEvents []struct {
+		EventId           string `json:"eventId"`
+		EventTitle        string `json:"eventTitle"`
+		EventDescription  string `json:"eventDescription"`
+		EventTimeDuration int    `json:"eventTimeDuration"`
+		DeclinedUsers     []struct {
+			UserId            string `json:"userId"`
+			UserProfileImage  string `json:"userProfileImage"`
+			UserDeclineReason string `json:"userDeclineReason"`
+		} `json:"declinedUsers"`
+		EventTimeCandidates []struct {
+			eventDate []struct {
+				EventStartsAt string `json:"eventStartsAt"`
+				PossibleUsers []struct {
+					UserId           string `json:"userId"`
+					UserProfileImage string `json:"userProfileImage,omitempty"`
+					UserImage        string `json:"userImage,omitempty"`
+				} `json:"possibleUsers"`
+			} `json:"eventDate"`
+		} `json:"eventTimeCandidates"`
+		EventZoomAddress *string `json:"eventZoomAddress"`
+		EventPlace       string  `json:"eventPlace"`
+		EventAttachment  string  `json:"eventAttachment"`
+	} `json:"pendingEvents"`
+}

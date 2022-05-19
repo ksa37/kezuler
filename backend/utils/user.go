@@ -12,7 +12,7 @@ import (
 	"net/url"
 )
 
-func PostUser(w http.ResponseWriter, kakaoAuthToken string) {
+func postUser(w http.ResponseWriter, kakaoAuthToken string) {
 	// KakaoAuth를 받아왔으니, 이를 바탕으로 생성
 	const ClientURI string = "https://kapi.kakao.com"
 	const Resource string = "/v2/user/me"
@@ -93,9 +93,11 @@ func PostUser(w http.ResponseWriter, kakaoAuthToken string) {
 	}
 }
 
-func GetUser(serviceAuthToken string) {
+func getUserWithId(w http.ResponseWriter, serviceAuthToken string) {
 	client := connect()
 	defer disconnect(client)
+
+	//TODO: ADD auth finder to check if target user is exist or not
 
 	coll := client.Database("kezuler").Collection("user")
 	var result bson.M
@@ -115,5 +117,6 @@ func GetUser(serviceAuthToken string) {
 		panic(err)
 	}
 
-	fmt.Printf("%s\n", jsonData)
+	w.Header().Set("content-type", "application/json")
+	w.Write(jsonData)
 }
