@@ -32,7 +32,8 @@ interface EventTimeWithUser {
   possibleUsers: PossibleUser[];
 }
 
-type EventTimeCandidate = Record<string, EventTimeWithUser[]>;
+type EventTimeCandidate = { [date: string]: EventTimeWithUser[] };
+// Record<string, EventTimeWithUser[]>;
 
 export default PendingEvent;
 export type { UserPendingEvents, PossibleUser, EventTimeCandidate };

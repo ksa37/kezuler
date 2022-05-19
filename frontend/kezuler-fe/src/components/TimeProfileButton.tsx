@@ -23,7 +23,7 @@ function TimeProfileButton({ onClick, time, possibleUsersList }: Props) {
             <Avatar
               key={possibleUser.userId}
               alt={possibleUser.userId}
-              src={possibleUser.userImage}
+              src={possibleUser.userProfileImage}
             />
           );
         })}
