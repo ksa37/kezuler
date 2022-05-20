@@ -73,7 +73,7 @@ function TimeProfileButtonList({
           <TimeProfileButton
             key={timeOption.eventStartsAt}
             onClick={onClick}
-            time={timeOption.eventStartsAt}
+            eventStartsAt={timeOption.eventStartsAt}
             eventTimeDuration={eventTimeDuration}
             possibleUsersList={timeOption.possibleUsers}
           />;
