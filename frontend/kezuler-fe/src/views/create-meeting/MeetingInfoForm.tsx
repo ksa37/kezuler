@@ -11,7 +11,7 @@ import PendingEvent from '../../types/pendingEvent';
 
 import BlackButton from '../../components/BlackButton';
 
-function PutMeetingInfo() {
+function MeetingInfoForm() {
   const handleClick = () => {
     console.log('clicked!');
   };
@@ -109,4 +109,4 @@ function PutMeetingInfo() {
   );
 }
 
-export default PutMeetingInfo;
+export default MeetingInfoForm;

@@ -7,7 +7,7 @@ import { RootState } from '../reducers';
 import { mockThunkAction } from '../reducers/AcceptMeeting';
 import { AppDispatch } from '../store/store';
 
-import ShowSelectedOptions from './create-meeting/ShowSelectedOptions';
+// import ShowSelectedOptions from './create-meeting/SelectedOptions';
 import BlackButton from '../components/BlackButton';
 import CalendarView from '../components/CalendarView';
 import ProgressBar from '../components/ProgressBar';
@@ -31,14 +31,13 @@ function Login() {
   }
   return (
     <>
-      <ShowSelectedOptions />
+      {/* <ShowSelectedOptions /> */}
       <Button href={KAKAO_AUTH_URL}>
         {/* <img src={kakaologo}></img> */}
         <span>카카오계정 로그인</span>
       </Button>
       <Button onClick={handleFetchClick}></Button>
       <BlackButton onClick={() => console.log('hi')} text="다음" />
-      <CalendarView />
       {/* <MeetingCard/> */}
       <ProgressBar />
     </>

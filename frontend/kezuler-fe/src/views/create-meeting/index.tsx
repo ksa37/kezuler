@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CreateMeetingSteps } from '../../constants/Steps';
 import { RootState } from '../../reducers';
 
-import PutMeetingInfo from './PutMeetingInfo';
-import PutOnOffInfo from './PutOnOffInfo';
-import SelectOnOff from './SelectOnOff';
-import SelectTime from './SelectTime';
+import CalendarTimeSelector from './CalendarTimeSelector';
+import MeetingInfoForm from './MeetingInfoForm';
+import OnOffInfoForm from './OnOffInfoForm';
+import OnOffSelector from './OnOffSelector';
 // import { AppDispatch } from '../../store/store';
 
 function CreateMeeting() {
@@ -16,13 +16,13 @@ function CreateMeeting() {
 
   switch (step) {
     case CreateMeetingSteps.First:
-      return <SelectTime />;
+      return <CalendarTimeSelector />;
     case CreateMeetingSteps.Second:
-      return <SelectOnOff />;
+      return <OnOffSelector />;
     case CreateMeetingSteps.Third:
-      return <PutOnOffInfo />;
+      return <OnOffInfoForm />;
     case CreateMeetingSteps.Fourth:
-      return <PutMeetingInfo />;
+      return <MeetingInfoForm />;
     default:
       return <></>;
   }

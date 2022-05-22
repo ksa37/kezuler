@@ -8,12 +8,14 @@ interface CreateMeetingState extends PendingEvent {
   step: CreateMeetingSteps;
   shareUrl: string;
   isOnline: null | boolean;
+  eventTimeList: Date[];
 }
 
 const initialState: CreateMeetingState = {
   step: CreateMeetingSteps.First,
   shareUrl: '',
   isOnline: null,
+  eventTimeList: [],
   userId: '',
   eventId: '',
   eventTitle: '',
@@ -25,6 +27,9 @@ const initialState: CreateMeetingState = {
   eventPlace: null,
   eventAttachment: '',
 };
+
+const dateSort = (dateArr: Date[]) =>
+  dateArr.sort((a, b) => b.valueOf() - a.valueOf());
 
 export const createMeetingSlice = createSlice({
   name: 'create-meeting',
@@ -51,8 +56,16 @@ export const createMeetingSlice = createSlice({
     setEventID: (state, action: PayloadAction<string>) => {
       state.eventId = action.payload;
     },
-    setTimeCandidate: (state, action: PayloadAction<EventTimeCandidate[]>) => {
-      state.eventTimeCandidates = action.payload;
+    addTimeList: (state, action: PayloadAction<Date>) => {
+      state.eventTimeList.push(action.payload);
+      state.eventTimeList = dateSort(state.eventTimeList);
+    },
+    deleteTimeList: (state, action: PayloadAction<Date>) => {
+      const index = state.eventTimeList.indexOf(action.payload);
+      if (index !== -1) {
+        state.eventTimeList.splice(index, 1);
+      }
+      state.eventTimeList = dateSort(state.eventTimeList);
     },
     setTitle: (state, action: PayloadAction<string>) => {
       state.eventTitle = action.payload;

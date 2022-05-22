@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
-import Calendar from 'react-calendar';
+import React from 'react';
+import DatePicker from 'react-datepicker';
+import { ko } from 'date-fns/esm/locale';
 
-function CalendarView() {
-  const [value, onChange] = useState(new Date());
+interface Props {
+  startDate: Date | null;
+  setStartDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  // highlightDates: Date[];
+}
+
+function CalendarView({ startDate, setStartDate }: Props) {
   return (
-    <div>
-      <Calendar onChange={onChange} value={value} />
-    </div>
+    <DatePicker
+      locale={ko}
+      selected={startDate}
+      onChange={setStartDate}
+      // highlightDates={highlightDates}
+      inline
+    />
   );
 }
 
