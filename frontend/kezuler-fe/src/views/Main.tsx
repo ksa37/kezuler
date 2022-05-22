@@ -2,14 +2,14 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 
-import { KAKAO_AUTH_URL } from '../constants/Oauth';
-import { RootState } from '../reducers';
-import { mockThunkAction } from '../reducers/AcceptMeeting';
-import { AppDispatch } from '../store/store';
+import { KAKAO_AUTH_URL } from 'src/constants/Oauth';
+import { RootState } from 'src/reducers';
+import { mockThunkAction } from 'src/reducers/AcceptMeeting';
+import { AppDispatch } from 'src/store';
 
-import BlackButton from '../components/BlackButton';
-import CalendarView from '../components/CalendarView';
-import ProgressBar from '../components/ProgressBar';
+import CalendarView from 'src/components/CalendarView';
+import BlackButton from 'src/components/common/BlackButton';
+import ProgressBar from 'src/components/ProgressBar';
 
 function Main() {
   const dispatch = useDispatch<AppDispatch>();

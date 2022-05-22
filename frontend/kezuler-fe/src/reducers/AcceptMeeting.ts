@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import mockApi from '../api/mockApi';
+import mockApi from 'src/api/mockApi';
 
 export const mockThunkAction = createAsyncThunk(
   'getMock',
