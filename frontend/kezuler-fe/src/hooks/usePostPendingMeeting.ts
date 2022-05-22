@@ -1,12 +1,12 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import PathName from '../constants/PathName';
-import { createMeetingActions } from '../reducers/CreateMeeting';
-import { AppDispatch } from '../store/store';
-import { PendingEvent } from '../types/pendingEvent';
+import PathName from 'src/constants/PathName';
+import { createMeetingActions } from 'src/reducers/CreateMeeting';
+import { AppDispatch } from 'src/store';
+import { PendingEvent } from 'src/types/pendingEvent';
 
-import { postPendingEvent } from '../api/pendingEvent';
+import { postPendingEvent } from 'src/api/pendingEvent';
 
 const usePostPendingMeeting = (pendingEvent: PendingEvent) => {
   const navigate = useNavigate();

@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 
-import TimeOptions from '../../constants/TimeOptions';
-import { RootState } from '../../reducers';
-import { createMeetingActions } from '../../reducers/CreateMeeting';
-import { AppDispatch } from '../../store/store';
+import TimeOptions from 'src/constants/TimeOptions';
+import { RootState } from 'src/reducers';
+import { createMeetingActions } from 'src/reducers/CreateMeeting';
+import { AppDispatch } from 'src/store';
 
-import BlackButton from '../../components/BlackButton';
-import CalendarView from '../../components/CalendarView';
+import CalendarView from 'src/components/CalendarView';
+import BlackButton from 'src/components/common/BlackButton';
 function SelectTime() {
   const dispatch = useDispatch<AppDispatch>();
   // const { step } = useSelector((state: RootState) => state.createMeeting);

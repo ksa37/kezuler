@@ -1,8 +1,8 @@
 // import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CreateMeetingSteps } from '../constants/Steps';
-import { EventTimeCandidate, PendingEvent } from '../types/pendingEvent';
+import { CreateMeetingSteps } from 'src/constants/Steps';
+import { EventTimeCandidate, PendingEvent } from 'src/types/pendingEvent';
 
 interface CreateMeetingState extends PendingEvent {
   step: CreateMeetingSteps;

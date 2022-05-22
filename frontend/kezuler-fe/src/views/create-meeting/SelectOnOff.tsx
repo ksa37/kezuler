@@ -2,8 +2,8 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 
-import { createMeetingActions } from '../../reducers/CreateMeeting';
-import { AppDispatch } from '../../store/store';
+import { createMeetingActions } from 'src/reducers/CreateMeeting';
+import { AppDispatch } from 'src/store';
 
 function SelectOnOff() {
   const dispatch = useDispatch<AppDispatch>();

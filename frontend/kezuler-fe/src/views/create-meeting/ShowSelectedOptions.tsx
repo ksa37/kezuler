@@ -2,12 +2,12 @@ import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField } from '@mui/material';
 
-import { RootState } from '../../reducers';
-import { createMeetingActions } from '../../reducers/CreateMeeting';
-import { AppDispatch } from '../../store/store';
-import { EventTimeCandidate } from '../../types/pendingEvent';
+import { RootState } from 'src/reducers';
+import { createMeetingActions } from 'src/reducers/CreateMeeting';
+import { AppDispatch } from 'src/store';
+import { EventTimeCandidate } from 'src/types/pendingEvent';
 
-import BlackButton from '../../components/BlackButton';
+import BlackButton from 'src/components/common/BlackButton';
 function ShowSelectedOptions() {
   const dispatch = useDispatch<AppDispatch>();
   const { increaseStep, decreaseStep, setZoomAddress, setPlace } =

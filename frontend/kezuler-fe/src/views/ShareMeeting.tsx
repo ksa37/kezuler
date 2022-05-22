@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 
-import { RootState } from '../reducers';
+import { RootState } from 'src/reducers';
 
-import BlackButton from '../components/BlackButton';
+import BlackButton from 'src/components/common/BlackButton';
 
 function ShareMeeting() {
   const { shareUrl } = useSelector((state: RootState) => state.createMeeting);

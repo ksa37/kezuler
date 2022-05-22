@@ -3,7 +3,7 @@ import {
   FixedEvent,
   PPatchFixedEvent,
   RGetFixedEvents,
-} from '../types/fixedEvent';
+} from 'src/types/fixedEvent';
 
 const getFixedEvents = (userId: string, startIndex: number, endIndex: number) =>
   KezulerInstance.get<RGetFixedEvents>(`users/${userId}/fixedEvents`, {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import useKakaoLogin from '../hooks/useKakaoLogin';
+import useKakaoLogin from 'src/hooks/useKakaoLogin';
 
 function Kakao() {
   const { getKakaoToken } = useKakaoLogin();

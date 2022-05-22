@@ -2,20 +2,26 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 
-import { KAKAO_AUTH_URL } from '../constants/Oauth';
-import { RootState } from '../reducers';
-import { mockThunkAction } from '../reducers/AcceptMeeting';
-import { AppDispatch } from '../store/store';
+import { KAKAO_AUTH_URL } from 'src/constants/Oauth';
+import useModal from 'src/hooks/useModal';
+import { RootState } from 'src/reducers';
+import { mockThunkAction } from 'src/reducers/AcceptMeeting';
+import { AppDispatch } from 'src/store';
 
 import ShowSelectedOptions from './create-meeting/ShowSelectedOptions';
-import BlackButton from '../components/BlackButton';
-import CalendarView from '../components/CalendarView';
-import ProgressBar from '../components/ProgressBar';
+import CalendarView from 'src/components/CalendarView';
+import BlackButton from 'src/components/common/BlackButton';
+import ProgressBar from 'src/components/ProgressBar';
 function Login() {
   const dispatch = useDispatch<AppDispatch>();
   const { loading, data, errorMessage } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
+
+  const { openModal } = useModal();
+  const handleModalOpenClick = () => {
+    openModal('Overview', { userId: '123' });
+  };
   const handleFetchClick = () => {
     dispatch(mockThunkAction(''));
   };
@@ -36,7 +42,8 @@ function Login() {
         {/* <img src={kakaologo}></img> */}
         <span>카카오계정 로그인</span>
       </Button>
-      <Button onClick={handleFetchClick}></Button>
+      <Button onClick={handleModalOpenClick}>Modal Open Test</Button>
+      <Button onClick={handleFetchClick}>Thunk Test</Button>
       <BlackButton onClick={() => console.log('hi')} text="다음" />
       <CalendarView />
       {/* <MeetingCard/> */}
