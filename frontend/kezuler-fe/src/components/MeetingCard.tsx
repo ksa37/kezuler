@@ -1,11 +1,11 @@
 import React from 'react';
 import { Avatar, AvatarGroup, Card } from '@mui/material';
 
-import { FixedMeeting } from 'src/types/fixedMeeting';
+import { FixedEvent } from 'src/types/fixedEvent';
 
 interface Props {
   onClick: () => void; // 미팅 요약뷰 팝업
-  fixedEvent: FixedMeeting;
+  fixedEvent: FixedEvent;
 }
 
 function MeetingCard({ onClick, fixedEvent }: Props) {

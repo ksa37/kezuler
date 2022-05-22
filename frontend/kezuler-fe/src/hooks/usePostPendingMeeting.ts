@@ -6,7 +6,7 @@ import { createMeetingActions } from '../reducers/CreateMeeting';
 import { AppDispatch } from '../store/store';
 import { PendingEvent } from '../types/pendingEvent';
 
-import { postPendingEvent } from '../api/pendingMeeting';
+import { postPendingEvent } from '../api/pendingEvent';
 
 const usePostPendingMeeting = (pendingEvent: PendingEvent) => {
   const navigate = useNavigate();

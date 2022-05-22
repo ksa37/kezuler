@@ -16,7 +16,7 @@ interface BFixedEvent {
   isDisabled: boolean;
 }
 
-interface FixedMeeting extends BFixedEvent {
+interface FixedEvent extends BFixedEvent {
   userId: string;
 }
 
@@ -29,4 +29,4 @@ interface RGetFixedEvents {
   fixedEvents: BFixedEvent[];
 }
 
-export type { RGetFixedEvents, FixedMeeting, PPatchFixedEvent };
+export type { RGetFixedEvents, FixedEvent, PPatchFixedEvent };
