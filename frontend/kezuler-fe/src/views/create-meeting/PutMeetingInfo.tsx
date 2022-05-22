@@ -7,7 +7,7 @@ import usePostPendingMeeting from '../../hooks/usePostPendingMeeting';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { AppDispatch } from '../../store/store';
-import PendingEvent from '../../types/pendingEvent';
+import { PendingEvent } from '../../types/pendingEvent';
 
 import BlackButton from '../../components/BlackButton';
 
