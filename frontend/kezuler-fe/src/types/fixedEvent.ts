@@ -1,24 +1,32 @@
-interface UserFixedEvents {
+interface EventParticipant {
   userId: string;
-  startDate: string;
-  endDate: string;
-  fixedEvents: FixedEvent[];
+  userProfileImage: string;
 }
 
-interface FixedEvent {
-  userId?: string;
+interface BFixedEvent {
   eventId: string;
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
   eventTimeStartsAt: string;
-  isEventOnline: boolean;
-  eventZoomAddress: null | string;
-  eventPlaceLongitude: null | number;
-  eventPlaceLatitude: null | number;
+  eventZoomAddress: string | null;
+  eventPlace: string;
   eventAttachment: string;
-  participantImage: string[];
+  participants: EventParticipant[];
+  isDisabled: boolean;
 }
 
-export default FixedEvent;
-export type { UserFixedEvents };
+interface FixedEvent extends BFixedEvent {
+  userId: string;
+}
+
+type PPatchFixedEvent = Partial<BFixedEvent>;
+
+interface RGetFixedEvents {
+  userId: string;
+  startDate: string;
+  endDate: string;
+  fixedEvents: BFixedEvent[];
+}
+
+export type { RGetFixedEvents, FixedEvent, PPatchFixedEvent };

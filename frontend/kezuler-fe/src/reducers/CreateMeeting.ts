@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { CreateMeetingSteps } from '../constants/Steps';
-import PendingEvent, { EventTimeCandidate } from '../types/pendingEvent';
+import { EventTimeCandidate, PendingEvent } from '../types/pendingEvent';
 
 interface CreateMeetingState extends PendingEvent {
   step: CreateMeetingSteps;
@@ -19,10 +19,10 @@ const initialState: CreateMeetingState = {
   eventTitle: '',
   eventDescription: '',
   eventTimeDuration: 60,
-  declinedUsers: null,
-  eventTimeCandidates: null,
-  eventZoomAddress: null,
-  eventPlace: null,
+  declinedUsers: [],
+  eventTimeCandidates: [],
+  eventZoomAddress: '',
+  eventPlace: '',
   eventAttachment: '',
 };
 

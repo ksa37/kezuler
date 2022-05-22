@@ -1,8 +1,25 @@
-interface User {
-  userId: string;
+interface BUser {
   userName: string;
-  userKakaoId: string;
   userPhoneNumber: string;
+  userProfileImage: string;
 }
 
-export default User;
+interface User extends BUser {
+  userId: string;
+}
+
+type PPatchUser = Partial<BUser>;
+
+interface UserToken {
+  tokenType: string;
+  accessToken: string;
+  accessTokenExpiresIn: number;
+  refreshToken: string;
+  refreshTokenExpiresIn: number;
+}
+
+interface RPostUser extends User {
+  userToken: UserToken;
+}
+
+export type { User, PPatchUser, RPostUser };

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import KezulerInstace from '../constants/api';
+import KezulerInstance from '../constants/api';
 import { CLIENT_ID, KAKAO_BASE_URL, REDIRECT_URI } from '../constants/Oauth';
 import { RKakaoToken } from '../types/login';
 
@@ -13,7 +13,7 @@ const getKakaoTokenApi = (code: string) =>
   });
 
 const postAccessTokenApi = (accessToken: string) =>
-  KezulerInstace.post(`/token`, {
+  KezulerInstance.post(`/token`, {
     accessToken,
   });
 

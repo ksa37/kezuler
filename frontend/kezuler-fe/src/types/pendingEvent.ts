@@ -1,21 +1,3 @@
-interface UserPendingEvents {
-  userId: string;
-  pendingEvents: PendingEvent[];
-}
-
-interface PendingEvent {
-  userId?: string;
-  eventId: string;
-  eventTitle: string;
-  eventDescription: string;
-  eventTimeDuration: number;
-  declinedUsers: null | DeclinedUser[];
-  eventTimeCandidates: null | EventTimeCandidate[];
-  eventZoomAddress: null | string;
-  eventPlace: null | string;
-  eventAttachment: string;
-}
-
 interface DeclinedUser {
   userId: string;
   userProfileImage: string;
@@ -35,5 +17,34 @@ interface EventTimeWithUser {
 type EventTimeCandidate = { [date: string]: EventTimeWithUser[] };
 // Record<string, EventTimeWithUser[]>;
 
-export default PendingEvent;
-export type { UserPendingEvents, PossibleUser, EventTimeCandidate };
+interface BPendingEvent {
+  eventId: string;
+  eventTitle: string;
+  eventDescription: string;
+  eventTimeDuration: number;
+  declinedUsers: DeclinedUser[];
+  eventTimeCandidates: EventTimeCandidate[];
+  eventZoomAddress: string;
+  eventPlace: string;
+  eventAttachment: string;
+}
+
+interface RGetPendingEvents {
+  userId: string;
+  pendingEvents: BPendingEvent[];
+}
+
+// TODO
+interface PendingEvent extends BPendingEvent {
+  userId: string;
+}
+
+type PPatchPendingEvent = Partial<BPendingEvent>;
+
+export type {
+  PendingEvent,
+  RGetPendingEvents,
+  PossibleUser,
+  EventTimeCandidate,
+  PPatchPendingEvent,
+};
