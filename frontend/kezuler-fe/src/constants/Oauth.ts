@@ -5,7 +5,7 @@ const REDIRECT_URI = 'http://localhost:8001/oauth/kakao/token';
 // const SERVER_URI
 
 const SERVER_URI =
-  'https://efb4a784-1e8c-4296-8029-3fb7a7262580.mock.pstmn.io//';
+  'https://efb4a784-1e8c-4296-8029-3fb7a7262580.mock.pstmn.io/';
 
 const KAKAO_BASE_URL = 'https://kauth.kakao.com/oauth';
 const KAKAO_AUTH_URL = `${KAKAO_BASE_URL}/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
