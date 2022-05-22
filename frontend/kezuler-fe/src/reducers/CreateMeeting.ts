@@ -1,24 +1,28 @@
 // import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { CreateMeetingSteps } from '../constants/Steps';
 import PendingEvent, { EventTimeCandidate } from '../types/pendingEvent';
 
-interface Coordinate {
-  longitude: number;
-  latitude: number;
+interface CreateMeetingState extends PendingEvent {
+  step: CreateMeetingSteps;
+  shareUrl: string;
+  isOnline: null | boolean;
 }
 
-const initialState: PendingEvent = {
+const initialState: CreateMeetingState = {
+  step: CreateMeetingSteps.First,
+  shareUrl: '',
+  isOnline: null,
   userId: '',
   eventId: '',
   eventTitle: '',
   eventDescription: '',
   eventTimeDuration: 60,
+  declinedUsers: null,
   eventTimeCandidates: null,
-  isEventOnline: null,
   eventZoomAddress: null,
-  eventPlaceLongitude: null,
-  eventPlaceLatitude: null,
+  eventPlace: null,
   eventAttachment: '',
 };
 
@@ -26,6 +30,21 @@ export const createMeetingSlice = createSlice({
   name: 'create-meeting',
   initialState,
   reducers: {
+    setShareUrl: (state, action: PayloadAction<string>) => {
+      state.shareUrl = action.payload;
+    },
+    setStep: (state, action: PayloadAction<number>) => {
+      state.step = action.payload;
+    },
+    increaseStep: (state) => {
+      state.step += 1;
+    },
+    decreaseStep: (state) => {
+      state.step -= 1;
+    },
+    setIsOnline: (state, action: PayloadAction<boolean>) => {
+      state.isOnline = action.payload;
+    },
     setUserID: (state, action: PayloadAction<string>) => {
       state.userId = action.payload;
     },
@@ -41,33 +60,20 @@ export const createMeetingSlice = createSlice({
     setDescription: (state, action: PayloadAction<string>) => {
       state.eventDescription = action.payload;
     },
-    setOnOffline: (state, action: PayloadAction<boolean>) => {
-      state.isEventOnline = action.payload;
-    },
     setZoomAddress: (state, action: PayloadAction<string>) => {
       state.eventZoomAddress = action.payload;
     },
-    setCoordinate: (state, action: PayloadAction<Coordinate>) => {
-      state.eventPlaceLongitude = action.payload.longitude;
-      state.eventPlaceLatitude = action.payload.latitude;
+    setPlace: (state, action: PayloadAction<string>) => {
+      state.eventPlace = action.payload;
     },
     setAttachment: (state, action: PayloadAction<string>) => {
       state.eventAttachment = action.payload;
     },
+    destroy: () => initialState,
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  setUserID,
-  setEventID,
-  setAttachment,
-  setCoordinate,
-  setDescription,
-  setOnOffline,
-  setTimeCandidate,
-  setTitle,
-  setZoomAddress,
-} = createMeetingSlice.actions;
+export const createMeetingActions = createMeetingSlice.actions;
 
 export default createMeetingSlice.reducer;

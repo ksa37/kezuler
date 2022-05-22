@@ -1,6 +1,28 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface AcceptMeetingState {
+import mockApi from '../api/mockApi';
+
+export const mockThunkAction = createAsyncThunk(
+  'getMock',
+  async (userId: string, { rejectWithValue }) => {
+    console.log('pending');
+    try {
+      const response: { data: string } = (await mockApi(userId)) as {
+        data: string;
+      };
+      console.log('fulfilled');
+      return response.data;
+    } catch (err: unknown) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+interface AcceptMeetingState {
+  // mock up
+  loading: boolean;
+  data: string;
+  errorMessage: string;
   eventId: string;
   userId?: string;
   userName?: string;
@@ -18,6 +40,9 @@ interface UserInfo {
 type TimeCandidate = Record<string, string[]>;
 
 const initialState: AcceptMeetingState = {
+  loading: false,
+  data: '',
+  errorMessage: '',
   eventId: '',
   userId: '',
   userName: '',
@@ -51,16 +76,23 @@ export const acceptMeetingSlice = createSlice({
       state.availableTimes = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(mockThunkAction.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(mockThunkAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
+      .addCase(mockThunkAction.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = (action.payload as { message: string }).message;
+      });
+  },
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  setUserID,
-  setEventID,
-  setUserInfo,
-  setIsDecline,
-  setDeclineReason,
-  setAvailableTimes,
-} = acceptMeetingSlice.actions;
+export const acceptMeetingActions = acceptMeetingSlice.actions;
 
 export default acceptMeetingSlice.reducer;
