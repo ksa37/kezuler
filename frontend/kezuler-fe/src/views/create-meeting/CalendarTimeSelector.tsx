@@ -14,23 +14,42 @@ import CalendarView from '../../components/CalendarView';
 import BlackButton from '../../components/common/BlackButton';
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
-  // const { step } = useSelector((state: RootState) => state.createMeeting);
-  const { increaseStep, decreaseStep, addTimeList } = createMeetingActions;
+  const { eventTimeList } = useSelector(
+    (state: RootState) => state.createMeeting
+  );
+  const { increaseStep, decreaseStep, addTimeList, deleteTimeList } =
+    createMeetingActions;
 
   const timeSelectDescription = '원하는 미팅 시간을 선택해주세요';
   const timeChipSelectDescription = '미팅시작 시간';
 
-  const handleClick = (timeOption: string) => {
-    if (startDate) {
-      const dateToAdd = new Date(
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+
+  const createDate = (timeOption: string) => {
+    if (startDate)
+      return new Date(
         startDate.getFullYear(),
-        startDate.getMonth() - 1,
+        startDate.getMonth(),
         startDate.getDate(),
         Number(timeOption.split(':')[0]),
         Number(timeOption.split(':')[1])
-      );
-      dispatch(addTimeList(dateToAdd));
-      console.log('Added Date !');
+      ).toISOString();
+    else {
+      console.log('Warning: date is null!');
+      return new Date().toISOString();
+    }
+  };
+
+  const handleChipClick = (timeOption: string) => {
+    if (startDate) {
+      const dateToAdd = createDate(timeOption);
+      if (eventTimeList.includes(dateToAdd)) {
+        dispatch(deleteTimeList(dateToAdd));
+        console.log('Deleted Date !', dateToAdd);
+      } else {
+        dispatch(addTimeList(dateToAdd));
+        console.log('Added Date !', dateToAdd);
+      }
     } else {
       console.log('Warning: date is null!');
     }
@@ -44,8 +63,6 @@ function CalendarTimeSelector() {
     dispatch(increaseStep());
   };
 
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-
   const setDateString = (startDate: Date | null) => {
     const dateFnsStr = startDate
       ? format(startDate, 'MM월 dd일 EEE', { locale: ko })
@@ -57,25 +74,39 @@ function CalendarTimeSelector() {
 
   const dateStr = useMemo(() => setDateString(startDate), [startDate]);
 
-  if (startDate) {
-    console.log(format(startDate, 'MM월 dd일 EEE', { locale: ko }));
-  }
+  const eventTimeListDate = useMemo(
+    () => eventTimeList.map((dateString) => new Date(dateString)),
+    [eventTimeList]
+  );
 
   return (
     <div>
       <h1>{timeSelectDescription}</h1>
-      <CalendarView startDate={startDate} setStartDate={setStartDate} />
+      <CalendarView
+        startDate={startDate}
+        setStartDate={setStartDate}
+        highlightDates={eventTimeListDate}
+      />
       <h5>{dateStr}</h5>
       <h3>{timeChipSelectDescription}</h3>
-      <Stack direction="row" spacing={1}>
-        {TimeOptions.map((timeOption) => (
-          <Chip
-            key={timeOption}
-            label={timeOption}
-            variant="outlined"
-            onClick={() => handleClick(timeOption)}
-          />
-        ))}
+      <Stack direction="row" spacing={1} style={{ overflow: 'auto' }}>
+        {TimeOptions.map((timeOption) =>
+          eventTimeList.includes(createDate(timeOption)) ? (
+            <Chip
+              key={timeOption}
+              label={timeOption}
+              variant="filled"
+              onClick={() => handleChipClick(timeOption)}
+            />
+          ) : (
+            <Chip
+              key={timeOption}
+              label={timeOption}
+              variant="outlined"
+              onClick={() => handleChipClick(timeOption)}
+            />
+          )
+        )}
       </Stack>
       <BlackButton onClick={handleNextClick} text="다음" />
     </div>
