@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { EventTimeCandidate } from '../types/pendingEvent';
+import { EventTimeCandidate } from 'src/types/pendingEvent';
 
 import TimeProfileButton from './TimeProfileButton';
 

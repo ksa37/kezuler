@@ -8,10 +8,10 @@ import { ko } from 'date-fns/locale';
 import TimeOptions from '../../constants/TimeOptions';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
-import { AppDispatch } from '../../store/store';
+import { AppDispatch } from '../../store';
 
-import BlackButton from '../../components/BlackButton';
 import CalendarView from '../../components/CalendarView';
+import BlackButton from '../../components/common/BlackButton';
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
   // const { step } = useSelector((state: RootState) => state.createMeeting);

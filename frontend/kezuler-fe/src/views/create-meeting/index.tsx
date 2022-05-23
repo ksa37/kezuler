@@ -1,8 +1,8 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { CreateMeetingSteps } from '../../constants/Steps';
-import { RootState } from '../../reducers';
+import { CreateMeetingSteps } from 'src/constants/Steps';
+import { RootState } from 'src/reducers';
 
 import CalendarTimeSelector from './CalendarTimeSelector';
 import MeetingInfoForm from './MeetingInfoForm';

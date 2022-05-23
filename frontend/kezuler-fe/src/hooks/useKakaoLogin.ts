@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import PathName from '../constants/PathName';
+import PathName from 'src/constants/PathName';
 
-import { getKakaoTokenApi, postAccessTokenApi } from '../api/Login';
+import { getKakaoTokenApi, postAccessTokenApi } from 'src/api/Login';
 
 const useKakaoLogin = () => {
   const navigate = useNavigate();

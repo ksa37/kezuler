@@ -2,14 +2,14 @@ import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Chip, Stack, TextField } from '@mui/material';
 
-import ReminderOptions from '../../constants/ReminderOptions';
-import usePostPendingMeeting from '../../hooks/usePostPendingMeeting';
-import { RootState } from '../../reducers';
-import { createMeetingActions } from '../../reducers/CreateMeeting';
-import { AppDispatch } from '../../store/store';
-import PendingEvent from '../../types/pendingEvent';
+import ReminderOptions from 'src/constants/ReminderOptions';
+import usePostPendingMeeting from 'src/hooks/usePostPendingMeeting';
+import { RootState } from 'src/reducers';
+import { createMeetingActions } from 'src/reducers/CreateMeeting';
+import { AppDispatch } from 'src/store';
+import { PendingEvent } from 'src/types/pendingEvent';
 
-import BlackButton from '../../components/BlackButton';
+import BlackButton from 'src/components/common/BlackButton';
 
 function MeetingInfoForm() {
   const handleClick = () => {

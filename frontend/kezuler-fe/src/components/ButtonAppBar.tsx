@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 
-import logo from '../assets/logo-kezuler.png';
+import logo from 'src/assets/logo-kezuler.png';
 
 function ButtonAppBar() {
   return (

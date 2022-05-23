@@ -1,12 +1,12 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import PathName from '../constants/PathName';
-import { createMeetingActions } from '../reducers/CreateMeeting';
-import { AppDispatch } from '../store/store';
-import PendingEvent from '../types/pendingEvent';
+import PathName from 'src/constants/PathName';
+import { createMeetingActions } from 'src/reducers/CreateMeeting';
+import { AppDispatch } from 'src/store';
+import { PendingEvent } from 'src/types/pendingEvent';
 
-import { postPendingMeetingApi } from '../api/CreateMeetingApi';
+import { postPendingEvent } from 'src/api/pendingEvent';
 
 const usePostPendingMeeting = (pendingEvent: PendingEvent) => {
   const navigate = useNavigate();
@@ -14,10 +14,11 @@ const usePostPendingMeeting = (pendingEvent: PendingEvent) => {
   const { setShareUrl } = createMeetingActions;
   // 리다이렉트 후 토큰 요청
   const getShareUrl = (pendingEvent: PendingEvent) => {
-    postPendingMeetingApi(pendingEvent)
+    postPendingEvent(pendingEvent)
       .then((res) => {
-        const shareUrl = res.data.shareUrl;
-        dispatch(setShareUrl(shareUrl));
+        // TODO shar URL 처리하기
+        // const shareUrl = res.data.shareUrl;
+        // dispatch(setShareUrl(shareUrl));
         navigate(PathName.share, { replace: true });
 
         // const accessToken = res.data.accessToken;

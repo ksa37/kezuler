@@ -2,11 +2,11 @@ import React, { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField } from '@mui/material';
 
-import { RootState } from '../../reducers';
-import { createMeetingActions } from '../../reducers/CreateMeeting';
-import { AppDispatch } from '../../store/store';
+import { RootState } from 'src/reducers';
+import { createMeetingActions } from 'src/reducers/CreateMeeting';
+import { AppDispatch } from 'src/store';
 
-import BlackButton from '../../components/BlackButton';
+import BlackButton from 'src/components/common/BlackButton';
 
 function OnOffInfoForm() {
   const onlineTextDescription = '줌 링크 혹은 다른 화상회의 링크를 넣어주세요';

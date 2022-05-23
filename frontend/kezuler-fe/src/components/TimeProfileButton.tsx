@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, AvatarGroup } from '@mui/material';
 
-import { PossibleUser } from '../types/pendingEvent';
+import { PossibleUser } from 'src/types/pendingEvent';
 
 interface Props {
   onClick: () => void;
