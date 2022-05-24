@@ -8,6 +8,7 @@ import { AppDispatch } from 'src/store';
 function OnOffSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { setIsOnline, increaseStep } = createMeetingActions;
+
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
     dispatch(increaseStep());

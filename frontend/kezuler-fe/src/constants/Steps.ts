@@ -3,6 +3,7 @@ enum CreateMeetingSteps {
   Second,
   Third,
   Fourth,
+  Fifth,
 }
 
 export { CreateMeetingSteps };

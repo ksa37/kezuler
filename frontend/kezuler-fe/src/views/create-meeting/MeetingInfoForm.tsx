@@ -1,8 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Chip, Stack, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 
-import ReminderOptions from 'src/constants/ReminderOptions';
 import usePostPendingMeeting from 'src/hooks/usePostPendingMeeting';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
@@ -12,10 +11,6 @@ import { PendingEvent } from 'src/types/pendingEvent';
 import BlackButton from 'src/components/common/BlackButton';
 
 function MeetingInfoForm() {
-  const handleClick = () => {
-    console.log('clicked!');
-  };
-
   const {
     userId,
     eventId,
@@ -51,6 +46,7 @@ function MeetingInfoForm() {
 
   const dispatch = useDispatch<AppDispatch>();
   const { setTitle, setDescription } = createMeetingActions;
+
   const handleEventTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(setTitle(event.target.value));
   };
@@ -80,17 +76,6 @@ function MeetingInfoForm() {
         value={eventDescription}
         onChange={handleEventDescriptionChange}
       />
-      <h3>리마인드 설정</h3>
-      <Stack direction="row" spacing={1}>
-        {ReminderOptions.map((timeOption) => (
-          <Chip
-            key={timeOption}
-            label={timeOption}
-            variant="outlined"
-            onClick={handleClick}
-          />
-        ))}
-      </Stack>
       <h3>참고 자료</h3>
       <label htmlFor="contained-button-file">
         <input

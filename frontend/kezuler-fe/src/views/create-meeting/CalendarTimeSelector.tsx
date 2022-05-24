@@ -12,6 +12,7 @@ import { AppDispatch } from '../../store';
 
 import CalendarView from '../../components/CalendarView';
 import BlackButton from '../../components/common/BlackButton';
+
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { eventTimeList } = useSelector(
@@ -55,14 +56,6 @@ function CalendarTimeSelector() {
     }
   };
 
-  const handlePrevClick = () => {
-    dispatch(decreaseStep());
-  };
-
-  const handleNextClick = () => {
-    dispatch(increaseStep());
-  };
-
   const setDateString = (startDate: Date | null) => {
     const dateFnsStr = startDate
       ? format(startDate, 'MM월 dd일 EEE', { locale: ko })
@@ -74,10 +67,18 @@ function CalendarTimeSelector() {
 
   const dateStr = useMemo(() => setDateString(startDate), [startDate]);
 
-  const eventTimeListDate = useMemo(
+  const eventTimeListDateToHighlight = useMemo(
     () => eventTimeList.map((dateString) => new Date(dateString)),
     [eventTimeList]
   );
+
+  const handlePrevClick = () => {
+    dispatch(decreaseStep());
+  };
+
+  const handleNextClick = () => {
+    dispatch(increaseStep());
+  };
 
   return (
     <div>
@@ -85,7 +86,7 @@ function CalendarTimeSelector() {
       <CalendarView
         startDate={startDate}
         setStartDate={setStartDate}
-        highlightDates={eventTimeListDate}
+        highlightDates={eventTimeListDateToHighlight}
       />
       <h5>{dateStr}</h5>
       <h3>{timeChipSelectDescription}</h3>

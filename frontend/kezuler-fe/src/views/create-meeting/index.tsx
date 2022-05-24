@@ -8,20 +8,21 @@ import CalendarTimeSelector from './CalendarTimeSelector';
 import MeetingInfoForm from './MeetingInfoForm';
 import OnOffInfoForm from './OnOffInfoForm';
 import OnOffSelector from './OnOffSelector';
-// import { AppDispatch } from '../../store/store';
+import SelectedOptions from './SelectedOptions';
 
 function CreateMeeting() {
-  // const dispatch = useDispatch<AppDispatch>();
   const { step } = useSelector((state: RootState) => state.createMeeting);
 
   switch (step) {
     case CreateMeetingSteps.First:
       return <CalendarTimeSelector />;
     case CreateMeetingSteps.Second:
-      return <OnOffSelector />;
+      return <SelectedOptions />;
     case CreateMeetingSteps.Third:
-      return <OnOffInfoForm />;
+      return <OnOffSelector />;
     case CreateMeetingSteps.Fourth:
+      return <OnOffInfoForm />;
+    case CreateMeetingSteps.Fifth:
       return <MeetingInfoForm />;
     default:
       return <></>;
