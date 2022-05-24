@@ -11,6 +11,8 @@ import { PendingEvent } from 'src/types/pendingEvent';
 import BlackButton from 'src/components/common/BlackButton';
 
 function MeetingInfoForm() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { setTitle, setDescription } = createMeetingActions;
   const {
     userId,
     eventId,
@@ -40,13 +42,6 @@ function MeetingInfoForm() {
     usePostPendingMeeting(pendingEvent);
   };
 
-  const eventTitleDescription = '미팅 제목을 입력하세요.(필수)';
-  const eventDescriptDescription =
-    '미팅 주제나 내용에 대해 알려주세요.(000자 이내)';
-
-  const dispatch = useDispatch<AppDispatch>();
-  const { setTitle, setDescription } = createMeetingActions;
-
   const handleEventTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(setTitle(event.target.value));
   };
@@ -56,6 +51,10 @@ function MeetingInfoForm() {
   ) => {
     dispatch(setDescription(event.target.value));
   };
+
+  const eventTitleDescription = '미팅 제목을 입력하세요.(필수)';
+  const eventDescriptDescription =
+    '미팅 주제나 내용에 대해 알려주세요.(000자 이내)';
 
   return (
     <>

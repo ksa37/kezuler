@@ -45,7 +45,6 @@ function Login() {
       <Button onClick={handleFetchClick}>Thunk Test</Button>
       <BlackButton onClick={() => console.log('hi')} text="다음" />
       {/* <MeetingCard/> */}
-      <ProgressBar />
     </>
   );
 }

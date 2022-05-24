@@ -12,6 +12,7 @@ import { AppDispatch } from '../../store';
 
 import CalendarView from '../../components/CalendarView';
 import BlackButton from '../../components/common/BlackButton';
+import ProgressBar from 'src/components/ProgressBar';
 
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
@@ -48,8 +49,12 @@ function CalendarTimeSelector() {
         dispatch(deleteTimeList(dateToAdd));
         console.log('Deleted Date !', dateToAdd);
       } else {
-        dispatch(addTimeList(dateToAdd));
-        console.log('Added Date !', dateToAdd);
+        if (eventTimeList.length === 5) {
+          alert('5개까지만 추가할 수 있어요!');
+        } else {
+          dispatch(addTimeList(dateToAdd));
+          console.log('Added Date !', dateToAdd);
+        }
       }
     } else {
       console.log('Warning: date is null!');
