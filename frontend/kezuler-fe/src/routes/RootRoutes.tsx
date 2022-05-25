@@ -3,7 +3,8 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
 
-import CreateMeeting from 'src/views/create-meeting/SelectTime';
+import CreateMeeting from 'src/views/create-meeting';
+import MeetingShare from 'src/views/create-meeting/MeetingShare';
 import Kakao from 'src/views/Kakao';
 import Login from 'src/views/Login';
 import ButtonAppBar from 'src/components/ButtonAppBar';
@@ -37,6 +38,8 @@ function RootRoutes() {
         //     <ButtonAppBar />
         //   </>
         <Routes>
+          <Route path={PathName.create} element={<CreateMeeting />} />
+          <Route path={PathName.share} element={<MeetingShare />} />
           <Route path={PathName.login} element={<Login />} />
           <Route path={PathName.kakaoRedirect} element={<Kakao />} />
           <Route path="/*" element={<Navigate replace to={PathName.login} />} />

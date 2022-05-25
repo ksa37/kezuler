@@ -5,9 +5,10 @@ import { Button } from '@mui/material';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 
-function SelectOnOff() {
+function OnOffSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { setIsOnline, increaseStep } = createMeetingActions;
+
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
     dispatch(increaseStep());
@@ -28,4 +29,4 @@ function SelectOnOff() {
   );
 }
 
-export default SelectOnOff;
+export default OnOffSelector;

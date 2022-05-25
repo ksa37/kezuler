@@ -1,8 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Chip, Stack, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 
-import ReminderOptions from 'src/constants/ReminderOptions';
 import usePostPendingMeeting from 'src/hooks/usePostPendingMeeting';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
@@ -11,11 +10,9 @@ import { PendingEvent } from 'src/types/pendingEvent';
 
 import BlackButton from 'src/components/common/BlackButton';
 
-function PutMeetingInfo() {
-  const handleClick = () => {
-    console.log('clicked!');
-  };
-
+function MeetingInfoForm() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { setTitle, setDescription } = createMeetingActions;
   const {
     userId,
     eventId,
@@ -45,12 +42,6 @@ function PutMeetingInfo() {
     usePostPendingMeeting(pendingEvent);
   };
 
-  const eventTitleDescription = '미팅 제목을 입력하세요.(필수)';
-  const eventDescriptDescription =
-    '미팅 주제나 내용에 대해 알려주세요.(000자 이내)';
-
-  const dispatch = useDispatch<AppDispatch>();
-  const { setTitle, setDescription } = createMeetingActions;
   const handleEventTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(setTitle(event.target.value));
   };
@@ -60,6 +51,10 @@ function PutMeetingInfo() {
   ) => {
     dispatch(setDescription(event.target.value));
   };
+
+  const eventTitleDescription = '미팅 제목을 입력하세요.(필수)';
+  const eventDescriptDescription =
+    '미팅 주제나 내용에 대해 알려주세요.(000자 이내)';
 
   return (
     <>
@@ -80,17 +75,6 @@ function PutMeetingInfo() {
         value={eventDescription}
         onChange={handleEventDescriptionChange}
       />
-      <h3>리마인드 설정</h3>
-      <Stack direction="row" spacing={1}>
-        {ReminderOptions.map((timeOption) => (
-          <Chip
-            key={timeOption}
-            label={timeOption}
-            variant="outlined"
-            onClick={handleClick}
-          />
-        ))}
-      </Stack>
       <h3>참고 자료</h3>
       <label htmlFor="contained-button-file">
         <input
@@ -109,4 +93,4 @@ function PutMeetingInfo() {
   );
 }
 
-export default PutMeetingInfo;
+export default MeetingInfoForm;

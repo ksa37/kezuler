@@ -8,7 +8,7 @@ import { AppDispatch } from 'src/store';
 
 import BlackButton from 'src/components/common/BlackButton';
 
-function PutOnOffInfo() {
+function OnOffInfoForm() {
   const onlineTextDescription = '줌 링크 혹은 다른 화상회의 링크를 넣어주세요';
   const offlineTextDescription = '장소 이름 혹은 지도 링크를 넣어주세요';
 
@@ -66,4 +66,4 @@ function PutOnOffInfo() {
   );
 }
 
-export default PutOnOffInfo;
+export default OnOffInfoForm;
