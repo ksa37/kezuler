@@ -87,7 +87,7 @@ function CalendarTimeSelector() {
 
   return (
     <div>
-      <h1>{timeSelectDescription}</h1>
+      <h2>{timeSelectDescription}</h2>
       <CalendarView
         startDate={startDate}
         setStartDate={setStartDate}

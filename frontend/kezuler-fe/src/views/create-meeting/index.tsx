@@ -17,7 +17,6 @@ function CreateMeeting() {
   const totalStepsNum = Object.keys(CreateMeetingSteps).length / 2;
   const progressPerStep = 100 / totalStepsNum;
 
-  console.log(Object.keys(CreateMeetingSteps).length, progressPerStep * step);
   const getComponent = (step: CreateMeetingSteps) => {
     switch (step) {
       case CreateMeetingSteps.First:
