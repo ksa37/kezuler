@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
 
+import AcceptMeeting from 'src/views/accept-meeting';
 import CreateMeeting from 'src/views/create-meeting';
 import MeetingShare from 'src/views/create-meeting/MeetingShare';
 import Kakao from 'src/views/Kakao';
@@ -40,6 +41,10 @@ function RootRoutes() {
         <Routes>
           <Route path={PathName.create} element={<CreateMeeting />} />
           <Route path={PathName.share} element={<MeetingShare />} />
+          <Route
+            path={PathName.invite + '/:eventId'}
+            element={<AcceptMeeting />}
+          />
           <Route path={PathName.login} element={<Login />} />
           <Route path={PathName.kakaoRedirect} element={<Kakao />} />
           <Route path="/*" element={<Navigate replace to={PathName.login} />} />

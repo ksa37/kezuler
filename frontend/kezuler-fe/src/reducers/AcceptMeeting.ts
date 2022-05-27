@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { AcceptMeetingSteps } from 'src/constants/Steps';
+import { PendingEvent } from 'src/types/pendingEvent';
+
 import mockApi from 'src/api/mockApi';
 
 export const mockThunkAction = createAsyncThunk(
@@ -23,6 +26,11 @@ interface AcceptMeetingState {
   loading: boolean;
   data: string;
   errorMessage: string;
+
+  step: AcceptMeetingSteps;
+
+  pendingEvent: PendingEvent;
+
   eventId: string;
   userId?: string;
   userName?: string;
@@ -39,10 +47,28 @@ interface UserInfo {
 
 type TimeCandidate = Record<string, string[]>;
 
+const initialPendingEvent: PendingEvent = {
+  userId: '',
+  eventId: '',
+  eventTitle: '',
+  eventDescription: '',
+  eventTimeDuration: 60,
+  declinedUsers: [],
+  eventTimeCandidates: [],
+  eventZoomAddress: '',
+  eventPlace: '',
+  eventAttachment: '',
+};
+
 const initialState: AcceptMeetingState = {
   loading: false,
   data: '',
   errorMessage: '',
+
+  step: AcceptMeetingSteps.First,
+
+  pendingEvent: initialPendingEvent,
+
   eventId: '',
   userId: '',
   userName: '',
@@ -56,6 +82,18 @@ export const acceptMeetingSlice = createSlice({
   name: 'accept-meeting',
   initialState,
   reducers: {
+    setStep: (state, action: PayloadAction<number>) => {
+      state.step = action.payload;
+    },
+    increaseStep: (state) => {
+      state.step += 1;
+    },
+    decreaseStep: (state) => {
+      state.step -= 1;
+    },
+    setPendingEvent: (state, action: PayloadAction<PendingEvent>) => {
+      state.pendingEvent = action.payload;
+    },
     setUserID: (state, action: PayloadAction<string>) => {
       state.userId = action.payload;
     },

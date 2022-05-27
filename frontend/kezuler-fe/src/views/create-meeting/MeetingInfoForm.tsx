@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, TextField } from '@mui/material';
 
-import usePostPendingMeeting from 'src/hooks/usePostPendingMeeting';
+import { usePostPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
@@ -39,7 +39,7 @@ function MeetingInfoForm() {
       eventPlace,
       eventAttachment,
     };
-    usePostPendingMeeting(pendingEvent);
+    usePostPendingEvent(pendingEvent);
   };
 
   const handleEventTitleChange = (event: ChangeEvent<HTMLInputElement>) => {

@@ -48,20 +48,6 @@ function ShowSelectedOptions() {
   }, [eventTimeList]);
 
   console.log(eventTimeListDevideByDate);
-  // const optionsNum = useMemo(
-  //   () =>
-  //     eventTimeCandidates.reduce(function (acc, currentDate) {
-  //       const currentDateKey = Object.keys(currentDate);
-  //       let eventTimesNum = 0;
-  //       if (currentDateKey.length !== 1) {
-  //         console.log('Warning: Time candidate record has more than one key');
-  //       } else {
-  //         eventTimesNum = currentDate[currentDateKey[0]].length;
-  //       }
-  //       return acc + eventTimesNum;
-  //     }, 0),
-  //   [eventTimeCandidates]
-  // );
 
   const mainDescription = '선택한 날짜와 시간을 확인해주세요';
   const subDescription = `총 ${eventTimeList.length}개의 시간대를 선택하셨어요`;
