@@ -7,6 +7,7 @@ import { store } from './store/store';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import TemporaryApp from './TemporaryApp';
 
 import './index.css';
 
@@ -15,11 +16,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+    {/* <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </Provider>
+    </Provider> */}
+    <TemporaryApp />
   </React.StrictMode>
 );
 
