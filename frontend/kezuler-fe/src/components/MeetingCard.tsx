@@ -16,10 +16,19 @@ function MeetingCard({ onClick, fixedEvent }: Props) {
     <Card className="meeting-card" onClick={onClick}>
       {eventTimeStartsAt}
       {eventTitle}
-      <AvatarGroup max={maxAvatarNum} total={participants.length}>
+      <AvatarGroup
+        max={maxAvatarNum}
+        spacing={'small'}
+        total={participants.length}
+      >
         {participants.map((p) => {
           return (
-            <Avatar key={p.userId} alt={p.userId} src={p.userProfileImage} />
+            <Avatar
+              key={p.userId}
+              alt={p.userId}
+              src={p.userProfileImage}
+              sx={{ width: 32, height: 32 }}
+            />
           );
         })}
       </AvatarGroup>

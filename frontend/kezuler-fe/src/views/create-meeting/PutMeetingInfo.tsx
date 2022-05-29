@@ -32,6 +32,7 @@ function PutMeetingInfo() {
   const handlePostClick = () => {
     const pendingEvent: PendingEvent = {
       userId,
+      eventHostId: userId,
       eventId,
       eventTitle,
       eventDescription,

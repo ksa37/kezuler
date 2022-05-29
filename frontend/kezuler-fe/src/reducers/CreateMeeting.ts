@@ -15,6 +15,7 @@ const initialState: CreateMeetingState = {
   shareUrl: '',
   isOnline: null,
   userId: '',
+  eventHostId: '',
   eventId: '',
   eventTitle: '',
   eventDescription: '',
