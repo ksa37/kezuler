@@ -26,6 +26,8 @@ function MeetingInfoForm() {
     eventAttachment,
   } = useSelector((state: RootState) => state.createMeeting);
 
+  const postPendingEvent = usePostPendingEvent();
+
   const handlePostClick = () => {
     const pendingEvent: PendingEvent = {
       userId,
@@ -39,7 +41,7 @@ function MeetingInfoForm() {
       eventPlace,
       eventAttachment,
     };
-    usePostPendingEvent(pendingEvent);
+    postPendingEvent(pendingEvent);
   };
 
   const handleEventTitleChange = (event: ChangeEvent<HTMLInputElement>) => {

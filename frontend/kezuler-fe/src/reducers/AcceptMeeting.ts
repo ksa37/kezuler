@@ -34,18 +34,12 @@ interface AcceptMeetingState {
   eventId: string;
   userId?: string;
   userName?: string;
-  userPhoneNumber?: string;
   isDecline: boolean;
   declineReason: null | string;
-  availableTimes: null | TimeCandidate[];
+  availableTimes: TimeCandidate[];
 }
 
-interface UserInfo {
-  userName: string;
-  userPhoneNumber: string;
-}
-
-type TimeCandidate = Record<string, string[]>;
+type TimeCandidate = { [date: string]: string[] };
 
 const initialPendingEvent: PendingEvent = {
   userId: '',
@@ -72,10 +66,9 @@ const initialState: AcceptMeetingState = {
   eventId: '',
   userId: '',
   userName: '',
-  userPhoneNumber: '',
   isDecline: false,
   declineReason: null,
-  availableTimes: null,
+  availableTimes: [],
 };
 
 export const acceptMeetingSlice = createSlice({
@@ -100,9 +93,8 @@ export const acceptMeetingSlice = createSlice({
     setEventID: (state, action: PayloadAction<string>) => {
       state.eventId = action.payload;
     },
-    setUserInfo: (state, action: PayloadAction<UserInfo>) => {
-      state.userName = action.payload.userName;
-      state.userPhoneNumber = action.payload.userPhoneNumber;
+    setUserName: (state, action: PayloadAction<string>) => {
+      state.userName = action.payload;
     },
     setIsDecline: (state, action: PayloadAction<boolean>) => {
       state.isDecline = action.payload;

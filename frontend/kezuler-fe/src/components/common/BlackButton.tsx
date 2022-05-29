@@ -1,4 +1,5 @@
 import React from 'react';
+// import { Button } from '@mui/material';
 
 interface Props {
   onClick: () => void;
@@ -7,9 +8,9 @@ interface Props {
 
 function BlackButton({ onClick, text }: Props) {
   return (
-    <button className="black-button" onClick={onClick}>
+    <div className="black-button" onClick={onClick}>
       {text}
-    </button>
+    </div>
   );
 }
 

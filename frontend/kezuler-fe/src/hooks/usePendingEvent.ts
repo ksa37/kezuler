@@ -34,7 +34,7 @@ const useGetPendingEvent = () => {
   return getPendingEventInfo;
 };
 
-const usePostPendingEvent = (pendingEvent: PendingEvent) => {
+const usePostPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { setShareUrl } = createMeetingActions;
@@ -68,7 +68,7 @@ const usePostPendingEvent = (pendingEvent: PendingEvent) => {
       });
   };
 
-  return { getShareUrl };
+  return getShareUrl;
 };
 
 export { useGetPendingEvent, usePostPendingEvent };
