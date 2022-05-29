@@ -79,6 +79,16 @@
   position: absolute;
   top: 145px;
   right: 20px;
+
+  .icon-circle {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+  .icon-profiles {
+    position: absolute;
+    left: 5.24px;
+  }
 }
 .time-select-grid-container {
   display: grid;

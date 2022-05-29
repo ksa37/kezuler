@@ -15,10 +15,12 @@ import { AppDispatch } from 'src/store';
 
 import BotomButton from 'src/components/common/BottomButton';
 
+import { ReactComponent as ArrowRightIcon } from 'src/assets/arrow_right.svg';
 import { ReactComponent as CheckedIcon } from 'src/assets/icon_checked.svg';
 import { ReactComponent as NotCheckedIcon } from 'src/assets/icon_not_checked.svg';
 import { ReactComponent as ProfileIcon } from 'src/assets/icon_profile.svg';
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
+import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
 
 function TimeListSelector() {
   const dispatch = useDispatch<AppDispatch>();
@@ -140,8 +142,10 @@ function TimeListSelector() {
         {'선택해주세요'}
       </div>
       <div className={'time-list-selector-personnel'}>
-        <ProfilesIcon />
+        <CircleIcon className="icon-circle" />
+        <ProfilesIcon className="icon-profiles" />
         {`${userIds.length}명 참여중`}
+        <ArrowRightIcon />
       </div>
       <div className={classNames('time-select-grid-container')}>
         {eventTimeCandidates.map((eventTimeCandidate) =>
