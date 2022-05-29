@@ -6,10 +6,11 @@ import PathName from 'src/constants/PathName';
 import CreateMeeting from 'src/views/create-meeting/SelectTime';
 import Kakao from 'src/views/Kakao';
 import Login from 'src/views/Login';
+import MainPage from 'src/views/MainPage';
 import ButtonAppBar from 'src/components/ButtonAppBar';
 
 function RootRoutes() {
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
   return (
     <>
@@ -19,7 +20,7 @@ function RootRoutes() {
             <ButtonAppBar />
           </>
           <Routes>
-            <Route path={PathName.main} element={<>login</>} />
+            <Route path={PathName.main} element={<MainPage />} />
             <Route path={PathName.notification} element={<>login</>} />
             <Route path={PathName.setting} element={<>login</>} />
             <Route path={PathName.pending} element={<>login</>} />

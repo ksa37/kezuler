@@ -15,9 +15,9 @@ interface EventTimeWithUser {
 }
 
 type EventTimeCandidate = { [date: string]: EventTimeWithUser[] };
-// Record<string, EventTimeWithUser[]>;
 
 interface BPendingEvent {
+  eventHostId: string;
   eventId: string;
   eventTitle: string;
   eventDescription: string;
@@ -42,6 +42,7 @@ interface PendingEvent extends BPendingEvent {
 type PPatchPendingEvent = Partial<BPendingEvent>;
 
 export type {
+  BPendingEvent,
   PendingEvent,
   RGetPendingEvents,
   PossibleUser,

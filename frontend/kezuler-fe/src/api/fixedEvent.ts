@@ -1,12 +1,13 @@
 import KezulerInstance from 'src/constants/api';
 import {
   FixedEvent,
+  PGetFixedEvents,
   PPatchFixedEvent,
   RGetFixedEvents,
 } from 'src/types/fixedEvent';
 
-const getFixedEvents = (userId: string, startIndex: number, endIndex: number) =>
-  KezulerInstance.get<RGetFixedEvents>(`users/${userId}/fixedEvents`, {
+const getFixedEvents = ({ startIndex, endIndex }: PGetFixedEvents) =>
+  KezulerInstance.get<RGetFixedEvents>(`fixedEvents`, {
     data: {
       startIndex,
       endIndex,

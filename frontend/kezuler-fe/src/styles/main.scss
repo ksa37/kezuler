@@ -1,0 +1,189 @@
+@import './constants';
+
+.main-page {
+  background-color: $color-background;
+}
+
+.main-tab {
+  margin: 24px 20px 8px;
+
+  .main-tab-button {
+    color: #bfbfbf;
+    font-size: $font-20;
+    border: none;
+    background: none;
+    cursor: pointer;
+    min-height: 30px;
+
+    &.fixed {
+      padding: 0;
+
+      &::after {
+        padding: 0 12px 0 0;
+        content: '';
+        height: 20px;
+        border-right: 1px solid #bfbfbf;
+      }
+    }
+
+    &.pending {
+      padding: 0 0 0 12px;
+    }
+
+    &.selected {
+      color: $color-highlight;
+      font-size: $font-24;
+      font-weight: bold;
+    }
+  }
+}
+
+.main-fixed-month-divider {
+  margin: 16px 28px 21px;
+  position: relative;
+  font-size: $font-20;
+
+  &::after {
+    position: absolute;
+    width: calc(100% - 28px);
+    top: 50%;
+    transform: translateY(50%) - 1px; // border-thinkness / 2
+    margin-left: 16px;
+    content: '';
+    border-top: 2px dashed #70707033;
+  }
+}
+
+.fixed-event-card {
+  display: flex;
+
+  margin: 0 20px 16px;
+  padding: 12px;
+
+  background-color: white;
+  border-radius: $common-border-radius;
+  box-shadow: 0 15px 35px $color-highlight-light;
+
+  .fixed-event-card-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    width: 56px;
+    margin-right: 16px;
+
+    background-color: $color-main;
+    border-radius: $common-border-radius;
+    box-shadow: 0 0 10px #0000001a;
+
+    font-size: 16px;
+    color: $color-66;
+
+    > span {
+      color: $color-highlight;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+  }
+
+  .fixed-event-card-info {
+    flex: 1;
+
+    > div {
+      &:first-child {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: $font-14;
+        color: $color-highlight;
+
+        .fixed-event-card-time {
+          font-weight: bold;
+        }
+      }
+
+      &:nth-child(2) {
+        width: 100%;
+        color: $color-text;
+        font-size: $font-16;
+      }
+
+      &:last-child {
+        margin-top: 16px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+    }
+  }
+}
+
+.pending-event-card {
+  margin: 0 20px 16px;
+  padding: 16px;
+
+  background-color: white;
+  border-radius: $common-border-radius;
+  box-shadow: 0 15px 35px $color-highlight-light;
+
+  > div {
+    &:first-child {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      color: $color-text;
+
+      .pending-event-participate {
+        font-size: $font-14;
+        color: $color-highlight;
+
+        &.absent {
+          color: #bfbfbf;
+        }
+      }
+    }
+
+    &:nth-child(2) {
+      font-weight: bold;
+      font-size: $font-16;
+      color: $color-highlight;
+    }
+
+    &:last-child {
+      color: $color-highlight;
+      font-size: $font-12;
+      display: flex;
+
+      margin-top: 14px;
+
+      @mixin pending-event-button {
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba($color-highlight, 0.1);
+        color: inherit;
+        font-size: inherit;
+
+        &:not(:last-child) {
+          margin-right: 8px;
+        }
+      }
+
+      .pending-event-confirm {
+        @include pending-event-button;
+        background-color: $color-main-dark;
+        flex: 1;
+      }
+
+      .pending-event-change {
+        @include pending-event-button;
+        background-color: $color-main;
+        flex: 1;
+      }
+
+      .pending-event-info {
+        @include pending-event-button;
+      }
+    }
+  }
+}
