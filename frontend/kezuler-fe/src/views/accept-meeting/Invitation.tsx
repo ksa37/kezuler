@@ -7,25 +7,14 @@ import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
 import BottomButton from 'src/components/common/BottomButton';
-import TextAppBar from 'src/components/common/TextAppBar';
 
 function Invitation() {
   const dispatch = useDispatch<AppDispatch>();
   const { pendingEvent } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
-  const {
-    eventId,
-    eventTitle,
-    eventDescription,
-    eventTimeDuration,
-    declinedUsers,
-    eventTimeCandidates,
-    eventZoomAddress,
-    eventPlace,
-    eventAttachment,
-  } = pendingEvent;
-  const { increaseStep, decreaseStep } = acceptMeetingActions;
+  const { eventTitle, eventZoomAddress, eventPlace } = pendingEvent;
+  const { increaseStep } = acceptMeetingActions;
 
   const handleNextClick = () => {
     dispatch(increaseStep());

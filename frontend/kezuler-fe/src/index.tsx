@@ -8,7 +8,7 @@ import { store } from './store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import './index.css';
+import './index.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const root = ReactDOM.createRoot(

@@ -7,12 +7,18 @@ import {
   CardContent,
   TextField,
 } from '@mui/material';
+import classNames from 'classnames';
 
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
 import BotomButton from 'src/components/common/BottomButton';
+
+import { ReactComponent as CheckedIcon } from 'src/assets/icon_checked.svg';
+import { ReactComponent as NotCheckedIcon } from 'src/assets/icon_not_checked.svg';
+import { ReactComponent as ProfileIcon } from 'src/assets/icon_profile.svg';
+import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 
 function TimeListSelector() {
   const dispatch = useDispatch<AppDispatch>();
@@ -100,51 +106,101 @@ function TimeListSelector() {
 
   const isSelected = useMemo(() => availableTimes.length > 0, [availableTimes]);
 
-  return (
-    <>
-      <h2>
-        {timeSelectDescription}
-        {/* <span>{`${selectedOptionsNum}/${selectableOptionsNum}`}</span> */}
-        {`${userIds.length}명 참여중`}
-      </h2>
-      {eventTimeCandidates.map((eventTimeCandidate) =>
-        Object.keys(eventTimeCandidate).map((dateKey) => (
-          <div key={dateKey}>
-            <h5>{dateKey}</h5>
-            {eventTimeCandidate[dateKey].map((eventTimeWithUser) => (
-              <Button
-                key={dateKey + eventTimeWithUser.eventStartsAt}
-                // startIcon={}
-                onClick={handleEventTimeClick}
-              >
-                <Card>
-                  <CardContent>{eventTimeWithUser.eventStartsAt}</CardContent>
-                  {eventTimeWithUser.possibleUsers.length}
-                </Card>
-              </Button>
-            ))}
-          </div>
-        ))
-      )}
+  const btnGroupStyles = {
+    '& 	.MuiButtonGroup-root': {
+      width: '100%',
+    },
+    '& .MuiButton-root': {
+      border: '0.5px solid #282f39',
+      borderRadius: '8px',
+      boxShadow: '0px 15px 35px #282f391a',
+      fontSize: '16px',
+      height: '48px',
+      width: '45%',
+      '& .hover': '#FAD94F',
+    },
+    '& .MuiButton-text': {
+      color: '#282F39',
+    },
+    '& .MuiButton-contained': {
+      backgroundColor: '#FAD94F',
+      color: '#282F39',
+    },
+    '& .MuiButton-outlined': {
+      backgroundColor: '#FFFFFF',
+      color: '#282F39',
+    },
+  };
 
-      <ButtonGroup disableElevation>
-        <Button
-          variant={isDecline ? 'contained' : 'outlined'}
-          onClick={handleNotAvailableClick}
-        >
-          {notAvailableDescription}
-        </Button>
-        <Button variant="contained" onClick={handleAllAvailableClick}>
-          {allAvailableDescription}
-        </Button>
-      </ButtonGroup>
-      {isDecline && (
-        <TextField
-          label={notAvailableReasonDescription}
-          value={declineReason}
-          onChange={handleDeclineReasonChange}
-        />
-      )}
+  return (
+    <div className={'time-list-selector'}>
+      <div className={'description-text'}>
+        {'참여 가능한 시간을'}
+        <br />
+        {'선택해주세요'}
+      </div>
+      <div className={'time-list-selector-personnel'}>
+        <ProfilesIcon />
+        {`${userIds.length}명 참여중`}
+      </div>
+      <div className={classNames('time-select-grid-container')}>
+        {eventTimeCandidates.map((eventTimeCandidate) =>
+          Object.keys(eventTimeCandidate).map((dateKey) => (
+            <div key={dateKey} className={'time-select-date'}>
+              <div>{dateKey}</div>
+              {eventTimeCandidate[dateKey].map((eventTimeWithUser) => (
+                <div
+                  key={dateKey + eventTimeWithUser.eventStartsAt}
+                  className={'time-select-time-card'}
+                  onClick={handleEventTimeClick}
+                >
+                  {/* {isChecked ? <CheckedIcon /> : <NotCheckedIcon />} */}
+
+                  <div className={'time-select-time-text'}>
+                    <NotCheckedIcon />
+                    <span>{eventTimeWithUser.eventStartsAt}</span>
+                    <ProfileIcon />
+                    {eventTimeWithUser.possibleUsers.length}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))
+        )}
+      </div>
+      <div className={'calendar-pair-ask'}>
+        <div className={'calendar-pair-ask-txt'}>
+          {'캘린더 일정을'}
+          <br />
+          {'불러오세요'}
+        </div>
+        <div className={'calendar-pair-ask-btn'}>일정 불러오기</div>
+      </div>
+      <div className={'available-option-btn-group'}>
+        <ButtonGroup disableElevation sx={btnGroupStyles}>
+          <Button
+            variant={isDecline ? 'contained' : 'outlined'}
+            onClick={handleNotAvailableClick}
+            className={'not-available-btn'}
+          >
+            <b>{notAvailableDescription}</b>
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleAllAvailableClick}
+            className={'all-available-btn'}
+          >
+            <b>{allAvailableDescription}</b>
+          </Button>
+        </ButtonGroup>
+        {isDecline && (
+          <TextField
+            label={notAvailableReasonDescription}
+            value={declineReason}
+            onChange={handleDeclineReasonChange}
+          />
+        )}
+      </div>
 
       {isSelected ? (
         <BotomButton text={'선택 완료'} onClick={handleNextClick} />
@@ -155,7 +211,7 @@ function TimeListSelector() {
           disabled={true}
         />
       )}
-    </>
+    </div>
   );
 }
 
