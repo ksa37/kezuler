@@ -1,25 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Avatar,
-  Button,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from '@mui/material';
-import { Box } from '@mui/system';
 import classNames from 'classnames';
 
-import { AcceptMeetingSteps } from 'src/constants/Steps';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
-import BotomButton from 'src/components/common/BottomButton';
 import BottomButton from 'src/components/common/BottomButton';
-import ProgressBar from 'src/components/ProgressBar';
+import TextAppBar from 'src/components/common/TextAppBar';
 
 function Invitation() {
   const dispatch = useDispatch<AppDispatch>();

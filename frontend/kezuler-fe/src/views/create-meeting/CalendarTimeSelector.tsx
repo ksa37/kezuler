@@ -12,7 +12,6 @@ import { AppDispatch } from '../../store';
 
 import CalendarView from '../../components/CalendarView';
 import BotomButton from '../../components/common/BottomButton';
-import ProgressBar from 'src/components/ProgressBar';
 
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();

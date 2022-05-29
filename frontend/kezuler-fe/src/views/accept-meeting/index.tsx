@@ -12,6 +12,7 @@ import { PendingEvent } from 'src/types/pendingEvent';
 import AcceptanceCompletion from './AcceptanceCompletion';
 import Invitation from './Invitation';
 import TimeListSelector from './TimeListSelector';
+import TextAppBar from 'src/components/common/TextAppBar';
 import ProgressBar from 'src/components/ProgressBar';
 
 import 'src/styles/AcceptMeeting.scss';
@@ -39,27 +40,36 @@ function AcceptMeeting() {
     }
   };
 
-  // function Invoice() {
-  //   const { invoiceId } = useParams();
-  //   const invoice = useFakeFetch(`/api/invoices/${invoiceId}`);
-  //   return invoice ? (
-  //     <div>
-  //       <h1>{invoice.customerName}</h1>
-  //     </div>
-  //   ) : (
-  //     <Loading />
-  //   );
-  // }
+  const getAppBarText = (step: AcceptMeetingSteps) => {
+    switch (step) {
+      case AcceptMeetingSteps.First:
+        return '새로운 미팅 초대';
+      case AcceptMeetingSteps.Second:
+        return '미팅일정 선택';
+      case AcceptMeetingSteps.Third:
+        return '';
+      default:
+        return '';
+    }
+  };
   const { eventId } = useParams();
 
+  const { decreaseStep } = acceptMeetingActions;
   const getPendingEventInfo = useGetPendingEvent();
   useMemo(() => {
     if (eventId) getPendingEventInfo(eventId);
   }, [eventId]);
 
+  const handlePrevClick = () => {
+    dispatch(decreaseStep());
+  };
+
   return (
     <div className={'accept-meeting-page'}>
-      <ProgressBar progress={progressPerStep * step} />
+      <div className={'accept-meeting-sticky-header'}>
+        <TextAppBar onClick={handlePrevClick} text={getAppBarText(step)} />
+        <ProgressBar progress={progressPerStep * step} yellowBar={true} />
+      </div>
       {getComponent(step)}
     </div>
   );

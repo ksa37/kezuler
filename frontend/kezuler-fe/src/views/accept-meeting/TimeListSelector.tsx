@@ -5,17 +5,14 @@ import {
   ButtonGroup,
   Card,
   CardContent,
-  Paper,
   TextField,
 } from '@mui/material';
 
-import { AcceptMeetingSteps } from 'src/constants/Steps';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
 import BotomButton from 'src/components/common/BottomButton';
-import ProgressBar from 'src/components/ProgressBar';
 
 function TimeListSelector() {
   const dispatch = useDispatch<AppDispatch>();

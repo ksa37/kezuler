@@ -7,9 +7,7 @@ import { RootState } from 'src/reducers';
 import { mockThunkAction } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
-import CalendarView from 'src/components/CalendarView';
 import BotomButton from 'src/components/common/BottomButton';
-import ProgressBar from 'src/components/ProgressBar';
 
 function Main() {
   const dispatch = useDispatch<AppDispatch>();

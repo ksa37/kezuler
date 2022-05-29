@@ -1,4 +1,5 @@
 @import './constants';
+
 .bottom-button {
   background-color: $color-highlight;
   color: $color-main;
@@ -14,5 +15,33 @@
   }
   &.disabled {
     color: #9f9f9f;
+  }
+}
+
+.text-app-bar {
+  color: $color-highlight;
+  background-color: $color-background;
+  height: 68px;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+
+  &.main-colored {
+    background-color: $color-main;
+  }
+
+  .text-app-bar-content {
+    margin-top: 20px;
+    .text-app-bar-content-text {
+      padding-top: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 19px;
+      align-items: center;
+    }
+    .text-app-bar-content-bbtn {
+    }
   }
 }
