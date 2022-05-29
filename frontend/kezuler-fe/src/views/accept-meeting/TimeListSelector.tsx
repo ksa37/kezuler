@@ -147,7 +147,11 @@ function TimeListSelector() {
         {eventTimeCandidates.map((eventTimeCandidate) =>
           Object.keys(eventTimeCandidate).map((dateKey) => (
             <div key={dateKey} className={'time-select-date'}>
-              <div>{dateKey}</div>
+              <div className={'timelineLine'}></div>
+              <div>
+                <div className={'timelineCircle'}></div>
+                {dateKey}
+              </div>
               {eventTimeCandidate[dateKey].map((eventTimeWithUser) => (
                 <div
                   key={dateKey + eventTimeWithUser.eventStartsAt}
@@ -156,11 +160,15 @@ function TimeListSelector() {
                 >
                   {/* {isChecked ? <CheckedIcon /> : <NotCheckedIcon />} */}
 
-                  <div className={'time-select-time-text'}>
-                    <NotCheckedIcon />
+                  <div className={'time-select-time-content'}>
+                    <span className={'check-box-icon'}>
+                      <NotCheckedIcon />
+                    </span>
                     <span>{eventTimeWithUser.eventStartsAt}</span>
-                    <ProfileIcon />
-                    {eventTimeWithUser.possibleUsers.length}
+                    <span>
+                      <ProfileIcon />
+                      {eventTimeWithUser.possibleUsers.length}
+                    </span>
                   </div>
                 </div>
               ))}
