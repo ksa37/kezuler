@@ -4,7 +4,12 @@ import { Avatar, AvatarGroup } from '@mui/material';
 
 import { RootState } from 'src/reducers';
 import { BFixedEvent } from 'src/types/fixedEvent';
-import { dateToDailyTime, dateToMMdd, getDDay } from 'src/utils/dateParser';
+import {
+  dateToDailyTime,
+  dateToMMdd,
+  getDDay,
+  getKorDay,
+} from 'src/utils/dateParser';
 
 interface Props {
   event: BFixedEvent;
@@ -49,7 +54,7 @@ function FixedEventCard({ event }: Props) {
   return (
     <section className={'fixed-event-card'}>
       <div className={'fixed-event-card-date'}>
-        <span>{MMdd}</span>월
+        <span>{MMdd}</span> {getKorDay(date)}
       </div>
       <div className={'fixed-event-card-info'}>
         <div>

@@ -1,5 +1,7 @@
 // date to MM/dd
-const dateToMMdd = (date: Date) => `${date.getMonth()}/${date.getDate()}`;
+import DAY_OF_WEEK from '../constants/DayofWeek';
+
+const dateToMMdd = (date: Date) => `${date.getMonth() + 1}/${date.getDate()}`;
 
 // date to daily time (오전 11:30)
 const dateToDailyTime = (date: Date) => {
@@ -19,7 +21,20 @@ const getDDay = (date: Date) => {
   return dDay === 0 ? 'Today' : `D-${dDay}`;
 };
 
-const getMonthFromDateString = (dateString: string) =>
-  new Date(dateString).getMonth();
+const getMonthFromDateString = (dateString?: string) => {
+  if (!dateString) {
+    return new Date().getMonth() + 1;
+  }
+  return new Date(dateString).getMonth() + 1;
+};
 
-export { dateToMMdd, dateToDailyTime, getDDay, getMonthFromDateString };
+// 한국 요일 반환
+const getKorDay = (date: Date) => DAY_OF_WEEK[date.getDay()];
+
+export {
+  dateToMMdd,
+  dateToDailyTime,
+  getDDay,
+  getMonthFromDateString,
+  getKorDay,
+};

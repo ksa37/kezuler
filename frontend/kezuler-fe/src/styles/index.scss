@@ -1,0 +1,28 @@
+@import 'constants';
+
+.App {
+  height: 100vh;
+  position: relative;
+}
+
+$app-bar-height: 72px;
+
+.app-bar {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  height: $app-bar-height;
+  top: 0;
+  right: 0;
+  z-index: 1100;
+  border-radius: 0 0 12px 12px;
+
+  background: white;
+  box-shadow: 0 3px 30px rgba($color-highlight, 0.1);
+}
+
+main {
+  height: calc(100% - #{$app-bar-height});
+  padding-top: $app-bar-height;
+  background: $color-background;
+}

@@ -1,16 +1,22 @@
 import React, { useMemo } from 'react';
 
-import { dateToMMdd } from 'src/utils/dateParser';
+import { dateToMMdd, getKorDay } from 'src/utils/dateParser';
 
 function EmptyFixedEventCard() {
   const now = new Date();
   const MMdd = useMemo(() => dateToMMdd(now), [now]);
+  const day = useMemo(() => getKorDay(now), [now]);
 
   return (
-    <section>
-      <div>{MMdd}</div>
-      <div>예정된 미팅이 없습니다.</div>
-      <div>Today</div>
+    <section className={'fixed-event-card'}>
+      <div className={'fixed-event-card-date'}>
+        <span>{MMdd}</span>
+        {day}
+      </div>
+      <div className={'fixed-event-card-empty-info'}>
+        예정된 미팅이 없습니다.
+      </div>
+      <div className={'fixed-event-card-empty-day'}>Today</div>
     </section>
   );
 }

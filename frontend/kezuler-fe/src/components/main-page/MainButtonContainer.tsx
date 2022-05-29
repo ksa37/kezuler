@@ -3,22 +3,13 @@ import React from 'react';
 import FloatingButton from 'src/components/common/FloatingButton';
 
 function MainButtonContainer() {
-  const handleTodayClick = () => {
-    console.log('today');
-  };
-
   const handleCreateClick = () => {
     console.log('create');
   };
 
   /*Floating Buttons Container*/
   return (
-    <div>
-      <FloatingButton
-        icon={<div>hi</div>}
-        onClick={handleTodayClick}
-        text={'오늘'}
-      />
+    <div className={'main-floating-button-container'}>
       <FloatingButton
         icon={<div>hi</div>}
         onClick={handleCreateClick}

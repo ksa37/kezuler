@@ -38,6 +38,11 @@
   }
 }
 
+.main-fixed {
+  margin-top: 24px;
+  padding-bottom: 16px;
+}
+
 .main-fixed-month-divider {
   margin: 16px 28px 21px;
   position: relative;
@@ -54,9 +59,23 @@
   }
 }
 
+.main-empty-h2 {
+  margin: 40px 0 0;
+  text-align: center;
+  white-space: pre;
+  font-size: $font-18;
+  font-weight: normal;
+  color: #bec1c7;
+
+  &.pending {
+    margin-top: 150px;
+  }
+}
+
 .fixed-event-card {
   display: flex;
 
+  min-height: 96px;
   margin: 0 20px 16px;
   padding: 12px;
 
@@ -85,6 +104,20 @@
       font-weight: bold;
       margin-bottom: 4px;
     }
+  }
+
+  .fixed-event-card-empty-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    color: $color-text;
+    font-size: $font-16;
+  }
+
+  .fixed-event-card-empty-day {
+    font-size: $font-16;
+    color: $color-highlight;
+    font-weight: bold;
   }
 
   .fixed-event-card-info {
@@ -117,6 +150,11 @@
       }
     }
   }
+}
+
+.main-pending {
+  margin-top: 32px;
+  padding-bottom: 16px;
 }
 
 .pending-event-card {
@@ -186,4 +224,11 @@
       }
     }
   }
+}
+
+.main-floating-button-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 24px;
 }
