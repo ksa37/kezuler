@@ -8,7 +8,7 @@ import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 import { PendingEvent } from 'src/types/pendingEvent';
 
-import BlackButton from 'src/components/common/BlackButton';
+import BotomButton from 'src/components/common/BottomButton';
 
 function MeetingInfoForm() {
   const dispatch = useDispatch<AppDispatch>();
@@ -90,7 +90,7 @@ function MeetingInfoForm() {
           파일 추가
         </Button>
       </label>
-      <BlackButton onClick={handlePostClick} text="완료" />
+      <BotomButton onClick={handlePostClick} text="완료" />
     </>
   );
 }

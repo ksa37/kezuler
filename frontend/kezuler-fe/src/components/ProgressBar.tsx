@@ -2,6 +2,8 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 
+import 'src/styles/constants.scss';
+
 interface Props {
   progress: number;
 }
@@ -13,9 +15,8 @@ function ProgressBar({ progress }: Props) {
         value={progress}
         sx={{
           backgroundColor: '#ffff',
-
           '& .MuiLinearProgress-barColorPrimary': {
-            backgroundColor: '#ffff',
+            backgroundColor: '#fad94f',
           },
         }}
       />

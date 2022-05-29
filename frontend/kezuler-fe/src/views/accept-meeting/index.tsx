@@ -14,6 +14,8 @@ import Invitation from './Invitation';
 import TimeListSelector from './TimeListSelector';
 import ProgressBar from 'src/components/ProgressBar';
 
+import 'src/styles/AcceptMeeting.scss';
+
 function AcceptMeeting() {
   const dispatch = useDispatch<AppDispatch>();
   const { step, pendingEvent } = useSelector(
@@ -56,10 +58,10 @@ function AcceptMeeting() {
   }, [eventId]);
 
   return (
-    <>
+    <div className={'accept-meeting-page'}>
       <ProgressBar progress={progressPerStep * step} />
       {getComponent(step)}
-    </>
+    </div>
   );
 }
 

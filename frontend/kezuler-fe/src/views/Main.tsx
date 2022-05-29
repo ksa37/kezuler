@@ -8,7 +8,7 @@ import { mockThunkAction } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
 import CalendarView from 'src/components/CalendarView';
-import BlackButton from 'src/components/common/BlackButton';
+import BotomButton from 'src/components/common/BottomButton';
 import ProgressBar from 'src/components/ProgressBar';
 
 function Main() {
@@ -25,7 +25,7 @@ function Main() {
         <span>카카오계정 로그인</span>
       </Button>
       <Button onClick={handleFetchClick}></Button>
-      <BlackButton onClick={() => console.log('hi')} text="다음" />
+      <BotomButton onClick={() => console.log('hi')} text="다음" />
       {/* <CalendarView /> */}
       {/* <MeetingCard/> */}
     </>

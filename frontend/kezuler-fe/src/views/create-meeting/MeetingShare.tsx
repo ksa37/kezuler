@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 
 import { RootState } from 'src/reducers';
 
-import BlackButton from 'src/components/common/BlackButton';
+import BotomButton from 'src/components/common/BottomButton';
 import ProgressBar from 'src/components/ProgressBar';
 
 function MeetingShare() {
@@ -40,7 +40,7 @@ function MeetingShare() {
         <Button onClick={handleLinkShareClick}>{linkShareText}</Button>
         <Button onClick={handleGeneralShareClick}>{generalShareText}</Button>
       </div>
-      <BlackButton onClick={handleClick} text="홈으로" />
+      <BotomButton onClick={handleClick} text="홈으로" />
     </>
   );
 }

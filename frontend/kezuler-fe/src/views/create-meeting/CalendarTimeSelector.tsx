@@ -11,7 +11,7 @@ import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { AppDispatch } from '../../store';
 
 import CalendarView from '../../components/CalendarView';
-import BlackButton from '../../components/common/BlackButton';
+import BotomButton from '../../components/common/BottomButton';
 import ProgressBar from 'src/components/ProgressBar';
 
 function CalendarTimeSelector() {
@@ -114,7 +114,7 @@ function CalendarTimeSelector() {
           )
         )}
       </Stack>
-      <BlackButton onClick={handleNextClick} text="다음" />
+      <BotomButton onClick={handleNextClick} text="다음" />
     </div>
   );
 }

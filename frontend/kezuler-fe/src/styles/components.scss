@@ -1,0 +1,18 @@
+@import './constants';
+.bottom-button {
+  background-color: $color-highlight;
+  color: $color-main;
+  height: 56px;
+  font-size: 16;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  div {
+    padding-top: 18px;
+  }
+  &.disabled {
+    color: #9f9f9f;
+  }
+}

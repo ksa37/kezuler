@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
 
 import PathName from 'src/constants/PathName';
+
+import BottomButton from 'src/components/common/BottomButton';
 
 function AcceptanceCompletion() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function AcceptanceCompletion() {
     <>
       <h2>{completeMainDescription}</h2>
       <h3>{completeSubDescription}</h3>
-      <Button onClick={handleHomeClick}>홈으로 가기</Button>
+      <BottomButton onClick={handleHomeClick} text={'홈으로 가기'} />
     </>
   );
 }

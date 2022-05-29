@@ -10,7 +10,6 @@ enum AcceptMeetingSteps {
   First,
   Second,
   Third,
-  Fourth,
 }
 
 export { CreateMeetingSteps, AcceptMeetingSteps };

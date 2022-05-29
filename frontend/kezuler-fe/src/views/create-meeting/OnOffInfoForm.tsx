@@ -6,7 +6,7 @@ import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 
-import BlackButton from 'src/components/common/BlackButton';
+import BotomButton from 'src/components/common/BottomButton';
 
 function OnOffInfoForm() {
   const onlineTextDescription = '줌 링크 혹은 다른 화상회의 링크를 넣어주세요';
@@ -61,7 +61,7 @@ function OnOffInfoForm() {
           />
         </div>
       )}
-      <BlackButton onClick={handleNextClick} text="다음" />
+      <BotomButton onClick={handleNextClick} text="다음" />
     </>
   );
 }

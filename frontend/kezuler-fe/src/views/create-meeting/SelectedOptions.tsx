@@ -7,7 +7,7 @@ import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 import { EventTimeCandidate } from 'src/types/pendingEvent';
 
-import BlackButton from 'src/components/common/BlackButton';
+import BotomButton from 'src/components/common/BottomButton';
 
 type EventTimeListDate = { [date: string]: string[] };
 
@@ -94,7 +94,7 @@ function ShowSelectedOptions() {
           ))}
         </div>
       ))}
-      <BlackButton onClick={handleNextClick} text="다음" />
+      <BotomButton onClick={handleNextClick} text="다음" />
     </>
   );
 }

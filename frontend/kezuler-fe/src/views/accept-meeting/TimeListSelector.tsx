@@ -14,7 +14,7 @@ import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
-import BlackButton from 'src/components/common/BlackButton';
+import BotomButton from 'src/components/common/BottomButton';
 import ProgressBar from 'src/components/ProgressBar';
 
 function TimeListSelector() {
@@ -150,9 +150,13 @@ function TimeListSelector() {
       )}
 
       {isSelected ? (
-        <BlackButton text={'선택 완료'} onClick={handleNextClick} />
+        <BotomButton text={'선택 완료'} onClick={handleNextClick} />
       ) : (
-        <BlackButton text={'시간을 선택해주세요'} onClick={handleNextClick} />
+        <BotomButton
+          text={'시간을 선택해주세요'}
+          onClick={handleNextClick}
+          disabled={true}
+        />
       )}
     </>
   );
