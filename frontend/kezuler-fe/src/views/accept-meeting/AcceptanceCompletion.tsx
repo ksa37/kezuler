@@ -11,10 +11,6 @@ import { ReactComponent as Circle } from 'src/assets/acceptance_complete_circle.
 function AcceptanceCompletion() {
   const navigate = useNavigate();
 
-  const completeMainDescription = '일정 선택이 모두 완료되었습니다!';
-  const completeSubDescription =
-    '호스트가 미팅시간을 확정하면 다시 알려드릴게요.';
-
   const handleHomeClick = () => {
     navigate(PathName.main, { replace: true });
   };

@@ -67,7 +67,12 @@ function AcceptMeeting() {
   return (
     <div className={'accept-meeting-page'}>
       <div className={'accept-meeting-sticky-header'}>
-        <TextAppBar onClick={handlePrevClick} text={getAppBarText(step)} />
+        <TextAppBar
+          onClick={
+            step === AcceptMeetingSteps.Second ? handlePrevClick : undefined
+          }
+          text={getAppBarText(step)}
+        />
         <ProgressBar progress={progressPerStep * step} yellowBar={true} />
       </div>
       {getComponent(step)}

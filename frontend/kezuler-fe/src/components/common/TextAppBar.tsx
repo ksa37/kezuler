@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { ReactComponent as BackIcon } from 'src/assets/left_arrow.svg';
 import 'src/styles/components.scss';
 
 interface Props {
-  onClick: () => void;
+  onClick?: () => void;
   text: string;
   mainColored?: boolean;
 }
@@ -15,10 +16,11 @@ function TextAppBar({ onClick, text, mainColored }: Props) {
       className={classNames('text-app-bar', {
         'main-colored': mainColored,
       })}
-      onClick={onClick}
     >
       <div className={'text-app-bar-content'}>
-        <div className={'text-app-bar-content-bbtn'}></div>
+        {onClick && (
+          <BackIcon className={'text-app-bar-content-bbtn'} onClick={onClick} />
+        )}
         <div className={'text-app-bar-content-text'}>{text}</div>
       </div>
     </div>
