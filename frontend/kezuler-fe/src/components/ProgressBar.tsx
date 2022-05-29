@@ -8,7 +8,16 @@ interface Props {
 function ProgressBar({ progress }: Props) {
   return (
     <Box sx={{ width: '100%' }}>
-      <LinearProgress variant="determinate" value={progress} />
+      <LinearProgress
+        variant="determinate"
+        value={progress}
+        sx={{
+          backgroundColor: '#ffff',
+          '& .MuiLinearProgress-barColorPrimary': {
+            backgroundColor: '#ffff',
+          },
+        }}
+      />
     </Box>
   );
 }
