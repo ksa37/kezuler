@@ -193,3 +193,30 @@
   border: 1px solid #282f39;
   background-color: #fad94f;
 }
+
+// AcceptanceCompletion
+
+.acceptance-completion {
+  padding-top: 72px;
+}
+
+.acceptance-completion-sub-description {
+  font: normal normal normal 16px/24px Pretendard;
+  color: #9f9f9f;
+  text-align: left;
+  margin-top: 32px;
+  margin-left: 20px;
+}
+
+.acceptance-bell {
+  position: fixed;
+  top: 39%;
+  left: 32%;
+  z-index: 1;
+}
+
+.acceptance-circle {
+  position: fixed;
+  top: 43%;
+  left: 52%;
+}
