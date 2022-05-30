@@ -7,7 +7,7 @@ import { RootState } from 'src/reducers';
 import { mockThunkAction } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
-import BotomButton from 'src/components/common/BottomButton';
+import BottomButton from 'src/components/common/BottomButton';
 
 function Main() {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,7 +23,7 @@ function Main() {
         <span>카카오계정 로그인</span>
       </Button>
       <Button onClick={handleFetchClick}></Button>
-      <BotomButton onClick={() => console.log('hi')} text="다음" />
+      <BottomButton onClick={() => console.log('hi')} text="다음" />
       {/* <CalendarView /> */}
       {/* <MeetingCard/> */}
     </>

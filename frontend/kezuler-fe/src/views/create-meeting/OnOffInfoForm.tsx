@@ -2,11 +2,13 @@ import React, { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField } from '@mui/material';
 
+import { usePostPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
+import { PendingEvent } from 'src/types/pendingEvent';
 
-import BotomButton from 'src/components/common/BottomButton';
+import BottomButton from 'src/components/common/BottomButton';
 
 function OnOffInfoForm() {
   const onlineTextDescription = '줌 링크 혹은 다른 화상회의 링크를 넣어주세요';
@@ -16,9 +18,37 @@ function OnOffInfoForm() {
   const { increaseStep, decreaseStep, setZoomAddress, setPlace } =
     createMeetingActions;
 
-  const { isOnline, eventZoomAddress, eventPlace } = useSelector(
-    (state: RootState) => state.createMeeting
-  );
+  const {
+    isOnline,
+    userId,
+    eventId,
+    eventTitle,
+    eventDescription,
+    eventTimeDuration,
+    declinedUsers,
+    eventTimeCandidates,
+    eventZoomAddress,
+    eventPlace,
+    eventAttachment,
+  } = useSelector((state: RootState) => state.createMeeting);
+
+  const postPendingEvent = usePostPendingEvent();
+
+  const handlePostClick = () => {
+    const pendingEvent: PendingEvent = {
+      userId,
+      eventId,
+      eventTitle,
+      eventDescription,
+      eventTimeDuration,
+      declinedUsers,
+      eventTimeCandidates,
+      eventZoomAddress,
+      eventPlace,
+      eventAttachment,
+    };
+    postPendingEvent(pendingEvent);
+  };
 
   const handleOnlineChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(setZoomAddress(event.target.value));
@@ -61,7 +91,7 @@ function OnOffInfoForm() {
           />
         </div>
       )}
-      <BotomButton onClick={handleNextClick} text="다음" />
+      <BottomButton onClick={handleNextClick} text="다음" />
     </>
   );
 }

@@ -54,7 +54,7 @@ function Invitation() {
         <h2>{timeSelectDescription}</h2>
         <BottomButton onClick={handleNextClick} text={'카카오로 계속하기'} />
       </div>
-      {/* <BotomButton text={'다음'} onClick={handleNextClick} /> */}
+      {/* <BottomButton text={'다음'} onClick={handleNextClick} /> */}
     </div>
   );
 }

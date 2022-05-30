@@ -11,18 +11,16 @@ import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { AppDispatch } from '../../store';
 
 import CalendarView from '../../components/CalendarView';
-import BotomButton from '../../components/common/BottomButton';
+import BottomButton from '../../components/common/BottomButton';
 
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { eventTimeList } = useSelector(
     (state: RootState) => state.createMeeting
   );
-  const { increaseStep, decreaseStep, addTimeList, deleteTimeList } =
-    createMeetingActions;
+  const { increaseStep, addTimeList, deleteTimeList } = createMeetingActions;
 
-  const timeSelectDescription = '원하는 미팅 시간을 선택해주세요';
-  const timeChipSelectDescription = '미팅시작 시간';
+  // const timeChipSelectDescription = '미팅시작 시간을 선택하세요';
 
   const [startDate, setStartDate] = useState<Date | null>(new Date());
 
@@ -61,12 +59,15 @@ function CalendarTimeSelector() {
   };
 
   const setDateString = (startDate: Date | null) => {
-    const dateFnsStr = startDate
-      ? format(startDate, 'MM월 dd일 EEE', { locale: ko })
-      : '';
-    const dateStr =
-      dateFnsStr.slice(0, 1) === '0' ? dateFnsStr.slice(1) : dateFnsStr;
-    return dateStr;
+    const dateFnsStr = startDate ? (
+      <div>
+        <b>{format(startDate, 'M/d ', { locale: ko })}</b>
+        {format(startDate, 'EEE', { locale: ko })}
+      </div>
+    ) : (
+      <div>{''}</div>
+    );
+    return dateFnsStr;
   };
 
   const dateStr = useMemo(() => setDateString(startDate), [startDate]);
@@ -76,31 +77,38 @@ function CalendarTimeSelector() {
     [eventTimeList]
   );
 
-  const handlePrevClick = () => {
-    dispatch(decreaseStep());
-  };
-
   const handleNextClick = () => {
     dispatch(increaseStep());
   };
 
   return (
     <div>
-      <h2>{timeSelectDescription}</h2>
-      <CalendarView
-        startDate={startDate}
-        setStartDate={setStartDate}
-        highlightDates={eventTimeListDateToHighlight}
-      />
-      <h5>{dateStr}</h5>
-      <h3>{timeChipSelectDescription}</h3>
-      <Stack direction="row" spacing={1} style={{ overflow: 'auto' }}>
+      <div className={'calendar'}>
+        <CalendarView
+          startDate={startDate}
+          setStartDate={setStartDate}
+          highlightDates={eventTimeListDateToHighlight}
+        />
+      </div>
+      <div className={'date-string'}>{dateStr}</div>
+      <div className={'time-chip-text'}>
+        <b>{'미팅시작 시각'}</b>
+        {'을 선택하세요'}
+      </div>
+      <Stack
+        direction="row"
+        spacing={1}
+        style={{ overflow: 'auto' }}
+        className={'time-chips-stack'}
+      >
         {TimeOptions.map((timeOption) =>
           eventTimeList.includes(createDate(timeOption)) ? (
             <Chip
               key={timeOption}
               label={timeOption}
               variant="filled"
+              className={'time-chips'}
+              sx={{ backgroundColor: '#282F39', color: '#FFFFFF' }}
               onClick={() => handleChipClick(timeOption)}
             />
           ) : (
@@ -108,12 +116,14 @@ function CalendarTimeSelector() {
               key={timeOption}
               label={timeOption}
               variant="outlined"
+              className={'time-chips'}
+              sx={{ backgroundColor: 'white' }}
               onClick={() => handleChipClick(timeOption)}
             />
           )
         )}
       </Stack>
-      <BotomButton onClick={handleNextClick} text="다음" />
+      <BottomButton onClick={handleNextClick} text="다음" />
     </div>
   );
 }

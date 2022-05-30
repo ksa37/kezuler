@@ -7,7 +7,7 @@ import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 import { EventTimeCandidate } from 'src/types/pendingEvent';
 
-import BotomButton from 'src/components/common/BottomButton';
+import BottomButton from 'src/components/common/BottomButton';
 
 type EventTimeListDate = { [date: string]: string[] };
 
@@ -50,7 +50,7 @@ function ShowSelectedOptions() {
   console.log(eventTimeListDevideByDate);
 
   const mainDescription = '선택한 날짜와 시간을 확인해주세요';
-  const subDescription = `총 ${eventTimeList.length}개의 시간대를 선택하셨어요`;
+  const subDescription = `${eventTimeList.length}개 선택`;
 
   const handleDeleteClick = (dateKey: string, time: string) => {
     const amPm = time.split(' ')[0] === '오전';
@@ -76,8 +76,12 @@ function ShowSelectedOptions() {
   };
 
   return (
-    <>
-      <h2>{mainDescription}</h2>
+    <div>
+      <div className={'description-text'}>
+        {'선택한 날짜와 시간을'}
+        <br />
+        {'확인해주세요'}
+      </div>
       <h3>{subDescription}</h3>
       {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
         <div key={dateKey}>
@@ -94,8 +98,8 @@ function ShowSelectedOptions() {
           ))}
         </div>
       ))}
-      <BotomButton onClick={handleNextClick} text="다음" />
-    </>
+      <BottomButton onClick={handleNextClick} text="다음" />
+    </div>
   );
 }
 

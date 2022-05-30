@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import 'src/styles/components.scss';
 
 interface Props {
-  onClick: () => void;
+  onClick?: () => void;
   text: string;
   disabled?: boolean;
 }
@@ -17,7 +17,9 @@ function BottomButton({ onClick, text, disabled }: Props) {
       })}
       onClick={onClick}
     >
-      <div>{text}</div>
+      <div>
+        <b>{text}</b>
+      </div>
     </div>
   );
 }

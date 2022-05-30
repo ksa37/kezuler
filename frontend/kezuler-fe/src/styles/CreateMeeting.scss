@@ -1,0 +1,111 @@
+@import './constants.scss';
+
+.create-meeting-page {
+  background-color: $color-background;
+}
+
+.create-meeting-content {
+  padding-top: 72px;
+}
+
+.description-text {
+  color: $color-highlight;
+  text-align: left;
+  font: normal normal bold 24px/36px Pretendard;
+  margin: 32px 40% 0 20px;
+}
+
+.sub-description-text {
+  font: normal normal normal 16px/24px Pretendard;
+  color: #9f9f9f;
+  text-align: left;
+  margin-top: 32px;
+  margin-left: 20px;
+}
+
+.meeting-info {
+  text-align: left;
+  background-color: #ffffff;
+  box-shadow: 0px 15px 35px #282f390d;
+  border-radius: 16px;
+
+  &.required {
+    margin: 40px 24px 0 24px;
+    padding: 13px 24px 16px 24px;
+  }
+
+  &.additional {
+    margin: 16px 24px 0 24px;
+    padding: 16px 24px 16px 24px;
+  }
+
+  .meeting-field-title-and-reference {
+    height: 48px;
+    width: 100%;
+    margin-top: 10px;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    border: 1px solid #808080;
+    border-radius: 8px;
+  }
+
+  .meeting-title {
+    width: 100%;
+    .meeting-title-text {
+      color: $color-highlight;
+      font: normal normal bold 14px/30px Arial;
+    }
+
+    .meeting-title-required {
+      float: right;
+      font: normal normal bold 12px/30px Arial;
+      color: $color-main-dark;
+    }
+  }
+
+  .meeting-additional {
+    .meeting-additional-text {
+      color: #8d8d8d;
+      font: normal normal bold 14px/30px Arial;
+    }
+
+    .meeting-additional-additional {
+      float: right;
+      font: normal normal bold 12px/30px Arial;
+      color: #bfbfbf;
+    }
+  }
+}
+
+.calendar {
+  margin-top: 20px;
+}
+.date-string {
+  text-align: left;
+  margin-left: 60px;
+  color: $color-highlight;
+  font: normal normal normal 16px/19px Pretendard;
+  margin-top: 20px;
+}
+
+.time-chip-text {
+  text-align: left;
+  margin-left: 60px;
+  margin-top: 12px;
+}
+
+.time-chips-stack {
+  margin-top: 16px;
+}
+
+.create-complete-calendar {
+  position: fixed;
+  z-index: 1;
+  left: -5%;
+  bottom: 150px;
+}
+
+.create-complete-slope {
+  position: fixed;
+  left: -5%;
+  bottom: 48px;
+}
