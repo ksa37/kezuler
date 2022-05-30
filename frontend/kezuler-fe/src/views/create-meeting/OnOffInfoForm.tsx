@@ -22,6 +22,7 @@ function OnOffInfoForm() {
     isOnline,
     userId,
     eventId,
+    eventHostId,
     eventTitle,
     eventDescription,
     eventTimeDuration,
@@ -38,6 +39,7 @@ function OnOffInfoForm() {
     const pendingEvent: PendingEvent = {
       userId,
       eventId,
+      eventHostId,
       eventTitle,
       eventDescription,
       eventTimeDuration,

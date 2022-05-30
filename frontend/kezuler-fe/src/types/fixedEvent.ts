@@ -4,6 +4,7 @@ interface EventParticipant {
 }
 
 interface BFixedEvent {
+  eventHostId: string;
   eventId: string;
   eventTitle: string;
   eventDescription: string;
@@ -22,11 +23,23 @@ interface FixedEvent extends BFixedEvent {
 
 type PPatchFixedEvent = Partial<BFixedEvent>;
 
+interface PGetFixedEvents {
+  startIndex: number;
+  endIndex: number;
+}
+
 interface RGetFixedEvents {
   userId: string;
-  startDate: string;
-  endDate: string;
+  startIndex: number;
+  endIndex: number;
+  totalAmount: string;
   fixedEvents: BFixedEvent[];
 }
 
-export type { RGetFixedEvents, FixedEvent, PPatchFixedEvent };
+export type {
+  BFixedEvent,
+  PGetFixedEvents,
+  RGetFixedEvents,
+  FixedEvent,
+  PPatchFixedEvent,
+};

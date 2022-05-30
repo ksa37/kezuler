@@ -2,13 +2,14 @@
 
 .accept-meeting-page {
   background-color: $color-background;
+  text-align: center;
 }
 
 // Invitation
 
-.invitation {
-  padding-top: 72px;
-}
+// .invitation {
+//   padding-top: 72px;
+// }
 
 .invitation-message {
   color: $color-highlight;
@@ -62,9 +63,9 @@
 
 // TimeListSelector
 
-.time-list-selector {
-  padding-top: 72px;
-}
+// .time-list-selector {
+//   padding-top: 72px;
+// }
 
 .description-text {
   color: $color-highlight;
@@ -206,9 +207,9 @@
 
 // AcceptanceCompletion
 
-.acceptance-completion {
-  padding-top: 72px;
-}
+// .acceptance-completion {
+//   padding-top: 72px;
+// }
 
 .acceptance-completion-sub-description {
   font: normal normal normal 16px/24px Pretendard;

@@ -1,9 +1,8 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 
 import { KAKAO_AUTH_URL } from 'src/constants/Oauth';
-import { RootState } from 'src/reducers';
 import { mockThunkAction } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 

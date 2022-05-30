@@ -44,6 +44,7 @@ type TimeCandidate = { [date: string]: string[] };
 const initialPendingEvent: PendingEvent = {
   userId: '',
   eventId: '',
+  eventHostId: '',
   eventTitle: '',
   eventDescription: '',
   eventTimeDuration: 60,

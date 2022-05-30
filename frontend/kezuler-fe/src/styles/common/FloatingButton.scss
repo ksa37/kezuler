@@ -1,0 +1,17 @@
+@import '../constants';
+
+.floating-button {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: $color-highlight;
+  box-shadow: 0 5px 10px #00000029;
+
+  padding: 0;
+  color: white;
+  font-weight: bold;
+  font-size: $font-12;
+
+  cursor: pointer;
+}

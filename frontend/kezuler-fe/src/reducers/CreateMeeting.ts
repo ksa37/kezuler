@@ -17,6 +17,7 @@ const initialState: CreateMeetingState = {
   isOnline: null,
   eventTimeList: [],
   userId: '',
+  eventHostId: '',
   eventId: '',
   eventTitle: '',
   eventDescription: '',

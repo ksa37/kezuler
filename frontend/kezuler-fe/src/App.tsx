@@ -4,7 +4,7 @@ import RootRoutes from './routes/RootRoutes';
 
 import KezulerModal from './components/modal/KezulerModal';
 
-import './App.scss';
+import 'src/styles/index.scss';
 
 function App() {
   return (
