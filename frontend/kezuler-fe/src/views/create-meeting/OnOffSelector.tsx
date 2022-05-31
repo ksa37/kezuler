@@ -1,23 +1,34 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Button } from '@mui/material';
+import React, { ChangeEvent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
+import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 
 function OnOffSelector() {
   const dispatch = useDispatch<AppDispatch>();
-  const { setIsOnline, increaseStep } = createMeetingActions;
+  const { setIsOnline, increaseStep, setZoomAddress, setPlace } =
+    createMeetingActions;
+
+  const { isOnline, eventZoomAddress, eventPlace } = useSelector(
+    (state: RootState) => state.createMeeting
+  );
 
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
-    dispatch(increaseStep());
   };
 
   const handleOfflineClick = () => {
     dispatch(setIsOnline(false));
-    dispatch(increaseStep());
+  };
+
+  const handleOnlineChange = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setZoomAddress(event.target.value));
+  };
+
+  const handleOfflineChange = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setPlace(event.target.value));
   };
 
   return (
@@ -29,7 +40,10 @@ function OnOffSelector() {
 
       <div className={'on-off-group'}>
         <div
-          className={classNames('on-off-btn', 'selected')}
+          className={classNames(
+            'on-off-btn',
+            isOnline ? 'selected' : 'disabled'
+          )}
           onClick={handleOnlineClick}
         >
           <div className={'circle-wrapper'}>
@@ -39,7 +53,10 @@ function OnOffSelector() {
           <div className={'on-off-subtitle'}>비대면 미팅</div>
         </div>
         <div
-          className={classNames('on-off-btn', 'disabled')}
+          className={classNames(
+            'on-off-btn',
+            isOnline ? 'disabled' : 'selected'
+          )}
           onClick={handleOfflineClick}
         >
           <div className={'circle-wrapper'}>
@@ -51,15 +68,21 @@ function OnOffSelector() {
       </div>
 
       <div className={'on-off-textfield'}>
-        <div className={'title'}>{'접속링크'}</div>
+        <div className={'title'}>{isOnline ? '접속링크' : '장소'}</div>
         <input
           type="text"
           className={'field'}
-          placeholder={'링크를 입력하세요.'}
+          value={isOnline ? eventZoomAddress : eventPlace}
+          onChange={isOnline ? handleOnlineChange : handleOfflineChange}
+          placeholder={
+            isOnline ? '링크를 입력하세요.' : '장소 정보를 입력하세요.'
+          }
         />
-        <div className={'skip-text'}>
-          {'아직 링크가 없다면 건너뛰기를 눌러주세요.'}
-        </div>
+        {isOnline && (
+          <div className={'skip-text'}>
+            {'아직 링크가 없다면 건너뛰기를 눌러주세요.'}
+          </div>
+        )}
       </div>
     </div>
   );
