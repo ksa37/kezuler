@@ -6,7 +6,43 @@
 }
 
 .create-meeting-content {
-  // padding-top: 72px;
+  padding-top: 72px;
+}
+
+.yellow-top {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 265px;
+  background-color: $color-main;
+}
+
+.normal-top {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 265px;
+  background-color: $color-background;
+}
+
+.yellow-bottom {
+  position: fixed;
+
+  left: 0px;
+  bottom: 0;
+  width: 100%;
+  background-color: $color-main;
+  z-index: -1;
+
+  &.calendar {
+    top: 295px;
+  }
+
+  &.place {
+    top: 276px;
+  }
 }
 
 .description-text {
@@ -96,6 +132,113 @@
 
 .time-chips-stack {
   margin-top: 16px;
+}
+
+.on-off-group {
+  margin-inline: 48px;
+  margin-top: 32px;
+
+  .on-off-btn:first-child {
+    float: left;
+    margin-right: 8px;
+  }
+  .on-off-btn:last-child {
+    float: right;
+  }
+  .on-off-btn {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 15px 35px #282f391a;
+    border-radius: 16px;
+    height: 157px;
+    box-sizing: border-box;
+
+    .on-off-title {
+      margin-top: 16px;
+      text-align: center;
+      font: normal normal bold 13px Arial;
+      letter-spacing: 0px;
+      color: $color-highlight;
+      opacity: 1;
+    }
+
+    .on-off-subtitle {
+      margin-top: 4px;
+      text-align: center;
+      font: normal normal normal 13px Arial;
+      letter-spacing: 0px;
+      color: #9f9f9f;
+      opacity: 1;
+    }
+
+    &.selected {
+      border: 5px solid #fad94f;
+      text-align: center;
+      width: 47%;
+      .circle-wrapper {
+        padding-top: 32px;
+        display: inline-block;
+      }
+      .circle {
+        width: 38px;
+        height: 38px;
+        background: $color-main 0% 0% no-repeat padding-box;
+        border-radius: 50%;
+      }
+    }
+
+    &.disabled {
+      text-align: center;
+      width: 47%;
+      .circle-wrapper {
+        padding-top: 37px;
+        display: inline-block;
+      }
+      .circle {
+        width: 38px;
+        height: 38px;
+        background: #dddddd 0% 0% no-repeat padding-box;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+.on-off-textfield {
+  margin-top: 50px;
+
+  .title {
+    text-align: center;
+    font: normal normal bold 18px/30px Arial;
+    color: $color-highlight;
+  }
+  .field {
+    margin-top: 12px;
+    margin-left: 48px;
+    margin-right: 48px;
+    height: 48px;
+    text-align: left;
+    font: normal normal normal 14px/22px Arial;
+    color: $color-highlight;
+    border: none;
+    background-color: #ffffff;
+    border-radius: 8px;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  input::placeholder {
+    padding: 15px 20px 15px;
+    color: #bec1c7;
+  }
+
+  .skip-text {
+    margin-top: 16px;
+    font: normal normal normal 14px/17px Pretendard;
+    color: #282f39;
+    text-align: center;
+  }
 }
 
 .create-complete-calendar {

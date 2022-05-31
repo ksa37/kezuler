@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import classNames from 'classnames';
 
 import { CreateMeetingSteps } from 'src/constants/Steps';
 import { RootState } from 'src/reducers';
@@ -32,11 +33,7 @@ function CreateMeeting() {
       case CreateMeetingSteps.Third:
         return <SelectedOptions />;
       case CreateMeetingSteps.Fourth:
-        return (
-          // <OnOffSelector>
-          <OnOffInfoForm />
-          // </OnOffSelector>
-        );
+        return <OnOffSelector />;
       case CreateMeetingSteps.Fifth:
         return <MeetingShare />;
       default:
@@ -68,16 +65,32 @@ function CreateMeeting() {
     dispatch(decreaseStep());
   };
 
+  const ColorTop =
+    step === CreateMeetingSteps.First ? 'yellow-top' : 'normal-top';
+
+  const ColorBottom = () => {
+    switch (step) {
+      case CreateMeetingSteps.Second:
+        return classNames('yellow-bottom', 'calendar');
+      case CreateMeetingSteps.Fourth:
+        return classNames('yellow-bottom', 'place');
+      default:
+        return '';
+    }
+  };
+
   return (
-    <div className={'create-meeting-page'}>
+    <div className={classNames('create-meeting-page', `${ColorTop}`)}>
       <TextAppBar
         onClick={
           step === CreateMeetingSteps.Fifth ? undefined : handlePrevClick
         }
         text={getAppBarText(step)}
+        mainColored={step === CreateMeetingSteps.First}
       />
       <ProgressBar progress={progressPerStep * step} />
       <div className={'create-meeting-content'}>{getComponent(step)}</div>
+      <div className={ColorBottom()}></div>
     </div>
   );
 }
