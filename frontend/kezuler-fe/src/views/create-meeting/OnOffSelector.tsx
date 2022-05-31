@@ -6,6 +6,8 @@ import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 
+import BottomButton from 'src/components/common/BottomButton';
+
 function OnOffSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { setIsOnline, increaseStep, setZoomAddress, setPlace } =
@@ -29,6 +31,10 @@ function OnOffSelector() {
 
   const handleOfflineChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(setPlace(event.target.value));
+  };
+
+  const handleNextClick = () => {
+    dispatch(increaseStep());
   };
 
   return (
@@ -84,6 +90,11 @@ function OnOffSelector() {
           </div>
         )}
       </div>
+      <BottomButton
+        onClick={!isOnline && eventPlace === '' ? undefined : handleNextClick}
+        text={isOnline && eventZoomAddress === '' ? '건너뛰기' : '다음'}
+        disabled={!isOnline && eventPlace === ''}
+      />
     </div>
   );
 }
