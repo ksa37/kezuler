@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card, CardContent } from '@mui/material';
+import classNames from 'classnames';
 
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
@@ -82,22 +83,28 @@ function ShowSelectedOptions() {
         <br />
         {'확인해주세요'}
       </div>
-      <h3>{subDescription}</h3>
-      {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
-        <div key={dateKey}>
-          <h5>{dateKey}</h5>
-          {eventTimeListDevideByDate[dateKey].map((time) => (
-            <Card key={dateKey + time}>
-              <CardContent>
-                {time}
-                <Button onClick={() => handleDeleteClick(dateKey, time)}>
-                  X
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      ))}
+      <div className={'selected-num'}>{subDescription}</div>
+      <div>
+        {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
+          <div key={dateKey}>
+            <div className={'timelineLine'}></div>
+            <div>
+              <div className={'timelineCircle'}></div>
+              {dateKey}
+            </div>
+            {eventTimeListDevideByDate[dateKey].map((time) => (
+              <div key={dateKey + time}>
+                <div>
+                  {time}
+                  <Button onClick={() => handleDeleteClick(dateKey, time)}>
+                    X
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
       <BottomButton onClick={handleNextClick} text="다음" />
     </div>
   );

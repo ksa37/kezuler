@@ -6,9 +6,6 @@ import { RootState } from 'src/reducers';
 
 import BottomButton from 'src/components/common/BottomButton';
 
-import { ReactComponent as CalendarIcon } from 'src/assets/create_complete_calendar.svg';
-import { ReactComponent as SlopeIcon } from 'src/assets/create_complete_slope.svg';
-
 function MeetingShare() {
   const { shareUrl } = useSelector((state: RootState) => state.createMeeting);
 
@@ -44,8 +41,6 @@ function MeetingShare() {
         <br />
         {'사람들을 미팅에 초대하세요!'}
       </div>
-      <CalendarIcon className={'create-complete-calendar'} />
-      <SlopeIcon className={'create-complete-slope'} />
       <div>
         <Button onClick={handleKakaoShareClick}>{kakaoShareText}</Button>
         <Button onClick={handleLinkShareClick}>{linkShareText}</Button>

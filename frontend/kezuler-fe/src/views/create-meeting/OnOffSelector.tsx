@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -81,7 +81,9 @@ function OnOffSelector() {
           value={isOnline ? eventZoomAddress : eventPlace}
           onChange={isOnline ? handleOnlineChange : handleOfflineChange}
           placeholder={
-            isOnline ? '링크를 입력하세요.' : '장소 정보를 입력하세요.'
+            isOnline
+              ? '링크를 입력하세요.'
+              : '만날 장소 또는 주소를 입력하세요.'
           }
         />
         {isOnline && (

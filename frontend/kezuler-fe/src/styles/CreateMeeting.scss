@@ -137,6 +137,8 @@
 .on-off-group {
   margin-inline: 48px;
   margin-top: 32px;
+  // height: fit-content;
+  // overflow: auto;
 
   .on-off-btn:first-child {
     float: left;
@@ -204,7 +206,8 @@
 }
 
 .on-off-textfield {
-  margin-top: 50px;
+  clear: both;
+  padding-top: 50px;
 
   .title {
     text-align: center;
@@ -216,6 +219,7 @@
     margin-left: 48px;
     margin-right: 48px;
     height: 48px;
+    width: calc(100% - 96px);
     text-align: left;
     font: normal normal normal 14px/22px Arial;
     color: $color-highlight;
@@ -241,15 +245,24 @@
   }
 }
 
-.create-complete-calendar {
+.selected-num {
   position: fixed;
-  z-index: 1;
-  left: -5%;
-  bottom: 150px;
+  top: 108px;
+  right: 24px;
+  text-align: right;
+  font: normal normal medium 16px/22px Pretendard;
+  color: #808080;
 }
 
-.create-complete-slope {
-  position: fixed;
-  left: -5%;
-  bottom: 48px;
-}
+// .create-complete-calendar {
+//   position: fixed;
+//   z-index: 1;
+//   left: -5%;
+//   bottom: 150px;
+// }
+
+// .create-complete-slope {
+//   position: fixed;
+//   left: -5%;
+//   bottom: 48px;
+// }

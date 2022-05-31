@@ -1,13 +1,13 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField } from '@mui/material';
 
-import { usePostPendingEvent } from 'src/hooks/usePendingEvent';
+// import { usePostPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
-import { PendingEvent } from 'src/types/pendingEvent';
 
+// import { PendingEvent } from 'src/types/pendingEvent';
 import BottomButton from 'src/components/common/BottomButton';
 
 function OnOffInfoForm() {
@@ -15,42 +15,33 @@ function OnOffInfoForm() {
   const offlineTextDescription = '장소 이름 혹은 지도 링크를 넣어주세요';
 
   const dispatch = useDispatch<AppDispatch>();
-  const { increaseStep, decreaseStep, setZoomAddress, setPlace } =
-    createMeetingActions;
+  const { increaseStep, setZoomAddress, setPlace } = createMeetingActions;
 
   const {
     isOnline,
-    userId,
-    eventId,
-    eventHostId,
-    eventTitle,
-    eventDescription,
-    eventTimeDuration,
-    declinedUsers,
-    eventTimeCandidates,
+
     eventZoomAddress,
     eventPlace,
-    eventAttachment,
   } = useSelector((state: RootState) => state.createMeeting);
 
-  const postPendingEvent = usePostPendingEvent();
+  // const postPendingEvent = usePostPendingEvent();
 
-  const handlePostClick = () => {
-    const pendingEvent: PendingEvent = {
-      userId,
-      eventId,
-      eventHostId,
-      eventTitle,
-      eventDescription,
-      eventTimeDuration,
-      declinedUsers,
-      eventTimeCandidates,
-      eventZoomAddress,
-      eventPlace,
-      eventAttachment,
-    };
-    postPendingEvent(pendingEvent);
-  };
+  // const handlePostClick = () => {
+  //   const pendingEvent: PendingEvent = {
+  //     userId,
+  //     eventId,
+  //     eventHostId,
+  //     eventTitle,
+  //     eventDescription,
+  //     eventTimeDuration,
+  //     declinedUsers,
+  //     eventTimeCandidates,
+  //     eventZoomAddress,
+  //     eventPlace,
+  //     eventAttachment,
+  //   };
+  //   postPendingEvent(pendingEvent);
+  // };
 
   const handleOnlineChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(setZoomAddress(event.target.value));
@@ -58,10 +49,6 @@ function OnOffInfoForm() {
 
   const handleOfflineChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(setPlace(event.target.value));
-  };
-
-  const handlePrevClick = () => {
-    dispatch(decreaseStep());
   };
 
   const handleNextClick = () => {
