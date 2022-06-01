@@ -10,6 +10,23 @@ const getPendingEventsThunk = createAsyncThunk(
     try {
       const response = await getPendingEvents();
       return response.data;
+      // return {
+      //   pendingEvents: [
+      //     {
+      //       eventHostId: '001',
+      //       eventId: '001',
+      //       eventTitle: '이벤트 제목',
+      //       eventDescription: '이벤트 설명입니다.',
+      //       eventTimeDuration: 60,
+      //       declinedUsers: [],
+      //       eventTimeCandidates: [],
+      //       eventZoomAddress: '',
+      //       eventPlace: '우리 집',
+      //       eventAttachment: '이게 뭐지',
+      //     },
+      //   ],
+      //   userId: '001',
+      // };
     } catch (err: unknown) {
       return rejectWithValue(err);
     }
