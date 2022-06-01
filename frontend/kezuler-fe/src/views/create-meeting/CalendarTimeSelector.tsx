@@ -13,6 +13,9 @@ import { AppDispatch } from '../../store';
 import CalendarView from '../../components/CalendarView';
 import BottomButton from '../../components/common/BottomButton';
 
+import { ReactComponent as CalendarIcon } from 'src/assets/calendar_icon.svg';
+import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
+
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { eventTimeList } = useSelector(
@@ -61,7 +64,7 @@ function CalendarTimeSelector() {
   const setDateString = (startDate: Date | null) => {
     const dateFnsStr = startDate ? (
       <div>
-        <b>{format(startDate, 'M/d ', { locale: ko })}</b>
+        <b>{format(startDate, 'M월 d일 ', { locale: ko })}</b>
         {format(startDate, 'EEE', { locale: ko })}
       </div>
     ) : (
@@ -90,10 +93,16 @@ function CalendarTimeSelector() {
           highlightDates={eventTimeListDateToHighlight}
         />
       </div>
-      <div className={'date-string'}>{dateStr}</div>
+      <div className={'date-string'}>
+        <CalendarIcon className={'left-icon'} />
+        <div className="string">{dateStr}</div>
+      </div>
       <div className={'time-chip-text'}>
-        <b>{'미팅시작 시각'}</b>
-        {'을 선택하세요'}
+        <ClockIcon className={'left-icon'} />
+        <div className="string">
+          <b>{'미팅시작 시각'}</b>
+          {'을 선택하세요'}
+        </div>
       </div>
       <Stack
         direction="row"
@@ -123,7 +132,11 @@ function CalendarTimeSelector() {
           )
         )}
       </Stack>
-      <BottomButton onClick={handleNextClick} text="다음" />
+      <BottomButton
+        onClick={handleNextClick}
+        text="다음"
+        disabled={eventTimeList.length === 0}
+      />
     </div>
   );
 }

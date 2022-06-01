@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import AcceptMeeting from './AcceptMeeting';
 import CreateMeeting from './CreateMeeting';
+import dialog from './dialog';
 import mainFixed from './mainFixed';
 import mainPending from './mainPending';
 import modal from './modal';
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   mainFixed: mainFixed,
   mainPending: mainPending,
   modal: modal,
+  dialog: dialog,
 });
 
 type RootState = ReturnType<typeof rootReducer>;
