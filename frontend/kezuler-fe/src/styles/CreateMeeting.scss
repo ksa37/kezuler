@@ -169,6 +169,49 @@
     margin-top: 11.5px;
   }
 }
+
+.calendar-popup {
+  height: 112px;
+  margin-inline: 16px;
+  margin-top: 28px;
+
+  background: #fef8dc 0% 0% no-repeat padding-box;
+  box-shadow: 0px 15px 35px #0000000d;
+  border-radius: 16px;
+
+  color: $color-highlight;
+  text-align: left;
+  .google-icon {
+    position: fixed;
+    padding-top: 2.5px;
+    left: 36px;
+  }
+  .description {
+    padding: 20px 0 0 44px;
+    font: normal normal normal 14px/22px Pretendard;
+    // line-height: 22px;
+    letter-spacing: 0px;
+  }
+
+  .popup-options {
+    font: normal normal bold 14px/20px Pretendard;
+    margin-top: 16px;
+    margin-right: 24px;
+    margin-bottom: 15px;
+    text-align: right;
+
+    .no {
+      color: #808080;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    .yes {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+  }
+}
+
 // OnOffSelector
 .on-off-group {
   margin-inline: 48px;

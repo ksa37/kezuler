@@ -17,6 +17,7 @@ import BottomButton from '../../components/common/BottomButton';
 
 import { ReactComponent as CalendarIcon } from 'src/assets/calendar_icon.svg';
 import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
+import { ReactComponent as GoogleIcon } from 'src/assets/google_icon.svg';
 
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
@@ -86,6 +87,21 @@ function CalendarTimeSelector() {
     dispatch(increaseStep());
   };
 
+  const [popupDisable, setPopupDisable] = useState(false);
+
+  const handleCalendarPopupNo = () => {
+    console.log('no');
+    setPopupDisable(true);
+    //TODO
+    //No라고 한 정보를 보관하기
+  };
+
+  const handleCalendarPopupYes = () => {
+    console.log('yes');
+    //TODO
+    //캘린더 연동
+  };
+
   return (
     <div>
       {/* <div className={'duration-selector'}>미팅길이</div> */}
@@ -132,6 +148,27 @@ function CalendarTimeSelector() {
           )
         )}
       </Stack>
+      {!popupDisable && (
+        <div className={'calendar-popup'}>
+          <div className={'description'}>
+            <GoogleIcon className={'google-icon'} />
+            {'혜민'}
+            {'님의 '}
+            <b>{'구글계정 일정'}</b>
+            {'도 불러올까요?'}
+            <br />
+            {'미팅시간 결정에 도움이 될 거에요!'}
+          </div>
+          <div className={'popup-options'}>
+            <span className={'no'} onClick={handleCalendarPopupNo}>
+              {'다음에 할게요'}
+            </span>
+            <span className={'yes'} onClick={handleCalendarPopupYes}>
+              {'좋아요'}
+            </span>
+          </div>
+        </div>
+      )}
       <BottomButton
         onClick={handleNextClick}
         text="다음"
