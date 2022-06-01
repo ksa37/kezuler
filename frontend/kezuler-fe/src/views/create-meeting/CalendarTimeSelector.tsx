@@ -116,6 +116,35 @@ function CalendarTimeSelector() {
         <CalendarIcon className={'left-icon'} />
         {dateStr}
       </div>
+
+      {popupDisable && (
+        <Stack
+          direction="column"
+          spacing={'8px'}
+          style={{ overflow: 'auto' }}
+          className={'schedule-list'}
+          sx={{ marginBlock: '8px' }}
+        >
+          <div className={'schedule-list-title'}>내 일정</div>
+          <div className={'schedule-list-content'}>
+            <div className={'schedule-title'}>철수 저녁</div>
+            <div className={'schedule-time'}>오전 7:00 ~ 오전 11:00</div>
+          </div>
+          <div className={'schedule-list-content'}>
+            <div className={'schedule-title'}>동아리 모임</div>
+            <div className={'schedule-time'}>오전 7:00 ~ 오전 11:00</div>
+          </div>
+          <div className={'schedule-list-content'}>
+            <div className={'schedule-title'}>휴가</div>
+            <div className={'schedule-time'}>하루종일</div>
+          </div>
+          <div className={'schedule-list-content'}>
+            <div className={'schedule-title'}>휴가</div>
+            <div className={'schedule-time'}>하루종일</div>
+          </div>
+        </Stack>
+      )}
+
       <div className={'time-chip-text'}>
         <ClockIcon className={'left-icon'} />
         <b>{'미팅시작 시각'}</b>
