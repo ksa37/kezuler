@@ -3,6 +3,9 @@ import DatePicker from 'react-datepicker';
 import { addMonths } from 'date-fns';
 import { ko } from 'date-fns/esm/locale';
 
+import 'src/styles/components.scss';
+import 'react-datepicker/dist/react-datepicker.css';
+
 interface Props {
   startDate: Date | null;
   setStartDate: React.Dispatch<React.SetStateAction<Date | null>>;

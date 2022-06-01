@@ -254,6 +254,44 @@
   color: #808080;
 }
 
+.time-select-grid-container {
+  display: grid;
+  position: relative;
+  margin-inline: 20px;
+  grid-template-columns: 1fr 2fr;
+  row-gap: 12px;
+  column-gap: 24px;
+  grid-auto-rows: auto;
+  &.calendar-paired {
+    grid-template-areas: 'calendar-schedule time-option';
+  }
+  grid-template-areas: 'no-calendar-schedule time-option';
+}
+
+.timelineLine {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -12.5px;
+  bottom: 0;
+  z-index: 1;
+  width: 0px;
+  border: 0.5px solid #bfbfbf;
+}
+.timelineCircle {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -16px;
+  z-index: 1;
+  width: 8px;
+  height: 8px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1px solid #282f39;
+  background-color: #fad94f;
+}
+
 // .create-complete-calendar {
 //   position: fixed;
 //   z-index: 1;
@@ -266,3 +304,10 @@
 //   left: -5%;
 //   bottom: 48px;
 // }
+
+.completion-circle {
+  position: fixed;
+  top: 43%;
+  left: 52%;
+  z-index: -1;
+}
