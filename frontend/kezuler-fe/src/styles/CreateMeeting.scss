@@ -113,6 +113,13 @@
   }
 }
 
+// CalendarTimeSelector
+
+.duration-selector {
+  margin: 28px 60px 0 60px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 20px;
+}
 .calendar {
   margin-top: 20px;
 }
@@ -122,9 +129,6 @@
   color: $color-highlight;
   font: normal normal normal 16px/19px Pretendard;
   margin-top: 20px;
-  .string {
-    position: relative;
-  }
 }
 
 .left-icon {
@@ -145,6 +149,27 @@
   margin-top: 16px;
 }
 
+.time-chips {
+  height: 40px;
+  width: 83px;
+  flex: 0 0 auto;
+  border-radius: 100px;
+  &.filled {
+    background: $color-highlight 0% 0% no-repeat padding-box;
+    color: #ffffff;
+  }
+  &.blank {
+    background-color: #ffffff;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    color: $color-highlight;
+  }
+  .text {
+    font: normal normal normal 16px/18px Arial;
+    text-align: center;
+    margin-top: 11.5px;
+  }
+}
+// OnOffSelector
 .on-off-group {
   margin-inline: 48px;
   margin-top: 32px;

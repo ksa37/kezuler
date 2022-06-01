@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { DriveEtaTwoTone } from '@mui/icons-material';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import classNames from 'classnames';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
@@ -86,6 +88,7 @@ function CalendarTimeSelector() {
 
   return (
     <div>
+      {/* <div className={'duration-selector'}>미팅길이</div> */}
       <div className={'calendar'}>
         <CalendarView
           startDate={startDate}
@@ -95,40 +98,37 @@ function CalendarTimeSelector() {
       </div>
       <div className={'date-string'}>
         <CalendarIcon className={'left-icon'} />
-        <div className="string">{dateStr}</div>
+        {dateStr}
       </div>
       <div className={'time-chip-text'}>
         <ClockIcon className={'left-icon'} />
-        <div className="string">
-          <b>{'미팅시작 시각'}</b>
-          {'을 선택하세요'}
-        </div>
+        <b>{'미팅시작 시각'}</b>
+        {'을 선택하세요'}
       </div>
       <Stack
         direction="row"
-        spacing={1}
+        spacing={'6px'}
         style={{ overflow: 'auto' }}
+        sx={{ marginInline: '12px' }}
         className={'time-chips-stack'}
       >
         {TimeOptions.map((timeOption) =>
           eventTimeList.includes(createDate(timeOption)) ? (
-            <Chip
+            <div
               key={timeOption}
-              label={timeOption}
-              variant="filled"
-              className={'time-chips'}
-              sx={{ backgroundColor: '#282F39', color: '#FFFFFF' }}
+              className={classNames('time-chips', 'filled')}
               onClick={() => handleChipClick(timeOption)}
-            />
+            >
+              <div className={'text'}>{timeOption}</div>
+            </div>
           ) : (
-            <Chip
+            <div
               key={timeOption}
-              label={timeOption}
-              variant="outlined"
-              className={'time-chips'}
-              sx={{ backgroundColor: 'white' }}
+              className={classNames('time-chips', 'blank')}
               onClick={() => handleChipClick(timeOption)}
-            />
+            >
+              <div className={'text'}>{timeOption}</div>
+            </div>
           )
         )}
       </Stack>
