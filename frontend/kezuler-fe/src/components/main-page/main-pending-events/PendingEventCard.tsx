@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import classNames from 'classnames';
 
+import useDialog from 'src/hooks/useDialog';
 import { RootState } from 'src/reducers';
 import { BPendingEvent } from 'src/types/pendingEvent';
 
@@ -11,6 +12,8 @@ interface Props {
 }
 
 function PendingEventCard({ event }: Props) {
+  const { openDialog } = useDialog();
+
   const curUserId = useSelector(
     (state: RootState) => state.mainPending.curUserId
   );
@@ -27,7 +30,16 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleConfirmClick = () => {
-    console.log('confirm click');
+    const handleConfirm = () => {
+      console.log('미팅 시간 확정!');
+    };
+
+    openDialog({
+      date: '2022년 6월 1일',
+      title: '미팅시간을 최종 확정하시겠어요?',
+      description: '확정 시, 참여자들에게\n카카오톡 메세지가 전송됩니다.',
+      onConfirm: handleConfirm,
+    });
   };
 
   const handleInviteClick = () => {

@@ -7,7 +7,7 @@ import MainTab from 'src/components/main-page/MainTab';
 import 'src/styles/main.scss';
 
 function MainPage() {
-  const [isFixedMeeting, setIsFixedMeeting] = useState(true);
+  const [isFixedMeeting, setIsFixedMeeting] = useState(false);
 
   return (
     <div className={'main-page'}>
