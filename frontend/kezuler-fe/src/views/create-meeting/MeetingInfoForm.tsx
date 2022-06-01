@@ -1,21 +1,19 @@
 import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, TextField } from '@mui/material';
 import classNames from 'classnames';
 
-import { usePostPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
-import { PendingEvent } from 'src/types/pendingEvent';
 
 import BottomButton from 'src/components/common/BottomButton';
 
 function MeetingInfoForm() {
   const dispatch = useDispatch<AppDispatch>();
-  const { setTitle, setDescription, increaseStep } = createMeetingActions;
+  const { setTitle, setDescription, increaseStep, setAttachment } =
+    createMeetingActions;
 
-  const { eventTitle, eventDescription } = useSelector(
+  const { eventTitle, eventDescription, eventAttachment } = useSelector(
     (state: RootState) => state.createMeeting
   );
 
@@ -24,9 +22,14 @@ function MeetingInfoForm() {
   };
 
   const handleEventDescriptionChange = (
-    event: ChangeEvent<HTMLInputElement>
+    event: ChangeEvent<HTMLTextAreaElement>
   ) => {
     dispatch(setDescription(event.target.value));
+  };
+  const handleEventAttachmentChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    dispatch(setAttachment(event.target.value));
   };
 
   const handleNextClick = () => {
@@ -35,9 +38,8 @@ function MeetingInfoForm() {
 
   const eventTitleDescription = '미팅 제목을 간단하게 적어주세요.';
   const eventDescriptDescription =
-    '미팅 주제나 내용에 대해 알려주세요.(000자 이내)';
-  const eventFileDescription = '참고자료를 첨부해주세요';
-  const fileKindDescription = '이미지, PDF만 첨부가능합니다.';
+    '미팅 주제나 내용에 대해 알려주세요.(130자 이내)';
+  const eventAttachmentDescription = 'URL주소를 입력해주세요.';
 
   return (
     <div>
@@ -55,25 +57,17 @@ function MeetingInfoForm() {
         </div>
         <input
           type="text"
-          id="name"
-          name="name"
+          id="title"
           required
-          className={'meeting-field-title-and-reference'}
+          className={classNames(
+            'meeting-field-title-and-reference',
+            'required'
+          )}
           placeholder={eventTitleDescription}
           value={eventTitle}
-          // minLength="4"
-          // maxLength="8"
-          // size="10"
+          maxLength={14}
           onChange={handleEventTitleChange}
         />
-        {/* <TextField
-          id="standard-basic"
-          className={'meeting-field-title-and-reference'}
-          label={eventTitleDescription}
-          variant="standard"
-          value={eventTitle}
-          onChange={handleEventTitleChange}
-        /> */}
       </div>
       <div className={classNames('meeting-info', 'additional')}>
         <div className={classNames('meeting-additional')}>
@@ -84,31 +78,32 @@ function MeetingInfoForm() {
             선택사항
           </span>
         </div>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          className={'meeting-field-title-and-reference'}
+        <textarea
+          id="description"
+          className={classNames(
+            'meeting-field-title-and-reference',
+            'description'
+          )}
           placeholder={eventDescriptDescription}
           value={eventDescription}
-          // minLength="4"
-          // maxLength="8"
-          // size="10"
+          maxLength={130}
           onChange={handleEventDescriptionChange}
         />
-
-        <label htmlFor="contained-button-file">
-          <input
-            className={'meeting-field-title-and-reference'}
-            accept="image/*"
-            id="contained-button-file"
-            multiple
-            type="file"
-            placeholder={eventFileDescription}
-          />
-        </label>
+        <div className={classNames('meeting-additional', 'url')}>
+          <span className={classNames('meeting-additional-text')}>
+            참고자료
+          </span>
+        </div>
+        <input
+          type="text"
+          id="url"
+          className={'meeting-field-title-and-reference'}
+          placeholder={eventAttachmentDescription}
+          value={eventAttachment}
+          maxLength={25}
+          onChange={handleEventAttachmentChange}
+        />
       </div>
-      {fileKindDescription}
       {eventTitle ? (
         <BottomButton onClick={handleNextClick} text="다음" />
       ) : (

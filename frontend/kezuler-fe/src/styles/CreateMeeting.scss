@@ -73,41 +73,81 @@
 
   &.additional {
     margin: 16px 24px 0 24px;
-    padding: 16px 24px 16px 24px;
+    padding: 16px 24px 24px 24px;
   }
 
   .meeting-field-title-and-reference {
-    height: 48px;
+    box-sizing: border-box;
+    min-height: 48px;
+    height: fit-content;
     width: 100%;
+    padding: 16px;
     margin-top: 10px;
     background: #ffffff 0% 0% no-repeat padding-box;
-    border: 1px solid #808080;
+    border: 1px solid #bfbfbf;
     border-radius: 8px;
+
+    font-family: Pretendard;
+
+    &.required {
+      border-color: $color-main-dark;
+    }
+
+    &.description {
+      min-height: 120px;
+    }
+  }
+
+  input::placeholder {
+    color: #bfbfbf;
+  }
+  textarea::placeholder {
+    color: #bfbfbf;
+  }
+  input {
+    color: $color-highlight;
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: $color-highlight;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: $color-highlight;
   }
 
   .meeting-title {
     width: 100%;
     .meeting-title-text {
       color: $color-highlight;
-      font: normal normal bold 14px/30px Arial;
+      font: normal normal bold 14px/17px Arial;
     }
 
     .meeting-title-required {
       float: right;
-      font: normal normal bold 12px/30px Arial;
+      font: normal normal bold 12px/17px Arial;
       color: $color-main-dark;
     }
   }
 
   .meeting-additional {
+    &.url {
+      margin-top: 16px;
+    }
     .meeting-additional-text {
       color: #8d8d8d;
-      font: normal normal bold 14px/30px Arial;
+      font: normal normal bold 14px/17px Arial;
     }
 
     .meeting-additional-additional {
       float: right;
-      font: normal normal bold 12px/30px Arial;
+      font: normal normal bold 12px/17px Arial;
       color: #bfbfbf;
     }
   }
