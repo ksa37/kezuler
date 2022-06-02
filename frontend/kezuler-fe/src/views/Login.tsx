@@ -8,10 +8,8 @@ import { RootState } from 'src/reducers';
 import { mockThunkAction } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
-import ShowSelectedOptions from './create-meeting/ShowSelectedOptions';
-import CalendarView from 'src/components/CalendarView';
-import BlackButton from 'src/components/common/BlackButton';
-import ProgressBar from 'src/components/ProgressBar';
+import BottomButton from 'src/components/common/BottomButton';
+
 function Login() {
   const dispatch = useDispatch<AppDispatch>();
   const { loading, data, errorMessage } = useSelector(
@@ -37,17 +35,15 @@ function Login() {
   }
   return (
     <>
-      <ShowSelectedOptions />
+      {/* <ShowSelectedOptions /> */}
       <Button href={KAKAO_AUTH_URL}>
         {/* <img src={kakaologo}></img> */}
         <span>카카오계정 로그인</span>
       </Button>
       <Button onClick={handleModalOpenClick}>Modal Open Test</Button>
       <Button onClick={handleFetchClick}>Thunk Test</Button>
-      <BlackButton onClick={() => console.log('hi')} text="다음" />
-      <CalendarView />
+      <BottomButton onClick={() => console.log('hi')} text="다음" />
       {/* <MeetingCard/> */}
-      <ProgressBar />
     </>
   );
 }

@@ -1,0 +1,234 @@
+@import './constants.scss';
+
+.accept-meeting-page {
+  background-color: $color-background;
+  text-align: center;
+}
+
+// Invitation
+
+// .invitation {
+//   padding-top: 72px;
+// }
+
+.invitation-message {
+  color: $color-highlight;
+  font-size: 24px;
+  text-align: left;
+  margin: 68px 40% 0 40px;
+}
+
+.invitation-avatar {
+  border-radius: 28px;
+  border: 1px solid #ffff;
+  width: 54px;
+  height: 54px;
+  position: absolute;
+  right: 56px;
+  margin-top: -12px;
+}
+
+.invitation-card {
+  padding: 20px;
+  text-align: left;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 15px 35px #282f390d;
+  border-radius: 16px;
+  margin-top: 24px;
+  margin-inline: 32px;
+
+  .invitation-title-place {
+    font-size: 14px;
+    line-height: 17px;
+    color: #9f9f9f;
+    &.place {
+      margin-top: 16px;
+    }
+  }
+
+  .invitation-title-text {
+    margin-top: 8px;
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: bold;
+  }
+
+  .invitation-place-text {
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: bold;
+  }
+}
+
+// TimeListSelector
+
+// .time-list-selector {
+//   padding-top: 72px;
+// }
+
+.description-text {
+  color: $color-highlight;
+  text-align: left;
+  font: normal normal bold 24px/36px Pretendard;
+  margin: 32px 40% 0 20px;
+}
+
+.time-list-selector-personnel {
+  color: $color-highlight;
+  font: normal normal medium 14px/22px Pretendard;
+  position: absolute;
+  top: 145px;
+  right: 20px;
+
+  .icon-circle {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+  .icon-profiles {
+    position: absolute;
+    left: 5.24px;
+  }
+}
+.time-select-grid-container {
+  display: grid;
+  position: relative;
+  margin-inline: 20px;
+  grid-template-columns: 1fr 2fr;
+  row-gap: 12px;
+  column-gap: 24px;
+  grid-auto-rows: auto;
+  &.calendar-paired {
+    grid-template-areas: 'calendar-schedule time-option';
+  }
+  grid-template-areas: 'no-calendar-schedule time-option';
+}
+
+.time-select-date {
+  position: relative;
+  grid-area: time-option;
+  margin-top: 28px;
+  text-align: left;
+  font: normal normal bold 16px/19px Pretendard;
+}
+
+.time-select-time-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  height: 40px;
+  box-shadow: 0px 15px 35px #282f391a;
+  left: 40%;
+  margin-top: 12px;
+
+  .time-select-time-content {
+    padding-inline: 8px;
+    // transform: translate(0%, 50%);
+
+    font: normal normal normal 14px/18px Pretendard;
+
+    .check-box-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.time-select-calendar-schedule {
+  grid-area: calendar-schedule;
+}
+
+.time-select-no-calendar {
+  grid-area: no-calendar-schedule;
+  display: none;
+}
+
+.calendar-pair-ask {
+  margin-left: 20px;
+  position: fixed;
+  top: 228px;
+  .calendar-pair-ask-txt {
+    text-align: left;
+    font: normal normal normal 14px/22px Pretendard;
+    letter-spacing: 0px;
+    color: #9f9f9f;
+    opacity: 1;
+  }
+  .calendar-pair-ask-btn {
+    border: 1px solid #282f39;
+    border-radius: 8px;
+    box-shadow: 0px 15px 35px #282f390d;
+    opacity: 1;
+    color: $color-highlight;
+    padding-inline: 11px;
+    padding-top: 8px;
+    padding-bottom: 7px;
+    font-size: 12px;
+    margin-top: 12px;
+    box-sizing: content-box;
+  }
+}
+
+.available-option-btn-group {
+  display: block;
+  position: absolute;
+  bottom: 76px;
+  margin-inline: 20px;
+
+  .not-available-btn {
+  }
+  .all-available-btn {
+  }
+}
+
+.timelineLine {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -12.5px;
+  bottom: 0;
+  z-index: 1;
+  width: 0px;
+  border: 0.5px solid #bfbfbf;
+}
+.timelineCircle {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -16px;
+  z-index: 1;
+  width: 8px;
+  height: 8px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1px solid #282f39;
+  background-color: #fad94f;
+}
+
+// AcceptanceCompletion
+
+// .acceptance-completion {
+//   padding-top: 72px;
+// }
+
+.acceptance-completion-sub-description {
+  font: normal normal normal 16px/24px Pretendard;
+  color: #9f9f9f;
+  text-align: left;
+  margin-top: 32px;
+  margin-left: 20px;
+}
+
+.acceptance-bell {
+  position: fixed;
+  top: 39%;
+  left: 32%;
+  z-index: 1;
+}
+
+.acceptance-circle {
+  position: fixed;
+  top: 43%;
+  left: 52%;
+  z-index: 0;
+}

@@ -1,30 +1,28 @@
-import React, { useEffect } from 'react';
-import Box from '@mui/material/Box';
+import React from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 
-function ProgressBar() {
-  const [progress, setProgress] = React.useState(0);
-  ///https://mui.com/material-ui/react-progress/
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          return 0;
-        }
-        const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100);
-      });
-    }, 500);
+import 'src/styles/constants.scss';
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
+interface Props {
+  progress: number;
+  yellowBar?: boolean;
+}
+function ProgressBar({ progress, yellowBar = false }: Props) {
+  const barColor = yellowBar ? '#fad94f' : '#282f39';
   return (
-    <Box sx={{ width: '100%' }}>
-      <LinearProgress variant="determinate" value={progress} />
-    </Box>
+    <LinearProgress
+      variant="determinate"
+      value={progress}
+      sx={{
+        width: '100%',
+        position: 'fixed',
+        top: '68px',
+        backgroundColor: '#ffff',
+        '& .MuiLinearProgress-barColorPrimary': {
+          backgroundColor: `${barColor}`,
+        },
+      }}
+    />
   );
 }
 

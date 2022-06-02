@@ -1,11 +1,35 @@
-import React, { useState } from 'react';
-import Calendar from 'react-calendar';
+import React from 'react';
+import DatePicker from 'react-datepicker';
+import { addMonths } from 'date-fns';
+import { ko } from 'date-fns/esm/locale';
 
-function CalendarView() {
-  const [value, onChange] = useState(new Date());
+import 'src/styles/DatePicker.scss';
+import 'react-datepicker/dist/react-datepicker.css';
+
+interface Props {
+  startDate: Date | null;
+  setStartDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  highlightDates: Date[];
+}
+
+function CalendarView({ startDate, setStartDate, highlightDates }: Props) {
   return (
-    <div>
-      <Calendar onChange={onChange} value={value} />
+    <div className="date-picker-wrapper">
+      <DatePicker
+        locale={ko}
+        selected={startDate}
+        onChange={setStartDate}
+        highlightDates={highlightDates}
+        minDate={new Date()}
+        maxDate={addMonths(new Date(), 6)}
+        showDisabledMonthNavigation
+        // todayButton="오늘"
+        // showTimeSelect
+        // timeFormat="HH:mm"
+        // timeIntervals={15}
+        // timeCaption="time"
+        inline
+      />
     </div>
   );
 }
