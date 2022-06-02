@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-import KezulerInstance from 'src/constants/api';
+import KezulerInstance, { HOST_ADDRESS } from 'src/constants/api';
 import { PPatchUser, RPostUser, User } from 'src/types/user';
 
 // 로그인 / 회원 가입
 // accessToken: Kakao Access Token
 const postUser = (accessToken: string) =>
   axios.post<RPostUser>(
-    `users/`,
+    `${HOST_ADDRESS}users/`,
     {
       registerWith: 'kakao',
     },
