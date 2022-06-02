@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
+import { ACCESS_TOKEN_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
+import { getCookie } from 'src/utils/cookie';
 
+import TestPage from '../views/TestPage';
 import AcceptMeeting from 'src/views/accept-meeting';
 import CreateMeeting from 'src/views/create-meeting';
-import MeetingShare from 'src/views/create-meeting/MeetingShare';
-import Kakao from 'src/views/Kakao';
+import KakaoRedirect from 'src/views/KakaoRedirect';
 import Login from 'src/views/Login';
 import MainPage from 'src/views/MainPage';
 import ButtonAppBar from 'src/components/ButtonAppBar';
 
 function RootRoutes() {
-  const isLoggedIn = true;
+  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
 
   return (
     <>
@@ -34,12 +36,13 @@ function RootRoutes() {
             <Route path={PathName.delete} element={<>login</>} />
             <Route path={PathName.create} element={<CreateMeeting />} />
             <Route
-              path={PathName.invite + '/:eventId'}
+              path={`${PathName.invite}/:eventId`}
               element={<AcceptMeeting />}
             />
+            <Route path={`/test-page`} element={<TestPage />} />
             <Route
               path="/*"
-              element={<Navigate replace to={PathName.login} />}
+              element={<Navigate replace to={PathName.main} />}
             />
           </Routes>
         </main>
@@ -51,7 +54,8 @@ function RootRoutes() {
             element={<AcceptMeeting />}
           />
           <Route path={PathName.login} element={<Login />} />
-          <Route path={PathName.kakaoRedirect} element={<Kakao />} />
+          <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
+          <Route path={`/test-page`} element={<TestPage />} />
           <Route path="/*" element={<Navigate replace to={PathName.login} />} />
         </Routes>
         // </main>

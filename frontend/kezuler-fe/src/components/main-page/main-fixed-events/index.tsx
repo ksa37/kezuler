@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@mui/material';
 
 import { RootState } from 'src/reducers';
 import { getFixedEventsThunk } from 'src/reducers/mainFixed';
