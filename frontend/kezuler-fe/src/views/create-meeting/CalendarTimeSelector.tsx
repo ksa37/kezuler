@@ -200,6 +200,11 @@ function CalendarTimeSelector() {
       )}
       <BottomButton
         onClick={handleNextClick}
+        subtext={
+          eventTimeList.length !== 0
+            ? `${eventTimeList.length}개 시간 선택중(최대 5개)`
+            : undefined
+        }
         text="다음"
         disabled={eventTimeList.length === 0}
       />

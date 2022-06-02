@@ -6,10 +6,11 @@ import 'src/styles/components.scss';
 interface Props {
   onClick?: () => void;
   text: string;
+  subtext?: string;
   disabled?: boolean;
 }
 
-function BottomButton({ onClick, text, disabled }: Props) {
+function BottomButton({ onClick, text, subtext, disabled }: Props) {
   return (
     <div
       className={classNames('bottom-button', {
@@ -17,8 +18,11 @@ function BottomButton({ onClick, text, disabled }: Props) {
       })}
       onClick={onClick}
     >
-      <div>
-        <b>{text}</b>
+      <div className={'btn-text-area'}>
+        {subtext && <div className={'btn-subtext'}>{subtext}</div>}
+        <b className={classNames('btn-text', subtext ? 'sub-exist' : '')}>
+          {text}
+        </b>
       </div>
     </div>
   );

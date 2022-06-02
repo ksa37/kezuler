@@ -4,14 +4,26 @@
   background-color: $color-highlight;
   color: $color-main;
   height: 56px;
-  font-size: 16;
+  font-family: Pretendard;
+  font-size: 16px;
   align-items: center;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-  div {
+  .btn-text-area {
     padding-top: 18px;
+    .btn-subtext {
+      font-size: 14px;
+      float: left;
+      margin-left: 32px;
+    }
+    .btn-text {
+      &.sub-exist {
+        float: right;
+        margin-right: 40px;
+      }
+    }
   }
   &.disabled {
     color: #9f9f9f;
