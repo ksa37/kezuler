@@ -26,9 +26,9 @@ function CalendarTimeSelector() {
   );
   const { increaseStep, addTimeList, deleteTimeList } = createMeetingActions;
 
-  // const timeChipSelectDescription = '미팅시작 시간을 선택하세요';
-
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(
+    new Date('June 17, 2022 03:24:00')
+  );
 
   const createDate = (timeOption: string) => {
     if (startDate)
@@ -42,25 +42,6 @@ function CalendarTimeSelector() {
     else {
       console.log('Warning: date is null!');
       return new Date().toISOString();
-    }
-  };
-
-  const handleChipClick = (timeOption: string) => {
-    if (startDate) {
-      const dateToAdd = createDate(timeOption);
-      if (eventTimeList.includes(dateToAdd)) {
-        dispatch(deleteTimeList(dateToAdd));
-        console.log('Deleted Date !', dateToAdd);
-      } else {
-        if (eventTimeList.length === 5) {
-          alert('5개까지만 추가할 수 있어요!');
-        } else {
-          dispatch(addTimeList(dateToAdd));
-          console.log('Added Date !', dateToAdd);
-        }
-      }
-    } else {
-      console.log('Warning: date is null!');
     }
   };
 
@@ -82,6 +63,25 @@ function CalendarTimeSelector() {
     () => eventTimeList.map((dateString) => new Date(dateString)),
     [eventTimeList]
   );
+
+  const handleChipClick = (timeOption: string) => {
+    if (startDate) {
+      const dateToAdd = createDate(timeOption);
+      if (eventTimeList.includes(dateToAdd)) {
+        dispatch(deleteTimeList(dateToAdd));
+        console.log('Deleted Date !', dateToAdd);
+      } else {
+        if (eventTimeList.length === 5) {
+          alert('5개까지만 추가할 수 있어요!');
+        } else {
+          dispatch(addTimeList(dateToAdd));
+          console.log('Added Date !', dateToAdd);
+        }
+      }
+    } else {
+      console.log('Warning: date is null!');
+    }
+  };
 
   const handleNextClick = () => {
     dispatch(increaseStep());
