@@ -452,22 +452,23 @@
   background-color: #fad94f;
 }
 
-// .create-complete-calendar {
-//   position: fixed;
-//   z-index: 1;
-//   left: -5%;
-//   bottom: 150px;
-// }
+.celebrate-smile-icon {
+  position: fixed;
+  z-index: 1;
+  right: 221px;
+  bottom: 26%;
+}
 
-// .create-complete-slope {
-//   position: fixed;
-//   left: -5%;
-//   bottom: 48px;
-// }
+.celebrate-icon {
+  position: fixed;
+  right: -30px;
+  bottom: 48px;
+}
 
 .completion-circle {
   position: fixed;
-  top: 43%;
-  left: 52%;
+  // top: 43%;
+  right: -45px;
+  bottom: 16%;
   z-index: -1;
 }

@@ -7,6 +7,9 @@ import { RootState } from 'src/reducers';
 import BottomButton from 'src/components/common/BottomButton';
 
 import { ReactComponent as Circle } from 'src/assets/acceptance_complete_circle.svg';
+import { ReactComponent as CelebrateIcon } from 'src/assets/celebrate_icon.svg';
+import { ReactComponent as CelebrateSmileIcon } from 'src/assets/celebrate_smile_icon.svg';
+
 function MeetingShare() {
   const { shareUrl } = useSelector((state: RootState) => state.createMeeting);
 
@@ -47,6 +50,8 @@ function MeetingShare() {
         <Button onClick={handleLinkShareClick}>{linkShareText}</Button>
         <Button onClick={handleGeneralShareClick}>{generalShareText}</Button>
       </div>
+      <CelebrateSmileIcon className={'celebrate-smile-icon'} />
+      <CelebrateIcon className={'celebrate-icon'} />
       <Circle className={'completion-circle'} />
       <BottomButton onClick={handleClick} text="홈으로 가기" />
     </div>
