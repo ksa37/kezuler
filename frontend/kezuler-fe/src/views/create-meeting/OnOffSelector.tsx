@@ -8,6 +8,9 @@ import { AppDispatch } from 'src/store';
 
 import BottomButton from 'src/components/common/BottomButton';
 
+import { ReactComponent as OfflineIcon } from 'src/assets/offline_icon.svg';
+import { ReactComponent as OnlineIcon } from 'src/assets/online_icon.svg';
+
 function OnOffSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { setIsOnline, increaseStep, setZoomAddress, setPlace } =
@@ -53,7 +56,9 @@ function OnOffSelector() {
           onClick={handleOnlineClick}
         >
           <div className={'circle-wrapper'}>
-            <div className={'circle'}></div>
+            <div className={'circle'}>
+              <OnlineIcon />
+            </div>
           </div>
           <div className={'on-off-title'}>온라인</div>
           <div className={'on-off-subtitle'}>비대면 미팅</div>
@@ -66,7 +71,9 @@ function OnOffSelector() {
           onClick={handleOfflineClick}
         >
           <div className={'circle-wrapper'}>
-            <div className={'circle'}></div>
+            <div className={'circle'}>
+              <OfflineIcon />
+            </div>
           </div>
           <div className={'on-off-title'}>오프라인</div>
           <div className={'on-off-subtitle'}>대면 미팅</div>

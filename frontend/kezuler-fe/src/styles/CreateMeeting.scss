@@ -345,6 +345,9 @@
         height: 38px;
         background: $color-main 0% 0% no-repeat padding-box;
         border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
 
@@ -360,6 +363,9 @@
         height: 38px;
         background: #dddddd 0% 0% no-repeat padding-box;
         border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
