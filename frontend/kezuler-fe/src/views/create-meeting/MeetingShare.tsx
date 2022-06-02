@@ -4,9 +4,9 @@ import { Button } from '@mui/material';
 
 import { RootState } from 'src/reducers';
 
-import BlackButton from 'src/components/common/BlackButton';
-import ProgressBar from 'src/components/ProgressBar';
+import BottomButton from 'src/components/common/BottomButton';
 
+import { ReactComponent as Circle } from 'src/assets/acceptance_complete_circle.svg';
 function MeetingShare() {
   const { shareUrl } = useSelector((state: RootState) => state.createMeeting);
 
@@ -31,17 +31,25 @@ function MeetingShare() {
   };
 
   return (
-    <>
-      <ProgressBar progress={100} />
-      <h3>미팅이 생성되었습니다.</h3>
-      <h3>케줄러 링크를 통해 사람들을 초대해주세요</h3>
+    <div>
+      <div className={'description-text'}>
+        {'새로운 미팅 일정이'}
+        <br />
+        {'완성되었습니다!'}
+      </div>
+      <div className={'sub-description-text'}>
+        {'케줄러 링크를 통해'}
+        <br />
+        {'사람들을 미팅에 초대하세요!'}
+      </div>
       <div>
         <Button onClick={handleKakaoShareClick}>{kakaoShareText}</Button>
         <Button onClick={handleLinkShareClick}>{linkShareText}</Button>
         <Button onClick={handleGeneralShareClick}>{generalShareText}</Button>
       </div>
-      <BlackButton onClick={handleClick} text="홈으로" />
-    </>
+      <Circle className={'completion-circle'} />
+      <BottomButton onClick={handleClick} text="홈으로 가기" />
+    </div>
   );
 }
 

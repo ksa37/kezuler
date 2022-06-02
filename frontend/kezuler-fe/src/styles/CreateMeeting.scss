@@ -1,0 +1,473 @@
+@import './constants.scss';
+
+.create-meeting-page {
+  background-color: $color-background;
+  text-align: center;
+}
+
+.create-meeting-content {
+  padding-top: 72px;
+}
+
+.yellow-top {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 265px;
+  background-color: $color-main;
+}
+
+.normal-top {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 265px;
+  background-color: $color-background;
+}
+
+.yellow-bottom {
+  position: fixed;
+
+  left: 0px;
+  bottom: 0;
+  width: 100%;
+  background-color: $color-main;
+  z-index: -1;
+
+  &.calendar {
+    top: 295px;
+  }
+
+  &.place {
+    top: 276px;
+  }
+}
+
+.description-text {
+  color: $color-highlight;
+  text-align: left;
+  font: normal normal bold 24px/36px Pretendard;
+  margin: 32px 40% 0 20px;
+}
+
+.sub-description-text {
+  font: normal normal normal 16px/24px Pretendard;
+  color: #9f9f9f;
+  text-align: left;
+  margin-top: 32px;
+  margin-left: 20px;
+}
+
+.meeting-info {
+  text-align: left;
+  background-color: #ffffff;
+  box-shadow: 0px 15px 35px #282f390d;
+  border-radius: 16px;
+
+  &.required {
+    margin: 40px 24px 0 24px;
+    padding: 13px 24px 16px 24px;
+  }
+
+  &.additional {
+    margin: 16px 24px 0 24px;
+    padding: 16px 24px 24px 24px;
+  }
+
+  .meeting-field-title-and-reference {
+    box-sizing: border-box;
+    min-height: 48px;
+    height: fit-content;
+    width: 100%;
+    padding: 16px;
+    margin-top: 10px;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    border: 1px solid #bfbfbf;
+    border-radius: 8px;
+
+    font-family: Pretendard;
+
+    &.required {
+      border-color: $color-main-dark;
+    }
+
+    &.description {
+      min-height: 120px;
+    }
+  }
+
+  input::placeholder {
+    color: #bfbfbf;
+  }
+  textarea::placeholder {
+    color: #bfbfbf;
+  }
+  input {
+    color: $color-highlight;
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: $color-highlight;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: $color-highlight;
+  }
+
+  .meeting-title {
+    width: 100%;
+    .meeting-title-text {
+      color: $color-highlight;
+      font: normal normal bold 14px/17px Arial;
+    }
+
+    .meeting-title-required {
+      float: right;
+      font: normal normal bold 12px/17px Arial;
+      color: $color-main-dark;
+    }
+  }
+
+  .meeting-additional {
+    &.url {
+      margin-top: 16px;
+    }
+    .meeting-additional-text {
+      color: #8d8d8d;
+      font: normal normal bold 14px/17px Arial;
+    }
+
+    .meeting-additional-additional {
+      float: right;
+      font: normal normal bold 12px/17px Arial;
+      color: #bfbfbf;
+    }
+  }
+}
+
+// CalendarTimeSelector
+
+.duration-selector {
+  margin: 28px 60px 0 60px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 20px;
+}
+
+.schedule-list {
+  margin: 13px 32px 24px 32px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 15px 35px #282f390d;
+  border-radius: 16px;
+  height: 96px;
+
+  .schedule-list-title {
+    box-sizing: border-box;
+    // height: 28px;
+    background: #fef8dc 0% 0% no-repeat padding-box;
+    font: normal normal bold 14px/17px Pretendard;
+    color: $color-highlight;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 6px;
+    padding-bottom: 5px;
+  }
+
+  .schedule-list-content {
+    display: block;
+    height: fit-content;
+
+    font: normal normal normal 14px/17px Pretendard;
+    padding-left: 20px;
+    padding-right: 15px;
+    .schedule-title {
+      float: left;
+      letter-spacing: -0.7px;
+      color: #808080;
+    }
+    .schedule-time {
+      float: right;
+      color: $color-highlight;
+    }
+  }
+}
+
+.calendar {
+  margin-top: 20px;
+}
+.date-string {
+  text-align: left;
+  margin-left: 60px;
+  color: $color-highlight;
+  font: normal normal normal 16px/19px Pretendard;
+  margin-top: 20px;
+}
+
+.left-icon {
+  position: fixed;
+  left: 33.67px;
+}
+
+.time-chip-text {
+  text-align: left;
+  margin-left: 60px;
+  margin-top: 12px;
+  .string {
+    position: relative;
+  }
+}
+
+.time-chips-stack {
+  margin-top: 16px;
+}
+
+.time-chips {
+  height: 40px;
+  width: 83px;
+  flex: 0 0 auto;
+  border-radius: 100px;
+  &.filled {
+    background: $color-highlight 0% 0% no-repeat padding-box;
+    color: #ffffff;
+  }
+  &.blank {
+    background-color: #ffffff;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    color: $color-highlight;
+  }
+  .text {
+    font: normal normal normal 16px/18px Arial;
+    text-align: center;
+    margin-top: 11.5px;
+  }
+}
+
+.calendar-popup {
+  height: 112px;
+  margin-inline: 16px;
+  margin-top: 28px;
+
+  background: #fef8dc 0% 0% no-repeat padding-box;
+  box-shadow: 0px 15px 35px #0000000d;
+  border-radius: 16px;
+
+  color: $color-highlight;
+  text-align: left;
+  .google-icon {
+    position: fixed;
+    padding-top: 2.5px;
+    left: 36px;
+  }
+  .description {
+    padding: 20px 0 0 44px;
+    font: normal normal normal 14px/22px Pretendard;
+    // line-height: 22px;
+    letter-spacing: 0px;
+  }
+
+  .popup-options {
+    font: normal normal bold 14px/20px Pretendard;
+    margin-top: 16px;
+    margin-right: 24px;
+    margin-bottom: 15px;
+    text-align: right;
+
+    .no {
+      color: #808080;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    .yes {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+  }
+}
+
+// OnOffSelector
+.on-off-group {
+  margin-inline: 48px;
+  margin-top: 32px;
+  // height: fit-content;
+  // overflow: auto;
+
+  .on-off-btn:first-child {
+    float: left;
+    margin-right: 8px;
+  }
+  .on-off-btn:last-child {
+    float: right;
+  }
+  .on-off-btn {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 15px 35px #282f391a;
+    border-radius: 16px;
+    height: 157px;
+    box-sizing: border-box;
+
+    .on-off-title {
+      margin-top: 16px;
+      text-align: center;
+      font: normal normal bold 13px Arial;
+      letter-spacing: 0px;
+      color: $color-highlight;
+      opacity: 1;
+    }
+
+    .on-off-subtitle {
+      margin-top: 4px;
+      text-align: center;
+      font: normal normal normal 13px Arial;
+      letter-spacing: 0px;
+      color: #9f9f9f;
+      opacity: 1;
+    }
+
+    &.selected {
+      border: 5px solid #fad94f;
+      text-align: center;
+      width: 47%;
+      .circle-wrapper {
+        padding-top: 32px;
+        display: inline-block;
+      }
+      .circle {
+        width: 38px;
+        height: 38px;
+        background: $color-main 0% 0% no-repeat padding-box;
+        border-radius: 50%;
+      }
+    }
+
+    &.disabled {
+      text-align: center;
+      width: 47%;
+      .circle-wrapper {
+        padding-top: 37px;
+        display: inline-block;
+      }
+      .circle {
+        width: 38px;
+        height: 38px;
+        background: #dddddd 0% 0% no-repeat padding-box;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+.on-off-textfield {
+  clear: both;
+  padding-top: 50px;
+
+  .title {
+    text-align: center;
+    font: normal normal bold 18px/30px Arial;
+    color: $color-highlight;
+  }
+  .field {
+    margin-top: 12px;
+    margin-left: 48px;
+    margin-right: 48px;
+    height: 48px;
+    width: calc(100% - 96px);
+    text-align: left;
+    font: normal normal normal 14px/22px Arial;
+    color: $color-highlight;
+    border: none;
+    background-color: #ffffff;
+    border-radius: 8px;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  input::placeholder {
+    padding: 15px 20px 15px;
+    color: #bec1c7;
+  }
+
+  .skip-text {
+    margin-top: 16px;
+    font: normal normal normal 14px/17px Pretendard;
+    color: #282f39;
+    text-align: center;
+  }
+}
+
+.selected-num {
+  position: fixed;
+  top: 108px;
+  right: 24px;
+  text-align: right;
+  font: normal normal medium 16px/22px Pretendard;
+  color: #808080;
+}
+
+.time-select-grid-container {
+  display: grid;
+  position: relative;
+  margin-inline: 20px;
+  grid-template-columns: 1fr 2fr;
+  row-gap: 12px;
+  column-gap: 24px;
+  grid-auto-rows: auto;
+  &.calendar-paired {
+    grid-template-areas: 'calendar-schedule time-option';
+  }
+  grid-template-areas: 'no-calendar-schedule time-option';
+}
+
+.timelineLine {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -12.5px;
+  bottom: 0;
+  z-index: 1;
+  width: 0px;
+  border: 0.5px solid #bfbfbf;
+}
+.timelineCircle {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -16px;
+  z-index: 1;
+  width: 8px;
+  height: 8px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1px solid #282f39;
+  background-color: #fad94f;
+}
+
+// .create-complete-calendar {
+//   position: fixed;
+//   z-index: 1;
+//   left: -5%;
+//   bottom: 150px;
+// }
+
+// .create-complete-slope {
+//   position: fixed;
+//   left: -5%;
+//   bottom: 48px;
+// }
+
+.completion-circle {
+  position: fixed;
+  top: 43%;
+  left: 52%;
+  z-index: -1;
+}

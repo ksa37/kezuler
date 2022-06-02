@@ -1,14 +1,40 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
+import { RootState } from 'src/reducers';
+import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 import { PendingEvent } from 'src/types/pendingEvent';
 
-import { postPendingEvent } from 'src/api/pendingEvent';
+import { getPendingEventsById, postPendingEvent } from 'src/api/pendingEvent';
 
-const usePostPendingMeeting = (pendingEvent: PendingEvent) => {
+const useGetPendingEvent = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { setPendingEvent } = acceptMeetingActions;
+  // const { pendingEvent } = useSelector(
+  //   (state: RootState) => state.acceptMeeting
+  // );
+  const getPendingEventInfo = (eventId: string) => {
+    getPendingEventsById(eventId)
+      .then((res) => {
+        dispatch(setPendingEvent(res.data));
+        // return res.data;
+      })
+      .catch((err) => {
+        console.log('미팅 수락 에러', err);
+        window.alert('미팅 정보를 받아올 수 없습니다');
+        navigate(PathName.invite + `/${eventId}`, { replace: true });
+        // return pendingEvent;
+      });
+  };
+
+  return getPendingEventInfo;
+};
+
+const usePostPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { setShareUrl } = createMeetingActions;
@@ -42,7 +68,7 @@ const usePostPendingMeeting = (pendingEvent: PendingEvent) => {
       });
   };
 
-  return { getShareUrl };
+  return getShareUrl;
 };
 
-export default usePostPendingMeeting;
+export { useGetPendingEvent, usePostPendingEvent };

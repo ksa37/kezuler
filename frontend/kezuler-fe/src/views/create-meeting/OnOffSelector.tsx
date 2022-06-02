@@ -1,30 +1,102 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Button } from '@mui/material';
+import React, { ChangeEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import classNames from 'classnames';
 
+import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 
+import BottomButton from 'src/components/common/BottomButton';
+
 function OnOffSelector() {
   const dispatch = useDispatch<AppDispatch>();
-  const { setIsOnline, increaseStep } = createMeetingActions;
+  const { setIsOnline, increaseStep, setZoomAddress, setPlace } =
+    createMeetingActions;
+
+  const { isOnline, eventZoomAddress, eventPlace } = useSelector(
+    (state: RootState) => state.createMeeting
+  );
 
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
-    dispatch(increaseStep());
   };
 
   const handleOfflineClick = () => {
     dispatch(setIsOnline(false));
+  };
+
+  const handleOnlineChange = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setZoomAddress(event.target.value));
+  };
+
+  const handleOfflineChange = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setPlace(event.target.value));
+  };
+
+  const handleNextClick = () => {
     dispatch(increaseStep());
   };
 
   return (
     <div>
-      <h1>어디서 봐요?</h1>
-      <h3>만나는 장소를 지정해주세요.</h3>
-      <Button onClick={handleOnlineClick}>온라인</Button>
-      <Button onClick={handleOfflineClick}>오프라인</Button>
+      <div className={'description-text'}>
+        {'어디에서'}
+        <br /> {'만나면 좋을까요?'}
+      </div>
+
+      <div className={'on-off-group'}>
+        <div
+          className={classNames(
+            'on-off-btn',
+            isOnline ? 'selected' : 'disabled'
+          )}
+          onClick={handleOnlineClick}
+        >
+          <div className={'circle-wrapper'}>
+            <div className={'circle'}></div>
+          </div>
+          <div className={'on-off-title'}>온라인</div>
+          <div className={'on-off-subtitle'}>비대면 미팅</div>
+        </div>
+        <div
+          className={classNames(
+            'on-off-btn',
+            isOnline ? 'disabled' : 'selected'
+          )}
+          onClick={handleOfflineClick}
+        >
+          <div className={'circle-wrapper'}>
+            <div className={'circle'}></div>
+          </div>
+          <div className={'on-off-title'}>오프라인</div>
+          <div className={'on-off-subtitle'}>대면 미팅</div>
+        </div>
+      </div>
+
+      <div className={'on-off-textfield'}>
+        <div className={'title'}>{isOnline ? '접속링크' : '장소'}</div>
+        <input
+          type="text"
+          className={'field'}
+          value={isOnline ? eventZoomAddress : eventPlace}
+          onChange={isOnline ? handleOnlineChange : handleOfflineChange}
+          placeholder={
+            isOnline
+              ? '링크를 입력하세요.'
+              : '만날 장소 또는 주소를 입력하세요.'
+          }
+        />
+        {isOnline && (
+          <div className={'skip-text'}>
+            {'아직 링크가 없다면 건너뛰기를 눌러주세요.'}
+          </div>
+        )}
+      </div>
+      <BottomButton
+        onClick={!isOnline && eventPlace === '' ? undefined : handleNextClick}
+        text={isOnline && eventZoomAddress === '' ? '건너뛰기' : '다음'}
+        disabled={!isOnline && eventPlace === ''}
+      />
     </div>
   );
 }

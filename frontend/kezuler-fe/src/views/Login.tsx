@@ -8,9 +8,8 @@ import { RootState } from 'src/reducers';
 import { mockThunkAction } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
-import CalendarView from 'src/components/CalendarView';
-import BlackButton from 'src/components/common/BlackButton';
-import ProgressBar from 'src/components/ProgressBar';
+import BottomButton from 'src/components/common/BottomButton';
+
 function Login() {
   const dispatch = useDispatch<AppDispatch>();
   const { loading, data, errorMessage } = useSelector(
@@ -43,7 +42,7 @@ function Login() {
       </Button>
       <Button onClick={handleModalOpenClick}>Modal Open Test</Button>
       <Button onClick={handleFetchClick}>Thunk Test</Button>
-      <BlackButton onClick={() => console.log('hi')} text="다음" />
+      <BottomButton onClick={() => console.log('hi')} text="다음" />
       {/* <MeetingCard/> */}
     </>
   );

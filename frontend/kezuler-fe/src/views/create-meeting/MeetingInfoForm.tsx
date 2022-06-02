@@ -1,96 +1,115 @@
 import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, TextField } from '@mui/material';
+import classNames from 'classnames';
 
-import usePostPendingMeeting from 'src/hooks/usePostPendingMeeting';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
-import { PendingEvent } from 'src/types/pendingEvent';
 
-import BlackButton from 'src/components/common/BlackButton';
+import BottomButton from 'src/components/common/BottomButton';
 
 function MeetingInfoForm() {
   const dispatch = useDispatch<AppDispatch>();
-  const { setTitle, setDescription } = createMeetingActions;
-  const {
-    userId,
-    eventId,
-    eventTitle,
-    eventDescription,
-    eventTimeDuration,
-    declinedUsers,
-    eventTimeCandidates,
-    eventZoomAddress,
-    eventPlace,
-    eventAttachment,
-  } = useSelector((state: RootState) => state.createMeeting);
+  const { setTitle, setDescription, increaseStep, setAttachment } =
+    createMeetingActions;
 
-  const handlePostClick = () => {
-    const pendingEvent: PendingEvent = {
-      userId,
-      eventHostId: userId,
-      eventId,
-      eventTitle,
-      eventDescription,
-      eventTimeDuration,
-      declinedUsers,
-      eventTimeCandidates,
-      eventZoomAddress,
-      eventPlace,
-      eventAttachment,
-    };
-    usePostPendingMeeting(pendingEvent);
-  };
+  const { eventTitle, eventDescription, eventAttachment } = useSelector(
+    (state: RootState) => state.createMeeting
+  );
 
   const handleEventTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(setTitle(event.target.value));
   };
 
   const handleEventDescriptionChange = (
-    event: ChangeEvent<HTMLInputElement>
+    event: ChangeEvent<HTMLTextAreaElement>
   ) => {
     dispatch(setDescription(event.target.value));
   };
+  const handleEventAttachmentChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    dispatch(setAttachment(event.target.value));
+  };
 
-  const eventTitleDescription = '미팅 제목을 입력하세요.(필수)';
+  const handleNextClick = () => {
+    dispatch(increaseStep());
+  };
+
+  const eventTitleDescription = '미팅 제목을 간단하게 적어주세요.';
   const eventDescriptDescription =
-    '미팅 주제나 내용에 대해 알려주세요.(000자 이내)';
+    '미팅 주제나 내용에 대해 알려주세요.(130자 이내)';
+  const eventAttachmentDescription = 'URL주소를 입력해주세요.';
 
   return (
-    <>
-      <h1>미팅 정보</h1>
-      <h3>미팅 제목</h3>
-      <TextField
-        id="standard-basic"
-        label={eventTitleDescription}
-        variant="standard"
-        value={eventTitle}
-        onChange={handleEventTitleChange}
-      />
-      <h3>미팅 소개</h3>
-      <TextField
-        id="standard-basic"
-        label={eventDescriptDescription}
-        variant="standard"
-        value={eventDescription}
-        onChange={handleEventDescriptionChange}
-      />
-      <h3>참고 자료</h3>
-      <label htmlFor="contained-button-file">
+    <div>
+      <div className={'description-text'}>
+        {'이번 미팅에 대해'}
+        <br />
+        {'알려주세요'}
+      </div>
+      <div className={classNames('meeting-info', 'required')}>
+        <div className={classNames('meeting-title')}>
+          <span className={classNames('meeting-title-text')}>미팅제목</span>
+          <span className={classNames('meeting-title-required')}>
+            *필수사항
+          </span>
+        </div>
         <input
-          style={{ display: 'none' }}
-          accept="image/*"
-          id="contained-button-file"
-          multiple
-          type="file"
+          type="text"
+          id="title"
+          required
+          className={classNames(
+            'meeting-field-title-and-reference',
+            'required'
+          )}
+          placeholder={eventTitleDescription}
+          value={eventTitle}
+          maxLength={14}
+          onChange={handleEventTitleChange}
         />
-        <Button variant="contained" component="span">
-          파일 추가
-        </Button>
-      </label>
-      <BlackButton onClick={handlePostClick} text="완료" />
-    </>
+      </div>
+      <div className={classNames('meeting-info', 'additional')}>
+        <div className={classNames('meeting-additional')}>
+          <span className={classNames('meeting-additional-text')}>
+            추가정보
+          </span>
+          <span className={classNames('meeting-additional-additional')}>
+            선택사항
+          </span>
+        </div>
+        <textarea
+          id="description"
+          className={classNames(
+            'meeting-field-title-and-reference',
+            'description'
+          )}
+          placeholder={eventDescriptDescription}
+          value={eventDescription}
+          maxLength={130}
+          onChange={handleEventDescriptionChange}
+        />
+        <div className={classNames('meeting-additional', 'url')}>
+          <span className={classNames('meeting-additional-text')}>
+            참고자료
+          </span>
+        </div>
+        <input
+          type="text"
+          id="url"
+          className={'meeting-field-title-and-reference'}
+          placeholder={eventAttachmentDescription}
+          value={eventAttachment}
+          maxLength={25}
+          onChange={handleEventAttachmentChange}
+        />
+      </div>
+      {eventTitle ? (
+        <BottomButton onClick={handleNextClick} text="다음" />
+      ) : (
+        <BottomButton disabled={true} text="미팅 제목을 입력해주세요" />
+      )}
+    </div>
   );
 }
 

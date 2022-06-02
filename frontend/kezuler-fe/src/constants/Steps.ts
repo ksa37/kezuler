@@ -6,4 +6,10 @@ enum CreateMeetingSteps {
   Fifth,
 }
 
-export { CreateMeetingSteps };
+enum AcceptMeetingSteps {
+  First,
+  Second,
+  Third,
+}
+
+export { CreateMeetingSteps, AcceptMeetingSteps };
