@@ -17,27 +17,32 @@ function RootRoutes() {
   return (
     <>
       {isLoggedIn ? (
-        <>
-          <>{/* <ButtonAppBar /> */}</>
-          <main>
-            <Routes>
-              <Route path={PathName.main} element={<MainPage />} />
-              <Route path={PathName.notification} element={<>login</>} />
-              <Route path={PathName.setting} element={<>login</>} />
-              <Route path={PathName.pending} element={<>login</>} />
-              <Route path={PathName.delete} element={<>login</>} />
-              <Route path={PathName.create} element={<CreateMeeting />} />
-              <Route
-                path={PathName.invite + '/:eventId'}
-                element={<AcceptMeeting />}
-              />
-              <Route
-                path="/*"
-                element={<Navigate replace to={PathName.login} />}
-              />
-            </Routes>
-          </main>
-        </>
+        <main>
+          <Routes>
+            <Route
+              path={PathName.main}
+              element={
+                <>
+                  <ButtonAppBar />
+                  <MainPage />
+                </>
+              }
+            />
+            <Route path={PathName.notification} element={<>login</>} />
+            <Route path={PathName.setting} element={<>login</>} />
+            <Route path={PathName.pending} element={<>login</>} />
+            <Route path={PathName.delete} element={<>login</>} />
+            <Route path={PathName.create} element={<CreateMeeting />} />
+            <Route
+              path={PathName.invite + '/:eventId'}
+              element={<AcceptMeeting />}
+            />
+            <Route
+              path="/*"
+              element={<Navigate replace to={PathName.login} />}
+            />
+          </Routes>
+        </main>
       ) : (
         // <main>
         <Routes>
