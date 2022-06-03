@@ -13,7 +13,7 @@ const KezulerInstance = (() => {
   const accessToken = getCookie(ACCESS_TOKEN_KEY);
 
   return axios.create({
-    baseURL: HOST_ADDRESS,
+    baseURL: 'no',
     ...(accessToken
       ? {
           headers: {

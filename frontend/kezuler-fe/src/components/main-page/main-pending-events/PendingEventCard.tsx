@@ -55,13 +55,9 @@ function PendingEventCard({ event }: Props) {
     if (isHost) {
       return true;
     }
-    return eventTimeCandidates.some((c) => {
-      Object.values(c).some((c1) => {
-        c1.some(({ possibleUsers }) =>
-          possibleUsers.some(({ userId }) => userId === curUserId)
-        );
-      });
-    });
+    return eventTimeCandidates.some((c) =>
+      c.possibleUsers.some(({ userId }) => userId === curUserId)
+    );
   }, [isHost, eventTimeCandidates, curUserId]);
 
   const eventLocation = useMemo(() => {

@@ -1,6 +1,13 @@
 import DAY_OF_WEEK from 'src/constants/DayofWeek';
 
+// api 의 모든 response 는 yyyy-MM-dd hh:mm:ss 형태로
+
 const formatTwoDigits = (n: number) => (n < 10 ? `0${n}` : n);
+
+// yyyy-MM-dd hh:mm:ss to yyyy-MM-dd
+const parseDateString = (dateString: string) => {
+  return dateString.split(' ')[0];
+};
 
 // date to MM/dd
 const dateToMMdd = (date: Date) => `${date.getMonth() + 1}/${date.getDate()}`;
@@ -39,6 +46,7 @@ const getTimeRange = (startDate: Date, durationMinutes: number) => {
 };
 
 export {
+  parseDateString,
   dateToMMdd,
   dateToDailyTime,
   getDDay,
