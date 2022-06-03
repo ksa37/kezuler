@@ -614,14 +614,20 @@ $datepicker__triangle-size: 8px !default;
 
     &--today {
       position: relative;
-      font-weight: bold;
+      // font-weight: bold;
       color: $color-main-dark;
       &::after {
         position: absolute;
         top: 14px;
         left: 4px;
         content: '오늘';
+
         font-size: 8px;
+      }
+      &.react-datepicker__day--selected {
+        &::after {
+          content: '';
+        }
       }
     }
 

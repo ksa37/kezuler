@@ -1,7 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DriveEtaTwoTone } from '@mui/icons-material';
-import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import classNames from 'classnames';
 import { format } from 'date-fns';
@@ -26,9 +24,7 @@ function CalendarTimeSelector() {
   );
   const { increaseStep, addTimeList, deleteTimeList } = createMeetingActions;
 
-  const [startDate, setStartDate] = useState<Date | null>(
-    new Date('June 17, 2022 03:24:00')
-  );
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
 
   const createDate = (timeOption: string) => {
     if (startDate)
@@ -101,6 +97,8 @@ function CalendarTimeSelector() {
     //TODO
     //캘린더 연동
   };
+
+  // console.log(startDate.value)
 
   return (
     <div>
