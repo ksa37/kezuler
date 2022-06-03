@@ -1,7 +1,7 @@
 const setCookie = (key: string, value: string, expiresInSec: number) => {
   let expireDate = new Date();
   expireDate = new Date(expireDate.getTime() + expiresInSec * 1000);
-  const cookie_value = `${value}; expires=${expireDate.toUTCString()}`;
+  const cookie_value = `${value}; expires=${expireDate.toUTCString()}; path=/`;
   document.cookie = `${key}=${cookie_value}`;
 };
 

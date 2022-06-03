@@ -5,17 +5,18 @@ import { ACCESS_TOKEN_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
 import { getCookie } from 'src/utils/cookie';
 
-import TestPage from '../views/TestPage';
 import AcceptMeeting from 'src/views/accept-meeting';
 import CreateMeeting from 'src/views/create-meeting';
 import KakaoRedirect from 'src/views/KakaoRedirect';
 import Login from 'src/views/Login';
 import MainPage from 'src/views/MainPage';
+import TestPage from 'src/views/TestPage';
 import ButtonAppBar from 'src/components/ButtonAppBar';
 
+// TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
-  // const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
-  const isLoggedIn = true;
+  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+  // const isLoggedIn = true;
 
   return (
     <>
@@ -41,6 +42,7 @@ function RootRoutes() {
               element={<AcceptMeeting />}
             />
             <Route path={`/test-page`} element={<TestPage />} />
+            <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
             <Route
               path="/*"
               element={<Navigate replace to={PathName.main} />}

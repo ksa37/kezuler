@@ -1,16 +1,17 @@
-// date to MM/dd
-import DAY_OF_WEEK from '../constants/DayofWeek';
+import DAY_OF_WEEK from 'src/constants/DayofWeek';
 
+const formatTwoDigits = (n: number) => (n < 10 ? `0${n}` : n);
+
+// date to MM/dd
 const dateToMMdd = (date: Date) => `${date.getMonth() + 1}/${date.getDate()}`;
 
 // date to daily time (오전 11:30)
 const dateToDailyTime = (date: Date) => {
   const hours = date.getHours();
-  const tempHour = hours > 12 ? hours - 12 : hours;
+  const hourText = hours > 12 ? hours - 12 : hours;
   const minutes = date.getMinutes();
 
-  const hourText = `${tempHour < 10 ? '0' : ''}${tempHour}`;
-  const minuteText = `${minutes < 10 ? '0' : ''}${minutes}`;
+  const minuteText = formatTwoDigits(minutes);
   return `${hours >= 12 ? '오후' : '오전'} ${hourText}:${minuteText}`;
 };
 
@@ -31,10 +32,17 @@ const getMonthFromDateString = (dateString?: string) => {
 // 한국 요일 반환
 const getKorDay = (date: Date) => DAY_OF_WEEK[date.getDay()];
 
+const getTimeRange = (startDate: Date, durationMinutes: number) => {
+  const endDate = new Date(startDate.getTime() + durationMinutes * 60000);
+
+  return `${dateToDailyTime(startDate)} ~ ${dateToDailyTime(endDate)}`;
+};
+
 export {
   dateToMMdd,
   dateToDailyTime,
   getDDay,
   getMonthFromDateString,
   getKorDay,
+  getTimeRange,
 };
