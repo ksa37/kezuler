@@ -12,6 +12,7 @@ import classNames from 'classnames';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
+import { parseDateString } from 'src/utils/dateParser';
 
 import BottomButton from 'src/components/common/BottomButton';
 
@@ -73,35 +74,14 @@ function TimeListSelector() {
 
   const userIds = eventTimeCandidates.reduce<string[]>(
     (prev, eventTimeCandidate) => {
-      const useIdsInDay2 = Object.values(eventTimeCandidate).reduce<string[]>(
-        (prev, eventTime) => {
-          const userIdsInDay = eventTime.reduce<string[]>((prev, et) => {
-            const userIds = et.possibleUsers.map((u) => u.userId);
-            return prev.concat(userIds.filter((id) => prev.indexOf(id) < 0));
-          }, []);
-
-          return prev.concat(userIdsInDay.filter((id) => prev.indexOf(id) < 0));
-        },
-        []
-      );
-      return prev.concat(useIdsInDay2.filter((id) => prev.indexOf(id) < 0));
+      const userIds = eventTimeCandidate.possibleUsers.map((u) => u.userId);
+      return prev.concat(userIds.filter((id) => prev.indexOf(id) < 0));
     },
     []
   );
 
-  console.log(userIds);
   const optionsNum = useMemo(
-    () =>
-      eventTimeCandidates.reduce(function (acc, currentDate) {
-        const currentDateKey = Object.keys(currentDate);
-        let eventTimesNum = 0;
-        if (currentDateKey.length !== 1) {
-          console.log('Warning: Time candidate record has more than one key');
-        } else {
-          eventTimesNum = currentDate[currentDateKey[0]].length;
-        }
-        return acc + eventTimesNum;
-      }, 0),
+    () => eventTimeCandidates.length,
     [eventTimeCandidates]
   );
   console.log(optionsNum);
@@ -148,37 +128,37 @@ function TimeListSelector() {
         <ArrowRightIcon />
       </div>
       <div className={classNames('time-select-grid-container')}>
-        {eventTimeCandidates.map((eventTimeCandidate) =>
-          Object.keys(eventTimeCandidate).map((dateKey) => (
+        {eventTimeCandidates.map(({ eventStartsAt, possibleUsers }) => {
+          const dateKey = parseDateString(eventStartsAt);
+
+          return (
             <div key={dateKey} className={'time-select-date'}>
-              <div className={'timelineLine'}></div>
+              <div className={'timelineLine'} />
               <div>
-                <div className={'timelineCircle'}></div>
+                <div className={'timelineCircle'} />
                 {dateKey}
               </div>
-              {eventTimeCandidate[dateKey].map((eventTimeWithUser) => (
-                <div
-                  key={dateKey + eventTimeWithUser.eventStartsAt}
-                  className={'time-select-time-card'}
-                  onClick={handleEventTimeClick}
-                >
-                  {/* {isChecked ? <CheckedIcon /> : <NotCheckedIcon />} */}
+              <div
+                key={dateKey + eventStartsAt}
+                className={'time-select-time-card'}
+                onClick={handleEventTimeClick}
+              >
+                {/* {isChecked ? <CheckedIcon /> : <NotCheckedIcon />} */}
 
-                  <div className={'time-select-time-content'}>
-                    <span className={'check-box-icon'}>
-                      <NotCheckedIcon />
-                    </span>
-                    <span>{eventTimeWithUser.eventStartsAt}</span>
-                    <span>
-                      <ProfileIcon />
-                      {eventTimeWithUser.possibleUsers.length}
-                    </span>
-                  </div>
+                <div className={'time-select-time-content'}>
+                  <span className={'check-box-icon'}>
+                    <NotCheckedIcon />
+                  </span>
+                  <span>{eventStartsAt}</span>
+                  <span>
+                    <ProfileIcon />
+                    {possibleUsers.length}
+                  </span>
                 </div>
-              ))}
+              </div>
             </div>
-          ))
-        )}
+          );
+        })}
       </div>
       <div className={'calendar-pair-ask'}>
         <div className={'calendar-pair-ask-txt'}>
