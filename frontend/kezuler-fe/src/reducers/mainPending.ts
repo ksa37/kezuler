@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+import { TError } from '../types/axios';
 import { BPendingEvent } from 'src/types/pendingEvent';
 
 import { getPendingEvents } from 'src/api/pendingEvent';
@@ -27,8 +28,9 @@ const getPendingEventsThunk = createAsyncThunk(
       //   ],
       //   userId: '001',
       // };
-    } catch (err: unknown) {
-      return rejectWithValue(err);
+    } catch (error) {
+      const err = error as TError;
+      return rejectWithValue(err?.response?.data?.error);
     }
   }
 );

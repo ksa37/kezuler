@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { AcceptMeetingSteps } from 'src/constants/Steps';
+import { TError } from '../types/axios';
 import { PendingEvent } from 'src/types/pendingEvent';
 
 import mockApi from 'src/api/mockApi';
@@ -8,15 +9,14 @@ import mockApi from 'src/api/mockApi';
 export const mockThunkAction = createAsyncThunk(
   'getMock',
   async (userId: string, { rejectWithValue }) => {
-    console.log('pending');
     try {
       const response: { data: string } = (await mockApi(userId)) as {
         data: string;
       };
-      console.log('fulfilled');
       return response.data;
-    } catch (err: unknown) {
-      return rejectWithValue(err);
+    } catch (error) {
+      const err = error as TError;
+      return rejectWithValue(err?.response?.data?.error);
     }
   }
 );
