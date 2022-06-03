@@ -17,9 +17,7 @@ function BottomButton({ onClick, text, disabled }: Props) {
       })}
       onClick={onClick}
     >
-      <div>
-        <b>{text}</b>
-      </div>
+      <b>{text}</b>
     </div>
   );
 }

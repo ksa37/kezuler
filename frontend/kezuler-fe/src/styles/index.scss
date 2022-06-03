@@ -26,3 +26,7 @@ main {
   padding-top: $app-bar-height;
   background: $color-background;
 }
+
+textarea {
+  resize: none;
+}
