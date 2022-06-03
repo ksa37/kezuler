@@ -1,11 +1,14 @@
 @import './constants';
 
 .bottom-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   background-color: $color-highlight;
   color: $color-main;
   height: 56px;
-  font-size: 16;
-  align-items: center;
+  font-size: 16px;
   position: fixed;
   left: 0;
   bottom: 0;
@@ -40,6 +43,7 @@
       font-weight: bold;
       line-height: 19px;
       align-items: center;
+      text-align: center;
     }
     .text-app-bar-content-bbtn {
       position: fixed;

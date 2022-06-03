@@ -1,12 +1,5 @@
-import React, { ChangeEvent, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardContent,
-  TextField,
-} from '@mui/material';
 import classNames from 'classnames';
 
 import { RootState } from 'src/reducers';
@@ -14,6 +7,7 @@ import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 import { parseDateString } from 'src/utils/dateParser';
 
+import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
 import BottomButton from 'src/components/common/BottomButton';
 
 import { ReactComponent as ArrowRightIcon } from 'src/assets/arrow_right.svg';
@@ -46,26 +40,9 @@ function TimeListSelector() {
   // const selectedOptionsNum = 0;
 
   const timeSelectDescription = '참여 가능한 시간을 선택해주세요';
-  const notAvailableDescription = '가능한 시간이 없어요';
-  const allAvailableDescription = '모든 시간 가능해요';
-  const notAvailableReasonDescription =
-    '시간이 안되는 이유 또는 가능한 시간을 미팅 호스트에 알려주세요.(선택사항, 100자 이내)';
 
   const handleNextClick = () => {
     dispatch(increaseStep());
-  };
-
-  const handleNotAvailableClick = () => {
-    dispatch(setIsDecline(!isDecline));
-  };
-
-  const handleAllAvailableClick = () => {
-    if (isDecline) dispatch(setIsDecline(!isDecline));
-    console.log('hi');
-  };
-
-  const handleDeclineReasonChange = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setDeclineReason(event.target.value));
   };
 
   const handleEventTimeClick = () => {
@@ -87,32 +64,6 @@ function TimeListSelector() {
   console.log(optionsNum);
 
   const isSelected = useMemo(() => availableTimes.length > 0, [availableTimes]);
-
-  const btnGroupStyles = {
-    '& 	.MuiButtonGroup-root': {
-      width: '100%',
-    },
-    '& .MuiButton-root': {
-      border: '0.5px solid #282f39',
-      borderRadius: '8px',
-      boxShadow: '0px 15px 35px #282f391a',
-      fontSize: '16px',
-      height: '48px',
-      width: '45%',
-      '& .hover': '#FAD94F',
-    },
-    '& .MuiButton-text': {
-      color: '#282F39',
-    },
-    '& .MuiButton-contained': {
-      backgroundColor: '#FAD94F',
-      color: '#282F39',
-    },
-    '& .MuiButton-outlined': {
-      backgroundColor: '#FFFFFF',
-      color: '#282F39',
-    },
-  };
 
   return (
     <div className={'time-list-selector'}>
@@ -168,41 +119,12 @@ function TimeListSelector() {
         </div>
         <div className={'calendar-pair-ask-btn'}>일정 불러오기</div>
       </div>
-      <div className={'available-option-btn-group'}>
-        <ButtonGroup disableElevation sx={btnGroupStyles}>
-          <Button
-            variant={isDecline ? 'contained' : 'outlined'}
-            onClick={handleNotAvailableClick}
-            className={'not-available-btn'}
-          >
-            <b>{notAvailableDescription}</b>
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleAllAvailableClick}
-            className={'all-available-btn'}
-          >
-            <b>{allAvailableDescription}</b>
-          </Button>
-        </ButtonGroup>
-        {isDecline && (
-          <TextField
-            label={notAvailableReasonDescription}
-            value={declineReason}
-            onChange={handleDeclineReasonChange}
-          />
-        )}
-      </div>
-
-      {isSelected ? (
-        <BottomButton text={'선택 완료'} onClick={handleNextClick} />
-      ) : (
-        <BottomButton
-          text={'시간을 선택해주세요'}
-          onClick={handleNextClick}
-          disabled={true}
-        />
-      )}
+      <AvailableOptionSelector />
+      <BottomButton
+        text={isSelected ? '선택 완료' : '시간을 선택해주세요'}
+        onClick={handleNextClick}
+        disabled={!isSelected}
+      />
     </div>
   );
 }
