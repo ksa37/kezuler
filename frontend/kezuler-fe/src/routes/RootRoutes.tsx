@@ -14,7 +14,8 @@ import MainPage from 'src/views/MainPage';
 import ButtonAppBar from 'src/components/ButtonAppBar';
 
 function RootRoutes() {
-  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+  // const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+  const isLoggedIn = true;
 
   return (
     <>

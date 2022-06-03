@@ -8,12 +8,14 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 import TimeOptions from '../../constants/TimeOptions';
+import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { AppDispatch } from '../../store';
 
 import CalendarView from '../../components/CalendarView';
 import BottomButton from '../../components/common/BottomButton';
+import KezulerDropdown from 'src/components/common/KezulerDropdown';
 
 import { ReactComponent as CalendarIcon } from 'src/assets/calendar_icon.svg';
 import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
@@ -102,9 +104,19 @@ function CalendarTimeSelector() {
     //캘린더 연동
   };
 
+  const [selectedLengthIdx, setSelectedLengthIdx] = useState(0);
+  // MEETING_LENGTH_LIST[selectedLengthIdx].minutes
   return (
     <div>
-      {/* <div className={'duration-selector'}>미팅길이</div> */}
+      <div className={'duration-selector'}>
+        미팅길이
+        <KezulerDropdown
+          menuData={MEETING_LENGTH_LIST}
+          displayKey={'display'}
+          selectedIdx={selectedLengthIdx}
+          setSelectedIdx={setSelectedLengthIdx}
+        />
+      </div>
       <div className={'calendar'}>
         <CalendarView
           startDate={startDate}
