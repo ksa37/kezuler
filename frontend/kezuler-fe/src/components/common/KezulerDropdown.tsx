@@ -9,6 +9,8 @@ import {
   Popper,
 } from '@mui/material';
 
+import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
+
 interface BMenu {
   [key: string]: string | number;
 }
@@ -48,7 +50,7 @@ function KezulerDropdown<T extends BMenu>({
   return (
     <>
       <Button
-        // endIcon={<ArrowDown />}
+        endIcon={<ArrowDownIcon />}
         ref={buttonRef}
         onClick={handleButtonClick}
         className={buttonClassName}
