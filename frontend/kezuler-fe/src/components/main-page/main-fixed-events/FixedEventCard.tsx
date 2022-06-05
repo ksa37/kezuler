@@ -1,7 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Avatar, AvatarGroup } from '@mui/material';
+import classNames from 'classnames';
 
+import useModal from 'src/hooks/useModal';
 import { RootState } from 'src/reducers';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import {
@@ -11,12 +13,17 @@ import {
   getKorDay,
 } from 'src/utils/dateParser';
 
+import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
+import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
+
 interface Props {
   event: BFixedEvent;
   disabled?: boolean; // 클릭 방지
 }
 
 function FixedEventCard({ event }: Props) {
+  const { openModal } = useModal();
+
   const curUserId = useSelector(
     (state: RootState) => state.mainFixed.curUserId
   );
@@ -27,7 +34,12 @@ function FixedEventCard({ event }: Props) {
     participants,
     eventZoomAddress,
     eventHostId,
+    isDisabled,
   } = event;
+
+  const handleOverviewClick = () => {
+    openModal('Overview', { event });
+  };
 
   const isHost = useMemo(
     () => curUserId === eventHostId,
@@ -41,18 +53,28 @@ function FixedEventCard({ event }: Props) {
 
   const EventLocation = useCallback(() => {
     if (eventZoomAddress) {
-      return <div>줌(zoom)</div>;
+      return (
+        <div className={'fixed-event-card-place'}>
+          <PCIcon />
+          온라인
+        </div>
+      );
     }
     return (
-      <div>
-        <span>아이콘</span>
+      <div className={'fixed-event-card-place'}>
+        <LocIcon />
         {eventPlace}
       </div>
     );
   }, [eventPlace, eventZoomAddress]);
 
   return (
-    <section className={'fixed-event-card'}>
+    <button
+      onClick={handleOverviewClick}
+      className={classNames('fixed-event-card', {
+        disabled: isDisabled,
+      })}
+    >
       <div className={'fixed-event-card-date'}>
         <span>{MMdd}</span> {getKorDay(date)}
       </div>
@@ -71,7 +93,7 @@ function FixedEventCard({ event }: Props) {
           <EventLocation />
         </div>
       </div>
-    </section>
+    </button>
   );
 }
 

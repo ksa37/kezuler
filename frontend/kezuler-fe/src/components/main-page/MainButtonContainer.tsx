@@ -2,6 +2,8 @@ import React from 'react';
 
 import FloatingButton from 'src/components/common/FloatingButton';
 
+import { ReactComponent as PlusIcon } from 'src/assets/icn_plus.svg';
+
 function MainButtonContainer() {
   const handleCreateClick = () => {
     console.log('create');
@@ -11,7 +13,7 @@ function MainButtonContainer() {
   return (
     <div className={'main-floating-button-container'}>
       <FloatingButton
-        icon={<div>hi</div>}
+        icon={<PlusIcon />}
         onClick={handleCreateClick}
         text={'미팅추가'}
       />

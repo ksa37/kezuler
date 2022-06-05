@@ -1,13 +1,13 @@
 import React from 'react';
 import { Avatar, AvatarGroup } from '@mui/material';
 
-import { PossibleUser } from 'src/types/pendingEvent';
+import { User } from 'src/types/user';
 
 interface Props {
   onClick: () => void;
   eventStartsAt: string;
   eventTimeDuration: number;
-  possibleUsersList?: PossibleUser[];
+  possibleUsersList?: User[];
 }
 
 function TimeProfileButton({
