@@ -1,7 +1,9 @@
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Card, CardContent } from '@mui/material';
+import { Button } from '@mui/material';
 import classNames from 'classnames';
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
 
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
@@ -14,29 +16,38 @@ type EventTimeListDate = { [date: string]: string[] };
 
 function ShowSelectedOptions() {
   const dispatch = useDispatch<AppDispatch>();
-  const { increaseStep, decreaseStep, deleteTimeList } = createMeetingActions;
-  const { eventTimeList } = useSelector(
+  const { increaseStep, deleteTimeList } = createMeetingActions;
+  const { eventTimeList, eventTimeDuration } = useSelector(
     (state: RootState) => state.createMeeting
   );
 
   const eventTimeListDevideByDate = useMemo(() => {
+    console.log(eventTimeList);
     const eventTimeListDate = eventTimeList.map(
       (dateString) => new Date(dateString)
     );
+    // console.log(eventTimeListDate);
     const eventTimeListDateWithObj: EventTimeListDate = {};
     for (let i = 0; i < eventTimeListDate.length; i++) {
       const dateWithoutTimeArr = eventTimeListDate[i]
-        .toLocaleString('ko-KR', { timeZone: 'GMT' })
+        .toLocaleString('ko-KR')
         .split('. ');
-      dateWithoutTimeArr[1] = dateWithoutTimeArr[1].padStart(2, '0');
-      dateWithoutTimeArr[2] = dateWithoutTimeArr[2].padStart(2, '0');
+      console.log(dateWithoutTimeArr);
+      // dateWithoutTimeArr[1] = dateWithoutTimeArr[1];
+      // dateWithoutTimeArr[2] = dateWithoutTimeArr[2];
       dateWithoutTimeArr[3] = ''.concat(
         ...dateWithoutTimeArr[3].split(':').slice(0, 1),
         ':',
         ...dateWithoutTimeArr[3].split(':').slice(1, 2)
       );
 
-      const dateWithoutTime = ''.concat(...dateWithoutTimeArr.slice(0, 3));
+      // const dateWithoutTime = ''.concat(...dateWithoutTimeArr.slice(1,2) );
+      // format(eventTimeListDate[i], 'M/d EEE ', { locale: ko });
+      const dateWithoutTime = ''.concat(
+        ...dateWithoutTimeArr.slice(1, 2),
+        '/',
+        ...dateWithoutTimeArr.slice(2, 3)
+      );
 
       if (!eventTimeListDateWithObj[dateWithoutTime]) {
         eventTimeListDateWithObj[dateWithoutTime] = [];
@@ -50,8 +61,7 @@ function ShowSelectedOptions() {
 
   console.log(eventTimeListDevideByDate);
 
-  const mainDescription = '선택한 날짜와 시간을 확인해주세요';
-  const subDescription = `${eventTimeList.length}개 선택`;
+  const subDescription = `총 ${eventTimeList.length}개 선택`;
 
   const handleDeleteClick = (dateKey: string, time: string) => {
     const amPm = time.split(' ')[0] === '오전';
@@ -66,10 +76,6 @@ function ShowSelectedOptions() {
     ).toISOString();
     console.log(dateStrToDelete);
     dispatch(deleteTimeList(dateStrToDelete));
-  };
-
-  const handlePrevClick = () => {
-    dispatch(decreaseStep());
   };
 
   const handleNextClick = () => {

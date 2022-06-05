@@ -27,7 +27,7 @@ function CalendarTimeSelector() {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
 
   const createDate = (timeOption: string) => {
-    if (startDate)
+    if (startDate) {
       return new Date(
         startDate.getFullYear(),
         startDate.getMonth(),
@@ -35,7 +35,7 @@ function CalendarTimeSelector() {
         Number(timeOption.split(':')[0]),
         Number(timeOption.split(':')[1])
       ).toISOString();
-    else {
+    } else {
       console.log('Warning: date is null!');
       return new Date().toISOString();
     }
@@ -63,6 +63,7 @@ function CalendarTimeSelector() {
   const handleChipClick = (timeOption: string) => {
     if (startDate) {
       const dateToAdd = createDate(timeOption);
+      console.log(dateToAdd);
       if (eventTimeList.includes(dateToAdd)) {
         dispatch(deleteTimeList(dateToAdd));
         console.log('Deleted Date !', dateToAdd);
