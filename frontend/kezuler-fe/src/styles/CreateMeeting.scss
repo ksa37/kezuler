@@ -1,55 +1,102 @@
 @import './constants.scss';
 
 .create-meeting-page {
-  background-color: $color-background;
   text-align: center;
-}
+  box-sizing: border-box;
+  height: fit-content;
 
-.create-meeting-content {
-  padding-top: 72px;
-}
-
-.yellow-top {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 265px;
-  background-color: $color-main;
-}
-
-.normal-top {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 265px;
-  background-color: $color-background;
-}
-
-.yellow-bottom {
-  position: fixed;
-
-  left: 0px;
-  bottom: 0;
-  width: 100%;
-  background-color: $color-main;
-  z-index: -1;
-
-  &.calendar {
-    top: 295px;
+  // position: /;
+  // margin-top: 72px;
+  // padding-top: 72px;
+  padding-bottom: 100px;
+  // margin-bottom: 50px;
+  &.meeting-form {
+    background: fixed
+      linear-gradient(
+        to bottom,
+        $color-main 265px,
+        $color-background 265px 100%
+      );
   }
-
-  &.place {
-    top: 276px;
+  &.calendar-selector {
+    background: fixed
+      linear-gradient(
+        to bottom,
+        $color-background 367px,
+        $color-main 367px 100%
+      );
+  }
+  &.place-info {
+    background: fixed
+      linear-gradient(
+        to bottom,
+        $color-background 276px,
+        $color-main 276px 100%
+      );
   }
 }
+
+// .bottom-style {
+//   position: fixed;
+//   &.calendar-selector {
+//     background-color: $color-main;
+//     top: 367px;
+//     bottom: 0;
+//     width: 100%;
+//     // z-index: -1;
+//     // height: 100px;
+//   }
+//   &.place-info {
+//   }
+// }
+// .create-meeting-content {
+//   // z-index: 1;
+// }
+
+// .yellow-top {
+//   position: fixed;
+//   top: 0px;
+//   left: 0px;
+//   width: 100%;
+//   // height: 265px;
+//   z-index: 0;
+//   background-color: $color-main;
+// }
+
+// .normal-top {
+//   position: fixed;
+//   top: 0px;
+//   left: 0px;
+//   width: 100%;
+//   // height: 265px;
+//   background-color: $color-background;
+// }
+
+// .yellow-bottom {
+//   position: fixed;
+
+//   left: 0px;
+//   bottom: 0;
+//   width: 100%;
+//   background-color: $color-main;
+//   z-index: -1;
+
+//   &.calendar {
+//     top: 295px;
+//   }
+
+//   &.place {
+//     top: 276px;
+//   }
+// }
 
 .description-text {
   color: $color-highlight;
   text-align: left;
   font: normal normal bold 24px/36px Pretendard;
-  margin: 32px 40% 0 20px;
+  padding-top: 32px;
+  margin: 0px 40% 0 20px;
+  box-sizing: border-box;
 }
 
 .sub-description-text {
@@ -150,11 +197,43 @@
 }
 
 // CalendarTimeSelector
-
+.duration-selector-margin {
+  height: 28px;
+  width: 100%;
+  background-color: $color-background;
+}
 .duration-selector {
-  margin: 28px 60px 0 60px;
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  @media (min-width: 405px) {
+    margin-inline: 60px;
+  }
+  margin-inline: auto;
   background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 20px;
+  font-size: 16px;
+  font-family: Pretendard;
+  .icn-clock-o20 {
+    padding-left: 16px;
+  }
+  .duration-text {
+    flex: 1;
+    text-align: left;
+    padding-left: 8.55px;
+  }
+  .duration-dropdown {
+    position: inherit;
+    text-decoration: none;
+    color: $color-highlight;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: Pretendard;
+    padding-right: 20px;
+    &:hover {
+      background: none;
+    }
+  }
 }
 
 .schedule-list {
@@ -202,23 +281,30 @@
 }
 .date-string {
   text-align: left;
-  margin-left: 60px;
+  margin-left: 33.67px;
   color: $color-highlight;
   font: normal normal normal 16px/19px Pretendard;
   margin-top: 20px;
-}
-
-.left-icon {
-  position: fixed;
-  left: 33.67px;
+  display: flex;
+  .calendar-icon {
+    // position: fixed;
+    padding-right: 9.67px;
+  }
+  .date-string-text {
+    flex: 1;
+  }
 }
 
 .time-chip-text {
   text-align: left;
-  margin-left: 60px;
+  margin-left: 33.67px;
   margin-top: 12px;
+  display: flex;
   .string {
     position: relative;
+  }
+  .icn-clock-b20 {
+    padding-right: 9.67px;
   }
 }
 
@@ -258,10 +344,11 @@
 
   color: $color-highlight;
   text-align: left;
+  position: relative;
   .google-icon {
-    position: fixed;
-    padding-top: 2.5px;
-    left: 36px;
+    position: absolute;
+    padding-top: 1px;
+    left: 20px;
   }
   .description {
     padding: 20px 0 0 44px;
@@ -448,22 +535,48 @@
   background-color: #fad94f;
 }
 
-// .create-complete-calendar {
-//   position: fixed;
-//   z-index: 1;
-//   left: -5%;
-//   bottom: 150px;
-// }
+// MeetingShare
+.share-icon {
+  box-sizing: border-box;
+  background-color: #ffffff;
+  box-shadow: 0px 15px 35px #282f391a;
+  border-radius: 28px;
+  aspect-ratio: 1;
+  position: relative;
+  @media (min-width: 340px) {
+    width: 80px;
+  }
+  &:hover {
+    background: 'none';
+  }
 
-// .create-complete-slope {
-//   position: fixed;
-//   left: -5%;
-//   bottom: 48px;
-// }
+  &.kakao {
+    background-color: #fae301;
+  }
+  .share-text {
+    position: absolute;
+    bottom: -28px;
+  }
+}
+
+.celebrate-smile-icon {
+  position: fixed;
+  right: 218px;
+  bottom: 26%;
+  z-index: -1;
+}
+
+.celebrate-icon {
+  position: fixed;
+  right: -30px;
+  bottom: 48px;
+  z-index: -1;
+}
 
 .completion-circle {
   position: fixed;
-  top: 43%;
-  left: 52%;
-  z-index: -1;
+  // top: 43%;
+  right: -45px;
+  bottom: 16%;
+  z-index: -2;
 }

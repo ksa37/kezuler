@@ -17,6 +17,7 @@ function ProgressBar({ progress, yellowBar = false }: Props) {
         width: '100%',
         position: 'fixed',
         top: '68px',
+        zIndex: '2',
         backgroundColor: '#ffff',
         '& .MuiLinearProgress-barColorPrimary': {
           backgroundColor: `${barColor}`,
