@@ -64,22 +64,25 @@ function CreateMeeting() {
     dispatch(decreaseStep());
   };
 
-  const ColorTop =
-    step === CreateMeetingSteps.First ? 'yellow-top' : 'normal-top';
-
-  const ColorBottom = () => {
+  const backgroundSetter = () => {
     switch (step) {
+      case CreateMeetingSteps.First:
+        return 'meeting-form';
       case CreateMeetingSteps.Second:
-        return classNames('yellow-bottom', 'calendar');
+        return 'calendar-selector';
+      case CreateMeetingSteps.Third:
+        return '';
       case CreateMeetingSteps.Fourth:
-        return classNames('yellow-bottom', 'place');
+        return 'place-info';
+      case CreateMeetingSteps.Fifth:
+        return '';
       default:
         return '';
     }
   };
 
   return (
-    <div className={classNames('create-meeting-page', `${ColorTop}`)}>
+    <>
       <TextAppBar
         onClick={
           step === CreateMeetingSteps.Fifth ? undefined : handlePrevClick
@@ -88,9 +91,12 @@ function CreateMeeting() {
         mainColored={step === CreateMeetingSteps.First}
       />
       <ProgressBar progress={progressPerStep * step} />
-      <div className={'create-meeting-content'}>{getComponent(step)}</div>
-      <div className={ColorBottom()}></div>
-    </div>
+      <div className={classNames('create-meeting-page', backgroundSetter())}>
+        {/* <div className={'create-meeting-content'}></div> */}
+        {getComponent(step)}
+      </div>
+      <div className={classNames('bottom-style', backgroundSetter())}></div>
+    </>
   );
 }
 

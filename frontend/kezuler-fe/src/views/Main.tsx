@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 
-import { KAKAO_AUTH_URL } from 'src/constants/Oauth';
+import { KAKAO_AUTH_URL } from 'src/constants/Auth';
 import { mockThunkAction } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 

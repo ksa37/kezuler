@@ -6,16 +6,19 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 import TimeOptions from '../../constants/TimeOptions';
+import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { AppDispatch } from '../../store';
 
 import CalendarView from '../../components/CalendarView';
 import BottomButton from '../../components/common/BottomButton';
+import KezulerDropdown from 'src/components/common/KezulerDropdown';
 
 import { ReactComponent as CalendarIcon } from 'src/assets/calendar_icon.svg';
 import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
 import { ReactComponent as GoogleIcon } from 'src/assets/google_icon.svg';
+import { ReactComponent as ClockOrangeIcon } from 'src/assets/icn_clock_o20.svg';
 
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
@@ -99,11 +102,22 @@ function CalendarTimeSelector() {
     //캘린더 연동
   };
 
-  // console.log(startDate.value)
-
+  const [selectedLengthIdx, setSelectedLengthIdx] = useState(0);
+  // MEETING_LENGTH_LIST[selectedLengthIdx].minutes
   return (
     <div>
-      {/* <div className={'duration-selector'}>미팅길이</div> */}
+      <div className={'duration-selector-margin'} />
+      <div className={'duration-selector'}>
+        <ClockOrangeIcon className={'icn-clock-o20'} />
+        <div className={'duration-text'}>미팅 길이</div>
+        <KezulerDropdown
+          menuData={MEETING_LENGTH_LIST}
+          displayKey={'display'}
+          selectedIdx={selectedLengthIdx}
+          setSelectedIdx={setSelectedLengthIdx}
+          buttonClassName={'duration-dropdown'}
+        />
+      </div>
       <div className={'calendar'}>
         <CalendarView
           startDate={startDate}
@@ -112,8 +126,8 @@ function CalendarTimeSelector() {
         />
       </div>
       <div className={'date-string'}>
-        <CalendarIcon className={'left-icon'} />
-        {dateStr}
+        <CalendarIcon className={'calendar-icon'} />
+        <div className={'date-string-text'}>{dateStr}</div>
       </div>
 
       {popupDisable && (
@@ -145,7 +159,7 @@ function CalendarTimeSelector() {
       )}
 
       <div className={'time-chip-text'}>
-        <ClockIcon className={'left-icon'} />
+        <ClockIcon className={'icn-clock-b20'} />
         <b>{'미팅시작 시각'}</b>
         {'을 선택하세요'}
       </div>

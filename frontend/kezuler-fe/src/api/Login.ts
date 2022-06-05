@@ -1,20 +1,20 @@
 import axios from 'axios';
 
-import KezulerInstance from 'src/constants/api';
-import { CLIENT_ID, KAKAO_BASE_URL, REDIRECT_URI } from 'src/constants/Oauth';
-import { RKakaoToken } from 'src/types/login';
+import { CLIENT_ID, KAKAO_BASE_URL, REDIRECT_URI } from 'src/constants/Auth';
+import { RKakaoAccessToken } from 'src/types/login';
 
-const getKakaoTokenApi = (code: string) =>
-  axios.post<RKakaoToken>(`${KAKAO_BASE_URL}/token`, {
-    grant_type: 'authorization_code',
-    client_id: CLIENT_ID,
-    redirect_uri: REDIRECT_URI,
-    code,
+const getKakaoAccessTokenApi = (code: string) => {
+  const params = new URLSearchParams();
+  params.append('grant_type', 'authorization_code');
+  params.append('client_id', CLIENT_ID);
+  params.append('redirect_uri', REDIRECT_URI);
+  params.append('code', code);
+
+  return axios.post<RKakaoAccessToken>(`${KAKAO_BASE_URL}/token`, params, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
   });
+};
 
-const postAccessTokenApi = (accessToken: string) =>
-  KezulerInstance.post(`/token`, {
-    accessToken,
-  });
-
-export { getKakaoTokenApi, postAccessTokenApi };
+export { getKakaoAccessTokenApi };

@@ -8,7 +8,6 @@ import { ko } from 'date-fns/locale';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
-import { EventTimeCandidate } from 'src/types/pendingEvent';
 
 import BottomButton from 'src/components/common/BottomButton';
 

@@ -1,20 +1,23 @@
 import axios from 'axios';
 
+import { getCookie } from '../utils/cookie';
+
+import { ACCESS_TOKEN_KEY } from './Auth';
+
 const HOST_ADDRESS =
   'https://efb4a784-1e8c-4296-8029-3fb7a7262580.mock.pstmn.io/';
 
 const UNAUTHORIZED_STATUS_CODE = 401;
 
-// FIXME: 로그인하는 시점에 토큰 저장 필요함
 const KezulerInstance = (() => {
-  const token = localStorage.getItem('kezulerToken');
+  const accessToken = getCookie(ACCESS_TOKEN_KEY);
 
   return axios.create({
     baseURL: HOST_ADDRESS,
-    ...(token
+    ...(accessToken
       ? {
           headers: {
-            Authorization: token,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       : {}),

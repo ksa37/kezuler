@@ -107,7 +107,7 @@ function MeetingInfoForm() {
       {eventTitle ? (
         <BottomButton onClick={handleNextClick} text="다음" />
       ) : (
-        <BottomButton disabled={true} text="미팅 제목을 입력해주세요" />
+        <BottomButton disabled text="미팅 제목을 입력해주세요" />
       )}
     </div>
   );
