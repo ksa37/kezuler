@@ -1,0 +1,152 @@
+@import './constants';
+
+.overview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 400px;
+}
+
+.overview-close-btn {
+  background: none;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  height: 24px;
+  margin-bottom: 8px;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+.overview-container {
+  width: 100%;
+  border-radius: $common-border-radius;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  .overview-header {
+    padding: 24px 24px 20px;
+    background-color: $color-main;
+    color: $color-highlight;
+
+    .overview-header-title {
+      font-size: $font-14;
+    }
+
+    .overview-header-desc {
+      margin: 8px 0 0;
+      font-size: $font-24;
+      font-weight: bold;
+    }
+  }
+
+  .overview-body {
+    padding: 20px 24px 12px;
+    background-color: white;
+  }
+}
+
+.overview-section {
+  position: relative;
+  margin-bottom: 20px;
+
+  .overview-section-title {
+    margin: 0 0 8px;
+    color: #9f9f9f;
+    font-size: $font-14;
+  }
+
+  .overview-section-desc {
+    color: $color-highlight;
+    font-size: $font-16;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .overview-section-copy-btn {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: $font-12;
+    color: #9f9f9f;
+  }
+
+  .overview-section-attachment {
+    color: #6695d8;
+    text-decoration: underline;
+  }
+
+  .overview-section-avatar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 48px;
+    width: 48px;
+  }
+}
+
+.overview-participants-table {
+  padding: 8px 0 12px;
+  width: 100%;
+  text-align: left;
+
+  th {
+    font-size: $font-14;
+    font-weight: bold;
+
+    .all-show-button {
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      color: #9f9f9f;
+      font-size: 12px;
+      text-decoration: underline;
+    }
+  }
+
+  td {
+  }
+}
+
+.overview-footer {
+  margin-top: 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overview-btn {
+  background: none;
+  padding: 0;
+  border: none;
+  outline: none;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  margin: 0 16px;
+
+  .overview-btn-icon {
+    width: 100%;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 15px 35px #282f390d;
+    background: $color-main;
+    margin-bottom: 12px;
+  }
+
+  color: white;
+  font-weight: bold;
+  font-size: $font-13;
+  white-space: nowrap;
+
+  cursor: pointer;
+}

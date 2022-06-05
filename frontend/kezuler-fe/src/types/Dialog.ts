@@ -3,7 +3,7 @@ interface DialogProps {
   title: string;
   description?: string;
   onCancel?: () => void;
-  onConfirm: () => void;
+  onConfirm?: () => void;
 }
 
 export type { DialogProps };

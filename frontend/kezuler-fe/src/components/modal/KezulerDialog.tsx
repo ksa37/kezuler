@@ -32,7 +32,7 @@ function KezulerDialog() {
   };
 
   const handleConfirmClick = () => {
-    onConfirm();
+    onConfirm?.();
     closeModal();
   };
 
@@ -47,14 +47,16 @@ function KezulerDialog() {
           {date && <h1 className={'date'}>{date}</h1>}
         </div>
         <h1>{title}</h1>
-        <h2>{description}</h2>
+        {description && <h2>{description}</h2>}
       </div>
-      <footer className={'kezuler-dialog-footer'}>
-        <button onClick={handleCancelClick}>아니오</button>
-        <button className={'confirm'} onClick={handleConfirmClick}>
-          예
-        </button>
-      </footer>
+      {onConfirm && (
+        <footer className={'kezuler-dialog-footer'}>
+          <button onClick={handleCancelClick}>아니오</button>
+          <button className={'confirm'} onClick={handleConfirmClick}>
+            예
+          </button>
+        </footer>
+      )}
     </Dialog>
   );
 }

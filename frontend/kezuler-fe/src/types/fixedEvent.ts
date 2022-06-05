@@ -9,12 +9,12 @@ interface BFixedEvent {
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
-  eventTimeStartsAt: string;
   eventZoomAddress: string | null;
   eventPlace: string;
   eventAttachment: string;
+  eventTimeStartsAt: string;
   participants: EventParticipant[];
-  isDisabled: boolean;
+  isDisabled: boolean; // 취소 여부
 }
 
 interface FixedEvent extends BFixedEvent {
@@ -42,4 +42,5 @@ export type {
   RGetFixedEvents,
   FixedEvent,
   PPatchFixedEvent,
+  EventParticipant,
 };

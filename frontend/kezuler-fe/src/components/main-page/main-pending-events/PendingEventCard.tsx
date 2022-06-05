@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import classNames from 'classnames';
 
 import useDialog from 'src/hooks/useDialog';
+import useModal from 'src/hooks/useModal';
 import { RootState } from 'src/reducers';
 import { BPendingEvent } from 'src/types/pendingEvent';
 
@@ -13,6 +14,7 @@ interface Props {
 
 function PendingEventCard({ event }: Props) {
   const { openDialog } = useDialog();
+  const { openModal } = useModal();
 
   const curUserId = useSelector(
     (state: RootState) => state.mainPending.curUserId
@@ -26,7 +28,7 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleInfoClick = () => {
-    console.log('info click');
+    openModal('Overview', { event });
   };
 
   const handleConfirmClick = () => {

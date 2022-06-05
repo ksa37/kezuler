@@ -1,7 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Avatar, AvatarGroup } from '@mui/material';
+import classNames from 'classnames';
 
+import useModal from 'src/hooks/useModal';
 import { RootState } from 'src/reducers';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import {
@@ -17,6 +19,8 @@ interface Props {
 }
 
 function FixedEventCard({ event }: Props) {
+  const { openModal } = useModal();
+
   const curUserId = useSelector(
     (state: RootState) => state.mainFixed.curUserId
   );
@@ -27,7 +31,12 @@ function FixedEventCard({ event }: Props) {
     participants,
     eventZoomAddress,
     eventHostId,
+    isDisabled,
   } = event;
+
+  const handleOverviewClick = () => {
+    openModal('Overview', { event });
+  };
 
   const isHost = useMemo(
     () => curUserId === eventHostId,
@@ -52,7 +61,12 @@ function FixedEventCard({ event }: Props) {
   }, [eventPlace, eventZoomAddress]);
 
   return (
-    <section className={'fixed-event-card'}>
+    <button
+      onClick={handleOverviewClick}
+      className={classNames('fixed-event-card', {
+        disabled: isDisabled,
+      })}
+    >
       <div className={'fixed-event-card-date'}>
         <span>{MMdd}</span> {getKorDay(date)}
       </div>
@@ -71,7 +85,7 @@ function FixedEventCard({ event }: Props) {
           <EventLocation />
         </div>
       </div>
-    </section>
+    </button>
   );
 }
 

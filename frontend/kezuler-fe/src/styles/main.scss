@@ -73,9 +73,17 @@
 }
 
 .fixed-event-card {
+  text-align: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
   display: flex;
+  align-items: stretch;
 
   min-height: 96px;
+  width: calc(100% - 40px);
+  box-sizing: border-box;
   margin: 0 20px 16px;
   padding: 12px;
 
