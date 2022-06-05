@@ -8,6 +8,9 @@ import useModal from 'src/hooks/useModal';
 import { RootState } from 'src/reducers';
 import { BPendingEvent } from 'src/types/pendingEvent';
 
+import { ReactComponent as InfoIcon } from 'src/assets/icn_info_yb.svg';
+import { ReactComponent as SendIcon } from 'src/assets/icn_send_yb.svg';
+
 interface Props {
   event: BPendingEvent;
 }
@@ -95,10 +98,20 @@ function PendingEventCard({ event }: Props) {
             가능한 시간 변경
           </Button>
         )}
-        <Button className={'pending-event-info'} onClick={handleInfoClick}>
+        <Button
+          startIcon={<InfoIcon />}
+          className={'pending-event-info'}
+          onClick={handleInfoClick}
+          classes={{ startIcon: 'pending-event-icon' }}
+        >
           미팅정보
         </Button>
-        <Button className={'pending-event-info'} onClick={handleInviteClick}>
+        <Button
+          startIcon={<SendIcon />}
+          className={'pending-event-info'}
+          onClick={handleInviteClick}
+          classes={{ startIcon: 'pending-event-icon' }}
+        >
           초대링크
         </Button>
       </div>

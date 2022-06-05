@@ -13,6 +13,9 @@ import {
   getKorDay,
 } from 'src/utils/dateParser';
 
+import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
+import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
+
 interface Props {
   event: BFixedEvent;
   disabled?: boolean; // 클릭 방지
@@ -50,11 +53,16 @@ function FixedEventCard({ event }: Props) {
 
   const EventLocation = useCallback(() => {
     if (eventZoomAddress) {
-      return <div>줌(zoom)</div>;
+      return (
+        <div className={'fixed-event-card-place'}>
+          <PCIcon />
+          온라인
+        </div>
+      );
     }
     return (
-      <div>
-        <span>아이콘</span>
+      <div className={'fixed-event-card-place'}>
+        <LocIcon />
         {eventPlace}
       </div>
     );

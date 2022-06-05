@@ -9,6 +9,7 @@ import { getMonthFromDateString } from 'src/utils/dateParser';
 import BottomPopper from '../../common/BottomPopper';
 import FixedEventCard from './FixedEventCard';
 import EmptyFixedEventCard from 'src/components/main-page/main-fixed-events/EmptyFixedEventCard';
+import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
 
 const useMainFixed = () => {
   const { events } = useSelector((state: RootState) => state.mainFixed);
@@ -42,6 +43,7 @@ function MainFixedEvents() {
         <h2 className={'main-empty-h2'}>
           {'다가오는 미팅이 없습니다.\n혹시 잊으신 일정은 없나요?'}
         </h2>
+        <MainButtonContainer />
         <BottomPopper
           title={'미팅 생성까지 단 3분!'}
           buttonText={'첫 미팅 만들러가기'}
@@ -67,6 +69,7 @@ function MainFixedEvents() {
           </React.Fragment>
         );
       })}
+      <MainButtonContainer />
     </div>
   );
 }

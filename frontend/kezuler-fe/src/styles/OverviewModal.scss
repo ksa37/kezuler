@@ -5,7 +5,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 400px;
+  max-width: 400px;
+  width: 100%;
 }
 
 .overview-close-btn {
@@ -28,6 +29,7 @@
   box-sizing: border-box;
 
   .overview-header {
+    position: relative;
     padding: 24px 24px 20px;
     background-color: $color-main;
     color: $color-highlight;
@@ -71,8 +73,15 @@
     border: none;
     outline: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: $font-12;
     color: #9f9f9f;
+
+    svg {
+      margin-right: 4px;
+    }
   }
 
   .overview-section-attachment {
@@ -87,16 +96,29 @@
     height: 48px;
     width: 48px;
   }
+
+  .overview-section-place {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      margin-right: 4px;
+    }
+  }
 }
 
 .overview-participants-table {
   padding: 8px 0 12px;
   width: 100%;
   text-align: left;
+  border: none;
+  border-spacing: 0;
 
   th {
     font-size: $font-14;
     font-weight: bold;
+    word-break: keep-all;
 
     .all-show-button {
       background: none;
@@ -109,16 +131,28 @@
     }
   }
 
-  td {
+  .participant-avatar-container {
+    padding-top: 12px;
+    display: inline-block;
+    text-align: center;
+    color: #808080;
+    font-size: 12px;
+    gap: 15px;
+
+    margin-right: 15px;
+
+    .participant-avatar {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 4px;
+    }
   }
 }
 
 .overview-footer {
   margin-top: 24px;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
 }
 
 .overview-btn {
@@ -141,6 +175,10 @@
     box-shadow: 0 15px 35px #282f390d;
     background: $color-main;
     margin-bottom: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   color: white;
@@ -149,4 +187,57 @@
   white-space: nowrap;
 
   cursor: pointer;
+}
+
+// dropdown
+.overview-dropdown-icon {
+  margin-left: 6px;
+}
+
+.overview-dropdown-paper {
+  width: 100px;
+  border-radius: 8px;
+  border: 1px solid $color-highlight;
+  overflow: hidden;
+}
+
+.overview-dropdown-button {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  padding: 0;
+  color: $color-highlight;
+  font-weight: bold;
+  font-size: $font-14;
+}
+
+.overview-dropdown-menu-list {
+  padding: 0 0 10px;
+  background: white;
+  font-size: $font-14;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
+.overview-dropdown-title {
+  padding: 9px 0 6px;
+  margin-bottom: 10px;
+  background: $color-highlight;
+}
+
+.overview-dropdown-menu {
+  margin: 0 1px;
+  padding: 6px 12px;
+  font-size: $font-14;
+  color: #808080;
+  min-height: initial;
+
+  &:hover {
+    background: rgba($color-highlight, 0.05);
+  }
+
+  &.selected {
+    color: $color-highlight;
+  }
 }

@@ -145,6 +145,7 @@
       }
 
       &:nth-child(2) {
+        margin-top: 4px;
         width: 100%;
         color: $color-text;
         font-size: $font-16;
@@ -156,6 +157,16 @@
         align-items: flex-end;
         justify-content: space-between;
       }
+    }
+  }
+
+  .fixed-event-card-place {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      margin-right: 4px;
     }
   }
 }
@@ -213,6 +224,10 @@
         &:not(:last-child) {
           margin-right: 8px;
         }
+      }
+
+      .pending-event-icon {
+        margin: 0 2px 0 0;
       }
 
       .pending-event-confirm {

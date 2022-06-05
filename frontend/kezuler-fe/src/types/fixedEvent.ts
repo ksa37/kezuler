@@ -1,7 +1,4 @@
-interface EventParticipant {
-  userId: string;
-  userProfileImage: string;
-}
+import { User } from 'src/types/user';
 
 interface BFixedEvent {
   eventHostId: string;
@@ -13,7 +10,7 @@ interface BFixedEvent {
   eventPlace: string;
   eventAttachment: string;
   eventTimeStartsAt: string;
-  participants: EventParticipant[];
+  participants: User[];
   isDisabled: boolean; // 취소 여부
 }
 
@@ -42,5 +39,4 @@ export type {
   RGetFixedEvents,
   FixedEvent,
   PPatchFixedEvent,
-  EventParticipant,
 };

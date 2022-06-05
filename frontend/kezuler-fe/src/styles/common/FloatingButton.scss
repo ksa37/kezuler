@@ -18,6 +18,9 @@
     box-shadow: 0 5px 10px #00000029;
     background: $color-highlight;
     margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   color: $color-highlight;

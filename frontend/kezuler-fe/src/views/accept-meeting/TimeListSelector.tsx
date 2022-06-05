@@ -11,7 +11,7 @@ import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOpti
 import BottomButton from 'src/components/common/BottomButton';
 
 import { ReactComponent as ArrowRightIcon } from 'src/assets/arrow_right.svg';
-import { ReactComponent as CheckedIcon } from 'src/assets/icon_checked.svg';
+import { ReactComponent as CheckedIcon } from 'src/assets/icn_checked.svg';
 import { ReactComponent as NotCheckedIcon } from 'src/assets/icon_not_checked.svg';
 import { ReactComponent as ProfileIcon } from 'src/assets/icon_profile.svg';
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';

@@ -1,17 +1,12 @@
-interface DeclinedUser {
-  userId: string;
-  userProfileImage: string;
-  userDeclineReason: string;
-}
+import { User } from 'src/types/user';
 
-interface PossibleUser {
-  userId: string;
-  userProfileImage: string;
+interface DeclinedUser extends User {
+  userDeclineReason: string;
 }
 
 interface EventTimeCandidate {
   eventStartsAt: string;
-  possibleUsers: PossibleUser[];
+  possibleUsers: User[];
 }
 
 interface BPendingEvent {
@@ -43,7 +38,6 @@ export type {
   BPendingEvent,
   PendingEvent,
   RGetPendingEvents,
-  PossibleUser,
   PPatchPendingEvent,
   EventTimeCandidate,
 };
