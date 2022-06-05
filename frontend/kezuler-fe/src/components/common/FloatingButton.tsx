@@ -16,7 +16,7 @@ function FloatingButton({ className, icon, onClick, text }: Props) {
       className={classNames('floating-button', className)}
       onClick={onClick}
     >
-      {icon}
+      <div className={'floating-button-icon'}>{icon}</div>
       {text}
     </button>
   );

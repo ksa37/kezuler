@@ -111,6 +111,7 @@ function CalendarTimeSelector() {
       <div className={'duration-selector'}>
         미팅길이
         <KezulerDropdown
+          endIcon={<div>아이콘</div>}
           menuData={MEETING_LENGTH_LIST}
           displayKey={'display'}
           selectedIdx={selectedLengthIdx}

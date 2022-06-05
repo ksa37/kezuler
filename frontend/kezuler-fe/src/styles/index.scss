@@ -21,6 +21,17 @@ $app-bar-height: 72px;
   box-shadow: 0 3px 30px rgba($color-highlight, 0.1);
 }
 
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  background-color: $color-background;
+}
+
 main {
   height: calc(100% - #{$app-bar-height});
   padding-top: $app-bar-height;
@@ -29,4 +40,11 @@ main {
 
 textarea {
   resize: none;
+}
+
+.kezuler-modal {
+  background: none;
+  box-shadow: none;
+  width: 100%;
+  align-items: center;
 }

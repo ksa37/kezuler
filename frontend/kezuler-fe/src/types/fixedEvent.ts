@@ -1,7 +1,4 @@
-interface EventParticipant {
-  userId: string;
-  userProfileImage: string;
-}
+import { User } from 'src/types/user';
 
 interface BFixedEvent {
   eventHostId: string;
@@ -9,12 +6,12 @@ interface BFixedEvent {
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
-  eventTimeStartsAt: string;
   eventZoomAddress: string | null;
   eventPlace: string;
   eventAttachment: string;
-  participants: EventParticipant[];
-  isDisabled: boolean;
+  eventTimeStartsAt: string;
+  participants: User[];
+  isDisabled: boolean; // 취소 여부
 }
 
 interface FixedEvent extends BFixedEvent {

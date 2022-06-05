@@ -1,4 +1,4 @@
-import OverviewModal from 'src/components/modal/OverviewModal';
+import OverviewModal from 'src/components/modal/overview-modal';
 
 const MODAL_COMPONENTS = {
   Overview: OverviewModal,

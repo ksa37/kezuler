@@ -31,7 +31,8 @@ function KezulerModal() {
     <Dialog
       open={!!type}
       onClose={handleClose}
-      classes={{ paper: 'modal-paper' }}
+      classes={{ paper: 'kezuler-modal' }}
+      BackdropProps={{ style: { backgroundColor: '#282F39CC' } }}
     >
       <ModalBody {...props} />
     </Dialog>

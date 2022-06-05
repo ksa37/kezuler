@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+    <defs>
+        <clipPath id="wttbtynwxc">
+            <use xlink:href="#4tr1pjktca"/>
+        </clipPath>
+        <clipPath id="43bjup09id">
+            <use xlink:href="#gx9a5jm07b"/>
+        </clipPath>
+    </defs>
+    <path style="fill:transparent" d="M0 0h16v16H0z"/>
+    <g data-name="그룹 94207">
+        <g data-name="사각형 30768" transform="translate(1.999 2)" style="stroke:#fad94f;stroke-width:2px;fill:none">
+            <rect width="12" height="9" rx="2" style="stroke:none"/>
+            <rect x="1" y="1" width="10" height="7" rx="1" style="fill:none"/>
+        </g>
+        <g data-name="사각형 30769" transform="translate(4.115 12.087)" style="stroke-linecap:round;fill:#fff;stroke:#fad94f;stroke-width:2px">
+            <rect id="4tr1pjktca" width="8.012" height="1.78" rx=".89" style="stroke:none"/>
+            <path d="M0 .78h8.012m-1-.78v1.78m1-.78H0m1 .78V0" style="clip-path:url(#wttbtynwxc);fill:none"/>
+        </g>
+        <g data-name="사각형 30770" transform="rotate(-90 10.327 3.096)" style="fill:#fff;stroke:#fad94f;stroke-width:2px">
+            <path id="gx9a5jm07b" style="stroke:none" d="M0 0h2.873v1.78H0z"/>
+            <path d="M0 .78h2.873m-1-.78v1.78m1-.78H0m1 .78V0" style="clip-path:url(#43bjup09id);fill:none"/>
+        </g>
+    </g>
+</svg>
