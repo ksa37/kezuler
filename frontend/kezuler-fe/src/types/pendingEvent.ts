@@ -9,12 +9,10 @@ interface PossibleUser {
   userProfileImage: string;
 }
 
-interface EventTimeWithUser {
+interface EventTimeCandidate {
   eventStartsAt: string;
   possibleUsers: PossibleUser[];
 }
-
-type EventTimeCandidate = { [date: string]: EventTimeWithUser[] };
 
 interface BPendingEvent {
   eventHostId: string;
@@ -46,6 +44,6 @@ export type {
   PendingEvent,
   RGetPendingEvents,
   PossibleUser,
-  EventTimeCandidate,
   PPatchPendingEvent,
+  EventTimeCandidate,
 };

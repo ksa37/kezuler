@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+import { TError } from '../types/axios';
 import { BFixedEvent, PGetFixedEvents } from 'src/types/fixedEvent';
 
 import { getFixedEvents } from 'src/api/fixedEvent';
@@ -10,8 +11,9 @@ const getFixedEventsThunk = createAsyncThunk(
     try {
       const response = await getFixedEvents(params);
       return response.data;
-    } catch (err: unknown) {
-      return rejectWithValue(err);
+    } catch (error) {
+      const err = error as TError;
+      return rejectWithValue(err?.response?.data?.error);
     }
   }
 );

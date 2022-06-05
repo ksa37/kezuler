@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { EventTimeCandidate } from 'src/types/pendingEvent';
+import { parseDateString } from 'src/utils/dateParser';
 
 import TimeProfileButton from './TimeProfileButton';
 
@@ -66,18 +67,19 @@ function TimeProfileButtonList({
   //duration 계산하는거 넣어야함
   return (
     <>
-      {eventTimeCandidates.map((eventTimeCandidate) => {
-        <div>{Object.keys(eventTimeCandidate)[0]}</div>;
-        const eventTimeWithUsers = Object.values(eventTimeCandidate)[0];
-        eventTimeWithUsers.map((timeOption) => {
-          <TimeProfileButton
-            key={timeOption.eventStartsAt}
-            onClick={onClick}
-            eventStartsAt={timeOption.eventStartsAt}
-            eventTimeDuration={eventTimeDuration}
-            possibleUsersList={timeOption.possibleUsers}
-          />;
-        });
+      {eventTimeCandidates.map(({ eventStartsAt, possibleUsers }) => {
+        return (
+          <>
+            <div>{parseDateString(eventStartsAt)}</div>
+            <TimeProfileButton
+              key={eventStartsAt}
+              onClick={onClick}
+              eventStartsAt={eventStartsAt}
+              eventTimeDuration={eventTimeDuration}
+              possibleUsersList={possibleUsers}
+            />
+          </>
+        );
       })}
     </>
   );
