@@ -428,6 +428,9 @@
         height: 38px;
         background: $color-main 0% 0% no-repeat padding-box;
         border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
 
@@ -443,6 +446,9 @@
         height: 38px;
         background: #dddddd 0% 0% no-repeat padding-box;
         border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
@@ -461,6 +467,8 @@
     margin-top: 12px;
     margin-left: 48px;
     margin-right: 48px;
+    padding: 15px 20px 15px;
+    box-sizing: border-box;
     height: 48px;
     width: calc(100% - 96px);
     text-align: left;
@@ -476,7 +484,6 @@
   }
 
   input::placeholder {
-    padding: 15px 20px 15px;
     color: #bec1c7;
   }
 

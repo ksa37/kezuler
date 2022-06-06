@@ -19,15 +19,11 @@ function CalendarView({ startDate, setStartDate, highlightDates }: Props) {
         locale={ko}
         selected={startDate}
         onChange={setStartDate}
+        // renderCustomHeader
         highlightDates={highlightDates}
         minDate={new Date()}
         maxDate={addMonths(new Date(), 6)}
         showDisabledMonthNavigation
-        // todayButton="오늘"
-        // showTimeSelect
-        // timeFormat="HH:mm"
-        // timeIntervals={15}
-        // timeCaption="time"
         inline
       />
     </div>
