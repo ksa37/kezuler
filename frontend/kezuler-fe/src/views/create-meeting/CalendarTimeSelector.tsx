@@ -19,6 +19,7 @@ import { ReactComponent as CalendarIcon } from 'src/assets/calendar_icon.svg';
 import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
 import { ReactComponent as GoogleIcon } from 'src/assets/google_icon.svg';
 import { ReactComponent as ClockOrangeIcon } from 'src/assets/icn_clock_o20.svg';
+import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
@@ -111,7 +112,7 @@ function CalendarTimeSelector() {
         <ClockOrangeIcon className={'icn-clock-o20'} />
         <div className={'duration-text'}>미팅 길이</div>
         <KezulerDropdown
-          endIcon={<div>아이콘</div>}
+          endIcon={<ArrowDownIcon />}
           menuData={MEETING_LENGTH_LIST}
           displayKey={'display'}
           selectedIdx={selectedLengthIdx}
