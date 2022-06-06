@@ -111,6 +111,7 @@ function CalendarTimeSelector() {
         <ClockOrangeIcon className={'icn-clock-o20'} />
         <div className={'duration-text'}>미팅 길이</div>
         <KezulerDropdown
+          endIcon={<div>아이콘</div>}
           menuData={MEETING_LENGTH_LIST}
           displayKey={'display'}
           selectedIdx={selectedLengthIdx}

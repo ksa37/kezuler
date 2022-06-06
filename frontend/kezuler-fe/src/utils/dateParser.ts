@@ -1,6 +1,6 @@
 import DAY_OF_WEEK from 'src/constants/DayofWeek';
 
-// api 의 모든 response 는 yyyy-MM-dd hh:mm:ss 형태로
+// api 의 모든 response (date string) 는 yyyy-MM-dd hh:mm:ss 형태로
 
 const formatTwoDigits = (n: number) => (n < 10 ? `0${n}` : n);
 
@@ -29,6 +29,7 @@ const getDDay = (date: Date) => {
   return dDay === 0 ? 'Today' : `D-${dDay}`;
 };
 
+// 월 반환
 const getMonthFromDateString = (dateString?: string) => {
   if (!dateString) {
     return new Date().getMonth() + 1;
@@ -45,7 +46,17 @@ const getTimeRange = (startDate: Date, durationMinutes: number) => {
   return `${dateToDailyTime(startDate)} ~ ${dateToDailyTime(endDate)}`;
 };
 
+// date string => YYYY년 m월 dd일 오후(오전) HH:MM
+const dateStringToKorDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${year}년 ${month}월 ${day}일 ${dateToDailyTime(date)}`;
+};
+
 export {
+  dateStringToKorDate,
   parseDateString,
   dateToMMdd,
   dateToDailyTime,
