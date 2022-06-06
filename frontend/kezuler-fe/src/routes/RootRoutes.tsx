@@ -10,13 +10,15 @@ import CreateMeeting from 'src/views/create-meeting';
 import KakaoRedirect from 'src/views/KakaoRedirect';
 import Login from 'src/views/Login';
 import MainPage from 'src/views/MainPage';
+import MyPage from 'src/views/MyPage';
+import NotiPage from 'src/views/NotiPage';
 import TestPage from 'src/views/TestPage';
-import ButtonAppBar from 'src/components/ButtonAppBar';
+import MainAppBar from 'src/components/common/MainAppBar';
 
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
-  // const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
-  const isLoggedIn = true;
+  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+  // const isLoggedIn = true;
 
   return (
     <>
@@ -27,13 +29,13 @@ function RootRoutes() {
               path={PathName.main}
               element={
                 <>
-                  <ButtonAppBar />
+                  <MainAppBar />
                   <MainPage />
                 </>
               }
             />
-            <Route path={PathName.notification} element={<>login</>} />
-            <Route path={PathName.setting} element={<>login</>} />
+            <Route path={PathName.notification} element={<NotiPage />} />
+            <Route path={PathName.myPage} element={<MyPage />} />
             <Route path={PathName.pending} element={<>login</>} />
             <Route path={PathName.delete} element={<>login</>} />
             <Route path={PathName.create} element={<CreateMeeting />} />
@@ -53,7 +55,7 @@ function RootRoutes() {
         // <main>
         <Routes>
           <Route
-            path={PathName.invite + '/:eventId'}
+            path={`${PathName.invite}/:eventId`}
             element={<AcceptMeeting />}
           />
           <Route path={PathName.login} element={<Login />} />
