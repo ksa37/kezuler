@@ -16,7 +16,7 @@ import ButtonAppBar from 'src/components/ButtonAppBar';
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
   // const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
   return (
     <>
