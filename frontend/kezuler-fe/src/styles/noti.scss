@@ -1,0 +1,48 @@
+@import './constants';
+
+.noti-divider {
+  margin: 16px 28px 21px;
+  position: relative;
+  font-size: $font-14;
+  color: #9f9f9f;
+
+  &::after {
+    position: absolute;
+    width: calc(100% - 28px);
+    top: 50%;
+    transform: translateY(50%) - 1px; // border-thinkness / 2
+    margin-left: 16px;
+    content: '';
+    border-top: 2px dashed #70707033;
+  }
+}
+
+.noti-card {
+  margin: 16px 20px;
+  padding: 16px;
+  border-radius: $common-border-radius;
+  background: white;
+  box-shadow: 0 15px 35px #282f390d;
+
+  display: flex;
+  flex-direction: column;
+
+  .noti-card-main {
+    display: flex;
+    color: $color-highlight;
+    font-size: $font-16;
+    line-height: 1.5;
+
+    svg {
+      //width: 16px;
+      //height: 16px;
+      margin: 2px 8px 0 0;
+    }
+  }
+
+  .noti-card-time {
+    align-self: flex-end;
+    font-size: $font-12;
+    color: $color-text;
+  }
+}
