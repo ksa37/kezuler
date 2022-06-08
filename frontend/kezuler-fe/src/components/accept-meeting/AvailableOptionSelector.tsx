@@ -86,6 +86,7 @@ function AvailableOptionSelector() {
             rows={5}
             className={'available-option-text-field'}
             value={declineReason || ''}
+            maxLength={100}
             onChange={handleDeclineReasonChange}
             placeholder={notAvailableReasonDescription}
           />

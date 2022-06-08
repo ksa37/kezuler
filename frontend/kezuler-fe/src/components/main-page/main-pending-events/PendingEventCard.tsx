@@ -23,7 +23,7 @@ function PendingEventCard({ event }: Props) {
     (state: RootState) => state.mainPending.curUserId
   );
 
-  const { eventTitle, eventHostId, eventZoomAddress, eventTimeCandidates } =
+  const { eventTitle, eventHost, eventZoomAddress, eventTimeCandidates } =
     event;
 
   const handleChangeTime = () => {
@@ -52,8 +52,8 @@ function PendingEventCard({ event }: Props) {
   };
 
   const isHost = useMemo(
-    () => curUserId === eventHostId,
-    [curUserId, eventHostId]
+    () => curUserId === eventHost.userId,
+    [curUserId, eventHost.userId]
   );
 
   const isParticipating = useMemo(() => {
