@@ -33,7 +33,8 @@ function MainPendingEvents() {
     console.log('connect');
   };
 
-  if (!events) {
+  const isEvent = true;
+  if (!isEvent) {
     return (
       <div className={'main-pending'}>
         <h2 className={classNames('main-empty-h2', 'pending')}>

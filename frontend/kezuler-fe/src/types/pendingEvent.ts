@@ -9,9 +9,15 @@ interface EventTimeCandidate {
   possibleUsers: User[];
 }
 
+interface EventHost {
+  userId: string;
+  userName: string;
+  userProfileImage: string;
+}
+
 interface BPendingEvent {
-  eventHostId: string;
   eventId: string;
+  eventHost: EventHost;
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;

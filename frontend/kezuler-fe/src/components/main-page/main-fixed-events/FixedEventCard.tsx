@@ -33,7 +33,7 @@ function FixedEventCard({ event }: Props) {
     eventPlace,
     participants,
     eventZoomAddress,
-    eventHostId,
+    eventHost,
     isDisabled,
   } = event;
 
@@ -42,8 +42,8 @@ function FixedEventCard({ event }: Props) {
   };
 
   const isHost = useMemo(
-    () => curUserId === eventHostId,
-    [curUserId, eventHostId]
+    () => curUserId === eventHost.userId,
+    [curUserId, eventHost.userId]
   );
 
   const date = useMemo(() => new Date(eventTimeStartsAt), [event]);

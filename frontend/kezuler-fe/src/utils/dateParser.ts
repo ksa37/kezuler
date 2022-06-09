@@ -58,7 +58,7 @@ const dateStringToKorDate = (dateString: string) => {
   return `${year}년 ${month}월 ${day}일 ${dateToDailyTime(date)}`;
 };
 
-// Date array => {M/d EEE: [Date, Date, Date, ...]   }
+// [Date, Date, Date]  => {M/d EEE: [Date, Date, Date, ...]   }
 type EventTimeListByDate = { [date: string]: Date[] };
 const getTimeListDevideByDate = (eventTimeList: Date[]) => {
   const eventTimeListByDate: EventTimeListByDate = {};
@@ -75,6 +75,35 @@ const getTimeListDevideByDate = (eventTimeList: Date[]) => {
   return eventTimeListByDate;
 };
 
+type EventTimeListByDateWithPossibleNum = {
+  [date: string]: EventTimeListWithPossibleNum[];
+};
+type EventTimeListWithPossibleNum = {
+  eventStartsAt: Date;
+  possibleNum: number;
+};
+// [[Date, num], [Date, num], [Date, num]]  => {M/d EEE: [[Date, num], [Date, num], [Date, num], ...]   }
+const getTimeListDevideByDateWithPossibleNum = (
+  eventTimeListWithPossibleNums: EventTimeListWithPossibleNum[]
+) => {
+  const eventTimeListByDate: EventTimeListByDateWithPossibleNum = {};
+
+  for (let i = 0; i < eventTimeListWithPossibleNums.length; i++) {
+    const dateAndDay = format(
+      eventTimeListWithPossibleNums[i].eventStartsAt,
+      'M/d EEE',
+      {
+        locale: ko,
+      }
+    );
+    if (!eventTimeListByDate[dateAndDay]) {
+      eventTimeListByDate[dateAndDay] = [];
+    }
+    eventTimeListByDate[dateAndDay].push(eventTimeListWithPossibleNums[i]);
+  }
+  return eventTimeListByDate;
+};
+
 export {
   dateStringToKorDate,
   parseDateString,
@@ -85,4 +114,5 @@ export {
   getKorDay,
   getTimeRange,
   getTimeListDevideByDate,
+  getTimeListDevideByDateWithPossibleNum,
 };
