@@ -33,7 +33,7 @@ function OverviewModal({ event }: Props) {
     eventTitle,
     eventDescription,
     eventAttachment,
-    eventHostId,
+    eventHost,
     eventZoomAddress,
     eventPlace,
   } = event;
@@ -41,8 +41,8 @@ function OverviewModal({ event }: Props) {
   const { copyText } = useCopyText();
 
   const isHost = useMemo(
-    () => eventHostId === getCurrentUserInfo()?.userId,
-    [eventHostId]
+    () => eventHost.userId === getCurrentUserInfo()?.userId,
+    [eventHost.userId]
   );
 
   const place = useMemo(

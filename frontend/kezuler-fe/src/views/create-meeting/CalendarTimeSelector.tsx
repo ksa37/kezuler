@@ -1,7 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DriveEtaTwoTone } from '@mui/icons-material';
-import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import classNames from 'classnames';
 import { format } from 'date-fns';
@@ -21,6 +19,7 @@ import { ReactComponent as CalendarIcon } from 'src/assets/calendar_icon.svg';
 import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
 import { ReactComponent as GoogleIcon } from 'src/assets/google_icon.svg';
 import { ReactComponent as ClockOrangeIcon } from 'src/assets/icn_clock_o20.svg';
+import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,12 +28,10 @@ function CalendarTimeSelector() {
   );
   const { increaseStep, addTimeList, deleteTimeList } = createMeetingActions;
 
-  // const timeChipSelectDescription = '미팅시작 시간을 선택하세요';
-
   const [startDate, setStartDate] = useState<Date | null>(new Date());
 
   const createDate = (timeOption: string) => {
-    if (startDate)
+    if (startDate) {
       return new Date(
         startDate.getFullYear(),
         startDate.getMonth(),
@@ -42,28 +39,9 @@ function CalendarTimeSelector() {
         Number(timeOption.split(':')[0]),
         Number(timeOption.split(':')[1])
       ).toISOString();
-    else {
-      console.log('Warning: date is null!');
-      return new Date().toISOString();
-    }
-  };
-
-  const handleChipClick = (timeOption: string) => {
-    if (startDate) {
-      const dateToAdd = createDate(timeOption);
-      if (eventTimeList.includes(dateToAdd)) {
-        dispatch(deleteTimeList(dateToAdd));
-        console.log('Deleted Date !', dateToAdd);
-      } else {
-        if (eventTimeList.length === 5) {
-          alert('5개까지만 추가할 수 있어요!');
-        } else {
-          dispatch(addTimeList(dateToAdd));
-          console.log('Added Date !', dateToAdd);
-        }
-      }
     } else {
       console.log('Warning: date is null!');
+      return new Date().toISOString();
     }
   };
 
@@ -85,6 +63,26 @@ function CalendarTimeSelector() {
     () => eventTimeList.map((dateString) => new Date(dateString)),
     [eventTimeList]
   );
+
+  const handleChipClick = (timeOption: string) => {
+    if (startDate) {
+      const dateToAdd = createDate(timeOption);
+      console.log(dateToAdd);
+      if (eventTimeList.includes(dateToAdd)) {
+        dispatch(deleteTimeList(dateToAdd));
+        console.log('Deleted Date !', dateToAdd);
+      } else {
+        if (eventTimeList.length === 5) {
+          alert('5개까지만 추가할 수 있어요!');
+        } else {
+          dispatch(addTimeList(dateToAdd));
+          console.log('Added Date !', dateToAdd);
+        }
+      }
+    } else {
+      console.log('Warning: date is null!');
+    }
+  };
 
   const handleNextClick = () => {
     dispatch(increaseStep());
@@ -114,7 +112,7 @@ function CalendarTimeSelector() {
         <ClockOrangeIcon className={'icn-clock-o20'} />
         <div className={'duration-text'}>미팅 길이</div>
         <KezulerDropdown
-          endIcon={<div>아이콘</div>}
+          endIcon={<ArrowDownIcon />}
           menuData={MEETING_LENGTH_LIST}
           displayKey={'display'}
           selectedIdx={selectedLengthIdx}
@@ -217,6 +215,11 @@ function CalendarTimeSelector() {
       )}
       <BottomButton
         onClick={handleNextClick}
+        subtext={
+          eventTimeList.length !== 0
+            ? `${eventTimeList.length}개 시간 선택중(최대 5개)`
+            : undefined
+        }
         text="다음"
         disabled={eventTimeList.length === 0}
       />

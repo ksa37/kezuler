@@ -33,7 +33,8 @@ function MainFixedEvents() {
     console.log('create');
   };
 
-  if (!events) {
+  const isEvent = false;
+  if (!isEvent) {
     return (
       <div className={'main-fixed'}>
         <h1 className={'main-fixed-month-divider'}>

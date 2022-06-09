@@ -109,23 +109,34 @@
 }
 
 .time-select-time-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  height: 40px;
-  box-shadow: 0px 15px 35px #282f391a;
-  left: 40%;
+  display: flex;
+  align-items: center;
   margin-top: 12px;
+  // left: 40%;
 
   .time-select-time-content {
-    padding-inline: 8px;
-    // transform: translate(0%, 50%);
+    display: flex;
+    flex: 1;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    border-radius: 8px;
+
+    background-color: #ffffff;
+    box-shadow: 0px 15px 35px #282f391a;
+    padding-left: 12px;
+    padding-right: 8px;
 
     font: normal normal normal 14px/18px Pretendard;
 
-    .check-box-icon {
-      width: 20px;
-      height: 20px;
+    .time-range {
+      flex: 1;
     }
+  }
+  .check-box-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
   }
 }
 
@@ -155,12 +166,19 @@
     box-shadow: 0px 15px 35px #282f390d;
     opacity: 1;
     color: $color-highlight;
-    padding-inline: 11px;
+    @media screen and (min-width: 380px) {
+      padding-inline: 11px;
+      .btn-txt {
+        display: inline;
+      }
+    }
+    text-align: center;
     padding-top: 8px;
     padding-bottom: 7px;
-    font-size: 12px;
     margin-top: 12px;
-    box-sizing: content-box;
+
+    font-size: 12px;
+    box-sizing: border-box;
   }
 }
 
@@ -169,6 +187,7 @@
   width: 100%;
   box-sizing: border-box;
   position: fixed;
+
   bottom: 56px;
   left: 0;
   padding: 20px;
@@ -221,6 +240,12 @@
     outline: none;
     font-size: 14px;
     line-height: 22px;
+    font-family: Pretendard;
+    color: $color-highlight;
+  }
+  textarea::placeholder {
+    color: #bfbfbf;
+    // font-weight: bold;
   }
 }
 

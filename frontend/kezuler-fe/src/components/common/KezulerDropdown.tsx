@@ -12,8 +12,6 @@ import classNames from 'classnames';
 
 import 'src/styles/dropdown.scss';
 
-import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
-
 interface BMenu {
   [key: string]: string | number;
 }

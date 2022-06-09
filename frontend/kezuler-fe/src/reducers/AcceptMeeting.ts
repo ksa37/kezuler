@@ -36,15 +36,13 @@ interface AcceptMeetingState {
   userName?: string;
   isDecline: boolean;
   declineReason: null | string;
-  availableTimes: TimeCandidate[];
+  availableTimes: string[];
 }
-
-type TimeCandidate = { [date: string]: string[] };
 
 const initialPendingEvent: PendingEvent = {
   userId: '',
   eventId: '',
-  eventHostId: '',
+  eventHost: { userId: '', userName: '', userProfileImage: '' },
   eventTitle: '',
   eventDescription: '',
   eventTimeDuration: 60,
@@ -67,10 +65,14 @@ const initialState: AcceptMeetingState = {
   eventId: '',
   userId: '',
   userName: '',
-  isDecline: false,
+  isDecline: true,
+
   declineReason: null,
   availableTimes: [],
 };
+
+const dateSort = (dateArr: string[]) =>
+  dateArr.sort((a, b) => new Date(a).valueOf() - new Date(b).valueOf());
 
 export const acceptMeetingSlice = createSlice({
   name: 'accept-meeting',
@@ -103,8 +105,19 @@ export const acceptMeetingSlice = createSlice({
     setDeclineReason: (state, action: PayloadAction<string>) => {
       state.declineReason = action.payload;
     },
-    setAvailableTimes: (state, action: PayloadAction<TimeCandidate[]>) => {
-      state.availableTimes = action.payload;
+    // setAvailableTimes: (state, action: PayloadAction<string[]>) => {
+    //   state.availableTimes = action.payload;
+    // },
+    addAvailableTimes: (state, action: PayloadAction<string>) => {
+      state.availableTimes.push(action.payload);
+      state.availableTimes = dateSort(state.availableTimes);
+    },
+    deleteAvailableTimes: (state, action: PayloadAction<string>) => {
+      const index = state.availableTimes.indexOf(action.payload);
+      if (index !== -1) {
+        state.availableTimes.splice(index, 1);
+      }
+      state.availableTimes = dateSort(state.availableTimes);
     },
   },
   extraReducers: (builder) => {
