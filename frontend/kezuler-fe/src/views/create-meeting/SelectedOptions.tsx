@@ -1,74 +1,35 @@
-import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Card, CardContent } from '@mui/material';
-import classNames from 'classnames';
+import { Button } from '@mui/material';
 
+// import classNames from 'classnames';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
+import { getTimeListDevideByDate, getTimeRange } from 'src/utils/dateParser';
 
 import BottomButton from 'src/components/common/BottomButton';
 
-type EventTimeListDate = { [date: string]: string[] };
-
 function ShowSelectedOptions() {
   const dispatch = useDispatch<AppDispatch>();
-  const { increaseStep, decreaseStep, deleteTimeList } = createMeetingActions;
-  const { eventTimeList } = useSelector(
+  const { increaseStep, deleteTimeList } = createMeetingActions;
+  const { eventTimeList, eventTimeDuration } = useSelector(
     (state: RootState) => state.createMeeting
   );
 
-  const eventTimeListDevideByDate = useMemo(() => {
-    const eventTimeListDate = eventTimeList.map(
-      (dateString) => new Date(dateString)
-    );
-    const eventTimeListDateWithObj: EventTimeListDate = {};
-    for (let i = 0; i < eventTimeListDate.length; i++) {
-      const dateWithoutTimeArr = eventTimeListDate[i]
-        .toLocaleString('ko-KR', { timeZone: 'GMT' })
-        .split('. ');
-      dateWithoutTimeArr[1] = dateWithoutTimeArr[1].padStart(2, '0');
-      dateWithoutTimeArr[2] = dateWithoutTimeArr[2].padStart(2, '0');
-      dateWithoutTimeArr[3] = ''.concat(
-        ...dateWithoutTimeArr[3].split(':').slice(0, 1),
-        ':',
-        ...dateWithoutTimeArr[3].split(':').slice(1, 2)
-      );
+  const eventTimeListDevideByDate = useMemo(
+    () =>
+      getTimeListDevideByDate(
+        eventTimeList.map((dateStr) => new Date(dateStr))
+      ),
+    [eventTimeList]
+  );
 
-      const dateWithoutTime = ''.concat(...dateWithoutTimeArr.slice(0, 3));
+  const subDescription = `총 ${eventTimeList.length}개 선택`;
 
-      if (!eventTimeListDateWithObj[dateWithoutTime]) {
-        eventTimeListDateWithObj[dateWithoutTime] = [];
-      }
-      eventTimeListDateWithObj[dateWithoutTime].push(
-        ''.concat(...dateWithoutTimeArr.slice(3))
-      );
-    }
-    return eventTimeListDateWithObj;
-  }, [eventTimeList]);
-
-  console.log(eventTimeListDevideByDate);
-
-  const mainDescription = '선택한 날짜와 시간을 확인해주세요';
-  const subDescription = `${eventTimeList.length}개 선택`;
-
-  const handleDeleteClick = (dateKey: string, time: string) => {
-    const amPm = time.split(' ')[0] === '오전';
-    const hour: string = time.split(' ')[1].split(':')[0];
-    const minute: string = time.split(' ')[1].split(':')[1];
-    const dateStrToDelete = new Date(
-      Number(dateKey.slice(0, 4)),
-      Number(dateKey.slice(4, 6)) - 1,
-      Number(dateKey.slice(6, 8)),
-      amPm ? Number(hour) : Number(hour) + 12,
-      Number(minute)
-    ).toISOString();
-    console.log(dateStrToDelete);
+  const handleDeleteClick = (dateKey: string, time: Date) => {
+    const dateStrToDelete = time.toISOString();
     dispatch(deleteTimeList(dateStrToDelete));
-  };
-
-  const handlePrevClick = () => {
-    dispatch(decreaseStep());
   };
 
   const handleNextClick = () => {
@@ -94,7 +55,7 @@ function ShowSelectedOptions() {
             {eventTimeListDevideByDate[dateKey].map((time) => (
               <div key={dateKey + time}>
                 <div>
-                  {time}
+                  {getTimeRange(time, eventTimeDuration)}
                   <Button onClick={() => handleDeleteClick(dateKey, time)}>
                     X
                   </Button>

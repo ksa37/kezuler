@@ -1,8 +1,14 @@
 import { User } from 'src/types/user';
 
+interface EventHost {
+  userId: string;
+  userName: string;
+  userProfileImage: string;
+}
+
 interface BFixedEvent {
-  eventHostId: string;
   eventId: string;
+  eventHost: EventHost;
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;

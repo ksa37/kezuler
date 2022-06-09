@@ -543,8 +543,21 @@ $datepicker__triangle-size: 8px !default;
     }
 
     &--today {
-      font-weight: bold;
+      position: relative;
+      // font-weight: bold;
       color: $color-main-dark;
+      &::after {
+        position: absolute;
+        top: 14px;
+        left: 4px;
+        content: '오늘';
+        font-size: 8px;
+      }
+      &.react-datepicker__day--selected {
+        &::after {
+          content: '';
+        }
+      }
     }
 
     &--highlighted {

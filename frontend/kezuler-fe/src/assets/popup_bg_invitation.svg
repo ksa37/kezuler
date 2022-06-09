@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="479" height="576.5" viewBox="0 0 479 576.5">
+  <defs>
+    <filter id="사각형_30834" x="142" y="0" width="337" height="145" filterUnits="userSpaceOnUse">
+      <feOffset dy="15" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="17.5" result="blur"/>
+      <feFlood flood-color="#282f39" flood-opacity="0.102"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="사각형_30835" x="142" y="52" width="337" height="145" filterUnits="userSpaceOnUse">
+      <feOffset dy="15" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="17.5" result="blur-2"/>
+      <feFlood flood-color="#282f39" flood-opacity="0.102"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="사각형_30836" x="142" y="199" width="337" height="145" filterUnits="userSpaceOnUse">
+      <feOffset dy="15" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="17.5" result="blur-3"/>
+      <feFlood flood-color="#282f39" flood-opacity="0.102"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="사각형_30837" x="142" y="251" width="337" height="145" filterUnits="userSpaceOnUse">
+      <feOffset dy="15" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="17.5" result="blur-4"/>
+      <feFlood flood-color="#282f39" flood-opacity="0.102"/>
+      <feComposite operator="in" in2="blur-4"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="사각형_30838" x="142" y="151" width="337" height="145" filterUnits="userSpaceOnUse">
+      <feOffset dy="15" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="17.5" result="blur-5"/>
+      <feFlood flood-color="#282f39" flood-opacity="0.102"/>
+      <feComposite operator="in" in2="blur-5"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="사각형_30839" x="0" y="151" width="223" height="145" filterUnits="userSpaceOnUse">
+      <feOffset dy="15" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="17.5" result="blur-6"/>
+      <feFlood flood-color="#282f39" flood-opacity="0.102"/>
+      <feComposite operator="in" in2="blur-6"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="그룹_94189" data-name="그룹 94189" transform="translate(32.5 -190.5)" opacity="0.6">
+    <path id="패스_32015" data-name="패스 32015" d="M7682-1837v563" transform="translate(-7532 2041)" fill="none" stroke="#bfbfbf" stroke-width="1"/>
+    <g transform="matrix(1, 0, 0, 1, -32.5, 190.5)" filter="url(#사각형_30834)">
+      <rect id="사각형_30834-2" data-name="사각형 30834" width="232" height="40" rx="8" transform="translate(194.5 37.5)" fill="#fff"/>
+    </g>
+    <text id="오전_9:00_오전_10:00" data-name="오전 9:00 ~ 오전 10:00" transform="translate(194 253)" fill="#282f39" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="14" font-family="Pretendard-Regular, Pretendard"><tspan x="0" y="0">오전 </tspan><tspan y="0" font-family="Pretendard-Bold, Pretendard" font-weight="700">9:00</tspan><tspan y="0" xml:space="preserve"> ~ 오전 </tspan><tspan y="0" font-family="Pretendard-Bold, Pretendard" font-weight="700">10:00</tspan></text>
+    <g transform="matrix(1, 0, 0, 1, -32.5, 190.5)" filter="url(#사각형_30835)">
+      <rect id="사각형_30835-2" data-name="사각형 30835" width="232" height="40" rx="8" transform="translate(194.5 89.5)" fill="#fff"/>
+    </g>
+    <text id="오후_1:00_오후_2:00" data-name="오후 1:00 ~ 오후 2:00" transform="translate(194 305)" fill="#282f39" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="14" font-family="Pretendard-Regular, Pretendard"><tspan x="0" y="0">오후 </tspan><tspan y="0" font-family="Pretendard-Bold, Pretendard" font-weight="700">1:00</tspan><tspan y="0" xml:space="preserve"> ~ 오후 </tspan><tspan y="0" font-family="Pretendard-Bold, Pretendard" font-weight="700">2:00</tspan></text>
+    <g transform="matrix(1, 0, 0, 1, -32.5, 190.5)" filter="url(#사각형_30836)">
+      <rect id="사각형_30836-2" data-name="사각형 30836" width="232" height="40" rx="8" transform="translate(194.5 236.5)" fill="#fff"/>
+    </g>
+    <text id="오후_8:00_오후_9:00" data-name="오후 8:00 ~ 오후 9:00" transform="translate(194 452.938)" fill="#282f39" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="14" font-family="Pretendard-Regular, Pretendard"><tspan x="0" y="0">오후 </tspan><tspan y="0" font-family="Pretendard-Bold, Pretendard" font-weight="700">8:00</tspan><tspan y="0" xml:space="preserve"> ~ 오후 </tspan><tspan y="0" font-family="Pretendard-Bold, Pretendard" font-weight="700">9:00</tspan></text>
+    <g transform="matrix(1, 0, 0, 1, -32.5, 190.5)" filter="url(#사각형_30837)">
+      <rect id="사각형_30837-2" data-name="사각형 30837" width="232" height="40" rx="8" transform="translate(194.5 288.5)" fill="#fff"/>
+    </g>
+    <text id="오후_1:00_오후_2:00-2" data-name="오후 1:00 ~ 오후 2:00" transform="translate(194 505.469)" fill="#282f39" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="14" font-family="Pretendard-Regular, Pretendard"><tspan x="0" y="0">오후 </tspan><tspan y="0" font-family="Pretendard-Bold, Pretendard" font-weight="700">1:00</tspan><tspan y="0" xml:space="preserve"> ~ 오후 </tspan><tspan y="0" font-family="Pretendard-Bold, Pretendard" font-weight="700">2:00</tspan></text>
+    <g transform="matrix(1, 0, 0, 1, -32.5, 190.5)" filter="url(#사각형_30838)">
+      <rect id="사각형_30838-2" data-name="사각형 30838" width="232" height="40" rx="8" transform="translate(194.5 188.5)" fill="#fff"/>
+    </g>
+    <text id="오후_7:00_오후_8:00" data-name="오후 7:00 ~ 오후 8:00" transform="translate(194 404.938)" fill="#282f39" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="14" font-family="Pretendard-Regular, Pretendard"><tspan x="0" y="0">오후 </tspan><tspan y="0" font-family="Pretendard-Bold, Pretendard" font-weight="700">7:00</tspan><tspan y="0" xml:space="preserve"> ~ 오후 </tspan><tspan y="0" font-family="Pretendard-Bold, Pretendard" font-weight="700">8:00</tspan></text>
+    <circle id="타원_65545" data-name="타원 65545" cx="4" cy="4" r="4" transform="translate(146 204)" fill="#282f39"/>
+    <circle id="타원_65546" data-name="타원 65546" cx="4" cy="4" r="4" transform="translate(146 353)" fill="#282f39"/>
+    <text id="_4_11" data-name="4/11" transform="translate(162 212)" fill="#282f39" font-size="16" font-family="Pretendard-Bold, Pretendard" font-weight="700"><tspan x="0" y="0">4/11</tspan></text>
+    <text id="수" transform="translate(201 212)" fill="#282f39" font-size="16" font-family="Pretendard-Regular, Pretendard"><tspan x="0" y="0">수</tspan></text>
+    <text id="_4_23" data-name="4/23" transform="translate(162 363)" fill="#282f39" font-size="16" font-family="Pretendard-Bold, Pretendard" font-weight="700"><tspan x="0" y="0">4/23</tspan></text>
+    <text id="수-2" data-name="수" transform="translate(206 363)" fill="#282f39" font-size="16" font-family="Pretendard-Regular, Pretendard"><tspan x="0" y="0">수</tspan></text>
+    <g id="Icon_check_outline" transform="translate(170 238)">
+      <rect id="Icon_check_outline_background" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
+      <g id="Icon_check_outline-2" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
+        <path id="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#fad94f"/>
+      </g>
+    </g>
+    <g id="Icon_check_outline-3" data-name="Icon_check_outline" transform="translate(170 290)">
+      <rect id="Icon_check_outline_background-2" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
+      <g id="Icon_check_outline-4" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
+        <path id="Shape-2" data-name="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#fad94f"/>
+      </g>
+    </g>
+    <g id="Icon_check_outline-5" data-name="Icon_check_outline" transform="translate(170 389)">
+      <rect id="Icon_check_outline_background-3" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
+      <g id="Icon_check_outline-6" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
+        <path id="Shape-3" data-name="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#fad94f"/>
+      </g>
+    </g>
+    <g id="Icon_check_outline-7" data-name="Icon_check_outline" transform="translate(170 437)">
+      <rect id="Icon_check_outline_background-4" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
+      <g id="Icon_check_outline-8" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
+        <path id="Shape-4" data-name="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#fad94f"/>
+      </g>
+    </g>
+    <g id="Icon_check_outline-9" data-name="Icon_check_outline" transform="translate(170 489)">
+      <rect id="Icon_check_outline_background-5" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
+      <g id="Icon_check_outline-10" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
+        <path id="Shape-5" data-name="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#fad94f"/>
+      </g>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -32.5, 190.5)" filter="url(#사각형_30839)">
+      <rect id="사각형_30839-2" data-name="사각형 30839" width="118" height="40" rx="8" transform="translate(52.5 188.5)" fill="#fff"/>
+    </g>
+    <text id="동아리_모임" data-name="동아리 모임" transform="translate(74 410)" fill="#9f9f9f" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="10" font-family="Pretendard-Medium, Pretendard" font-weight="500"><tspan x="-45.64" y="0">동아리 모임</tspan></text>
+    <text id="오후_09:00_오후_10:30" data-name="오후 09:00 ~ 오후 10:30" transform="translate(28 396)" fill="#282f39" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="10" font-family="Pretendard-Regular, Pretendard"><tspan x="0" y="0">오후 09:00 ~ 오후 10:30</tspan></text>
+    <g id="Icon_check_outline-11" data-name="Icon_check_outline" transform="translate(170 238)">
+      <circle id="타원_65541" data-name="타원 65541" cx="8.335" cy="8.335" r="8.335" transform="translate(1.667 1.667)" fill="#fad94f"/>
+      <rect id="Icon_check_outline_background-6" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
+      <g id="Icon_check_outline-12" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
+        <path id="Path" d="M6.423.244a.833.833,0,0,1,0,1.179L3.089,4.756a.833.833,0,0,1-1.178,0L.244,3.089A.833.833,0,1,1,1.423,1.911L2.5,2.988,5.244.244A.833.833,0,0,1,6.423.244Z" transform="translate(5 5.833)" fill="#fff"/>
+        <path id="Shape-6" data-name="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#fad94f"/>
+      </g>
+    </g>
+    <g id="Icon_check_outline-13" data-name="Icon_check_outline" transform="translate(170 290)">
+      <circle id="타원_65541-2" data-name="타원 65541" cx="8.335" cy="8.335" r="8.335" transform="translate(1.667 1.667)" fill="#fad94f"/>
+      <rect id="Icon_check_outline_background-7" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
+      <g id="Icon_check_outline-14" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
+        <path id="Path-2" data-name="Path" d="M6.423.244a.833.833,0,0,1,0,1.179L3.089,4.756a.833.833,0,0,1-1.178,0L.244,3.089A.833.833,0,1,1,1.423,1.911L2.5,2.988,5.244.244A.833.833,0,0,1,6.423.244Z" transform="translate(5 5.833)" fill="#fff"/>
+        <path id="Shape-7" data-name="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#fad94f"/>
+      </g>
+    </g>
+    <g id="그룹_94189-2" data-name="그룹 94189">
+      <g id="users-Bold" transform="translate(355 240)">
+        <rect id="Path-3" data-name="Path" width="16" height="16" fill="rgba(255,255,255,0)"/>
+        <path id="users-Bold_1_" d="M743,1974.76v.338a2.5,2.5,0,0,1-.649,1.684.667.667,0,0,1-.987-.9,1.17,1.17,0,0,0,.3-.789v-.338a1.791,1.791,0,0,0-1.357-1.745.432.432,0,0,0-.318.039,4.151,4.151,0,0,1-3.978,0,.429.429,0,0,0-.323-.042,1.791,1.791,0,0,0-1.357,1.745v.338a1.173,1.173,0,0,0,.3.789.667.667,0,0,1-.988.9A2.5,2.5,0,0,1,733,1975.1v-.338a3.123,3.123,0,0,1,2.369-3.04,1.8,1.8,0,0,1,1.292.171,2.8,2.8,0,0,0,2.683,0,1.794,1.794,0,0,1,1.287-.167A3.122,3.122,0,0,1,743,1974.76Zm-8.333-6.426a3.333,3.333,0,1,1,3.333,3.333A3.337,3.337,0,0,1,734.667,1968.333Zm1.333,0a2,2,0,1,0,2-2A2,2,0,0,0,736,1968.333Z" transform="translate(-730 -1963)" fill="#fad94f"/>
+      </g>
+      <text id="_1" data-name="1" transform="translate(371 239)" fill="#fad94f" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="14" font-family="Pretendard-Medium, Pretendard" font-weight="500"><tspan x="4.364" y="14">1</tspan></text>
+    </g>
+    <g id="그룹_94190" data-name="그룹 94190" transform="translate(0 53)">
+      <g id="users-Bold-2" data-name="users-Bold" transform="translate(355 240)">
+        <rect id="Path-4" data-name="Path" width="16" height="16" fill="rgba(255,255,255,0)"/>
+        <path id="users-Bold_1_2" data-name="users-Bold_1_" d="M743,1974.76v.338a2.5,2.5,0,0,1-.649,1.684.667.667,0,0,1-.987-.9,1.17,1.17,0,0,0,.3-.789v-.338a1.791,1.791,0,0,0-1.357-1.745.432.432,0,0,0-.318.039,4.151,4.151,0,0,1-3.978,0,.429.429,0,0,0-.323-.042,1.791,1.791,0,0,0-1.357,1.745v.338a1.173,1.173,0,0,0,.3.789.667.667,0,0,1-.988.9A2.5,2.5,0,0,1,733,1975.1v-.338a3.123,3.123,0,0,1,2.369-3.04,1.8,1.8,0,0,1,1.292.171,2.8,2.8,0,0,0,2.683,0,1.794,1.794,0,0,1,1.287-.167A3.122,3.122,0,0,1,743,1974.76Zm-8.333-6.426a3.333,3.333,0,1,1,3.333,3.333A3.337,3.337,0,0,1,734.667,1968.333Zm1.333,0a2,2,0,1,0,2-2A2,2,0,0,0,736,1968.333Z" transform="translate(-730 -1963)" fill="#fad94f"/>
+      </g>
+      <text id="_2" data-name="2" transform="translate(371 239)" fill="#fad94f" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="14" font-family="Pretendard-Medium, Pretendard" font-weight="500"><tspan x="3.342" y="14">2</tspan></text>
+    </g>
+    <g id="그룹_94191" data-name="그룹 94191" transform="translate(0 152)">
+      <g id="users-Bold-3" data-name="users-Bold" transform="translate(355 240)">
+        <rect id="Path-5" data-name="Path" width="16" height="16" fill="rgba(255,255,255,0)"/>
+        <path id="users-Bold_1_3" data-name="users-Bold_1_" d="M743,1974.76v.338a2.5,2.5,0,0,1-.649,1.684.667.667,0,0,1-.987-.9,1.17,1.17,0,0,0,.3-.789v-.338a1.791,1.791,0,0,0-1.357-1.745.432.432,0,0,0-.318.039,4.151,4.151,0,0,1-3.978,0,.429.429,0,0,0-.323-.042,1.791,1.791,0,0,0-1.357,1.745v.338a1.173,1.173,0,0,0,.3.789.667.667,0,0,1-.988.9A2.5,2.5,0,0,1,733,1975.1v-.338a3.123,3.123,0,0,1,2.369-3.04,1.8,1.8,0,0,1,1.292.171,2.8,2.8,0,0,0,2.683,0,1.794,1.794,0,0,1,1.287-.167A3.122,3.122,0,0,1,743,1974.76Zm-8.333-6.426a3.333,3.333,0,1,1,3.333,3.333A3.337,3.337,0,0,1,734.667,1968.333Zm1.333,0a2,2,0,1,0,2-2A2,2,0,0,0,736,1968.333Z" transform="translate(-730 -1963)" fill="#fad94f"/>
+      </g>
+      <text id="_2-2" data-name="2" transform="translate(371 239)" fill="#fad94f" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="14" font-family="Pretendard-Medium, Pretendard" font-weight="500"><tspan x="3.342" y="14">2</tspan></text>
+    </g>
+    <g id="그룹_94192" data-name="그룹 94192" transform="translate(0 200)">
+      <g id="users-Bold-4" data-name="users-Bold" transform="translate(355 240)">
+        <rect id="Path-6" data-name="Path" width="16" height="16" fill="rgba(255,255,255,0)"/>
+        <path id="users-Bold_1_4" data-name="users-Bold_1_" d="M743,1974.76v.338a2.5,2.5,0,0,1-.649,1.684.667.667,0,0,1-.987-.9,1.17,1.17,0,0,0,.3-.789v-.338a1.791,1.791,0,0,0-1.357-1.745.432.432,0,0,0-.318.039,4.151,4.151,0,0,1-3.978,0,.429.429,0,0,0-.323-.042,1.791,1.791,0,0,0-1.357,1.745v.338a1.173,1.173,0,0,0,.3.789.667.667,0,0,1-.988.9A2.5,2.5,0,0,1,733,1975.1v-.338a3.123,3.123,0,0,1,2.369-3.04,1.8,1.8,0,0,1,1.292.171,2.8,2.8,0,0,0,2.683,0,1.794,1.794,0,0,1,1.287-.167A3.122,3.122,0,0,1,743,1974.76Zm-8.333-6.426a3.333,3.333,0,1,1,3.333,3.333A3.337,3.337,0,0,1,734.667,1968.333Zm1.333,0a2,2,0,1,0,2-2A2,2,0,0,0,736,1968.333Z" transform="translate(-730 -1963)" fill="#fad94f"/>
+      </g>
+      <text id="_1-2" data-name="1" transform="translate(371 239)" fill="#fad94f" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="14" font-family="Pretendard-Medium, Pretendard" font-weight="500"><tspan x="4.364" y="14">1</tspan></text>
+    </g>
+    <g id="그룹_94193" data-name="그룹 94193" transform="translate(0 252)">
+      <g id="users-Bold-5" data-name="users-Bold" transform="translate(355 240)">
+        <rect id="Path-7" data-name="Path" width="16" height="16" fill="rgba(255,255,255,0)"/>
+        <path id="users-Bold_1_5" data-name="users-Bold_1_" d="M743,1974.76v.338a2.5,2.5,0,0,1-.649,1.684.667.667,0,0,1-.987-.9,1.17,1.17,0,0,0,.3-.789v-.338a1.791,1.791,0,0,0-1.357-1.745.432.432,0,0,0-.318.039,4.151,4.151,0,0,1-3.978,0,.429.429,0,0,0-.323-.042,1.791,1.791,0,0,0-1.357,1.745v.338a1.173,1.173,0,0,0,.3.789.667.667,0,0,1-.988.9A2.5,2.5,0,0,1,733,1975.1v-.338a3.123,3.123,0,0,1,2.369-3.04,1.8,1.8,0,0,1,1.292.171,2.8,2.8,0,0,0,2.683,0,1.794,1.794,0,0,1,1.287-.167A3.122,3.122,0,0,1,743,1974.76Zm-8.333-6.426a3.333,3.333,0,1,1,3.333,3.333A3.337,3.337,0,0,1,734.667,1968.333Zm1.333,0a2,2,0,1,0,2-2A2,2,0,0,0,736,1968.333Z" transform="translate(-730 -1963)" fill="#fad94f"/>
+      </g>
+      <text id="_2-3" data-name="2" transform="translate(371 239)" fill="#fad94f" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" font-size="14" font-family="Pretendard-Medium, Pretendard" font-weight="500"><tspan x="3.342" y="14">2</tspan></text>
+    </g>
+    <g id="Icon_check_outline-15" data-name="Icon_check_outline" transform="translate(170 389)">
+      <circle id="타원_65541-3" data-name="타원 65541" cx="8.335" cy="8.335" r="8.335" transform="translate(1.667 1.667)" fill="#fad94f"/>
+      <rect id="Icon_check_outline_background-8" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
+      <g id="Icon_check_outline-16" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
+        <path id="Path-8" data-name="Path" d="M6.423.244a.833.833,0,0,1,0,1.179L3.089,4.756a.833.833,0,0,1-1.178,0L.244,3.089A.833.833,0,1,1,1.423,1.911L2.5,2.988,5.244.244A.833.833,0,0,1,6.423.244Z" transform="translate(5 5.833)" fill="#fff"/>
+        <path id="Shape-8" data-name="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#fad94f"/>
+      </g>
+    </g>
+    <g id="Icon_check_outline-17" data-name="Icon_check_outline" transform="translate(170 437)">
+      <circle id="타원_65541-4" data-name="타원 65541" cx="8.335" cy="8.335" r="8.335" transform="translate(1.667 1.667)" fill="#fad94f"/>
+      <rect id="Icon_check_outline_background-9" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
+      <g id="Icon_check_outline-18" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
+        <path id="Path-9" data-name="Path" d="M6.423.244a.833.833,0,0,1,0,1.179L3.089,4.756a.833.833,0,0,1-1.178,0L.244,3.089A.833.833,0,1,1,1.423,1.911L2.5,2.988,5.244.244A.833.833,0,0,1,6.423.244Z" transform="translate(5 5.833)" fill="#fff"/>
+        <path id="Shape-9" data-name="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#fad94f"/>
+      </g>
+    </g>
+    <g id="Icon_check_outline-19" data-name="Icon_check_outline" transform="translate(170 489)">
+      <circle id="타원_65541-5" data-name="타원 65541" cx="8.335" cy="8.335" r="8.335" transform="translate(1.667 1.667)" fill="#fad94f"/>
+      <rect id="Icon_check_outline_background-10" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
+      <g id="Icon_check_outline-20" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
+        <path id="Path-10" data-name="Path" d="M6.423.244a.833.833,0,0,1,0,1.179L3.089,4.756a.833.833,0,0,1-1.178,0L.244,3.089A.833.833,0,1,1,1.423,1.911L2.5,2.988,5.244.244A.833.833,0,0,1,6.423.244Z" transform="translate(5 5.833)" fill="#fff"/>
+        <path id="Shape-10" data-name="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#fad94f"/>
+      </g>
+    </g>
+  </g>
+</svg>
