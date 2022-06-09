@@ -6,10 +6,9 @@ import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 import {
-  dateToDailyTime,
-  dateToMMdd,
+  getTimeListDevideByDate,
+  getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
-  parseDateString,
 } from 'src/utils/dateParser';
 
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
@@ -26,13 +25,10 @@ function TimeListSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { pendingEvent, isDecline, declineReason, availableTimes } =
     useSelector((state: RootState) => state.acceptMeeting);
-  const { increaseStep, decreaseStep, setIsDecline, setDeclineReason } =
-    acceptMeetingActions;
+  const { increaseStep, setIsDecline, setDeclineReason } = acceptMeetingActions;
 
   const { eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
-
-  const timeSelectDescription = '참여 가능한 시간을 선택해주세요';
 
   const handleNextClick = () => {
     dispatch(increaseStep());
@@ -51,9 +47,24 @@ function TimeListSelector() {
   );
   const declineNum = declinedUsers.length;
   // console.log(eventTimeCandidates);
+  type EventTimeListWithPossibleNum = {
+    eventStartsAt: Date;
+    possibleNum: number;
+  };
+  const eventTimeListDevideByDate = useMemo(() => {
+    const eventTimeListWithPossibleNums: EventTimeListWithPossibleNum[] =
+      eventTimeCandidates.map((eventTimeCandidate) => ({
+        eventStartsAt: new Date(eventTimeCandidate.eventStartsAt),
+        possibleNum: eventTimeCandidate.possibleUsers.length,
+      }));
 
-  // eventTimeCandidates.
-  // parseDateString(eventStartsAt)
+    return getTimeListDevideByDateWithPossibleNum(
+      eventTimeListWithPossibleNums
+    );
+  }, [eventTimeCandidates]);
+
+  // const PossibleNumByEventStartsAt = useMemo()
+
   const isSelected = useMemo(() => availableTimes.length > 0, [availableTimes]);
 
   return (
@@ -70,37 +81,36 @@ function TimeListSelector() {
         <ArrowRightIcon />
       </div>
       <div className={classNames('time-select-grid-container')}>
-        {eventTimeCandidates.map((eventTimeCandidate) => (
-          <div
-            key={eventTimeCandidate.eventStartsAt}
-            className={'time-select-date'}
-          >
-            <div>{eventTimeCandidate.eventStartsAt}</div>
+        {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
+          <div key={dateKey} className={'time-select-date'}>
             <div className={'timelineLine'} />
             <div>
               <div className={'timelineCircle'} />
-              {dateToMMdd(new Date(eventTimeCandidate.eventStartsAt))}
+              {dateKey}
             </div>
-            <div
-              key={eventTimeCandidate.eventStartsAt}
-              className={'time-select-time-card'}
-              onClick={handleEventTimeClick}
-            >
-              {/* {isChecked ? <CheckedIcon /> : <NotCheckedIcon />} */}
-
-              <div className={'time-select-time-content'}>
-                <div className={'time-range'}>
-                  {getTimeRange(
-                    new Date(eventTimeCandidate.eventStartsAt),
-                    eventTimeDuration
-                  )}
+            {eventTimeListDevideByDate[dateKey].map(
+              ({ eventStartsAt, possibleNum }) => (
+                <div
+                  key={eventStartsAt.toTimeString()}
+                  className={'time-select-time-card'}
+                  onClick={handleEventTimeClick}
+                >
+                  <div className={'time-select-time-content'}>
+                    <div className={'time-range'}>
+                      {getTimeRange(eventStartsAt, eventTimeDuration)}
+                    </div>
+                    <div>
+                      <ProfileIcon />
+                    </div>
+                    <div>{possibleNum}</div>
+                  </div>
+                  <div className="check-box-icon">
+                    <CheckedIcon />
+                    {/* {isChecked ? <CheckedIcon /> : <NotCheckedIcon />} */}
+                  </div>
                 </div>
-                <div>
-                  <ProfileIcon />
-                </div>
-                <div>{eventTimeCandidate.possibleUsers.length}</div>
-              </div>
-            </div>
+              )
+            )}
           </div>
         ))}
       </div>
@@ -118,7 +128,7 @@ function TimeListSelector() {
       </div>
       <AvailableOptionSelector />
       <BottomButton
-        text={isSelected ? '선택 완료' : '시간을 선택해주세요'}
+        text={'선택 완료'}
         onClick={handleNextClick}
         disabled={!isSelected}
       />

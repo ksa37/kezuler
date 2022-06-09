@@ -109,30 +109,34 @@
 }
 
 .time-select-time-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  height: 40px;
-  box-shadow: 0px 15px 35px #282f391a;
-  left: 40%;
   display: flex;
-  // justify-content: center;
   align-items: center;
   margin-top: 12px;
+  // left: 40%;
 
   .time-select-time-content {
     display: flex;
+    flex: 1;
+    align-items: center;
+    height: 40px;
     width: 100%;
+    border-radius: 8px;
+
+    background-color: #ffffff;
+    box-shadow: 0px 15px 35px #282f391a;
     padding-left: 12px;
     padding-right: 8px;
+
     font: normal normal normal 14px/18px Pretendard;
 
-    .check-box-icon {
-      width: 20px;
-      height: 20px;
-    }
     .time-range {
       flex: 1;
     }
+  }
+  .check-box-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
   }
 }
 

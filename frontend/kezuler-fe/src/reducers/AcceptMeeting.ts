@@ -36,10 +36,8 @@ interface AcceptMeetingState {
   userName?: string;
   isDecline: boolean;
   declineReason: null | string;
-  availableTimes: TimeCandidate[];
+  availableTimes: string[];
 }
-
-type TimeCandidate = { [date: string]: string[] };
 
 const initialPendingEvent: PendingEvent = {
   userId: '',
@@ -103,7 +101,7 @@ export const acceptMeetingSlice = createSlice({
     setDeclineReason: (state, action: PayloadAction<string>) => {
       state.declineReason = action.payload;
     },
-    setAvailableTimes: (state, action: PayloadAction<TimeCandidate[]>) => {
+    setAvailableTimes: (state, action: PayloadAction<string[]>) => {
       state.availableTimes = action.payload;
     },
   },
