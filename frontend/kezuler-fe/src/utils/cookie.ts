@@ -10,4 +10,8 @@ const getCookie = (key: string) => {
   return document.cookie.match(regExp)?.[1] || '';
 };
 
-export { setCookie, getCookie };
+const deleteCookie = (key: string) => {
+  document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+};
+
+export { setCookie, getCookie, deleteCookie };
