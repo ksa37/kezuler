@@ -1,3 +1,6 @@
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
+
 import DAY_OF_WEEK from 'src/constants/DayofWeek';
 
 // api 의 모든 response (date string) 는 yyyy-MM-dd hh:mm:ss 형태로
@@ -55,6 +58,23 @@ const dateStringToKorDate = (dateString: string) => {
   return `${year}년 ${month}월 ${day}일 ${dateToDailyTime(date)}`;
 };
 
+// Date array => {M/d EEE: [Date, Date, Date, ...]   }
+type EventTimeListByDate = { [date: string]: Date[] };
+const getTimeListDevideByDate = (eventTimeList: Date[]) => {
+  const eventTimeListByDate: EventTimeListByDate = {};
+
+  for (let i = 0; i < eventTimeList.length; i++) {
+    const dateAndDay = format(eventTimeList[i], 'M/d EEE', {
+      locale: ko,
+    });
+    if (!eventTimeListByDate[dateAndDay]) {
+      eventTimeListByDate[dateAndDay] = [];
+    }
+    eventTimeListByDate[dateAndDay].push(eventTimeList[i]);
+  }
+  return eventTimeListByDate;
+};
+
 export {
   dateStringToKorDate,
   parseDateString,
@@ -64,4 +84,5 @@ export {
   getMonthFromDateString,
   getKorDay,
   getTimeRange,
+  getTimeListDevideByDate,
 };
