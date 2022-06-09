@@ -28,8 +28,7 @@ function ShowSelectedOptions() {
   const subDescription = `총 ${eventTimeList.length}개 선택`;
 
   const handleDeleteClick = (dateKey: string, time: Date) => {
-    const dateStrToDelete = time.toISOString();
-    dispatch(deleteTimeList(dateStrToDelete));
+    dispatch(deleteTimeList(time.toISOString()));
   };
 
   const handleNextClick = () => {
