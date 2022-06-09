@@ -290,13 +290,23 @@
 .acceptance-bell {
   position: fixed;
   top: 39%;
-  left: 32%;
+  // left: 32%;
+  right: 13px;
   z-index: 1;
 }
 
 .acceptance-circle {
   position: fixed;
   top: 43%;
-  left: 52%;
+  // left: 52%;
+  right: -45px;
   z-index: 0;
+}
+
+.acceptance-talking-people {
+  position: fixed;
+  top: 60%;
+  // left: 52%;
+  right: 79px;
+  z-index: 2;
 }
