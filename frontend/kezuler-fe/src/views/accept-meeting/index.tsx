@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -7,7 +7,6 @@ import { useGetPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
-import { PendingEvent } from 'src/types/pendingEvent';
 
 import AcceptanceCompletion from './AcceptanceCompletion';
 import Invitation from './Invitation';
@@ -19,10 +18,8 @@ import 'src/styles/AcceptMeeting.scss';
 
 function AcceptMeeting() {
   const dispatch = useDispatch<AppDispatch>();
-  const { step, pendingEvent } = useSelector(
-    (state: RootState) => state.acceptMeeting
-  );
-  const { setEventID, setPendingEvent } = acceptMeetingActions;
+  const { step } = useSelector((state: RootState) => state.acceptMeeting);
+  const { setEventID } = acceptMeetingActions;
 
   const totalStepsNum = Object.keys(AcceptMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
@@ -57,7 +54,10 @@ function AcceptMeeting() {
   const { decreaseStep } = acceptMeetingActions;
   const getPendingEventInfo = useGetPendingEvent();
   useMemo(() => {
-    if (eventId) getPendingEventInfo(eventId);
+    if (eventId) {
+      getPendingEventInfo(eventId);
+      dispatch(setEventID(eventId));
+    }
   }, [eventId]);
 
   const handlePrevClick = () => {

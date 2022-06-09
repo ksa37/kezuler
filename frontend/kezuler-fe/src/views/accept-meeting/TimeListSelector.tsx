@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -22,15 +22,11 @@ import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.sv
 
 function TimeListSelector() {
   const dispatch = useDispatch<AppDispatch>();
-  const { pendingEvent, isDecline, declineReason, availableTimes } =
-    useSelector((state: RootState) => state.acceptMeeting);
-  const {
-    increaseStep,
-    setIsDecline,
-    setDeclineReason,
-    addAvailableTimes,
-    deleteAvailableTimes,
-  } = acceptMeetingActions;
+  const { pendingEvent, availableTimes } = useSelector(
+    (state: RootState) => state.acceptMeeting
+  );
+  const { increaseStep, addAvailableTimes, deleteAvailableTimes } =
+    acceptMeetingActions;
 
   const { eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
@@ -76,7 +72,7 @@ function TimeListSelector() {
     );
   }, [eventTimeCandidates]);
 
-  const isSelected = useMemo(() => availableTimes.length > 0, [availableTimes]);
+  // const isSelected = useMemo(() => availableTimes.length > 0, [availableTimes]);
 
   return (
     <div className={'time-list-selector'}>
@@ -144,7 +140,7 @@ function TimeListSelector() {
       <BottomButton
         text={'선택 완료'}
         onClick={handleNextClick}
-        disabled={!isSelected}
+        // disabled={!isSelected}
       />
     </div>
   );

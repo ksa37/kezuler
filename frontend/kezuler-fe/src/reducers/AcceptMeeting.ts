@@ -105,9 +105,15 @@ export const acceptMeetingSlice = createSlice({
     setDeclineReason: (state, action: PayloadAction<string>) => {
       state.declineReason = action.payload;
     },
-    // setAvailableTimes: (state, action: PayloadAction<string[]>) => {
-    //   state.availableTimes = action.payload;
-    // },
+    clearAvailableTimes: (state) => {
+      state.availableTimes = [];
+    },
+    setAllAvailableTimes: (state) => {
+      state.availableTimes = state.pendingEvent.eventTimeCandidates.map(
+        (eventTimeCandidate) =>
+          new Date(eventTimeCandidate.eventStartsAt).toISOString()
+      );
+    },
     addAvailableTimes: (state, action: PayloadAction<string>) => {
       state.availableTimes.push(action.payload);
       state.availableTimes = dateSort(state.availableTimes);
