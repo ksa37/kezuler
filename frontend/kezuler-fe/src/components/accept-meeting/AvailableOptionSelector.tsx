@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup, ClickAwayListener } from '@mui/material';
 import classNames from 'classnames';
@@ -9,9 +9,10 @@ import { AppDispatch } from 'src/store';
 
 function AvailableOptionSelector() {
   const dispatch = useDispatch<AppDispatch>();
-  const { isDecline, declineReason } = useSelector(
-    (state: RootState) => state.acceptMeeting
-  );
+  const { isDecline, declineReason, availableTimes, pendingEvent } =
+    useSelector((state: RootState) => state.acceptMeeting);
+  const { eventTimeDuration, declinedUsers, eventTimeCandidates } =
+    pendingEvent;
   const { setIsDecline, setDeclineReason } = acceptMeetingActions;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +37,16 @@ function AvailableOptionSelector() {
   ) => {
     dispatch(setDeclineReason(event.target.value));
   };
+
+  useEffect(() => {
+    dispatch(setIsDecline(availableTimes.length === 0));
+  }, [availableTimes]);
+
+  const allAvailable = useMemo(
+    () => availableTimes.length === eventTimeCandidates.length,
+    [availableTimes]
+  );
+  console.log('allAvailable?', allAvailable);
 
   const notAvailableDescription = '가능한 시간이 없어요';
   const allAvailableDescription = '모든 시간 가능해요';
@@ -72,10 +83,10 @@ function AvailableOptionSelector() {
               contained: 'selected',
             }}
             className={classNames({
-              blurred: isDecline,
-              selected: !isDecline,
+              blurred: !allAvailable,
+              selected: allAvailable,
             })}
-            variant={!isDecline ? 'contained' : 'outlined'}
+            variant={allAvailable ? 'contained' : 'outlined'}
             onClick={handleAllAvailableClick}
           >
             <b>{allAvailableDescription}</b>
