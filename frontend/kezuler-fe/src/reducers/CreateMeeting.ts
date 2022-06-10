@@ -53,6 +53,9 @@ export const createMeetingSlice = createSlice({
     // setEventID: (state, action: PayloadAction<string>) => {
     //   state.eventId = action.payload;
     // },
+    seteventTimeDuration: (state, action: PayloadAction<number>) => {
+      state.eventTimeDuration = action.payload;
+    },
     addTimeList: (state, action: PayloadAction<string>) => {
       state.eventTimeList.push(action.payload);
       state.eventTimeList = dateSort(state.eventTimeList);
