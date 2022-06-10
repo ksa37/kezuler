@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 import DAY_OF_WEEK from 'src/constants/DayofWeek';
+import { EventTimeCandidate } from 'src/types/pendingEvent';
 
 // api 의 모든 response (date string) 는 yyyy-MM-dd hh:mm:ss 형태로
 
@@ -104,6 +105,31 @@ const getTimeListDevideByDateWithPossibleNum = (
   return eventTimeListByDate;
 };
 
+// "2022-06-09T16:30:00.000Z" to "2022-06-09 16:30:00"
+const isoStringToDateString = (isoString: string) => {
+  const date = isoString.split('T')[0];
+  const fullTime = isoString.split('T')[1];
+  const time = ''.concat(
+    ...fullTime.split(':').slice(0, 1),
+    ':',
+    ...fullTime.split(':').slice(1, 2)
+  );
+  console.log(date + ' ' + time);
+  return date + ' ' + time;
+};
+
+const getEventTimeCandidatesFromDateStrings = (eventTimeList: string[]) => {
+  const eventTimeCandidates: EventTimeCandidate[] = eventTimeList.map(
+    (dateStr) => {
+      return {
+        eventStartsAt: isoStringToDateString(dateStr),
+        possibleUsers: [],
+      };
+    }
+  );
+  return eventTimeCandidates;
+};
+
 export {
   dateStringToKorDate,
   parseDateString,
@@ -115,4 +141,6 @@ export {
   getTimeRange,
   getTimeListDevideByDate,
   getTimeListDevideByDateWithPossibleNum,
+  getEventTimeCandidatesFromDateStrings,
+  isoStringToDateString,
 };

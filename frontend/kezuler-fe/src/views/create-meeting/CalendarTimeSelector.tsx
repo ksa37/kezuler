@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import classNames from 'classnames';
@@ -7,6 +7,7 @@ import { ko } from 'date-fns/locale';
 
 import TimeOptions from '../../constants/TimeOptions';
 import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
+import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { AppDispatch } from '../../store';
@@ -14,10 +15,11 @@ import { AppDispatch } from '../../store';
 import CalendarView from '../../components/CalendarView';
 import BottomButton from '../../components/common/BottomButton';
 import KezulerDropdown from 'src/components/common/KezulerDropdown';
+import CalendarPopup from 'src/components/create-meeting/CalendarPopup';
+import ScheduleList from 'src/components/create-meeting/ScheduleList';
 
 import { ReactComponent as CalendarIcon } from 'src/assets/calendar_icon.svg';
 import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
-import { ReactComponent as GoogleIcon } from 'src/assets/google_icon.svg';
 import { ReactComponent as ClockOrangeIcon } from 'src/assets/icn_clock_o20.svg';
 import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 
@@ -26,24 +28,10 @@ function CalendarTimeSelector() {
   const { eventTimeList } = useSelector(
     (state: RootState) => state.createMeeting
   );
-  const { increaseStep, addTimeList, deleteTimeList } = createMeetingActions;
+  const { increaseStep, addTimeList, deleteTimeList, seteventTimeDuration } =
+    createMeetingActions;
 
   const [startDate, setStartDate] = useState<Date | null>(new Date());
-
-  const createDate = (timeOption: string) => {
-    if (startDate) {
-      return new Date(
-        startDate.getFullYear(),
-        startDate.getMonth(),
-        startDate.getDate(),
-        Number(timeOption.split(':')[0]),
-        Number(timeOption.split(':')[1])
-      ).toISOString();
-    } else {
-      console.log('Warning: date is null!');
-      return new Date().toISOString();
-    }
-  };
 
   const setDateString = (startDate: Date | null) => {
     const dateFnsStr = startDate ? (
@@ -64,10 +52,24 @@ function CalendarTimeSelector() {
     [eventTimeList]
   );
 
+  const createDate = (timeOption: string) => {
+    if (startDate) {
+      return new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate(),
+        Number(timeOption.split(':')[0]),
+        Number(timeOption.split(':')[1])
+      ).toISOString();
+    } else {
+      console.log('Warning: date is null!');
+      return new Date().toISOString();
+    }
+  };
+
   const handleChipClick = (timeOption: string) => {
     if (startDate) {
       const dateToAdd = createDate(timeOption);
-      console.log(dateToAdd);
       if (eventTimeList.includes(dateToAdd)) {
         dispatch(deleteTimeList(dateToAdd));
         console.log('Deleted Date !', dateToAdd);
@@ -88,23 +90,77 @@ function CalendarTimeSelector() {
     dispatch(increaseStep());
   };
 
-  const [popupDisable, setPopupDisable] = useState(false);
+  // 캘린더 연동 팝업 관련
+  const [scheduleConnected, setScheduleConnected] = useState(false);
+  const [popupDisable, setPopupDisable] = useState(
+    localStorage.getItem(CREATE_CALENDAR_POPUP_DISABLE_KEY) === 'true'
+  );
 
   const handleCalendarPopupNo = () => {
-    console.log('no');
+    localStorage.setItem(CREATE_CALENDAR_POPUP_DISABLE_KEY, 'true');
     setPopupDisable(true);
-    //TODO
-    //No라고 한 정보를 보관하기
+    console.log('no');
   };
 
   const handleCalendarPopupYes = () => {
+    setScheduleConnected(true);
     console.log('yes');
     //TODO
     //캘린더 연동
   };
 
-  const [selectedLengthIdx, setSelectedLengthIdx] = useState(0);
-  // MEETING_LENGTH_LIST[selectedLengthIdx].minutes
+  const mockSceduleData = [
+    { title: '철수 저녁', time: '오전 7:00 ~ 오전 11:00' },
+    { title: '동아리 모임', time: '오전 7:00 ~ 오전 11:00' },
+    { title: '휴가', time: '하루종일' },
+    { title: '휴가2', time: '하루종일' },
+  ];
+
+  // eventTimeDuration Index: 30, 60, 120
+  const [selectedLengthIdx, setSelectedLengthIdx] = useState(1);
+  // eventTimeDuration state 설정
+  useMemo(() => {
+    dispatch(
+      seteventTimeDuration(MEETING_LENGTH_LIST[selectedLengthIdx].minutes)
+    );
+  }, [MEETING_LENGTH_LIST[selectedLengthIdx].minutes]);
+
+  // Time Option Chip Focus 설정
+  const setChipFocus = () => {
+    let focusChip = document.getElementById('08:00');
+
+    if (startDate) {
+      const today = new Date();
+      if (format(today, 'yyyy-mm-dd') === format(startDate, 'yyyy-mm-dd')) {
+        const nowHour = Number(format(today, 'HH'));
+        const nowMinute = Number(format(today, 'mm'));
+        let setHour = nowHour;
+        let setMinute = '00';
+
+        if (nowMinute > 0 && nowMinute <= 30) {
+          setMinute = '30';
+        } else if (nowMinute > 30 && nowMinute < 60) {
+          setMinute = '00';
+          setHour = nowHour + 1;
+        }
+
+        focusChip = document.getElementById(
+          ''.concat(String(setHour), ':', setMinute)
+        );
+      }
+    }
+
+    focusChip?.scrollIntoView({
+      behavior: 'auto',
+      block: 'start',
+      inline: 'start',
+    });
+  };
+
+  useEffect(() => {
+    setChipFocus();
+  }, [startDate]);
+
   return (
     <div>
       <div className={'duration-selector-margin'} />
@@ -132,33 +188,7 @@ function CalendarTimeSelector() {
         <div className={'date-string-text'}>{dateStr}</div>
       </div>
 
-      {popupDisable && (
-        <Stack
-          direction="column"
-          spacing={'8px'}
-          style={{ overflow: 'auto' }}
-          className={'schedule-list'}
-          sx={{ marginBlock: '8px' }}
-        >
-          <div className={'schedule-list-title'}>내 일정</div>
-          <div className={'schedule-list-content'}>
-            <div className={'schedule-title'}>철수 저녁</div>
-            <div className={'schedule-time'}>오전 7:00 ~ 오전 11:00</div>
-          </div>
-          <div className={'schedule-list-content'}>
-            <div className={'schedule-title'}>동아리 모임</div>
-            <div className={'schedule-time'}>오전 7:00 ~ 오전 11:00</div>
-          </div>
-          <div className={'schedule-list-content'}>
-            <div className={'schedule-title'}>휴가</div>
-            <div className={'schedule-time'}>하루종일</div>
-          </div>
-          <div className={'schedule-list-content'}>
-            <div className={'schedule-title'}>휴가</div>
-            <div className={'schedule-time'}>하루종일</div>
-          </div>
-        </Stack>
-      )}
+      {scheduleConnected && <ScheduleList schedules={mockSceduleData} />}
 
       <div className={'time-chip-text'}>
         <ClockIcon className={'icn-clock-b20'} />
@@ -176,6 +206,7 @@ function CalendarTimeSelector() {
           eventTimeList.includes(createDate(timeOption)) ? (
             <div
               key={timeOption}
+              id={timeOption}
               className={classNames('time-chips', 'filled')}
               onClick={() => handleChipClick(timeOption)}
             >
@@ -184,6 +215,7 @@ function CalendarTimeSelector() {
           ) : (
             <div
               key={timeOption}
+              id={timeOption}
               className={classNames('time-chips', 'blank')}
               onClick={() => handleChipClick(timeOption)}
             >
@@ -193,25 +225,10 @@ function CalendarTimeSelector() {
         )}
       </Stack>
       {!popupDisable && (
-        <div className={'calendar-popup'}>
-          <div className={'description'}>
-            <GoogleIcon className={'google-icon'} />
-            {'혜민'}
-            {'님의 '}
-            <b>{'구글계정 일정'}</b>
-            {'도 불러올까요?'}
-            <br />
-            {'미팅시간 결정에 도움이 될 거에요!'}
-          </div>
-          <div className={'popup-options'}>
-            <span className={'no'} onClick={handleCalendarPopupNo}>
-              {'다음에 할게요'}
-            </span>
-            <span className={'yes'} onClick={handleCalendarPopupYes}>
-              {'좋아요'}
-            </span>
-          </div>
-        </div>
+        <CalendarPopup
+          onYesClick={handleCalendarPopupYes}
+          onNoClick={handleCalendarPopupNo}
+        />
       )}
       <BottomButton
         onClick={handleNextClick}
