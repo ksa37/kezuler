@@ -2,9 +2,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { CreateMeetingSteps } from 'src/constants/Steps';
-import { PendingEvent } from 'src/types/pendingEvent';
+import { PPostPendingEvent } from 'src/types/pendingEvent';
 
-interface CreateMeetingState extends PendingEvent {
+interface CreateMeetingState extends PPostPendingEvent {
   step: CreateMeetingSteps;
   shareUrl: string;
   isOnline: null | boolean;
@@ -16,13 +16,9 @@ const initialState: CreateMeetingState = {
   shareUrl: '',
   isOnline: null,
   eventTimeList: [],
-  userId: '',
-  eventHost: { userId: '', userName: '', userProfileImage: '' },
-  eventId: '',
   eventTitle: '',
   eventDescription: '',
   eventTimeDuration: 60,
-  declinedUsers: [],
   eventTimeCandidates: [],
   eventZoomAddress: '',
   eventPlace: '',
@@ -51,12 +47,12 @@ export const createMeetingSlice = createSlice({
     setIsOnline: (state, action: PayloadAction<boolean>) => {
       state.isOnline = action.payload;
     },
-    setUserID: (state, action: PayloadAction<string>) => {
-      state.userId = action.payload;
-    },
-    setEventID: (state, action: PayloadAction<string>) => {
-      state.eventId = action.payload;
-    },
+    // setUserID: (state, action: PayloadAction<string>) => {
+    //   state.userId = action.payload;
+    // },
+    // setEventID: (state, action: PayloadAction<string>) => {
+    //   state.eventId = action.payload;
+    // },
     addTimeList: (state, action: PayloadAction<string>) => {
       state.eventTimeList.push(action.payload);
       state.eventTimeList = dateSort(state.eventTimeList);
@@ -67,6 +63,9 @@ export const createMeetingSlice = createSlice({
         state.eventTimeList.splice(index, 1);
       }
       state.eventTimeList = dateSort(state.eventTimeList);
+    },
+    setEventTimeCandidates: (state, action: PayloadAction<string[]>) => {
+      state.eventTimeCandidates = action.payload;
     },
     setTitle: (state, action: PayloadAction<string>) => {
       state.eventTitle = action.payload;

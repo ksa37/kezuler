@@ -35,7 +35,17 @@ interface RGetPendingEvents {
 
 // TODO
 interface PendingEvent extends BPendingEvent {
-  userId: string;
+  userId?: string;
+}
+
+interface PPostPendingEvent {
+  eventTitle: string;
+  eventDescription: string;
+  eventTimeDuration: number;
+  eventTimeCandidates: string[];
+  eventZoomAddress: string;
+  eventPlace: string;
+  eventAttachment: string;
 }
 
 type PPatchPendingEvent = Partial<BPendingEvent>;
@@ -43,6 +53,7 @@ type PPatchPendingEvent = Partial<BPendingEvent>;
 export type {
   BPendingEvent,
   PendingEvent,
+  PPostPendingEvent,
   RGetPendingEvents,
   PPatchPendingEvent,
   EventTimeCandidate,

@@ -67,7 +67,6 @@ function CalendarTimeSelector() {
   const handleChipClick = (timeOption: string) => {
     if (startDate) {
       const dateToAdd = createDate(timeOption);
-      console.log(dateToAdd);
       if (eventTimeList.includes(dateToAdd)) {
         dispatch(deleteTimeList(dateToAdd));
         console.log('Deleted Date !', dateToAdd);

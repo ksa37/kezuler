@@ -13,16 +13,20 @@ interface Props {
 function BottomButton({ onClick, text, subtext, disabled }: Props) {
   return (
     <div
-      className={classNames('bottom-button', {
-        disabled: disabled,
-      })}
-      onClick={onClick}
+      className={classNames(
+        'bottom-button',
+        {
+          disabled: disabled,
+        },
+        subtext ? 'sub-exist' : ''
+      )}
+      onClick={!disabled ? onClick : undefined}
     >
-      <div className={'btn-text-area'}>
+      <div className={classNames('btn-text-area', subtext ? 'sub-exist' : '')}>
         {subtext && <div className={'btn-subtext'}>{subtext}</div>}
-        <b className={classNames('btn-text', subtext ? 'sub-exist' : '')}>
-          {text}
-        </b>
+        <div className={classNames('btn-text', subtext ? 'sub-exist' : '')}>
+          <b>{text}</b>
+        </div>
       </div>
     </div>
   );

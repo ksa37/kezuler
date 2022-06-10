@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Button, Stack } from '@mui/material';
 import classNames from 'classnames';
 
+import PathName from 'src/constants/PathName';
 import { RootState } from 'src/reducers';
 
 import BottomButton from 'src/components/common/BottomButton';
@@ -17,23 +19,26 @@ import { ReactComponent as ShareIcon } from 'src/assets/share_icon_big.svg';
 function MeetingShare() {
   const { shareUrl } = useSelector((state: RootState) => state.createMeeting);
 
-  // useEffect(()=>{}, [shareUrl]);
+  const navigate = useNavigate();
 
   const kakaoShareText = '카카오톡';
   const linkShareText = '링크복사';
   const generalShareText = '공유하기';
 
-  const handleClick = () => {
-    console.log('clicked!');
+  const handleHomeClick = () => {
+    navigate(PathName.main, { replace: true });
   };
 
   const handleKakaoShareClick = () => {
+    location.href = shareUrl;
     console.log('clicked!');
   };
   const handleLinkShareClick = () => {
+    location.href = shareUrl;
     console.log('clicked!');
   };
   const handleGeneralShareClick = () => {
+    location.href = shareUrl;
     console.log('clicked!');
   };
 
@@ -86,7 +91,7 @@ function MeetingShare() {
       <CelebrateSmileIcon className={'celebrate-smile-icon'} />
       <CelebrateIcon className={'celebrate-icon'} />
       <Circle className={'completion-circle'} />
-      <BottomButton onClick={handleClick} text="홈으로 가기" />
+      <BottomButton onClick={handleHomeClick} text="홈으로 가기" />
     </div>
   );
 }
