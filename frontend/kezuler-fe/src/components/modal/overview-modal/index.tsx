@@ -5,7 +5,6 @@ import useCopyText from 'src/hooks/useCopyText';
 import { modalAction } from 'src/reducers/modal';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
-import { User } from 'src/types/user';
 import { dateStringToKorDate } from 'src/utils/dateParser';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import { isFixedEvent } from 'src/utils/typeGuard';
@@ -33,16 +32,20 @@ function OverviewModal({ event }: Props) {
     eventTitle,
     eventDescription,
     eventAttachment,
-    eventHost,
     eventZoomAddress,
     eventPlace,
+    eventHost: {
+      userId: hostId,
+      userName: hostName,
+      userProfileImage: hostProfileImage,
+    },
   } = event;
 
   const { copyText } = useCopyText();
 
   const isHost = useMemo(
-    () => eventHost.userId === getCurrentUserInfo()?.userId,
-    [eventHost.userId]
+    () => hostId === getCurrentUserInfo()?.userId,
+    [hostId]
   );
 
   const place = useMemo(
@@ -67,14 +70,6 @@ function OverviewModal({ event }: Props) {
     }
     return '';
   }, [event]);
-
-  // TODO get Host User Info
-  const host: User = {
-    userId: 'hi',
-    userName: 'hi',
-    userPhoneNumber: '01072311490',
-    userProfileImage: 'hi',
-  };
 
   const { hide } = modalAction;
   const dispatch = useDispatch();
@@ -125,8 +120,12 @@ function OverviewModal({ event }: Props) {
         </header>
         <div className={'overview-body'}>
           {!isFixedEvent(event) && (
-            <OverviewSection title={'주최자'} profileImageUrl={'hi'}>
-              {host.userName}
+            <OverviewSection
+              title={'주최자'}
+              profileImageUrl={hostProfileImage}
+              profileImageAlt={hostName}
+            >
+              {hostName}
             </OverviewSection>
           )}
           <OverviewSection title={'일시'}>{eventDate}</OverviewSection>
@@ -162,7 +161,11 @@ function OverviewModal({ event }: Props) {
           </OverviewSection>
           {isFixedEvent(event) && (
             <OverviewParticipants
-              host={host}
+              host={{
+                userId: hostId,
+                userName: hostName,
+                userProfileImage: hostProfileImage,
+              }}
               participants={event.participants}
             />
           )}

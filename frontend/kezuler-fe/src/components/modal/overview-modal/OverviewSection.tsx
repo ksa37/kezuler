@@ -5,9 +5,15 @@ interface Props {
   title: string;
   children: React.ReactNode;
   profileImageUrl?: string;
+  profileImageAlt?: string;
 }
 
-function OverviewSection({ title, children, profileImageUrl }: Props) {
+function OverviewSection({
+  title,
+  children,
+  profileImageAlt,
+  profileImageUrl,
+}: Props) {
   return (
     <section className={'overview-section'}>
       <h2 className={'overview-section-title'}>{title}</h2>
@@ -15,7 +21,7 @@ function OverviewSection({ title, children, profileImageUrl }: Props) {
       {profileImageUrl && (
         <Avatar
           className={'overview-section-avatar'}
-          alt={profileImageUrl}
+          alt={profileImageAlt}
           src={profileImageUrl}
         />
       )}

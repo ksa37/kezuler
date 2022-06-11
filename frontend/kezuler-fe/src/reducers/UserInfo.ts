@@ -34,7 +34,9 @@ const initialState: UserInfoState = {
 export const userInfoSlice = createSlice({
   name: 'c',
   initialState,
-  reducers: {},
+  reducers: {
+    destroy: () => initialState,
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUserInfoThunk.pending, (state) => {
