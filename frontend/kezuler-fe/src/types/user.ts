@@ -1,6 +1,6 @@
 interface BUser {
   userName: string;
-  userPhoneNumber?: string;
+  // userPhoneNumber?: string;
   userProfileImage: string;
 }
 

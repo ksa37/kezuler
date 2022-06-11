@@ -5,15 +5,15 @@ import { RootState } from 'src/reducers';
 import { getUserInfoThunk } from 'src/reducers/UserInfo';
 import { AppDispatch } from 'src/store';
 
-const useGetHostInfo = () => {
+const useGetUserInfo = () => {
   const { userId, userName, userProfileImage } = useSelector(
     (state: RootState) => state.userInfo
   );
   const dispatch = useDispatch<AppDispatch>();
 
   const getUserInfo = useCallback(
-    (userId: string, onFullFilled: () => void) => {
-      return dispatch(getUserInfoThunk({ userId, onFullFilled }));
+    (userId: string) => {
+      return dispatch(getUserInfoThunk(userId));
     },
     [dispatch]
   );
@@ -21,4 +21,4 @@ const useGetHostInfo = () => {
   return { getUserInfo, userId, userName, userProfileImage };
 };
 
-export default useGetHostInfo;
+export default useGetUserInfo;
