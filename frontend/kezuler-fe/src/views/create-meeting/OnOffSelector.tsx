@@ -2,9 +2,12 @@ import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
+import { usePostPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
+import { PPostPendingEvent } from 'src/types/pendingEvent';
+import { isoStringToDateString } from 'src/utils/dateParser';
 
 import BottomButton from 'src/components/common/BottomButton';
 
@@ -13,12 +16,20 @@ import { ReactComponent as OnlineIcon } from 'src/assets/online_icon.svg';
 
 function OnOffSelector() {
   const dispatch = useDispatch<AppDispatch>();
-  const { setIsOnline, increaseStep, setZoomAddress, setPlace } =
+  const { setIsOnline, setZoomAddress, setPlace, setEventTimeCandidates } =
     createMeetingActions;
 
-  const { isOnline, eventZoomAddress, eventPlace } = useSelector(
-    (state: RootState) => state.createMeeting
-  );
+  const {
+    eventTitle,
+    eventDescription,
+    eventTimeDuration,
+    eventTimeCandidates,
+    eventZoomAddress,
+    eventPlace,
+    eventAttachment,
+    isOnline,
+    eventTimeList,
+  } = useSelector((state: RootState) => state.createMeeting);
 
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
@@ -36,8 +47,26 @@ function OnOffSelector() {
     dispatch(setPlace(event.target.value));
   };
 
-  const handleNextClick = () => {
-    dispatch(increaseStep());
+  const postPendingEventAndGetShareUrl = usePostPendingEvent();
+
+  const handlePostClick = () => {
+    dispatch(
+      setEventTimeCandidates(
+        eventTimeList.map((dateStr) => isoStringToDateString(dateStr))
+      )
+    );
+
+    const ppostPendingEventData: PPostPendingEvent = {
+      eventTitle: eventTitle,
+      eventDescription: eventDescription,
+      eventTimeDuration: eventTimeDuration,
+      eventTimeCandidates: eventTimeCandidates,
+      eventZoomAddress: eventZoomAddress,
+      eventPlace: eventPlace,
+      eventAttachment: eventAttachment,
+    };
+
+    postPendingEventAndGetShareUrl(ppostPendingEventData);
   };
 
   return (
@@ -100,7 +129,7 @@ function OnOffSelector() {
         )}
       </div>
       <BottomButton
-        onClick={!isOnline && eventPlace === '' ? undefined : handleNextClick}
+        onClick={!isOnline && eventPlace === '' ? undefined : handlePostClick}
         text={isOnline && eventZoomAddress === '' ? '건너뛰기' : '다음'}
         disabled={!isOnline && eventPlace === ''}
       />

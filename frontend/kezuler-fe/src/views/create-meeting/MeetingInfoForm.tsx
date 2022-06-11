@@ -104,11 +104,11 @@ function MeetingInfoForm() {
           onChange={handleEventAttachmentChange}
         />
       </div>
-      {eventTitle ? (
-        <BottomButton onClick={handleNextClick} text="다음" />
-      ) : (
-        <BottomButton disabled text="미팅 제목을 입력해주세요" />
-      )}
+      <BottomButton
+        disabled={eventTitle ? false : true}
+        onClick={handleNextClick}
+        text="다음"
+      />
     </div>
   );
 }
