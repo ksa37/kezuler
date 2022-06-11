@@ -53,25 +53,45 @@
 }
 
 // TimeListSelector
-
-.description-text {
+.time-list-top {
+  display: flex;
+  // position: relative;
+  margin-top: 32px;
+  margin-left: 20px;
+  margin-right: 24px;
+}
+.accept-description-text {
   color: $color-highlight;
   text-align: left;
+  flex: 1;
   font: normal normal bold 24px/36px Pretendard;
-  margin: 32px 40% 0 20px;
 }
+// .description-text {
+//   color: $color-highlight;
+//   text-align: left;
+//   font: normal normal bold 24px/36px Pretendard;
+//   margin: 32px 40% 0 20px;
+// }
 
 .time-list-selector-personnel {
   color: $color-highlight;
-  font: normal normal medium 14px/22px Pretendard;
-  position: absolute;
-  top: 145px;
-  right: 20px;
-
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: medium;
+  line-height: 22px;
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+  position: relative;
+  .time-list-selector-personnel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .icon-circle {
-    position: relative;
     width: 20px;
     height: 20px;
+    margin-right: 2px;
   }
   .icon-profiles {
     position: absolute;
@@ -101,17 +121,6 @@
     position: relative;
     font: normal normal bold 16px/19px Pretendard;
 
-    .time-line-line {
-      content: '';
-      position: absolute;
-      top: 7px;
-      left: -12.5px;
-      bottom: 0;
-      width: 0px;
-      height: 100vh;
-      border: 0.5px solid #bfbfbf;
-    }
-
     .time-line-circle {
       content: '';
       position: absolute;
@@ -128,6 +137,17 @@
   }
 }
 
+.time-line-line {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -12.5px;
+  bottom: 0;
+  width: 0px;
+  height: 100vh;
+  border: 0.5px solid #bfbfbf;
+}
+
 .time-select-card-grid {
   display: grid;
   position: relative;
@@ -142,7 +162,11 @@
   display: flex;
   align-items: center;
   margin-top: 12px;
+  position: relative;
 
+  &.no-time {
+    display: none;
+  }
   .time-select-time-content {
     display: flex;
     flex: 1;

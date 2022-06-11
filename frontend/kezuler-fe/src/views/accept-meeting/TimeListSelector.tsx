@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -80,6 +80,11 @@ function TimeListSelector() {
   console.log(eventTimeListDevideByDate);
   // const isSelected = useMemo(() => availableTimes.length > 0, [availableTimes]);
 
+  const [calendarPairOpened, setCalendarPairOpened] = useState(true);
+  const handlePairClick = () => {
+    setCalendarPairOpened(false);
+  };
+
   type Schedule = {
     timeRange: string;
     scheduleTitle: string;
@@ -108,16 +113,20 @@ function TimeListSelector() {
 
   return (
     <div className={'time-list-selector'}>
-      <div className={'description-text'}>
-        {'참여 가능한 시간을'}
-        <br />
-        {'모두 선택해주세요'}
-      </div>
-      <div className={'time-list-selector-personnel'}>
-        <CircleIcon className="icon-circle" />
-        <ProfilesIcon className="icon-profiles" />
-        {`${possibleUsersAll.length + declineNum}명 참여중`}
-        <ArrowRightIcon />
+      <div className={'time-list-top'}>
+        <div className={'accept-description-text'}>
+          {'참여 가능한 시간을'}
+          <br />
+          {'모두 선택해주세요'}
+        </div>
+        <div className={'time-list-selector-personnel'}>
+          <div className={'time-list-selector-personnel-item'}>
+            <CircleIcon className={'icon-circle'} />
+            <ProfilesIcon className={'icon-profiles'} />
+            {`${possibleUsersAll.length + declineNum}명 참여중`}
+            <ArrowRightIcon />
+          </div>
+        </div>
       </div>
       <div className={'time-select-with-schedule'}>
         {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
@@ -129,70 +138,141 @@ function TimeListSelector() {
                 {dateKey}
               </div>
             </div>
-            {eventTimeListDevideByDate[dateKey].map(
-              ({ eventStartsAt, possibleNum }, index) => (
-                <div
-                  key={eventStartsAt.toTimeString()}
-                  className={'time-select-card-grid'}
-                >
-                  <div
-                    className={'time-select-time-card'}
-                    onClick={() => handleEventTimeClick(eventStartsAt)}
-                  >
-                    <div className={'time-select-time-content'}>
-                      <div className={'option-time-range'}>
-                        {getTimeRange(eventStartsAt, eventTimeDuration)}
-                      </div>
-                      <div className={'profile-icon'}>
-                        <ProfileIcon />
-                      </div>
-                      <div className={'possible-num'}>{possibleNum}</div>
-                    </div>
-                    <div className="check-box-icon">
-                      {availableTimes.includes(eventStartsAt.toISOString()) ? (
-                        <CheckedIcon />
+            {Object.keys(mockSchedule).includes(dateKey) &&
+            mockSchedule[dateKey].length >
+              eventTimeListDevideByDate[dateKey].length
+              ? mockSchedule[dateKey].map(
+                  ({ timeRange, scheduleTitle }, index) => (
+                    <div key={index} className={'time-select-card-grid'}>
+                      {eventTimeListDevideByDate[dateKey].length > index ? (
+                        <div
+                          className={'time-select-time-card'}
+                          onClick={() =>
+                            handleEventTimeClick(
+                              eventTimeListDevideByDate[dateKey][index]
+                                .eventStartsAt
+                            )
+                          }
+                        >
+                          <div className={'time-select-time-content'}>
+                            <div className={'option-time-range'}>
+                              {getTimeRange(
+                                eventTimeListDevideByDate[dateKey][index]
+                                  .eventStartsAt,
+                                eventTimeDuration
+                              )}
+                            </div>
+                            <div className={'profile-icon'}>
+                              <ProfileIcon />
+                            </div>
+                            <div className={'possible-num'}>
+                              {
+                                eventTimeListDevideByDate[dateKey][index]
+                                  .possibleNum
+                              }
+                            </div>
+                          </div>
+                          <div className="check-box-icon">
+                            {availableTimes.includes(
+                              eventTimeListDevideByDate[dateKey][
+                                index
+                              ].eventStartsAt.toISOString()
+                            ) ? (
+                              <CheckedIcon />
+                            ) : (
+                              <NotCheckedIcon />
+                            )}
+                          </div>
+                        </div>
                       ) : (
-                        <NotCheckedIcon />
+                        <div
+                          className={classNames(
+                            'time-select-time-card',
+                            'no-time'
+                          )}
+                        ></div>
                       )}
-                    </div>
-                  </div>
-                  {Object.keys(mockSchedule).includes(dateKey) &&
-                  mockSchedule[dateKey].length > index ? (
-                    <div className={'time-select-schedule-card'}>
-                      <div>
-                        <div className={'schedule-time-range'}>
-                          {mockSchedule[dateKey][index].timeRange}
-                        </div>
-                        <div className={'schedule-title'}>
-                          {mockSchedule[dateKey][index].scheduleTitle}
+                      <div className={'time-select-schedule-card'}>
+                        <div>
+                          <div className={'schedule-time-range'}>
+                            {timeRange}
+                          </div>
+                          <div className={'schedule-title'}>
+                            {scheduleTitle}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  ) : (
+                  )
+                )
+              : eventTimeListDevideByDate[dateKey].map(
+                  ({ eventStartsAt, possibleNum }, index) => (
                     <div
-                      className={classNames(
-                        'time-select-schedule-card',
-                        'no-schedule'
+                      key={eventStartsAt.toTimeString()}
+                      className={'time-select-card-grid'}
+                    >
+                      <div
+                        className={'time-select-time-card'}
+                        onClick={() => handleEventTimeClick(eventStartsAt)}
+                      >
+                        <div className={'time-select-time-content'}>
+                          <div className={'option-time-range'}>
+                            {getTimeRange(eventStartsAt, eventTimeDuration)}
+                          </div>
+                          <div className={'profile-icon'}>
+                            <ProfileIcon />
+                          </div>
+                          <div className={'possible-num'}>{possibleNum}</div>
+                        </div>
+                        <div className="check-box-icon">
+                          {availableTimes.includes(
+                            eventStartsAt.toISOString()
+                          ) ? (
+                            <CheckedIcon />
+                          ) : (
+                            <NotCheckedIcon />
+                          )}
+                        </div>
+                      </div>
+                      {Object.keys(mockSchedule).includes(dateKey) &&
+                      mockSchedule[dateKey].length > index ? (
+                        <div className={'time-select-schedule-card'}>
+                          <div>
+                            <div className={'schedule-time-range'}>
+                              {mockSchedule[dateKey][index].timeRange}
+                            </div>
+                            <div className={'schedule-title'}>
+                              {mockSchedule[dateKey][index].scheduleTitle}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className={classNames(
+                            'time-select-schedule-card',
+                            'no-schedule'
+                          )}
+                        ></div>
                       )}
-                    ></div>
-                  )}
-                </div>
-              )
-            )}
+                    </div>
+                  )
+                )}
           </div>
         ))}
       </div>
-      <div className={'calendar-pair-ask'}>
-        <div className={'calendar-pair-ask-txt'}>
-          {'캘린더를 연동하여'}
-          <br />
-          {'이중약속을 방지해요!'}
+      {calendarPairOpened && (
+        <div className={'calendar-pair-ask'}>
+          <div className={'calendar-pair-ask-txt'}>
+            {'캘린더를 연동하여'}
+            <br />
+            {'이중약속을 방지해요!'}
+          </div>
+          <div className={'calendar-pair-ask-btn'} onClick={handlePairClick}>
+            <div className={'btn-txt'}>나의 일정 </div>
+            <div className={'btn-txt'}>불러오기</div>
+          </div>
         </div>
-        <div className={'calendar-pair-ask-btn'}>
-          <div className={'btn-txt'}>나의 일정 </div>
-          <div className={'btn-txt'}>불러오기</div>
-        </div>
-      </div>
+      )}
       <AvailableOptionSelector />
       <BottomButton text={'선택 완료'} onClick={handlePutClick} />
     </div>
