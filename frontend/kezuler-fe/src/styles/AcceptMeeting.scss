@@ -2,10 +2,6 @@
 
 // Invitation
 
-// .invitation {
-//   padding-top: 72px;
-// }
-
 .invitation-message {
   color: $color-highlight;
   font-size: 24px;
@@ -58,10 +54,6 @@
 
 // TimeListSelector
 
-// .time-list-selector {
-//   padding-top: 72px;
-// }
-
 .description-text {
   color: $color-highlight;
   text-align: left;
@@ -86,33 +78,70 @@
     left: 5.24px;
   }
 }
-.time-select-grid-container {
-  display: grid;
-  position: relative;
+
+.time-select-with-schedule {
   margin-inline: 20px;
+}
+.time-select-date {
+  position: relative;
+  margin-top: 28px;
+  text-align: left;
+}
+
+.time-select-date-grid {
+  display: grid;
+
   grid-template-columns: 1fr 2fr;
   row-gap: 12px;
   column-gap: 24px;
-  grid-auto-rows: auto;
-  &.calendar-paired {
-    grid-template-areas: 'calendar-schedule time-option';
+  grid-template-areas: '. date-text';
+
+  .time-select-date-part {
+    grid-area: date-text;
+    position: relative;
+    font: normal normal bold 16px/19px Pretendard;
+
+    .time-line-line {
+      content: '';
+      position: absolute;
+      top: 7px;
+      left: -12.5px;
+      bottom: 0;
+      width: 0px;
+      height: 100vh;
+      border: 0.5px solid #bfbfbf;
+    }
+
+    .time-line-circle {
+      content: '';
+      position: absolute;
+      top: 7px;
+      left: -16px;
+      z-index: 1;
+      width: 8px;
+      height: 8px;
+      box-sizing: border-box;
+      border-radius: 50%;
+      border: 1px solid #282f39;
+      background-color: #fad94f;
+    }
   }
-  grid-template-areas: 'no-calendar-schedule time-option';
 }
 
-.time-select-date {
+.time-select-card-grid {
+  display: grid;
   position: relative;
-  grid-area: time-option;
-  margin-top: 28px;
-  text-align: left;
-  font: normal normal bold 16px/19px Pretendard;
+  grid-template-columns: 1fr 2fr;
+  row-gap: 12px;
+  column-gap: 24px;
+  grid-template-areas: 'schedule-card time-card';
 }
 
 .time-select-time-card {
+  grid-area: time-card;
   display: flex;
   align-items: center;
   margin-top: 12px;
-  // left: 40%;
 
   .time-select-time-content {
     display: flex;
@@ -129,8 +158,12 @@
 
     font: normal normal normal 14px/18px Pretendard;
 
-    .time-range {
+    .option-time-range {
       flex: 1;
+    }
+    .profile-icon {
+    }
+    .possible-num {
     }
   }
   .check-box-icon {
@@ -140,13 +173,33 @@
   }
 }
 
-.time-select-calendar-schedule {
-  grid-area: calendar-schedule;
-}
+.time-select-schedule-card {
+  grid-area: schedule-card;
+  display: flex;
+  align-items: center;
 
-.time-select-no-calendar {
-  grid-area: no-calendar-schedule;
-  display: none;
+  height: 40px;
+  border-radius: 8px;
+  margin-top: 12px;
+  padding-left: 8px;
+
+  background-color: #ffffff;
+  box-shadow: 0px 15px 35px #282f391a;
+
+  &.no-schedule {
+    display: none;
+  }
+
+  .schedule-time-range {
+    font: normal normal normal 10px/12px Pretendard;
+    color: $color-highlight;
+  }
+  .schedule-title {
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: medium;
+    color: #9f9f9f;
+  }
 }
 
 .calendar-pair-ask {
@@ -249,35 +302,7 @@
   }
 }
 
-.timelineLine {
-  content: '';
-  position: absolute;
-  top: 7px;
-  left: -12.5px;
-  bottom: 0;
-  z-index: 1;
-  width: 0px;
-  border: 0.5px solid #bfbfbf;
-}
-.timelineCircle {
-  content: '';
-  position: absolute;
-  top: 7px;
-  left: -16px;
-  z-index: 1;
-  width: 8px;
-  height: 8px;
-  box-sizing: border-box;
-  border-radius: 50%;
-  border: 1px solid #282f39;
-  background-color: #fad94f;
-}
-
 // AcceptanceCompletion
-
-// .acceptance-completion {
-//   padding-top: 72px;
-// }
 
 .acceptance-completion-sub-description {
   font: normal normal normal 16px/24px Pretendard;

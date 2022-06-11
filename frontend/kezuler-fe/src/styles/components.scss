@@ -4,25 +4,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+  &.sub-exist {
+    justify-content: unset;
+  }
   background-color: $color-highlight;
   color: $color-main;
   height: 56px;
   font-family: Pretendard;
   font-size: 16px;
-
+  text-align: center;
+  z-index: 1;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   .btn-text-area {
+    &.sub-exist {
+      display: flex;
+      text-align: left;
+    }
+    width: 100%;
     .btn-subtext {
       font-size: 14px;
-      float: left;
+      padding-left: 32px;
+      flex: 1;
     }
     .btn-text {
       &.sub-exist {
-        float: right;
+        padding-right: 40px;
       }
     }
   }

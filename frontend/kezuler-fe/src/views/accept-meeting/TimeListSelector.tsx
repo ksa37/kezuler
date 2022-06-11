@@ -2,9 +2,11 @@ import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
+import { usePutPendingEventGuest } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
+import { PPutPendingEvent } from 'src/types/pendingEvent';
 import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
@@ -22,25 +24,28 @@ import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.sv
 
 function TimeListSelector() {
   const dispatch = useDispatch<AppDispatch>();
-  const { pendingEvent, availableTimes } = useSelector(
+  const { pendingEvent, availableTimes, declineReason } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
-  const { increaseStep, addAvailableTimes, deleteAvailableTimes } =
-    acceptMeetingActions;
+  const { addAvailableTimes, deleteAvailableTimes } = acceptMeetingActions;
 
-  const { eventTimeDuration, declinedUsers, eventTimeCandidates } =
+  const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
 
-  const handleNextClick = () => {
-    dispatch(increaseStep());
+  const putEventTimeCandidate = usePutPendingEventGuest();
+
+  const handlePutClick = () => {
+    const putData: PPutPendingEvent = { eventTimeCandidates: availableTimes };
+    if (availableTimes.length === 0 && declineReason && declineReason !== '') {
+      putData.userDeclineReason = declineReason;
+    }
+    putEventTimeCandidate(eventId, putData);
   };
 
   const handleEventTimeClick = (eventStartsAt: Date) => {
     const dateToAdd = eventStartsAt.toISOString();
-    console.log(dateToAdd);
     if (availableTimes.includes(dateToAdd)) {
       dispatch(deleteAvailableTimes(dateToAdd));
-      console.log('Deleted Date !', dateToAdd);
     } else {
       dispatch(addAvailableTimes(dateToAdd));
     }
@@ -72,7 +77,34 @@ function TimeListSelector() {
     );
   }, [eventTimeCandidates]);
 
+  console.log(eventTimeListDevideByDate);
   // const isSelected = useMemo(() => availableTimes.length > 0, [availableTimes]);
+
+  type Schedule = {
+    timeRange: string;
+    scheduleTitle: string;
+  };
+  interface ScehdulesEachDay {
+    [dateString: string]: Schedule[];
+  }
+  const mockSchedule: ScehdulesEachDay = {
+    '4/11 월': [
+      { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '철수랑 저녁' },
+      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
+    ],
+
+    '4/12 화': [
+      { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
+      { timeRange: '하루종일', scheduleTitle: '수아' },
+    ],
+
+    '4/13 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
+
+    '4/15 금': [
+      { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
+      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
+    ],
+  };
 
   return (
     <div className={'time-list-selector'}>
@@ -87,37 +119,63 @@ function TimeListSelector() {
         {`${possibleUsersAll.length + declineNum}명 참여중`}
         <ArrowRightIcon />
       </div>
-      <div className={classNames('time-select-grid-container')}>
+      <div className={'time-select-with-schedule'}>
         {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
           <div key={dateKey} className={'time-select-date'}>
-            <div className={'timelineLine'} />
-            <div>
-              <div className={'timelineCircle'} />
-              {dateKey}
+            <div className={'time-select-date-grid'}>
+              <div className={'time-select-date-part'}>
+                <div className={'time-line-line'} />
+                <div className={'time-line-circle'} />
+                {dateKey}
+              </div>
             </div>
             {eventTimeListDevideByDate[dateKey].map(
-              ({ eventStartsAt, possibleNum }) => (
+              ({ eventStartsAt, possibleNum }, index) => (
                 <div
                   key={eventStartsAt.toTimeString()}
-                  className={'time-select-time-card'}
-                  onClick={() => handleEventTimeClick(eventStartsAt)}
+                  className={'time-select-card-grid'}
                 >
-                  <div className={'time-select-time-content'}>
-                    <div className={'time-range'}>
-                      {getTimeRange(eventStartsAt, eventTimeDuration)}
+                  <div
+                    className={'time-select-time-card'}
+                    onClick={() => handleEventTimeClick(eventStartsAt)}
+                  >
+                    <div className={'time-select-time-content'}>
+                      <div className={'option-time-range'}>
+                        {getTimeRange(eventStartsAt, eventTimeDuration)}
+                      </div>
+                      <div className={'profile-icon'}>
+                        <ProfileIcon />
+                      </div>
+                      <div className={'possible-num'}>{possibleNum}</div>
                     </div>
-                    <div>
-                      <ProfileIcon />
+                    <div className="check-box-icon">
+                      {availableTimes.includes(eventStartsAt.toISOString()) ? (
+                        <CheckedIcon />
+                      ) : (
+                        <NotCheckedIcon />
+                      )}
                     </div>
-                    <div>{possibleNum}</div>
                   </div>
-                  <div className="check-box-icon">
-                    {availableTimes.includes(eventStartsAt.toISOString()) ? (
-                      <CheckedIcon />
-                    ) : (
-                      <NotCheckedIcon />
-                    )}
-                  </div>
+                  {Object.keys(mockSchedule).includes(dateKey) &&
+                  mockSchedule[dateKey].length > index ? (
+                    <div className={'time-select-schedule-card'}>
+                      <div>
+                        <div className={'schedule-time-range'}>
+                          {mockSchedule[dateKey][index].timeRange}
+                        </div>
+                        <div className={'schedule-title'}>
+                          {mockSchedule[dateKey][index].scheduleTitle}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className={classNames(
+                        'time-select-schedule-card',
+                        'no-schedule'
+                      )}
+                    ></div>
+                  )}
                 </div>
               )
             )}
@@ -133,15 +191,10 @@ function TimeListSelector() {
         <div className={'calendar-pair-ask-btn'}>
           <div className={'btn-txt'}>나의 일정 </div>
           <div className={'btn-txt'}>불러오기</div>
-          {/* <br /> */}
         </div>
       </div>
       <AvailableOptionSelector />
-      <BottomButton
-        text={'선택 완료'}
-        onClick={handleNextClick}
-        // disabled={!isSelected}
-      />
+      <BottomButton text={'선택 완료'} onClick={handlePutClick} />
     </div>
   );
 }

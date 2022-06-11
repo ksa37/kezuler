@@ -20,6 +20,7 @@ function AcceptMeeting() {
   const dispatch = useDispatch<AppDispatch>();
   const { step } = useSelector((state: RootState) => state.acceptMeeting);
   const { setEventID } = acceptMeetingActions;
+  const { decreaseStep } = acceptMeetingActions;
 
   const totalStepsNum = Object.keys(AcceptMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
@@ -51,7 +52,6 @@ function AcceptMeeting() {
   };
   const { eventId } = useParams();
 
-  const { decreaseStep } = acceptMeetingActions;
   const getPendingEventInfo = useGetPendingEvent();
   useMemo(() => {
     if (eventId) {
