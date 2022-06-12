@@ -48,6 +48,11 @@ interface PPostPendingEvent {
   eventAttachment: string;
 }
 
+interface PPutPendingEvent {
+  eventTimeCandidates: string[];
+  userDeclineReason?: string;
+}
+
 type PPatchPendingEvent = Partial<BPendingEvent>;
 
 export type {
@@ -56,5 +61,6 @@ export type {
   PPostPendingEvent,
   RGetPendingEvents,
   PPatchPendingEvent,
+  PPutPendingEvent,
   EventTimeCandidate,
 };

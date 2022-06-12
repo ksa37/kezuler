@@ -17,8 +17,8 @@ import MainAppBar from 'src/components/common/MainAppBar';
 
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
-  // const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
-  const isLoggedIn = true;
+  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+  // const isLoggedIn = true;
 
   return (
     <>
@@ -52,18 +52,21 @@ function RootRoutes() {
           </Routes>
         </main>
       ) : (
-        // <main>
-        <Routes>
-          <Route
-            path={`${PathName.invite}/:eventId`}
-            element={<AcceptMeeting />}
-          />
-          <Route path={PathName.login} element={<Login />} />
-          <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
-          <Route path={`/test-page`} element={<TestPage />} />
-          <Route path="/*" element={<Navigate replace to={PathName.login} />} />
-        </Routes>
-        // </main>
+        <main>
+          <Routes>
+            <Route
+              path={`${PathName.invite}/:eventId`}
+              element={<AcceptMeeting />}
+            />
+            <Route path={PathName.login} element={<Login />} />
+            <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
+            <Route path={`/test-page`} element={<TestPage />} />
+            <Route
+              path="/*"
+              element={<Navigate replace to={PathName.login} />}
+            />
+          </Routes>
+        </main>
       )}
       {/* <Route path={PathName.invite} element={<>invite</>}>
         <Route path={':id'} element={<>invite</>} />

@@ -7,6 +7,7 @@ import BottomButton from 'src/components/common/BottomButton';
 
 import { ReactComponent as Bell } from 'src/assets/acceptance_complete_bell.svg';
 import { ReactComponent as Circle } from 'src/assets/acceptance_complete_circle.svg';
+import { ReactComponent as TalkingPeople } from 'src/assets/img_talking_small.svg';
 
 function AcceptanceCompletion() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ function AcceptanceCompletion() {
 
   return (
     <div className={'acceptance-completion'}>
-      <div className={'description-text'}>
+      <div className={'accept-description-text'}>
         {'일정 선택이'}
         <br />
         {'모두 완료되었습니다!'}
@@ -29,6 +30,7 @@ function AcceptanceCompletion() {
       </div>
       <Bell className={'acceptance-bell'} />
       <Circle className={'acceptance-circle'} />
+      <TalkingPeople className={'acceptance-talking-people'} />
       <BottomButton onClick={handleHomeClick} text={'홈으로 가기'} />
     </div>
   );
