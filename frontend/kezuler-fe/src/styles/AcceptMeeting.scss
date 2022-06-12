@@ -53,18 +53,36 @@
 }
 
 // TimeListSelector
+
+.time-list-selector {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .time-list-top {
   display: flex;
   // position: relative;
   margin-top: 32px;
   margin-left: 20px;
   margin-right: 24px;
+  @media (max-width: 330px) {
+    display: block;
+    flex: none;
+    width: 100%;
+  }
 }
 .accept-description-text {
   color: $color-highlight;
   text-align: left;
   flex: 1;
   font: normal normal bold 24px/36px Pretendard;
+
+  @media (max-width: 330px) {
+    display: block;
+    flex: none;
+    width: 100%;
+  }
 }
 // .description-text {
 //   color: $color-highlight;
@@ -83,10 +101,22 @@
   justify-content: right;
   align-items: flex-end;
   position: relative;
+
+  @media (max-width: 330px) {
+    display: block;
+    flex: none;
+    margin-top: 5px;
+  }
+
   .time-list-selector-personnel-item {
     display: flex;
-    justify-content: center;
+    // justify-content: center;
+
     align-items: center;
+    // @media (max-width: 330px) {
+    //   display: block;
+    //   flex: none;
+    // }
   }
   .icon-circle {
     width: 20px;
@@ -101,6 +131,19 @@
 
 .time-select-with-schedule {
   margin-inline: 20px;
+  flex: 1;
+  position: relative;
+}
+.time-line-line {
+  content: '';
+  position: absolute;
+  // height: 100%;
+  top: 35px;
+  margin-left: calc((100% - 24px) / 3 + 11.5px);
+  // left: 0.5px;
+  bottom: 0;
+  width: 0px;
+  border: 0.5px solid #bfbfbf;
 }
 .time-select-date {
   position: relative;
@@ -137,17 +180,6 @@
   }
 }
 
-.time-line-line {
-  content: '';
-  position: absolute;
-  top: 7px;
-  left: -12.5px;
-  bottom: 0;
-  width: 0px;
-  height: 100vh;
-  border: 0.5px solid #bfbfbf;
-}
-
 .time-select-card-grid {
   display: grid;
   position: relative;
@@ -175,10 +207,16 @@
     width: 100%;
     border-radius: 8px;
 
+    box-sizing: border-box;
     background-color: #ffffff;
     box-shadow: 0px 15px 35px #282f391a;
     padding-left: 12px;
     padding-right: 8px;
+
+    &.selected {
+      background-color: $color-main;
+      border: 0.5px solid $color-highlight;
+    }
 
     font: normal normal normal 14px/18px Pretendard;
 
@@ -205,7 +243,7 @@
   height: 40px;
   border-radius: 8px;
   margin-top: 12px;
-  padding-left: 8px;
+  padding-inline: 8px;
 
   background-color: #ffffff;
   box-shadow: 0px 15px 35px #282f391a;
@@ -227,9 +265,9 @@
 }
 
 .calendar-pair-ask {
-  margin-left: 20px;
-  position: fixed;
-  top: 228px;
+  position: absolute;
+  top: 59px;
+  max-width: calc((100% - 24px) / 3);
   .calendar-pair-ask-txt {
     text-align: left;
     font: normal normal normal 14px/22px Pretendard;

@@ -152,7 +152,7 @@ function CalendarTimeSelector() {
 
     focusChip?.scrollIntoView({
       behavior: 'auto',
-      block: 'start',
+      block: 'nearest',
       inline: 'start',
     });
   };

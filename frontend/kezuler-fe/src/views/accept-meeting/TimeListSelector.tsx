@@ -93,22 +93,19 @@ function TimeListSelector() {
     [dateString: string]: Schedule[];
   }
   const mockSchedule: ScehdulesEachDay = {
-    '4/11 월': [
-      { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '철수랑 저녁' },
-      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
-    ],
-
-    '4/12 화': [
-      { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
-      { timeRange: '하루종일', scheduleTitle: '수아' },
-    ],
-
-    '4/13 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
-
-    '4/15 금': [
-      { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
-      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
-    ],
+    // '4/11 월': [
+    //   { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
+    //   { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
+    // ],
+    // '4/12 화': [
+    //   { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
+    //   { timeRange: '하루종일', scheduleTitle: '수아' },
+    // ],
+    // '4/13 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
+    // '4/15 금': [
+    //   { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
+    //   { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
+    // ],
   };
 
   return (
@@ -129,11 +126,24 @@ function TimeListSelector() {
         </div>
       </div>
       <div className={'time-select-with-schedule'}>
+        {calendarPairOpened && (
+          <div className={'calendar-pair-ask'}>
+            <div className={'calendar-pair-ask-txt'}>
+              {'캘린더를 연동하여'}
+              <br />
+              {'이중약속을 방지해요!'}
+            </div>
+            <div className={'calendar-pair-ask-btn'} onClick={handlePairClick}>
+              <div className={'btn-txt'}>나의 일정 </div>
+              <div className={'btn-txt'}>불러오기</div>
+            </div>
+          </div>
+        )}
+        <div className={'time-line-line'} />
         {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
           <div key={dateKey} className={'time-select-date'}>
             <div className={'time-select-date-grid'}>
               <div className={'time-select-date-part'}>
-                <div className={'time-line-line'} />
                 <div className={'time-line-circle'} />
                 {dateKey}
               </div>
@@ -154,7 +164,18 @@ function TimeListSelector() {
                             )
                           }
                         >
-                          <div className={'time-select-time-content'}>
+                          <div
+                            className={classNames(
+                              'time-select-time-content',
+                              availableTimes.includes(
+                                eventTimeListDevideByDate[dateKey][
+                                  index
+                                ].eventStartsAt.toISOString()
+                              )
+                                ? 'selected'
+                                : ''
+                            )}
+                          >
                             <div className={'option-time-range'}>
                               {getTimeRange(
                                 eventTimeListDevideByDate[dateKey][index]
@@ -215,7 +236,18 @@ function TimeListSelector() {
                         className={'time-select-time-card'}
                         onClick={() => handleEventTimeClick(eventStartsAt)}
                       >
-                        <div className={'time-select-time-content'}>
+                        <div
+                          className={classNames(
+                            'time-select-time-content',
+                            availableTimes.includes(
+                              eventTimeListDevideByDate[dateKey][
+                                index
+                              ].eventStartsAt.toISOString()
+                            )
+                              ? 'selected'
+                              : ''
+                          )}
+                        >
                           <div className={'option-time-range'}>
                             {getTimeRange(eventStartsAt, eventTimeDuration)}
                           </div>
@@ -260,19 +292,6 @@ function TimeListSelector() {
           </div>
         ))}
       </div>
-      {calendarPairOpened && (
-        <div className={'calendar-pair-ask'}>
-          <div className={'calendar-pair-ask-txt'}>
-            {'캘린더를 연동하여'}
-            <br />
-            {'이중약속을 방지해요!'}
-          </div>
-          <div className={'calendar-pair-ask-btn'} onClick={handlePairClick}>
-            <div className={'btn-txt'}>나의 일정 </div>
-            <div className={'btn-txt'}>불러오기</div>
-          </div>
-        </div>
-      )}
       <AvailableOptionSelector />
       <BottomButton text={'선택 완료'} onClick={handlePutClick} />
     </div>
