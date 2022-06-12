@@ -45,6 +45,7 @@ interface PPostPendingEvent {
 type PPatchPendingEvent = Partial<BPendingEvent>;
 
 export type {
+  DeclinedUser,
   BPendingEvent,
   PendingEvent,
   PPostPendingEvent,
