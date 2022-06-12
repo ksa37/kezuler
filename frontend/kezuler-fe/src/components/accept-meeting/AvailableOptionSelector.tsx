@@ -11,9 +11,13 @@ function AvailableOptionSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { isDecline, declineReason, availableTimes, pendingEvent } =
     useSelector((state: RootState) => state.acceptMeeting);
-  const { eventTimeDuration, declinedUsers, eventTimeCandidates } =
-    pendingEvent;
-  const { setIsDecline, setDeclineReason } = acceptMeetingActions;
+  const { eventTimeCandidates } = pendingEvent;
+  const {
+    setIsDecline,
+    setDeclineReason,
+    clearAvailableTimes,
+    setAllAvailableTimes,
+  } = acceptMeetingActions;
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,12 +28,15 @@ function AvailableOptionSelector() {
   const handleNotAvailableClick = () => {
     setIsOpen(true);
     dispatch(setIsDecline(true));
+    dispatch(clearAvailableTimes());
   };
 
   const handleAllAvailableClick = () => {
     setIsOpen(false);
     dispatch(setIsDecline(false));
     dispatch(setDeclineReason(''));
+    setAllAvailable(true);
+    dispatch(setAllAvailableTimes());
   };
 
   const handleDeclineReasonChange = (
@@ -42,11 +49,11 @@ function AvailableOptionSelector() {
     dispatch(setIsDecline(availableTimes.length === 0));
   }, [availableTimes]);
 
-  const allAvailable = useMemo(
-    () => availableTimes.length === eventTimeCandidates.length,
+  const [allAvailable, setAllAvailable] = useState(false);
+  useMemo(
+    () => setAllAvailable(availableTimes.length === eventTimeCandidates.length),
     [availableTimes]
   );
-  console.log('allAvailable?', allAvailable);
 
   const notAvailableDescription = '가능한 시간이 없어요';
   const allAvailableDescription = '모든 시간 가능해요';
@@ -70,6 +77,7 @@ function AvailableOptionSelector() {
               contained: 'selected',
             }}
             className={classNames({
+              blurred: !isDecline,
               selected: isDecline,
             })}
             variant={isDecline ? 'contained' : 'outlined'}

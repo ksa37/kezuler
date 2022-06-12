@@ -6,9 +6,13 @@ import PathName from 'src/constants/PathName';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
-import { PPostPendingEvent } from 'src/types/pendingEvent';
+import { PPostPendingEvent, PPutPendingEvent } from 'src/types/pendingEvent';
 
-import { getPendingEventsById, postPendingEvent } from 'src/api/pendingEvent';
+import {
+  getPendingEventsById,
+  postPendingEvent,
+  putPendingEventGuestById,
+} from 'src/api/pendingEvent';
 
 const useGetPendingEvent = () => {
   const navigate = useNavigate();
@@ -52,4 +56,27 @@ const usePostPendingEvent = () => {
   return getShareUrl;
 };
 
-export { useGetPendingEvent, usePostPendingEvent };
+const usePutPendingEventGuest = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { increaseStep } = acceptMeetingActions;
+
+  const putEventTimeCandidate = (
+    eventId: string,
+    ppendingEvent: PPutPendingEvent
+  ) => {
+    putPendingEventGuestById(eventId, ppendingEvent)
+      .then((res) => {
+        console.log(res.data);
+        dispatch(increaseStep());
+      })
+      .catch((err) => {
+        console.log('미팅 수락 에러', err);
+        window.alert('미팅 수락 과정 중 오류가 생겼습니다');
+        navigate(`${PathName.invite}/${eventId}`, { replace: true });
+      });
+  };
+  return putEventTimeCandidate;
+};
+
+export { useGetPendingEvent, usePostPendingEvent, usePutPendingEventGuest };

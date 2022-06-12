@@ -19,6 +19,7 @@ import 'src/styles/AcceptMeeting.scss';
 function AcceptMeeting() {
   const dispatch = useDispatch<AppDispatch>();
   const { step } = useSelector((state: RootState) => state.acceptMeeting);
+  const { setEventID } = acceptMeetingActions;
   const { decreaseStep } = acceptMeetingActions;
 
   const totalStepsNum = Object.keys(AcceptMeetingSteps).length / 2 - 1;
@@ -53,7 +54,10 @@ function AcceptMeeting() {
 
   const getPendingEventInfo = useGetPendingEvent();
   useMemo(() => {
-    if (eventId) getPendingEventInfo(eventId);
+    if (eventId) {
+      getPendingEventInfo(eventId);
+      dispatch(setEventID(eventId));
+    }
   }, [eventId]);
 
   const handlePrevClick = () => {

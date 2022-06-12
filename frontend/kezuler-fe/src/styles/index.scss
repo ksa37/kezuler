@@ -71,6 +71,8 @@ main {
   padding-top: $app-bar-height;
   background: $color-background;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   // .create-meeting-page.calendar-selector {
   //   &.background-color: $color-main;
   // }

@@ -9,6 +9,7 @@ const KAKAO_AUTH_URL = `${KAKAO_BASE_URL}/authorize?client_id=${CLIENT_ID}&redir
 const CURRENT_USER_INFO_KEY = 'CURRENT_USER_INFO';
 const ACCESS_TOKEN_KEY = 'accessToken';
 const REFRESH_TOKEN_KEY = 'refreshToken';
+const LOGIN_REDIRECT_KEY = 'LOGIN_REDIRECT';
 
 export {
   CURRENT_HOST,
@@ -19,4 +20,5 @@ export {
   CURRENT_USER_INFO_KEY,
   ACCESS_TOKEN_KEY,
   REFRESH_TOKEN_KEY,
+  LOGIN_REDIRECT_KEY,
 };

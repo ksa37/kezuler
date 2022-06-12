@@ -3,6 +3,7 @@ import {
   PendingEvent,
   PPatchPendingEvent,
   PPostPendingEvent,
+  PPutPendingEvent,
   RGetPendingEvents,
 } from 'src/types/pendingEvent';
 
@@ -25,10 +26,23 @@ const postPendingEvent = (ppendingEvent: PPostPendingEvent) =>
 const deletePendingEventById = (eventId: string) =>
   KezulerInstance.delete(`pendingEvents/${eventId}`);
 
+const putPendingEventGuestById = (
+  eventId: string,
+  ppendingEvent: PPutPendingEvent
+) =>
+  KezulerInstance.put<PendingEvent>(`pendingEvents/${eventId}/candidate`, {
+    ppendingEvent,
+  });
+
+const deletePendingEventGuestById = (eventId: string) =>
+  KezulerInstance.delete(`pendingEvents/${eventId}/candidate`);
+
 export {
   getPendingEvents,
   getPendingEventsById,
   patchPendingEventsById,
   postPendingEvent,
   deletePendingEventById,
+  putPendingEventGuestById,
+  deletePendingEventGuestById,
 };
