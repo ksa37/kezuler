@@ -13,6 +13,7 @@ import {
 } from 'src/utils/dateParser';
 
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
+import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
 import TimeCard from 'src/components/accept-meeting/TimeCard';
 import BottomButton from 'src/components/common/BottomButton';
@@ -92,19 +93,19 @@ function TimeListSelector() {
     [dateString: string]: Schedule[];
   }
   const mockSchedule: ScehdulesEachDay = {
-    '4/11 월': [
-      { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
-      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
-    ],
-    '4/12 화': [
-      { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
-      { timeRange: '하루종일', scheduleTitle: '수아' },
-    ],
-    '4/13 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
-    '4/15 금': [
-      { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
-      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
-    ],
+    // '4/11 월': [
+    //   { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
+    //   { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
+    // ],
+    // '4/12 화': [
+    //   { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
+    //   { timeRange: '하루종일', scheduleTitle: '수아' },
+    // ],
+    // '4/13 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
+    // '4/15 금': [
+    //   { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
+    //   { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
+    // ],
   };
 
   return (
@@ -126,17 +127,18 @@ function TimeListSelector() {
       </div>
       <div className={'time-select-with-schedule'}>
         {calendarPairOpened && (
-          <div className={'calendar-pair-ask'}>
-            <div className={'calendar-pair-ask-txt'}>
-              {'캘린더를 연동하여'}
-              <br />
-              {'이중약속을 방지해요!'}
-            </div>
-            <div className={'calendar-pair-ask-btn'} onClick={handlePairClick}>
-              <div className={'btn-txt'}>나의 일정 </div>
-              <div className={'btn-txt'}>불러오기</div>
-            </div>
-          </div>
+          <CalendarPairBtn onClick={handlePairClick} />
+          // <div className={'calendar-pair-ask'}>
+          //   <div className={'calendar-pair-ask-txt'}>
+          //     {'캘린더를 연동하여'}
+          //     <br />
+          //     {'이중약속을 방지해요!'}
+          //   </div>
+          //   <div className={'calendar-pair-ask-btn'} onClick={handlePairClick}>
+          //     <div className={'btn-txt'}>나의 일정 </div>
+          //     <div className={'btn-txt'}>불러오기</div>
+          //   </div>
+          // </div>
         )}
         <div className={'time-line-line'} />
         {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
