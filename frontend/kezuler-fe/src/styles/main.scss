@@ -15,7 +15,11 @@
     cursor: pointer;
     min-height: 30px;
 
-    &.fixed {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &.left {
       padding: 0;
 
       &::after {
@@ -26,7 +30,7 @@
       }
     }
 
-    &.pending {
+    &.right {
       padding: 0 0 0 12px;
     }
 
@@ -34,6 +38,10 @@
       color: $color-highlight;
       font-size: $font-24;
       font-weight: bold;
+    }
+
+    &.disabled {
+      pointer-events: none;
     }
   }
 }
@@ -254,4 +262,35 @@
   bottom: 0;
   right: 0;
   padding: 24px;
+}
+
+.main-floating-button {
+  background: none;
+  padding: 0;
+  border: none;
+  outline: none;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  color: $color-highlight;
+  font-weight: bold;
+  font-size: $font-14;
+
+  cursor: pointer;
+}
+
+.main-floating-button-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 0 5px 10px #00000029;
+  background: $color-highlight;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

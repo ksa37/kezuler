@@ -76,7 +76,7 @@ function OverviewModal({ event }: Props) {
 
   const closeModal = useCallback(() => {
     dispatch(hide());
-  }, [dispatch, hide]);
+  }, [dispatch]);
 
   const handleModifyClick = () => {
     console.log('ho');
@@ -159,16 +159,7 @@ function OverviewModal({ event }: Props) {
               복사하기
             </button>
           </OverviewSection>
-          {isFixedEvent(event) && (
-            <OverviewParticipants
-              host={{
-                userId: hostId,
-                userName: hostName,
-                userProfileImage: hostProfileImage,
-              }}
-              participants={event.participants}
-            />
-          )}
+          {isFixedEvent(event) && <OverviewParticipants event={event} />}
         </div>
       </div>
       <footer className={'overview-footer'}>

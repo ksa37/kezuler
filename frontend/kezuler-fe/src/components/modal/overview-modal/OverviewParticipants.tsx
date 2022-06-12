@@ -1,18 +1,22 @@
 import React, { useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { Avatar } from '@mui/material';
 
-import { User } from 'src/types/user';
+import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
+import { BFixedEvent } from 'src/types/fixedEvent';
 
 interface Props {
-  host: User;
-  participants: User[];
+  event: BFixedEvent;
 }
 
-function OverviewParticipants({ host, participants }: Props) {
-  const { userName: hostName, userProfileImage: hostProfileImage } = host;
+function OverviewParticipants({ event }: Props) {
+  const { participants, eventHost } = event;
+  const { show } = participantsPopupAction;
+  const dispatch = useDispatch();
+  const { userName: hostName, userProfileImage: hostProfileImage } = eventHost;
 
   const handleAllShowClick = () => {
-    console.log('all click');
+    dispatch(show(event));
   };
 
   const MAX_PREVIEW_NUM = 4;

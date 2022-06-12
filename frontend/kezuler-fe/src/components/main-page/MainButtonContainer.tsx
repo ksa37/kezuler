@@ -1,22 +1,19 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-import FloatingButton from 'src/components/common/FloatingButton';
+import PathName from 'src/constants/PathName';
 
 import { ReactComponent as PlusIcon } from 'src/assets/icn_plus.svg';
 
 function MainButtonContainer() {
-  const handleCreateClick = () => {
-    console.log('create');
-  };
-
-  /*Floating Buttons Container*/
   return (
     <div className={'main-floating-button-container'}>
-      <FloatingButton
-        icon={<PlusIcon />}
-        onClick={handleCreateClick}
-        text={'미팅추가'}
-      />
+      <NavLink className={'main-floating-button'} to={PathName.create}>
+        <div className={'main-floating-button-icon'}>
+          <PlusIcon />
+        </div>
+        {'미팅추가'}
+      </NavLink>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { ko } from 'date-fns/locale';
 
 import DAY_OF_WEEK from 'src/constants/DayofWeek';
 import { EventTimeCandidate } from 'src/types/pendingEvent';
+import { User } from 'src/types/user';
 
 // api 의 모든 response (date string) 는 yyyy-MM-dd hh:mm:ss 형태로
 
@@ -83,27 +84,53 @@ type EventTimeListWithPossibleNum = {
   eventStartsAt: Date;
   possibleNum: number;
 };
-// [[Date, num], [Date, num], [Date, num]]  => {M/d EEE: [[Date, num], [Date, num], [Date, num], ...]   }
+// [[Date, num], [Date, num], [Date, num]]  => {M/d EEE: [[Date, num], [Date, num], [Date, num], …]   }
 const getTimeListDevideByDateWithPossibleNum = (
   eventTimeListWithPossibleNums: EventTimeListWithPossibleNum[]
-) => {
-  const eventTimeListByDate: EventTimeListByDateWithPossibleNum = {};
-
-  for (let i = 0; i < eventTimeListWithPossibleNums.length; i++) {
-    const dateAndDay = format(
-      eventTimeListWithPossibleNums[i].eventStartsAt,
-      'M/d EEE',
-      {
+) =>
+  eventTimeListWithPossibleNums.reduce<EventTimeListByDateWithPossibleNum>(
+    (prev, e) => {
+      const dateAndDay = format(e.eventStartsAt, 'M/d EEE', {
         locale: ko,
+      });
+      if (!prev[dateAndDay]) {
+        prev[dateAndDay] = [];
       }
-    );
-    if (!eventTimeListByDate[dateAndDay]) {
-      eventTimeListByDate[dateAndDay] = [];
-    }
-    eventTimeListByDate[dateAndDay].push(eventTimeListWithPossibleNums[i]);
-  }
-  return eventTimeListByDate;
+      prev[dateAndDay].push(e);
+      return prev;
+    },
+    {}
+  );
+
+// [[Date, num], [Date, num], [Date, num]]  => {M/d EEE: [[Date, users], …]   }
+type EventTimeListWithPossibleUser = {
+  eventStartsAt: Date;
+  possibleUsers: User[];
 };
+type EventTimeListByDateWithPossibleUser = {
+  [date: string]: EventTimeListWithPossibleUser[];
+};
+const getTimeListDivideByDateWithPossibleUsers = (
+  eventCandidates: EventTimeCandidate[]
+) =>
+  eventCandidates.reduce<EventTimeListByDateWithPossibleUser>(
+    (prev, eventCandidate) => {
+      const { eventStartsAt, possibleUsers } = eventCandidate;
+      const date = new Date(eventStartsAt);
+      const dateAndDay = format(date, 'M/d EEE', {
+        locale: ko,
+      });
+      if (!prev[dateAndDay]) {
+        prev[dateAndDay] = [];
+      }
+      prev[dateAndDay].push({
+        eventStartsAt: date,
+        possibleUsers,
+      });
+      return prev;
+    },
+    {}
+  );
 
 // "2022-06-09T16:30:00.000Z" to "2022-06-09 16:30:00"
 const isoStringToDateString = (isoString: string) => {
@@ -141,6 +168,7 @@ export {
   getTimeRange,
   getTimeListDevideByDate,
   getTimeListDevideByDateWithPossibleNum,
+  getTimeListDivideByDateWithPossibleUsers,
   getEventTimeCandidatesFromDateStrings,
   isoStringToDateString,
 };

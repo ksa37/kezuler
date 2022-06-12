@@ -40,6 +40,7 @@ interface RGetFixedEvents {
 }
 
 export type {
+  FixedUser,
   BFixedEvent,
   PGetFixedEvents,
   RGetFixedEvents,
