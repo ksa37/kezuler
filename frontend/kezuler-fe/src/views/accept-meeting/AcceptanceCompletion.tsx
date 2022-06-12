@@ -18,7 +18,7 @@ function AcceptanceCompletion() {
 
   return (
     <div className={'acceptance-completion'}>
-      <div className={'description-text'}>
+      <div className={'accept-description-text'}>
         {'일정 선택이'}
         <br />
         {'모두 완료되었습니다!'}

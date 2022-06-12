@@ -71,25 +71,26 @@
     flex: none;
     width: 100%;
   }
+  .time-list-top-description {
+    color: $color-highlight;
+    text-align: left;
+    flex: 1;
+    font: normal normal bold 24px/36px Pretendard;
+
+    @media (max-width: 330px) {
+      display: block;
+      flex: none;
+      width: 100%;
+    }
+  }
 }
+
 .accept-description-text {
   color: $color-highlight;
   text-align: left;
-  flex: 1;
   font: normal normal bold 24px/36px Pretendard;
-
-  @media (max-width: 330px) {
-    display: block;
-    flex: none;
-    width: 100%;
-  }
+  margin: 32px 40% 0 20px;
 }
-// .description-text {
-//   color: $color-highlight;
-//   text-align: left;
-//   font: normal normal bold 24px/36px Pretendard;
-//   margin: 32px 40% 0 20px;
-// }
 
 .time-list-selector-personnel {
   color: $color-highlight;
@@ -110,13 +111,7 @@
 
   .time-list-selector-personnel-item {
     display: flex;
-    // justify-content: center;
-
     align-items: center;
-    // @media (max-width: 330px) {
-    //   display: block;
-    //   flex: none;
-    // }
   }
   .icon-circle {
     width: 20px;

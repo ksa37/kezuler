@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import classNames from 'classnames';
 
+// import classNames from 'classnames';
 import { usePutPendingEventGuest } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
@@ -13,12 +13,11 @@ import {
 } from 'src/utils/dateParser';
 
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
+import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
+import TimeCard from 'src/components/accept-meeting/TimeCard';
 import BottomButton from 'src/components/common/BottomButton';
 
 import { ReactComponent as ArrowRightIcon } from 'src/assets/arrow_right.svg';
-import { ReactComponent as CheckedIcon } from 'src/assets/icn_checked.svg';
-import { ReactComponent as NotCheckedIcon } from 'src/assets/icon_not_checked.svg';
-import { ReactComponent as ProfileIcon } from 'src/assets/icon_profile.svg';
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
 
@@ -93,25 +92,25 @@ function TimeListSelector() {
     [dateString: string]: Schedule[];
   }
   const mockSchedule: ScehdulesEachDay = {
-    // '4/11 월': [
-    //   { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
-    //   { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
-    // ],
-    // '4/12 화': [
-    //   { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
-    //   { timeRange: '하루종일', scheduleTitle: '수아' },
-    // ],
-    // '4/13 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
-    // '4/15 금': [
-    //   { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
-    //   { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
-    // ],
+    '4/11 월': [
+      { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
+      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
+    ],
+    '4/12 화': [
+      { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
+      { timeRange: '하루종일', scheduleTitle: '수아' },
+    ],
+    '4/13 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
+    '4/15 금': [
+      { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
+      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
+    ],
   };
 
   return (
     <div className={'time-list-selector'}>
       <div className={'time-list-top'}>
-        <div className={'accept-description-text'}>
+        <div className={'time-list-top-description'}>
           {'참여 가능한 시간을'}
           <br />
           {'모두 선택해주세요'}
@@ -155,74 +154,37 @@ function TimeListSelector() {
                   ({ timeRange, scheduleTitle }, index) => (
                     <div key={index} className={'time-select-card-grid'}>
                       {eventTimeListDevideByDate[dateKey].length > index ? (
-                        <div
-                          className={'time-select-time-card'}
+                        <TimeCard
+                          isEmpty={false}
+                          isSelected={availableTimes.includes(
+                            eventTimeListDevideByDate[dateKey][
+                              index
+                            ].eventStartsAt.toISOString()
+                          )}
                           onClick={() =>
                             handleEventTimeClick(
                               eventTimeListDevideByDate[dateKey][index]
                                 .eventStartsAt
                             )
                           }
-                        >
-                          <div
-                            className={classNames(
-                              'time-select-time-content',
-                              availableTimes.includes(
-                                eventTimeListDevideByDate[dateKey][
-                                  index
-                                ].eventStartsAt.toISOString()
-                              )
-                                ? 'selected'
-                                : ''
-                            )}
-                          >
-                            <div className={'option-time-range'}>
-                              {getTimeRange(
-                                eventTimeListDevideByDate[dateKey][index]
-                                  .eventStartsAt,
-                                eventTimeDuration
-                              )}
-                            </div>
-                            <div className={'profile-icon'}>
-                              <ProfileIcon />
-                            </div>
-                            <div className={'possible-num'}>
-                              {
-                                eventTimeListDevideByDate[dateKey][index]
-                                  .possibleNum
-                              }
-                            </div>
-                          </div>
-                          <div className="check-box-icon">
-                            {availableTimes.includes(
-                              eventTimeListDevideByDate[dateKey][
-                                index
-                              ].eventStartsAt.toISOString()
-                            ) ? (
-                              <CheckedIcon />
-                            ) : (
-                              <NotCheckedIcon />
-                            )}
-                          </div>
-                        </div>
-                      ) : (
-                        <div
-                          className={classNames(
-                            'time-select-time-card',
-                            'no-time'
+                          timeRange={getTimeRange(
+                            eventTimeListDevideByDate[dateKey][index]
+                              .eventStartsAt,
+                            eventTimeDuration
                           )}
-                        ></div>
+                          possibleNum={
+                            eventTimeListDevideByDate[dateKey][index]
+                              .possibleNum
+                          }
+                        />
+                      ) : (
+                        <TimeCard isEmpty={true} />
                       )}
-                      <div className={'time-select-schedule-card'}>
-                        <div>
-                          <div className={'schedule-time-range'}>
-                            {timeRange}
-                          </div>
-                          <div className={'schedule-title'}>
-                            {scheduleTitle}
-                          </div>
-                        </div>
-                      </div>
+                      <ScheduleCard
+                        isEmpty={false}
+                        timeRange={timeRange}
+                        scheduleTitle={scheduleTitle}
+                      />
                     </div>
                   )
                 )
@@ -232,59 +194,31 @@ function TimeListSelector() {
                       key={eventStartsAt.toTimeString()}
                       className={'time-select-card-grid'}
                     >
-                      <div
-                        className={'time-select-time-card'}
+                      <TimeCard
+                        isEmpty={false}
+                        isSelected={availableTimes.includes(
+                          eventTimeListDevideByDate[dateKey][
+                            index
+                          ].eventStartsAt.toISOString()
+                        )}
                         onClick={() => handleEventTimeClick(eventStartsAt)}
-                      >
-                        <div
-                          className={classNames(
-                            'time-select-time-content',
-                            availableTimes.includes(
-                              eventTimeListDevideByDate[dateKey][
-                                index
-                              ].eventStartsAt.toISOString()
-                            )
-                              ? 'selected'
-                              : ''
-                          )}
-                        >
-                          <div className={'option-time-range'}>
-                            {getTimeRange(eventStartsAt, eventTimeDuration)}
-                          </div>
-                          <div className={'profile-icon'}>
-                            <ProfileIcon />
-                          </div>
-                          <div className={'possible-num'}>{possibleNum}</div>
-                        </div>
-                        <div className="check-box-icon">
-                          {availableTimes.includes(
-                            eventStartsAt.toISOString()
-                          ) ? (
-                            <CheckedIcon />
-                          ) : (
-                            <NotCheckedIcon />
-                          )}
-                        </div>
-                      </div>
+                        timeRange={getTimeRange(
+                          eventStartsAt,
+                          eventTimeDuration
+                        )}
+                        possibleNum={possibleNum}
+                      />
                       {Object.keys(mockSchedule).includes(dateKey) &&
                       mockSchedule[dateKey].length > index ? (
-                        <div className={'time-select-schedule-card'}>
-                          <div>
-                            <div className={'schedule-time-range'}>
-                              {mockSchedule[dateKey][index].timeRange}
-                            </div>
-                            <div className={'schedule-title'}>
-                              {mockSchedule[dateKey][index].scheduleTitle}
-                            </div>
-                          </div>
-                        </div>
+                        <ScheduleCard
+                          isEmpty={false}
+                          timeRange={mockSchedule[dateKey][index].timeRange}
+                          scheduleTitle={
+                            mockSchedule[dateKey][index].scheduleTitle
+                          }
+                        />
                       ) : (
-                        <div
-                          className={classNames(
-                            'time-select-schedule-card',
-                            'no-schedule'
-                          )}
-                        ></div>
+                        <ScheduleCard isEmpty={true} />
                       )}
                     </div>
                   )
