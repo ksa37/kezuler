@@ -6,16 +6,9 @@ interface FixedUser extends User {
   userStatus: TUserStatus;
 }
 
-interface EventHost {
-  userId: string;
-  userName: string;
-  userProfileImage: string;
-  userStatus: TUserStatus;
-}
-
 interface BFixedEvent {
   eventId: string;
-  eventHost: EventHost;
+  eventHost: FixedUser;
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
@@ -47,6 +40,7 @@ interface RGetFixedEvents {
 }
 
 export type {
+  FixedUser,
   BFixedEvent,
   PGetFixedEvents,
   RGetFixedEvents,

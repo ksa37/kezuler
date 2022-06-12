@@ -9,15 +9,9 @@ interface EventTimeCandidate {
   possibleUsers: User[];
 }
 
-interface EventHost {
-  userId: string;
-  userName: string;
-  userProfileImage: string;
-}
-
 interface BPendingEvent {
   eventId: string;
-  eventHost: EventHost;
+  eventHost: User;
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
@@ -56,6 +50,7 @@ interface PPutPendingEvent {
 type PPatchPendingEvent = Partial<BPendingEvent>;
 
 export type {
+  DeclinedUser,
   BPendingEvent,
   PendingEvent,
   PPostPendingEvent,
