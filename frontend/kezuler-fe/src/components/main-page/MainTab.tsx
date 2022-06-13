@@ -18,7 +18,7 @@ function MainTab({ isFixedMeeting, setIsFixedMeeting }: Props) {
   return (
     <div className={'main-tab'}>
       <button
-        className={classNames('main-tab-button', 'fixed', {
+        className={classNames('main-tab-button', 'left', {
           selected: isFixedMeeting,
         })}
         onClick={handleFixedClick}
@@ -26,7 +26,7 @@ function MainTab({ isFixedMeeting, setIsFixedMeeting }: Props) {
         다가오는 미팅
       </button>
       <button
-        className={classNames('main-tab-button', 'pending', {
+        className={classNames('main-tab-button', 'right', {
           selected: !isFixedMeeting,
         })}
         onClick={handlePendingClick}

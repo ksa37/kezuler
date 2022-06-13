@@ -23,8 +23,12 @@ function PendingEventCard({ event }: Props) {
     (state: RootState) => state.mainPending.curUserId
   );
 
-  const { eventTitle, eventHost, eventZoomAddress, eventTimeCandidates } =
-    event;
+  const {
+    eventTitle,
+    eventHost: { userId: hostId },
+    eventZoomAddress,
+    eventTimeCandidates,
+  } = event;
 
   const handleChangeTime = () => {
     console.log('change time');
@@ -51,10 +55,7 @@ function PendingEventCard({ event }: Props) {
     console.log('invite click');
   };
 
-  const isHost = useMemo(
-    () => curUserId === eventHost.userId,
-    [curUserId, eventHost.userId]
-  );
+  const isHost = useMemo(() => curUserId === hostId, [curUserId, hostId]);
 
   const isParticipating = useMemo(() => {
     if (isHost) {

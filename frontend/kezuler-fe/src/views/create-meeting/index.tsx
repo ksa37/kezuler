@@ -91,10 +91,9 @@ function CreateMeeting() {
       />
       <ProgressBar progress={progressPerStep * step} />
       <div className={classNames('create-meeting-page', backgroundSetter())}>
-        {/* <div className={'create-meeting-content'}></div> */}
         {getComponent(step)}
       </div>
-      <div className={classNames('bottom-style', backgroundSetter())}></div>
+      {/* <div className={classNames('bottom-style', backgroundSetter())}></div> */}
     </>
   );
 }

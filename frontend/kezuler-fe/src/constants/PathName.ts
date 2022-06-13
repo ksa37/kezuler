@@ -2,7 +2,7 @@ const PathName = {
   login: '/login',
   main: '/main',
   notification: '/noti',
-  myPage: '/myPage',
+  myPage: '/mypage',
   pending: '/pending',
   delete: '/delete',
   create: '/create',
