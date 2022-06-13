@@ -16,7 +16,7 @@ const useKakaoLogin = () => {
   const navigate = useNavigate();
 
   // 리다이렉트 후 토큰 요청
-  const getKakaoToken = (code: string) => {
+  const getKakaoToken = (code: string, path: PathName) => {
     getKakaoAccessTokenApi(code)
       .then((getRes) => {
         const accessToken = getRes.data.access_token;
@@ -43,7 +43,7 @@ const useKakaoLogin = () => {
             KezulerInstance.defaults.headers.common['Authorization'] =
               accessToken;
 
-            navigate(PathName.main, { replace: true });
+            navigate(path, { replace: true });
           })
           .catch((e) => {
             console.log('소셜로그인 에러', e);

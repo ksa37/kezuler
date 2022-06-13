@@ -1,8 +1,12 @@
-<svg id="Icon_check_outline" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <circle id="타원_65541" data-name="타원 65541" cx="8.335" cy="8.335" r="8.335" transform="translate(1.667 1.667)" fill="#fad94f"/>
-  <rect id="Icon_check_outline_background" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
-  <g id="Icon_check_outline-2" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
-    <path id="Path" d="M6.423.244a.833.833,0,0,1,0,1.179L3.089,4.756a.833.833,0,0,1-1.178,0L.244,3.089A.833.833,0,1,1,1.423,1.911L2.5,2.988,5.244.244A.833.833,0,0,1,6.423.244Z" transform="translate(5 5.833)" fill="#fff"/>
-    <path id="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#fad94f"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="그룹_94273" data-name="그룹 94273" transform="translate(-374 -512)">
+    <path id="패스_32029" data-name="패스 32029" d="M8.335,0A8.335,8.335,0,0,1,16.67,8.335a8.466,8.466,0,0,1-3.257,6.61A8.089,8.089,0,0,1,8.335,16.67,8.335,8.335,0,0,1,8.335,0Z" transform="translate(375.664 513.665)" fill="#282f39"/>
+    <g id="Icon_check_outline" transform="translate(374 512)">
+      <rect id="Icon_check_outline_background" data-name="Icon_check_outline background" width="20" height="20" fill="none"/>
+      <g id="Icon_check_outline-2" data-name="Icon_check_outline" transform="translate(1.667 1.667)">
+        <path id="Shape" d="M8.333,16.667a8.333,8.333,0,1,1,8.333-8.333A8.343,8.343,0,0,1,8.333,16.667Zm0-15A6.667,6.667,0,1,0,15,8.333,6.674,6.674,0,0,0,8.333,1.667Z" fill="#282f39"/>
+      </g>
+    </g>
+    <path id="Path" d="M6.423.244a.833.833,0,0,1,0,1.179L3.089,4.756a.833.833,0,0,1-1.178,0L.244,3.089A.833.833,0,1,1,1.423,1.911L2.5,2.988,5.244.244A.833.833,0,0,1,6.423.244Z" transform="translate(380.665 519.936)" fill="#fff"/>
   </g>
 </svg>
