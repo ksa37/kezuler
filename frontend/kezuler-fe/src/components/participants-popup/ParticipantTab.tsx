@@ -24,9 +24,9 @@ function ParticipantTab({
   };
 
   return (
-    <div className={'main-tab'}>
+    <div className={'common-tab'}>
       <button
-        className={classNames('main-tab-button', 'left', {
+        className={classNames('common-tab-button', 'left', {
           selected: isAttendant,
           disabled: attendantsNum === 0,
         })}
@@ -36,7 +36,7 @@ function ParticipantTab({
         <span className={'participants-popup-tab-num'}>{attendantsNum}</span>
       </button>
       <button
-        className={classNames('main-tab-button', 'right', {
+        className={classNames('common-tab-button', 'right', {
           selected: !isAttendant,
           disabled: absentsNum === 0,
         })}

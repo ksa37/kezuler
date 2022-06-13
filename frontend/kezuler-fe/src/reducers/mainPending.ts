@@ -35,19 +35,17 @@ const getPendingEventsThunk = createAsyncThunk(
   }
 );
 
-interface MainFixedState {
+interface MainPendingState {
   isFetched: boolean;
   loading: boolean;
   errorMessage: string;
-  curUserId: string;
   events: BPendingEvent[];
 }
 
-const initialState: MainFixedState = {
+const initialState: MainPendingState = {
   isFetched: false,
   loading: false,
   errorMessage: '',
-  curUserId: '',
   events: [],
 };
 
@@ -65,9 +63,8 @@ export const mainPending = createSlice({
       .addCase(getPendingEventsThunk.fulfilled, (state, action) => {
         state.isFetched = true;
         state.loading = false;
-        const { pendingEvents, userId } = action.payload;
+        const { pendingEvents } = action.payload;
         state.events = pendingEvents;
-        state.curUserId = userId;
       })
       .addCase(getPendingEventsThunk.rejected, (state, action) => {
         state.loading = false;

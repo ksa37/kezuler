@@ -27,11 +27,15 @@ const dateToDailyTime = (date: Date) => {
   return `${hours >= 12 ? '오후' : '오전'} ${hourText}:${minuteText}`;
 };
 
+const getIntervalFromToday = (date: Date) => {
+  const today = new Date().setHours(0, 0, 0, 0);
+  const target = new Date(date).setHours(0, 0, 0, 0);
+  return (today - target) / 86_400_000;
+};
+
 const getDDay = (date: Date) => {
-  const now = new Date();
-  const interval = date.getTime() - now.getTime();
-  const dDay = Math.ceil(interval / (1000 * 60 * 60 * 24));
-  return dDay === 0 ? 'Today' : `D-${dDay}`;
+  const interval = getIntervalFromToday(date);
+  return `D ${interval > 0 ? '+' : '-'} ${Math.abs(interval)}`;
 };
 
 // 월 반환
@@ -157,11 +161,18 @@ const getEventTimeCandidatesFromDateStrings = (eventTimeList: string[]) => {
   return eventTimeCandidates;
 };
 
+// 같은 날짜인지 체크
+const isSameDate = (a: Date, b: Date) =>
+  a.getFullYear() === b.getFullYear() &&
+  a.getMonth() === b.getMonth() &&
+  a.getDate() === b.getDate();
+
 export {
   dateStringToKorDate,
   parseDateString,
   dateToMMdd,
   dateToDailyTime,
+  getIntervalFromToday,
   getDDay,
   getMonthFromDateString,
   getKorDay,
@@ -171,4 +182,5 @@ export {
   getTimeListDivideByDateWithPossibleUsers,
   getEventTimeCandidatesFromDateStrings,
   isoStringToDateString,
+  isSameDate,
 };

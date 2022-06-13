@@ -5,4 +5,6 @@ const REMINDER_OPTIONS = [
   { display: '일주일 전', minutes: 120 },
 ];
 
-export { REMINDER_OPTIONS };
+const FIXED_TODAY_ID = 'fixed-event-card-today';
+
+export { REMINDER_OPTIONS, FIXED_TODAY_ID };
