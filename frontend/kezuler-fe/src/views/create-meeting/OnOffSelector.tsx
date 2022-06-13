@@ -70,7 +70,7 @@ function OnOffSelector() {
   };
 
   return (
-    <div>
+    <div className={'padding-wrapper'}>
       <div className={'description-text'}>
         {'어디에서'}
         <br /> {'만나면 좋을까요?'}

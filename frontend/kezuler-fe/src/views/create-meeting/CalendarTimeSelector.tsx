@@ -162,7 +162,7 @@ function CalendarTimeSelector() {
   }, [startDate]);
 
   return (
-    <div>
+    <div className={'padding-wrapper'}>
       <div className={'duration-selector-margin'} />
       <div className={'duration-selector'}>
         <ClockOrangeIcon className={'icn-clock-o20'} />

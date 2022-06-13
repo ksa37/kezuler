@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@mui/material';
 
+// import { Button } from '@mui/material';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
@@ -29,7 +29,11 @@ function ShowSelectedOptions() {
   const subDescription = `총 ${eventTimeList.length}개 선택`;
 
   const handleDeleteClick = (dateKey: string, time: Date) => {
-    dispatch(deleteTimeList(time.toISOString()));
+    if (eventTimeList.length === 1) {
+      window.alert('1개 이상 선택해야 합니다');
+    } else {
+      dispatch(deleteTimeList(time.toISOString()));
+    }
   };
 
   const handleNextClick = () => {

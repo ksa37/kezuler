@@ -43,7 +43,7 @@ function MeetingShare() {
   };
 
   return (
-    <div>
+    <div className={'padding-wrapper'}>
       <div className={'description-text'}>
         {'새로운 미팅 일정이'}
         <br />
