@@ -12,8 +12,8 @@ import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { AppDispatch } from '../../store';
 
-import CalendarView from '../../components/CalendarView';
 import BottomButton from '../../components/common/BottomButton';
+import CalendarView from '../../components/create-meeting/CalendarView';
 import KezulerDropdown from 'src/components/common/KezulerDropdown';
 import CalendarPopup from 'src/components/create-meeting/CalendarPopup';
 import ScheduleList from 'src/components/create-meeting/ScheduleList';
