@@ -40,8 +40,11 @@ func postUser(w http.ResponseWriter, kakaoAuthToken string) {
 		panic(err)
 	}
 
-	kakaoInfo := kakaoUserInfo{}
-	json.Unmarshal(body, &kakaoInfo)
+	var kakaoInfo kakaoUserInfo
+	err = json.Unmarshal(body, &kakaoInfo)
+	if err != nil {
+		return
+	}
 
 	mongoDBClient := connect()
 	defer disconnect(mongoDBClient)

@@ -6,8 +6,10 @@ import (
 	"github.com/gorilla/mux"
 	"io"
 	"kezuler/utils"
+	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 )
 
@@ -15,6 +17,8 @@ import (
 // ref: https://jeonghwan-kim.github.io/dev/2019/02/07/go-net-http.html#핸들러를-등록하는-handle과-handlefunc
 
 func main() {
+	logger := log.New(os.Stdout, "", log.LstdFlags)
+
 	mainRouter := mux.NewRouter()
 
 	userRouter := mainRouter.PathPrefix("/users").Subrouter()
@@ -24,10 +28,21 @@ func main() {
 	fixedEventRouter := mainRouter.PathPrefix("/fixedEvents").Subrouter()
 	fixedEventRouter.HandleFunc("", utils.FixedEventHandler).Methods("GET", "POST")
 	fixedEventRouter.HandleFunc("/{fixedEventId}", utils.FixedEventWithIdHandler).Methods("GET", "PATCH", "DELETE")
+	fixedEventRouter.HandleFunc("/{fixedEventId}/candidate", utils.FixedEventCandidateHandler).Methods("PUT", "DELETE")
 
-	pendingEventRouter := mainRouter.PathPrefix("/fixedEvents").Subrouter()
+	pendingEventRouter := mainRouter.PathPrefix("/pendingEvents").Subrouter()
 	pendingEventRouter.HandleFunc("", utils.PendingEventHandler).Methods("GET", "POST")
-	pendingEventRouter.HandleFunc("/{fixedEventId}", utils.PendingEventWithIdHandler).Methods("GET", "PATCH", "DELETE")
+	pendingEventRouter.HandleFunc("/{pendingEventId}", utils.PendingEventWithIdHandler).Methods("GET", "PATCH", "DELETE")
+	pendingEventRouter.HandleFunc("/{pendingEventId}/candidate", utils.PendingEventCandidateHandler).Methods("PUT", "DELETE")
+
+	invitationRouter := mainRouter.PathPrefix("/invitation").Subrouter()
+	invitationRouter.HandleFunc("/{pendingEventId}", utils.InvitationHandler).Methods("GET")
+
+	reminderRouter := mainRouter.PathPrefix("/reminder").Subrouter()
+	reminderRouter.HandleFunc("/{fixedEventId}", utils.ReminderHandler).Methods("GET", "PATCH")
+
+	logMiddleWare := utils.NewLogMiddleware(logger)
+	mainRouter.Use(logMiddleWare.Func())
 
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "pong")
@@ -81,5 +96,5 @@ func main() {
 	})
 
 	http.Handle("/", mainRouter)
-	fmt.Println(http.ListenAndServe("0.0.0.0:8001", nil))
+	logger.Fatalln(http.ListenAndServe("0.0.0.0:8001", nil))
 }
