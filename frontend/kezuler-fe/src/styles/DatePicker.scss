@@ -558,6 +558,11 @@ $datepicker__triangle-size: 8px !default;
           content: '';
         }
       }
+      &.react-datepicker__day--highlighted {
+        &::after {
+          content: '';
+        }
+      }
     }
 
     &--highlighted {
