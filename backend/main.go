@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"io"
 	"kezuler/utils"
 	"log"
@@ -18,7 +19,6 @@ import (
 
 func main() {
 	logger := log.New(os.Stdout, "", log.LstdFlags)
-
 	mainRouter := mux.NewRouter()
 
 	userRouter := mainRouter.PathPrefix("/users").Subrouter()
@@ -95,6 +95,12 @@ func main() {
 
 	})
 
-	http.Handle("/", mainRouter)
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000", "https://localhost:3000"},
+		AllowCredentials: true,
+	})
+
+	routerWithCors := c.Handler(mainRouter)
+	http.Handle("/", routerWithCors)
 	logger.Fatalln(http.ListenAndServe("0.0.0.0:8001", nil))
 }

@@ -6,6 +6,7 @@ require (
 	github.com/dchest/uniuri v0.0.0-20200228104902-7aecb25e1fe5
 	github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
 	github.com/gorilla/mux v1.8.0
+	github.com/rs/cors v1.8.2
 	go.mongodb.org/mongo-driver v1.9.1
 )
 
