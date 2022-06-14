@@ -3,10 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"io"
 	"kezuler/utils"
+	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 )
 
@@ -14,52 +17,35 @@ import (
 // ref: https://jeonghwan-kim.github.io/dev/2019/02/07/go-net-http.html#핸들러를-등록하는-handle과-handlefunc
 
 func main() {
-	// Function to check the status of server.
+	logger := log.New(os.Stdout, "", log.LstdFlags)
+
+	mainRouter := mux.NewRouter()
+
+	userRouter := mainRouter.PathPrefix("/users").Subrouter()
+	userRouter.HandleFunc("", utils.UserHandler).Methods("POST")
+	userRouter.HandleFunc("/{userId}", utils.UserWithIdHandler).Methods("GET", "PATCH", "DELETE")
+
+	fixedEventRouter := mainRouter.PathPrefix("/fixedEvents").Subrouter()
+	fixedEventRouter.HandleFunc("", utils.FixedEventHandler).Methods("GET", "POST")
+	fixedEventRouter.HandleFunc("/{fixedEventId}", utils.FixedEventWithIdHandler).Methods("GET", "PATCH", "DELETE")
+	fixedEventRouter.HandleFunc("/{fixedEventId}/candidate", utils.FixedEventCandidateHandler).Methods("PUT", "DELETE")
+
+	pendingEventRouter := mainRouter.PathPrefix("/pendingEvents").Subrouter()
+	pendingEventRouter.HandleFunc("", utils.PendingEventHandler).Methods("GET", "POST")
+	pendingEventRouter.HandleFunc("/{pendingEventId}", utils.PendingEventWithIdHandler).Methods("GET", "PATCH", "DELETE")
+	pendingEventRouter.HandleFunc("/{pendingEventId}/candidate", utils.PendingEventCandidateHandler).Methods("PUT", "DELETE")
+
+	invitationRouter := mainRouter.PathPrefix("/invitation").Subrouter()
+	invitationRouter.HandleFunc("/{pendingEventId}", utils.InvitationHandler).Methods("GET")
+
+	reminderRouter := mainRouter.PathPrefix("/reminder").Subrouter()
+	reminderRouter.HandleFunc("/{fixedEventId}", utils.ReminderHandler).Methods("GET", "PATCH")
+
+	logMiddleWare := utils.NewLogMiddleware(logger)
+	mainRouter.Use(logMiddleWare.Func())
+
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "pong")
-	})
-
-	http.HandleFunc("/login/kakao", func(w http.ResponseWriter, r *http.Request) {
-		query := r.URL.Query()
-		authToken, _ := query["authToken"]
-		if authToken == nil || len(authToken) == 0 {
-			fmt.Println("Error: filters are not present")
-		}
-	})
-
-	http.HandleFunc("/mongo", func(w http.ResponseWriter, r *http.Request) {
-		utils.GetUser("Hojun")
-		fmt.Fprintf(w, "Done")
-	})
-
-	http.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "POST" {
-			// POST: KakaoAuthToken을 바탕으로 유저 확인 후 PostUserClaims{} 반환
-			kakaoAuthToken := r.Header.Get("Authorization")
-			splitToken := strings.Split(kakaoAuthToken, "Bearer")
-			if len(splitToken) != 2 {
-				// 401: Unauthorized
-				http.Error(w, "Not Authorized", http.StatusUnauthorized)
-				return
-			}
-			kakaoAuthToken = strings.TrimSpace(splitToken[1])
-
-			utils.PostUser(w, kakaoAuthToken)
-		}
-
-		if r.Method == "GET" {
-			// GET: AuthToken이 서비스에 있는 것과 적절한지 체크 후 GetUserClaims{} 반환
-			serviceAuthToken := r.Header.Get("Authorization")
-			splitToken := strings.Split(serviceAuthToken, "Bearer")
-			if len(splitToken) != 2 {
-				// 401: Unauthorized
-				http.Error(w, "Not Authorized", http.StatusUnauthorized)
-				return
-			}
-			serviceAuthToken = strings.TrimSpace(splitToken[1])
-
-			utils.GetUser(serviceAuthToken)
-		}
 	})
 
 	// EventHandler for Redirect. Get Kakao AuthToken and pass it to /login/kakao
@@ -106,7 +92,9 @@ func main() {
 
 		fmt.Printf(jsonBody.AccessToken)
 		// DB에 저장하거나... 어쩌구저쩌구
+
 	})
 
-	fmt.Println(http.ListenAndServe("0.0.0.0:8001", nil))
+	http.Handle("/", mainRouter)
+	logger.Fatalln(http.ListenAndServe("0.0.0.0:8001", nil))
 }

@@ -12,7 +12,7 @@ import (
 	"net/url"
 )
 
-func PostUser(w http.ResponseWriter, kakaoAuthToken string) {
+func postUser(w http.ResponseWriter, kakaoAuthToken string) {
 	// KakaoAuth를 받아왔으니, 이를 바탕으로 생성
 	const ClientURI string = "https://kapi.kakao.com"
 	const Resource string = "/v2/user/me"
@@ -40,8 +40,11 @@ func PostUser(w http.ResponseWriter, kakaoAuthToken string) {
 		panic(err)
 	}
 
-	kakaoInfo := kakaoUserInfo{}
-	json.Unmarshal(body, &kakaoInfo)
+	var kakaoInfo kakaoUserInfo
+	err = json.Unmarshal(body, &kakaoInfo)
+	if err != nil {
+		return
+	}
 
 	mongoDBClient := connect()
 	defer disconnect(mongoDBClient)
@@ -93,21 +96,25 @@ func PostUser(w http.ResponseWriter, kakaoAuthToken string) {
 	}
 }
 
-func GetUser(serviceAuthToken string) {
+func getUserWithId(w http.ResponseWriter, serviceAuthToken string) {
 	client := connect()
 	defer disconnect(client)
 
-	coll := client.Database("kezuler").Collection("user")
+	tokenCol := client.Database("kezuler").Collection("token")
 	var result bson.M
-	err := coll.FindOne(context.TODO(), bson.D{{"userId", serviceAuthToken}}).Decode(&result)
-
+	err := tokenCol.FindOne(context.TODO(), bson.D{{"AccessToken", serviceAuthToken}}).Decode(&result)
 	if err == mongo.ErrNoDocuments {
-		fmt.Printf("No Document was found with the userId: %s\n", serviceAuthToken)
+		fmt.Printf("No Document was found with given  userId: %s\n", serviceAuthToken)
+		http.Error(w, "Not Authorized", http.StatusUnauthorized)
 		return
 	}
 
-	if err != nil {
-		panic(err)
+	userCol := client.Database("kezuler").Collection("user")
+	err = userCol.FindOne(context.TODO(), bson.D{{"userId", result["userId"]}}).Decode(&result)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No Document was found with given  userId: %s\n", serviceAuthToken)
+		http.Error(w, "Not Authorized", http.StatusUnauthorized)
+		return
 	}
 
 	jsonData, err := json.MarshalIndent(result, "", "    ")
@@ -115,5 +122,67 @@ func GetUser(serviceAuthToken string) {
 		panic(err)
 	}
 
-	fmt.Printf("%s\n", jsonData)
+	w.Header().Set("content-type", "application/json")
+	w.Write(jsonData)
+}
+
+func patchUserWithId(w http.ResponseWriter, claim url.Values, serviceAuthToken string) {
+	client := connect()
+	defer disconnect(client)
+
+	tokenCol := client.Database("kezuler").Collection("token")
+	var result bson.M
+	err := tokenCol.FindOne(context.TODO(), bson.D{{"AccessToken", serviceAuthToken}}).Decode(&result)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No Document was found with given  userId: %s\n", serviceAuthToken)
+		http.Error(w, "Not Authorized", http.StatusUnauthorized)
+		return
+	}
+
+	userId := result["userId"]
+	userCol := client.Database("kezuler").Collection("user")
+	_, err = userCol.UpdateOne(context.TODO(),
+		bson.D{{"userId", userId}},
+		mapToBsonD(claim),
+	)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No Document was found with given  userId: %s\n", serviceAuthToken)
+		http.Error(w, "Not Authorized", http.StatusUnauthorized)
+		return
+	}
+
+	jsonData, err := json.MarshalIndent(result, "", "    ")
+	if err != nil {
+		panic(err)
+	}
+
+	w.Header().Set("content-type", "application/json")
+	w.Write(jsonData)
+}
+
+func deleteUserWithId(w http.ResponseWriter, serviceAuthToken string) {
+	client := connect()
+	defer disconnect(client)
+
+	tokenCol := client.Database("kezuler").Collection("token")
+	var result bson.M
+	err := tokenCol.FindOne(context.TODO(), bson.D{{"AccessToken", serviceAuthToken}}).Decode(&result)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No Document was found with given  userId: %s\n", serviceAuthToken)
+		http.Error(w, "Not Authorized", http.StatusUnauthorized)
+		return
+	}
+
+	userId := result["userId"]
+	userCol := client.Database("kezuler").Collection("user")
+	_, err = userCol.DeleteOne(context.TODO(),
+		bson.D{{"userId", userId}},
+	)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("Cannot delete user with given userId: %s\n", serviceAuthToken)
+		http.Error(w, "Not Authorized", http.StatusUnauthorized)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
 }
