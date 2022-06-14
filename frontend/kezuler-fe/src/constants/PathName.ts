@@ -8,6 +8,8 @@ const PathName = {
   create: '/create',
   invite: '/invite',
   share: '/share',
+  modify: '/modify',
+  confirm: '/confirm',
 
   kakaoRedirect: '/oauth/kakao/token',
 } as const;

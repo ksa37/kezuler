@@ -12,4 +12,9 @@ enum AcceptMeetingSteps {
   Third,
 }
 
-export { CreateMeetingSteps, AcceptMeetingSteps };
+enum ConfirmMeetingSteps {
+  First,
+  Second,
+}
+
+export { CreateMeetingSteps, AcceptMeetingSteps, ConfirmMeetingSteps };

@@ -18,7 +18,9 @@ import ProgressBar from 'src/components/ProgressBar';
 import 'src/styles/CreateMeeting.scss';
 
 function CreateMeeting() {
+  const dispatch = useDispatch<AppDispatch>();
   const { step } = useSelector((state: RootState) => state.createMeeting);
+  const { decreaseStep } = createMeetingActions;
 
   const totalStepsNum = Object.keys(CreateMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
@@ -56,9 +58,6 @@ function CreateMeeting() {
         return '';
     }
   };
-
-  const dispatch = useDispatch<AppDispatch>();
-  const { decreaseStep } = createMeetingActions;
 
   const handlePrevClick = () => {
     dispatch(decreaseStep());

@@ -60,10 +60,10 @@ function CalendarTimeSelector() {
         startDate.getDate(),
         Number(timeOption.split(':')[0]),
         Number(timeOption.split(':')[1])
-      ).toISOString();
+      ).getTime();
     } else {
       console.log('Warning: date is null!');
-      return new Date().toISOString();
+      return new Date().getTime();
     }
   };
 
@@ -162,7 +162,7 @@ function CalendarTimeSelector() {
   }, [startDate]);
 
   return (
-    <div>
+    <div className={'padding-wrapper'}>
       <div className={'duration-selector-margin'} />
       <div className={'duration-selector'}>
         <ClockOrangeIcon className={'icn-clock-o20'} />

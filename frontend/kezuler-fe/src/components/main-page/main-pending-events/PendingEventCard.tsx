@@ -49,7 +49,7 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleInviteClick = () => {
-    console.log('invite click');
+    console.log('invite click', eventId);
   };
 
   const isHost = useMemo(

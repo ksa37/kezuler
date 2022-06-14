@@ -10,7 +10,7 @@ import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import CommonAppBar from 'src/components/common/CommonAppBar';
 
 import { ReactComponent as BellIcon } from 'src/assets/icn_bell.svg';
-import logo from 'src/assets/logo-kezuler.png';
+import { ReactComponent as KezulerLogo } from 'src/assets/logo_kezuler.svg';
 
 function MainAppBar() {
   const hasNew = true;
@@ -19,7 +19,7 @@ function MainAppBar() {
   return (
     <CommonAppBar>
       <div className={'main-app-bar'}>
-        <img src={logo} alt="logo" height={24} />
+        <KezulerLogo />
         <div className={'main-app-bar-btn'}>
           <NavLink
             className={classNames({
