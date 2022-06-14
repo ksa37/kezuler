@@ -7,8 +7,8 @@ import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 import { PPostPendingEvent } from 'src/types/pendingEvent';
-import { isoStringToDateString } from 'src/utils/dateParser';
 
+// import { isoStringToDateString } from 'src/utils/dateParser';
 import BottomButton from 'src/components/common/BottomButton';
 
 import { ReactComponent as OfflineIcon } from 'src/assets/offline_icon.svg';
@@ -50,11 +50,7 @@ function OnOffSelector() {
   const postPendingEventAndGetShareUrl = usePostPendingEvent();
 
   const handlePostClick = () => {
-    dispatch(
-      setEventTimeCandidates(
-        eventTimeList.map((dateStr) => isoStringToDateString(dateStr))
-      )
-    );
+    dispatch(setEventTimeCandidates(eventTimeList));
 
     const ppostPendingEventData: PPostPendingEvent = {
       eventTitle: eventTitle,

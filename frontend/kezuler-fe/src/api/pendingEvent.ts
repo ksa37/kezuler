@@ -19,9 +19,7 @@ const patchPendingEventsById = (eventId: string, params: PPatchPendingEvent) =>
   });
 
 const postPendingEvent = (ppendingEvent: PPostPendingEvent) =>
-  KezulerInstance.post<PendingEvent>(`pendingEvents`, {
-    ppendingEvent,
-  });
+  KezulerInstance.post<PendingEvent>(`pendingEvents`, ppendingEvent);
 
 const deletePendingEventById = (eventId: string) =>
   KezulerInstance.delete(`pendingEvents/${eventId}`);

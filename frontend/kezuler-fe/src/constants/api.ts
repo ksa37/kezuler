@@ -4,8 +4,8 @@ import { getCookie } from '../utils/cookie';
 
 import { ACCESS_TOKEN_KEY } from './Auth';
 
-const HOST_ADDRESS =
-  'https://efb4a784-1e8c-4296-8029-3fb7a7262580.mock.pstmn.io/';
+const HOST_ADDRESS = 'http://3.36.122.93:8001';
+// 'https://efb4a784-1e8c-4296-8029-3fb7a7262580.mock.pstmn.io/';
 
 const UNAUTHORIZED_STATUS_CODE = 401;
 
@@ -18,6 +18,7 @@ const KezulerInstance = (() => {
       ? {
           headers: {
             Authorization: `Bearer ${accessToken}`,
+            // 'Content-Type': 'application/json',
           },
         }
       : {}),

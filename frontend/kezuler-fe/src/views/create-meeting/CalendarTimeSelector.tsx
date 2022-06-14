@@ -60,10 +60,10 @@ function CalendarTimeSelector() {
         startDate.getDate(),
         Number(timeOption.split(':')[0]),
         Number(timeOption.split(':')[1])
-      ).toISOString();
+      ).getTime();
     } else {
       console.log('Warning: date is null!');
-      return new Date().toISOString();
+      return new Date().getTime();
     }
   };
 

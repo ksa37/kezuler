@@ -5,7 +5,7 @@ interface DeclinedUser extends User {
 }
 
 interface EventTimeCandidate {
-  eventStartsAt: string;
+  eventStartsAt: number;
   possibleUsers: User[];
 }
 
@@ -36,7 +36,7 @@ interface PPostPendingEvent {
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
-  eventTimeCandidates: string[];
+  eventTimeCandidates: number[];
   eventZoomAddress: string;
   eventPlace: string;
   eventAttachment: string;

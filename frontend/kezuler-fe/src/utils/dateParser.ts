@@ -145,17 +145,17 @@ const isoStringToDateString = (isoString: string) => {
   return date + ' ' + time;
 };
 
-const getEventTimeCandidatesFromDateStrings = (eventTimeList: string[]) => {
-  const eventTimeCandidates: EventTimeCandidate[] = eventTimeList.map(
-    (dateStr) => {
-      return {
-        eventStartsAt: isoStringToDateString(dateStr),
-        possibleUsers: [],
-      };
-    }
-  );
-  return eventTimeCandidates;
-};
+// const getEventTimeCandidatesFromDateStrings = (eventTimeList: string[]) => {
+//   const eventTimeCandidates: EventTimeCandidate[] = eventTimeList.map(
+//     (dateStr) => {
+//       return {
+//         eventStartsAt: isoStringToDateString(dateStr),
+//         possibleUsers: [],
+//       };
+//     }
+//   );
+//   return eventTimeCandidates;
+// };
 
 export {
   dateStringToKorDate,
@@ -169,6 +169,6 @@ export {
   getTimeListDevideByDate,
   getTimeListDevideByDateWithPossibleNum,
   getTimeListDivideByDateWithPossibleUsers,
-  getEventTimeCandidatesFromDateStrings,
+  // getEventTimeCandidatesFromDateStrings,
   isoStringToDateString,
 };

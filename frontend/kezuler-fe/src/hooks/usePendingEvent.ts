@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { CURRENT_HOST } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
+import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
+import { modifySelectionActions } from 'src/reducers/ModifySelection';
 import { AppDispatch } from 'src/store';
 import { PPostPendingEvent, PPutPendingEvent } from 'src/types/pendingEvent';
 
@@ -17,17 +19,35 @@ import {
 const useGetPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { setPendingEvent } = acceptMeetingActions;
+  const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
+  const setConfirmPendingEvent = confirmTimeActions.setPendingEvent;
+  const setModifyPendingEvent = modifySelectionActions.setPendingEvent;
 
-  const getPendingEventInfo = (eventId: string) => {
+  const getPendingEventInfo = (eventId: string, setOption: number) => {
     getPendingEventsById(eventId)
       .then((res) => {
-        dispatch(setPendingEvent(res.data));
+        switch (setOption) {
+          case 0: {
+            dispatch(setAcceptPendingEvent(res.data));
+            break;
+          }
+          case 1: {
+            dispatch(setConfirmPendingEvent(res.data));
+            break;
+          }
+          case 2: {
+            dispatch(setModifyPendingEvent(res.data));
+            break;
+          }
+          default: {
+            console.log('error');
+          }
+        }
       })
       .catch((err) => {
         console.log('미팅 수락 에러', err);
-        window.alert('미팅 정보를 받아올 수 없습니다');
-        navigate(PathName.invite + `/${eventId}`, { replace: true });
+        // window.alert('미팅 정보를 받아올 수 없습니다');
+        // navigate(PathName.invite + `/${eventId}`, { replace: true });
       });
   };
 

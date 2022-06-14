@@ -494,7 +494,7 @@
 // MeetingShare
 .share-icon {
   box-sizing: border-box;
-  background-color: #ffffff;
+  background-color: #fae301;
   box-shadow: 0px 15px 35px #282f391a;
   border-radius: 28px;
   aspect-ratio: 1;
@@ -506,9 +506,9 @@
     background: 'none';
   }
 
-  &.kakao {
-    background-color: #fae301;
-  }
+  // &.kakao {
+  //   background-color: #fae301;
+  // }
   .share-text {
     position: absolute;
     bottom: -28px;

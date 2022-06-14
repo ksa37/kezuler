@@ -12,6 +12,8 @@ import Login from 'src/views/Login';
 import MainPage from 'src/views/MainPage';
 import MyPage from 'src/views/MyPage';
 import NotiPage from 'src/views/NotiPage';
+import SelectionModifier from 'src/views/pending-event/SelectionModifier';
+import TimeConfirmator from 'src/views/pending-event/TimeConfirmator';
 import TestPage from 'src/views/TestPage';
 import MainAppBar from 'src/components/common/MainAppBar';
 
@@ -39,6 +41,14 @@ function RootRoutes() {
             <Route path={PathName.pending} element={<>login</>} />
             <Route path={PathName.delete} element={<>login</>} />
             <Route path={PathName.create} element={<CreateMeeting />} />
+            <Route
+              path={`${PathName.modify}/:eventModifyId`}
+              element={<SelectionModifier />}
+            />
+            <Route
+              path={`${PathName.confirm}/:eventConfirmId`}
+              element={<TimeConfirmator />}
+            />
             <Route
               path={`${PathName.invite}/:eventId`}
               element={<AcceptMeeting />}
