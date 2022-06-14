@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IconButton } from '@mui/material';
 
+import { ReactComponent as CloseIcon } from 'src/assets/icn_close_b.svg';
 import 'src/styles/common/BottomPopper.scss';
 
 interface Props {
@@ -36,7 +37,9 @@ function BottomPopper({
       }}
     >
       <div className={'close-button-container'}>
-        <IconButton onClick={handleCloseClick}>x</IconButton>
+        <IconButton onClick={handleCloseClick}>
+          <CloseIcon />
+        </IconButton>
       </div>
       <h1>{title}</h1>
       <h2>{description}</h2>

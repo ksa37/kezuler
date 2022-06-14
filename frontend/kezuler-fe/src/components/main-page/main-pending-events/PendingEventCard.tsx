@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import classNames from 'classnames';
 
 import useDialog from 'src/hooks/useDialog';
 import useModal from 'src/hooks/useModal';
-import { RootState } from 'src/reducers';
 import { BPendingEvent } from 'src/types/pendingEvent';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
+import { ReactComponent as HostIcon } from 'src/assets/icn_host.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icn_info_yb.svg';
 import { ReactComponent as SendIcon } from 'src/assets/icn_send_yb.svg';
 
@@ -19,11 +19,8 @@ function PendingEventCard({ event }: Props) {
   const { openDialog } = useDialog();
   const { openModal } = useModal();
 
-  const curUserId = useSelector(
-    (state: RootState) => state.mainPending.curUserId
-  );
-
   const {
+    eventId,
     eventTitle,
     eventHost: { userId: hostId },
     eventZoomAddress,
@@ -55,16 +52,20 @@ function PendingEventCard({ event }: Props) {
     console.log('invite click');
   };
 
-  const isHost = useMemo(() => curUserId === hostId, [curUserId, hostId]);
+  const isHost = useMemo(
+    () => hostId === getCurrentUserInfo()?.userId,
+    [hostId]
+  );
 
   const isParticipating = useMemo(() => {
     if (isHost) {
       return true;
     }
+    const curUserId = getCurrentUserInfo()?.userId;
     return eventTimeCandidates.some((c) =>
       c.possibleUsers.some(({ userId }) => userId === curUserId)
     );
-  }, [isHost, eventTimeCandidates, curUserId]);
+  }, [isHost, eventTimeCandidates]);
 
   const eventLocation = useMemo(() => {
     if (eventZoomAddress) {
@@ -116,6 +117,7 @@ function PendingEventCard({ event }: Props) {
           초대링크
         </Button>
       </div>
+      {isHost && <HostIcon className={'pending-event-card-host-badge'} />}
     </section>
   );
 }

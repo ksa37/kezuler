@@ -20,6 +20,14 @@
   margin-bottom: 8px;
   align-self: flex-end;
   cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  path {
+    fill: white;
+  }
 }
 
 .overview-container {

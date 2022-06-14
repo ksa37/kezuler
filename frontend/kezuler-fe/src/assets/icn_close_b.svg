@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M13.523.389a1.327 1.327 0 0 1 0 1.876L2.265 13.524a1.327 1.327 0 1 1-1.876-1.877L11.647.389a1.327 1.327 0 0 1 1.876 0z" transform="translate(5 5)" fill="#282f39"/>
+    <path data-name="Path" d="M.389.389a1.327 1.327 0 0 1 1.876 0l11.258 11.258a1.327 1.327 0 1 1-1.876 1.876L.389 2.265a1.327 1.327 0 0 1 0-1.876z" transform="translate(5 5)" fill="#282f39"/>
+</svg>

@@ -17,6 +17,7 @@ import ParticipantsEventList from 'src/components/participants-popup/Participant
 import ParticipantsGrid from 'src/components/participants-popup/ParticipantsGrid';
 import ParticipantsReasons from 'src/components/participants-popup/ParticipantsReasons';
 
+import { ReactComponent as CloseIcon } from 'src/assets/icn_close_b.svg';
 import 'src/styles/participantesPopup.scss';
 
 function ParticipantsPopup() {
@@ -70,8 +71,9 @@ function ParticipantsPopup() {
               <IconButton
                 className={'participants-popup-header-close'}
                 onClick={handleClose}
+                size={'small'}
               >
-                X
+                <CloseIcon />
               </IconButton>
             </div>
           </CommonAppBar>
