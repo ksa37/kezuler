@@ -25,17 +25,16 @@ const patchFixedEventById = (eventId: string, params: PPatchFixedEvent) =>
   });
 
 const postFixedEvent = (pfixedEvent: PPostFixedEvent) =>
-  KezulerInstance.post<FixedEvent>(`/fixedEvents`, {
-    pfixedEvent,
-  });
+  KezulerInstance.post<FixedEvent>(`/fixedEvents`, pfixedEvent);
 
 const deleteFixedEventById = (eventId: string) =>
   KezulerInstance.delete<FixedEvent>(`/fixedEvents/${eventId}`);
 
 const putFixedEventGuestById = (eventId: string, pfixedEvent: PPutFixedEvent) =>
-  KezulerInstance.put<FixedEvent>(`fixedEvents/${eventId}/candidate`, {
-    pfixedEvent,
-  });
+  KezulerInstance.put<FixedEvent>(
+    `fixedEvents/${eventId}/candidate`,
+    pfixedEvent
+  );
 
 const deleteFixedEventGuestById = (eventId: string) =>
   KezulerInstance.delete<FixedEvent>(`fixedEvents/${eventId}/candidate`);

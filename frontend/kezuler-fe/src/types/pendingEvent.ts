@@ -43,8 +43,12 @@ interface PPostPendingEvent {
 }
 
 interface PPutPendingEvent {
-  eventTimeCandidates: string[];
-  userDeclineReason?: string;
+  addTimeCandidates?: number[];
+  removeTimeCandidates?: number[];
+}
+
+interface PDeletePendingEvent {
+  UserDeclineReason?: string;
 }
 
 type PPatchPendingEvent = Partial<BPendingEvent>;
@@ -57,5 +61,6 @@ export type {
   RGetPendingEvents,
   PPatchPendingEvent,
   PPutPendingEvent,
+  PDeletePendingEvent,
   EventTimeCandidate,
 };

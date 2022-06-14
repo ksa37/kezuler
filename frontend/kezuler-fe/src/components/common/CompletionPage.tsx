@@ -6,7 +6,19 @@ import PathName from 'src/constants/PathName';
 import BottomButton from 'src/components/common/BottomButton';
 import BottomPopper from 'src/components/common/BottomPopper';
 
-function CompletionPage() {
+interface Props {
+  boldTextFirst: string;
+  boldTextSecond: string;
+  regularTextFirst: string;
+  regularTextSecond: string;
+}
+
+function CompletionPage({
+  boldTextFirst,
+  boldTextSecond,
+  regularTextFirst,
+  regularTextSecond,
+}: Props) {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
@@ -20,14 +32,16 @@ function CompletionPage() {
   return (
     <div className={'acceptance-completion'}>
       <div className={'accept-description-text'}>
-        {'미팅 시간이'}
+        {boldTextFirst}
         <br />
-        {'확정되었습니다.'}
+
+        {boldTextSecond}
       </div>
       <div className={'acceptance-completion-sub-description'}>
-        {'미팅 참여자들에게'}
+        {regularTextFirst}
         <br />
-        {'확정된 일정이 전송되었습니다.'}
+
+        {regularTextSecond}
       </div>
       <BottomPopper
         title={'케줄러 100% 활용하기'}

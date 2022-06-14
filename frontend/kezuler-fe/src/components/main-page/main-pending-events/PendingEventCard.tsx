@@ -24,6 +24,7 @@ function PendingEventCard({ event }: Props) {
   );
 
   const {
+    eventId,
     eventTitle,
     eventHost: { userId: hostId },
     eventZoomAddress,
@@ -52,7 +53,7 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleInviteClick = () => {
-    console.log('invite click');
+    console.log('invite click', eventId);
   };
 
   const isHost = useMemo(() => curUserId === hostId, [curUserId, hostId]);

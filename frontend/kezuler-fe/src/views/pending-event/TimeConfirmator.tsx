@@ -15,7 +15,7 @@ import {
   getTimeRange,
 } from 'src/utils/dateParser';
 
-import CompletionPage from './CompletionPage';
+import CompletionPage from '../../components/common/CompletionPage';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
 import TimeCard from 'src/components/accept-meeting/TimeCard';
 import BottomButton from 'src/components/common/BottomButton';
@@ -163,7 +163,12 @@ function TimeConfirmator() {
           />
         </div>
       ) : (
-        <CompletionPage />
+        <CompletionPage
+          boldTextFirst="미팅 시간이"
+          boldTextSecond="확정되었습니다."
+          regularTextFirst="미팅 참여자들에게"
+          regularTextSecond="확정된 일정이 전송되었습니다."
+        />
       )}
     </>
   );

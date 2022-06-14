@@ -1,5 +1,6 @@
 import KezulerInstance from 'src/constants/api';
 import {
+  PDeletePendingEvent,
   PendingEvent,
   PPatchPendingEvent,
   PPostPendingEvent,
@@ -28,13 +29,20 @@ const putPendingEventGuestById = (
   eventId: string,
   ppendingEvent: PPutPendingEvent
 ) =>
-  KezulerInstance.put<PendingEvent>(`pendingEvents/${eventId}/candidate`, {
-    ppendingEvent,
-  });
+  KezulerInstance.put<PendingEvent>(
+    `pendingEvents/${eventId}/candidate`,
+    ppendingEvent
+  );
 
-const deletePendingEventGuestById = (eventId: string) =>
-  KezulerInstance.delete(`pendingEvents/${eventId}/candidate`);
-
+const deletePendingEventGuestById = (
+  eventId: string,
+  ppendingEvent: PDeletePendingEvent
+) => {
+  const config = {
+    data: ppendingEvent,
+  };
+  KezulerInstance.delete(`pendingEvents/${eventId}/candidate`, config);
+};
 export {
   getPendingEvents,
   getPendingEventsById,
