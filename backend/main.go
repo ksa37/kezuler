@@ -91,15 +91,15 @@ func main() {
 		json.Unmarshal(body, &jsonBody)
 
 		fmt.Printf(jsonBody.AccessToken)
-		// DB에 저장하거나... 어쩌구저쩌구
-
 	})
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000", "https://localhost:3000"},
+		AllowedOrigins:   []string{"*"},
 		AllowCredentials: true,
+		AllowedHeaders:   []string{"accept", "authorization", "content-type"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		Debug:            true,
 	})
-
 	routerWithCors := c.Handler(mainRouter)
 	http.Handle("/", routerWithCors)
 	logger.Fatalln(http.ListenAndServe("0.0.0.0:8001", nil))

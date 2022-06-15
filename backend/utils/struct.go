@@ -62,7 +62,7 @@ type kakaoUserInfo struct {
 
 type PostFixedEventPayload struct {
 	PendingEventId string   `json:"pendingEventId" bson:"pendingEventId"`
-	EventTime      unixTime `json:"eventTime" bson:"eventTime"`
+	EventTime      unixTime `json:"eventTimeStartsAt" bson:"date"`
 }
 
 type PostPendingEventPayload struct {
@@ -125,7 +125,7 @@ type DeletePendingEventCandidatePayload struct {
 	UserDeclineReason string `json:"userDeclineReason" bson:"userDeclineReason"`
 }
 
-type patchFixedEventWithIdPayload struct {
-	EventTitle       string `json:"eventTitle,omitempty"`
-	EventDescription string `json:"eventDescription,omitempty"`
+type PatchFixedEventWithIdPayload struct {
+	EventTitle       string `json:"eventTitle,omitempty" bson:"title,omitempty"`
+	EventDescription string `json:"eventDescription,omitempty" bson:"description,omitempty"`
 }
