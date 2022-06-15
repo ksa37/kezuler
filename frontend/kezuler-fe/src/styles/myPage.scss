@@ -49,6 +49,17 @@ $my-page-gap: 20px;
   }
 }
 
+.calendar-toggle {
+  margin-left: 8px;
+}
+
+.timezone-dropdown {
+  text-decoration: none;
+  color: $color-highlight;
+  font-size: 14px;
+  font-family: Pretendard;
+}
+
 .my-page-h1 {
   font-size: 14px;
   font-weight: bold;
