@@ -8,9 +8,14 @@ import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { modifySelectionActions } from 'src/reducers/ModifySelection';
 import { AppDispatch } from 'src/store';
-import { PPostPendingEvent, PPutPendingEvent } from 'src/types/pendingEvent';
+import {
+  PDeletePendingEvent,
+  PPostPendingEvent,
+  PPutPendingEvent,
+} from 'src/types/pendingEvent';
 
 import {
+  deletePendingEventGuestById,
   getPendingEventsById,
   postPendingEvent,
   putPendingEventGuestById,
@@ -46,8 +51,8 @@ const useGetPendingEvent = () => {
       })
       .catch((err) => {
         console.log('미팅 수락 에러', err);
-        // window.alert('미팅 정보를 받아올 수 없습니다');
-        // navigate(PathName.invite + `/${eventId}`, { replace: true });
+        window.alert('미팅 정보를 받아올 수 없습니다');
+        navigate(PathName.invite + `/${eventId}`, { replace: true });
       });
   };
 
@@ -92,12 +97,40 @@ const usePutPendingEventGuest = () => {
         dispatch(increaseStep());
       })
       .catch((err) => {
-        console.log('미팅 수락 에러', err);
-        window.alert('미팅 수락 과정 중 오류가 생겼습니다');
+        console.log('미팅 수락/수정 에러', err);
+        window.alert('미팅 수락/수정 과정 중 오류가 생겼습니다');
         navigate(`${PathName.invite}/${eventId}`, { replace: true });
       });
   };
   return putEventTimeCandidate;
 };
 
-export { useGetPendingEvent, usePostPendingEvent, usePutPendingEventGuest };
+const useDeletePendingEventGuest = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { increaseStep } = acceptMeetingActions;
+  //TODO
+  const deleteEventTimeCandidate = (
+    eventId: string,
+    ppendingEvent: PDeletePendingEvent
+  ) => {
+    deletePendingEventGuestById(eventId, ppendingEvent);
+    // .then((res) => {
+    //   console.log(res.data);
+    //   dispatch(increaseStep());
+    // })
+    // .catch((err) => {
+    //   console.log('미팅 수락/수정 에러', err);
+    //   window.alert('미팅 수락/수정 과정 중 오류가 생겼습니다');
+    //   navigate(`${PathName.invite}/${eventId}`, { replace: true });
+    // });
+  };
+  return deleteEventTimeCandidate;
+};
+
+export {
+  useGetPendingEvent,
+  usePostPendingEvent,
+  usePutPendingEventGuest,
+  useDeletePendingEventGuest,
+};
