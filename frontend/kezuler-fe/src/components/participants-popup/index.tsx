@@ -61,6 +61,12 @@ function ParticipantsPopup() {
     dispatch(hide());
   };
 
+  const attendantsAll = (attendants: EventTimeCandidate[]) =>
+    attendants.reduce<string[]>((prev, eventTimeCandidate) => {
+      const userIds = eventTimeCandidate.possibleUsers.map((u) => u.userId);
+      return prev.concat(userIds.filter((id) => prev.indexOf(id) < 0));
+    }, []);
+
   return !!event && isOpen
     ? ReactDOM.createPortal(
         <div className={'participants-popup'}>
@@ -79,7 +85,11 @@ function ParticipantsPopup() {
             <ParticipantTab
               isAttendant={isAttendant}
               setIsAttendant={setIsAttendant}
-              attendantsNum={attendants.length}
+              attendantsNum={
+                isFixedEvent(event)
+                  ? attendants.length
+                  : attendantsAll(attendants as EventTimeCandidate[]).length
+              }
               absentsNum={absents.length}
             />
             {!isFixedEvent(event) && isAttendant ? (

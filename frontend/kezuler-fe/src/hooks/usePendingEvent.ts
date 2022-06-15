@@ -60,6 +60,7 @@ const usePostPendingEvent = () => {
   const { increaseStep, setShareUrl } = createMeetingActions;
 
   const getShareUrl = (ppendingEvent: PPostPendingEvent) => {
+    console.log(ppendingEvent);
     postPendingEvent(ppendingEvent)
       .then((res) => {
         dispatch(

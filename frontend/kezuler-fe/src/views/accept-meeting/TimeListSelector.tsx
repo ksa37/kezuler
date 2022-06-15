@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usePutPendingEventGuest } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
+import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { AppDispatch } from 'src/store';
 import { PPutPendingEvent } from 'src/types/pendingEvent';
 import {
@@ -31,6 +32,8 @@ function TimeListSelector() {
   const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
 
+  const { show } = participantsPopupAction;
+
   const putEventTimeCandidate = usePutPendingEventGuest();
 
   const handlePutClick = () => {
@@ -51,6 +54,9 @@ function TimeListSelector() {
     }
   };
 
+  const handleAllShowClick = () => {
+    dispatch(show(pendingEvent));
+  };
   const possibleUsersAll = eventTimeCandidates.reduce<string[]>(
     (prev, eventTimeCandidate) => {
       const userIds = eventTimeCandidate.possibleUsers.map((u) => u.userId);
@@ -117,7 +123,10 @@ function TimeListSelector() {
           {'모두 선택해주세요'}
         </div>
         <div className={'time-list-selector-personnel'}>
-          <div className={'time-list-selector-personnel-item'}>
+          <div
+            className={'time-list-selector-personnel-item'}
+            onClick={handleAllShowClick}
+          >
             <CircleIcon className={'icon-circle'} />
             <ProfilesIcon className={'icon-profiles'} />
             {`${possibleUsersAll.length + declineNum}명 참여중`}

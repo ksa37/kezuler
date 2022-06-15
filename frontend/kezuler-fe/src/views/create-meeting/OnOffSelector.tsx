@@ -50,16 +50,17 @@ function OnOffSelector() {
   const postPendingEventAndGetShareUrl = usePostPendingEvent();
 
   const handlePostClick = () => {
-    dispatch(setEventTimeCandidates(eventTimeList));
-
+    // console.log(eventTimeList);
+    // dispatch(setEventTimeCandidates(eventTimeList));
+    // console.log(eventTimeCandidates);
     const ppostPendingEventData: PPostPendingEvent = {
-      eventTitle: eventTitle,
-      eventDescription: eventDescription,
-      eventTimeDuration: eventTimeDuration,
-      eventTimeCandidates: eventTimeCandidates,
-      eventZoomAddress: eventZoomAddress,
-      eventPlace: eventPlace,
-      eventAttachment: eventAttachment,
+      eventTitle,
+      eventDescription,
+      eventTimeDuration,
+      eventTimeCandidates: eventTimeList,
+      eventZoomAddress,
+      eventPlace,
+      eventAttachment,
     };
 
     postPendingEventAndGetShareUrl(ppostPendingEventData);
