@@ -6,6 +6,8 @@ import { User } from 'src/types/user';
 
 import BottomButton from '../common/BottomButton';
 
+import { ReactComponent as PlusIconYellow } from 'src/assets/btn_plus_y.svg';
+
 interface Props {
   currentUser: User;
   goToMain: () => void;
@@ -50,7 +52,7 @@ function MyPageEdit({ currentUser, goToMain }: Props) {
             src={currentUser.userProfileImage}
             alt={currentUser.userName}
           />
-          <div className={'my-page-edit-avatar-plus-icn'}>+</div>
+          <PlusIconYellow className={'my-page-edit-avatar-plus-icn'} />
         </div>
       </div>
       <div className={'my-page-edit-textfield'}>

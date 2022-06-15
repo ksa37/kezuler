@@ -35,7 +35,17 @@ $my-page-gap: 20px;
   padding-left: 24px;
   flex: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: end;
+  .my-page-profile-name {
+    font: normal normal bold 20px/24px Pretendard;
+    color: $color-highlight;
+  }
+
+  .my-page-profile-email {
+    font: normal normal normal 14px/24px Pretendard;
+    color: $color-highlight;
+  }
 }
 
 .my-page-profile-edit-btn {
@@ -92,6 +102,7 @@ $my-page-gap: 20px;
     text-decoration: none;
     text-align: start;
     padding: 0;
+    color: $color-highlight;
 
     &:visited {
       color: $color-highlight;
@@ -120,8 +131,6 @@ $my-page-gap: 20px;
     .my-page-edit-avatar-plus-icn {
       width: 24px;
       height: 24px;
-      background-color: $color-main;
-      border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;

@@ -34,6 +34,10 @@ function MyPageMain({
   currentUser: { userProfileImage, userName },
   goToEdit,
 }: Props) {
+  //TODO email 가져오기
+
+  const userEmail = 'example@example.com';
+
   const handleQuestionClick = () => {
     console.log('hi');
   };
@@ -74,8 +78,8 @@ function MyPageMain({
           alt={userName}
         />
         <div className={'my-page-profile-main'}>
-          <div>{userName}</div>
-          {/* <div>{'example@example.com'}</div> */}
+          <div className={'my-page-profile-name'}>{userName}</div>
+          <div className={'my-page-profile-email'}>{userEmail}</div>
         </div>
         <Button
           onClick={handleEditClick}
