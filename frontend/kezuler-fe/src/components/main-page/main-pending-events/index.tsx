@@ -11,7 +11,9 @@ import PendingEventCard from './PendingEventCard';
 import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
 
 const useMainPending = () => {
-  const { events } = useSelector((state: RootState) => state.mainPending);
+  const { events, isFetched } = useSelector(
+    (state: RootState) => state.mainPending
+  );
   const dispatch = useDispatch<AppDispatch>();
 
   const getPendingEvents = useCallback(
@@ -19,11 +21,11 @@ const useMainPending = () => {
     [dispatch]
   );
 
-  return { getPendingEvents, events };
+  return { getPendingEvents, events, isFetched };
 };
 
 function MainPendingEvents() {
-  const { events, getPendingEvents } = useMainPending();
+  const { events, isFetched, getPendingEvents } = useMainPending();
 
   useEffect(() => {
     getPendingEvents();
@@ -33,8 +35,14 @@ function MainPendingEvents() {
     console.log('connect');
   };
 
-  const isEvent = true;
-  if (!isEvent) {
+  // TODO 캘린더 연동 체크
+  const isCalenderConnected = true;
+
+  if (!isFetched) {
+    return null;
+  }
+
+  if (!events.length && !isCalenderConnected) {
     return (
       <div className={'main-pending'}>
         <h2 className={classNames('main-empty-h2', 'pending')}>

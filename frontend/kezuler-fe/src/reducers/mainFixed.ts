@@ -22,7 +22,6 @@ interface MainFixedState {
   isFetched: boolean;
   loading: boolean;
   errorMessage: string;
-  curUserId: string;
   events: BFixedEvent[];
 }
 
@@ -30,7 +29,6 @@ const initialState: MainFixedState = {
   isFetched: false,
   loading: false,
   errorMessage: '',
-  curUserId: '',
   events: [],
 };
 
@@ -50,7 +48,6 @@ export const mainFixed = createSlice({
         state.loading = false;
         const { fixedEvents, userId } = action.payload;
         state.events = fixedEvents;
-        state.curUserId = userId;
       })
       .addCase(getFixedEventsThunk.rejected, (state, action) => {
         state.loading = false;
