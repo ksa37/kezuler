@@ -9,7 +9,6 @@ import { RootState } from 'src/reducers';
 
 import BottomButton from 'src/components/common/BottomButton';
 
-import { ReactComponent as Circle } from 'src/assets/acceptance_complete_circle.svg';
 import { ReactComponent as CelebrateIcon } from 'src/assets/celebrate_icon.svg';
 import { ReactComponent as CelebrateSmileIcon } from 'src/assets/celebrate_smile_icon.svg';
 import { ReactComponent as KakaoIcon } from 'src/assets/kakao_icon_big.svg';
@@ -26,7 +25,7 @@ function MeetingShare() {
   const generalShareText = '공유하기';
 
   const handleHomeClick = () => {
-    navigate(PathName.main, { replace: true });
+    navigate(PathName.main);
   };
 
   const handleKakaoShareClick = () => {
@@ -90,7 +89,6 @@ function MeetingShare() {
       </Stack>
       <CelebrateSmileIcon className={'celebrate-smile-icon'} />
       <CelebrateIcon className={'celebrate-icon'} />
-      <Circle className={'completion-circle'} />
       <BottomButton onClick={handleHomeClick} text="홈으로 가기" />
     </div>
   );

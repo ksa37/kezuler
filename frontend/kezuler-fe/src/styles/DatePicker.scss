@@ -339,7 +339,9 @@ $datepicker__triangle-size: 8px !default;
   }
 
   .react-datepicker__month {
-    margin: 0 19px 13px 19px;
+    @media (min-width: 300px) {
+      margin: 0 19px 13px 19px;
+    }
     text-align: center;
 
     .react-datepicker__month-text,

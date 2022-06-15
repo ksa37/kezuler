@@ -195,13 +195,7 @@ function CalendarTimeSelector() {
         <b>{'미팅시작 시각'}</b>
         {'을 선택하세요'}
       </div>
-      <Stack
-        direction="row"
-        spacing={'6px'}
-        style={{ overflow: 'auto' }}
-        sx={{ marginInline: '12px' }}
-        className={'time-chips-stack'}
-      >
+      <Stack direction="row" spacing={'6px'} className={'time-chips-stack'}>
         {TimeOptions.map((timeOption) =>
           eventTimeList.includes(createDate(timeOption)) ? (
             <div
