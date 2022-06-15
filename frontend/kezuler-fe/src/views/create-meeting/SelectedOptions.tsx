@@ -11,7 +11,7 @@ import BottomButton from 'src/components/common/BottomButton';
 
 import { ReactComponent as DeleteIcon } from 'src/assets/icn_trash.svg';
 
-function ShowSelectedOptions() {
+function SelectedOptions() {
   const dispatch = useDispatch<AppDispatch>();
   const { increaseStep, deleteTimeList } = createMeetingActions;
   const { eventTimeList, eventTimeDuration } = useSelector(
@@ -32,7 +32,7 @@ function ShowSelectedOptions() {
     if (eventTimeList.length === 1) {
       window.alert('1개 이상 선택해야 합니다');
     } else {
-      dispatch(deleteTimeList(time.toISOString()));
+      dispatch(deleteTimeList(time.getTime()));
     }
   };
 
@@ -83,4 +83,4 @@ function ShowSelectedOptions() {
   );
 }
 
-export default ShowSelectedOptions;
+export default SelectedOptions;

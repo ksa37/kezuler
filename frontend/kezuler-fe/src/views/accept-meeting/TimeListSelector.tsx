@@ -34,11 +34,12 @@ function TimeListSelector() {
   const putEventTimeCandidate = usePutPendingEventGuest();
 
   const handlePutClick = () => {
-    const putData: PPutPendingEvent = { eventTimeCandidates: availableTimes };
-    if (availableTimes.length === 0 && declineReason && declineReason !== '') {
-      putData.userDeclineReason = declineReason;
-    }
-    putEventTimeCandidate(eventId, putData);
+    console.log('put');
+    // const putData: PPutPendingEvent = { eventTimeCandidates: availableTimes };
+    // if (availableTimes.length === 0 && declineReason && declineReason !== '') {
+    //   putData.userDeclineReason = declineReason;
+    // }
+    // putEventTimeCandidate(eventId, putData);
   };
 
   const handleEventTimeClick = (eventStartsAt: Date) => {

@@ -3,6 +3,8 @@ import {
   FixedEvent,
   PGetFixedEvents,
   PPatchFixedEvent,
+  PPostFixedEvent,
+  PPutFixedEvent,
   RGetFixedEvents,
 } from 'src/types/fixedEvent';
 
@@ -14,28 +16,35 @@ const getFixedEvents = ({ startIndex, endIndex }: PGetFixedEvents) =>
     },
   });
 
-const getFixedEventById = (userId: string, eventId: string) =>
-  KezulerInstance.get<FixedEvent>(`users/${userId}/fixedEvents/${eventId}`);
+const getFixedEventById = (eventId: string) =>
+  KezulerInstance.get<FixedEvent>(`/fixedEvents/${eventId}`);
 
-const patchFixedEventById = (
-  userId: string,
-  eventId: string,
-  params: PPatchFixedEvent
-) =>
-  KezulerInstance.patch<FixedEvent>(`users/${userId}/fixedEvents/${eventId}`, {
+const patchFixedEventById = (eventId: string, params: PPatchFixedEvent) =>
+  KezulerInstance.patch<FixedEvent>(`/fixedEvents/${eventId}`, {
     ...params,
   });
 
-const postFixedEvents = (userId: string) =>
-  KezulerInstance.post<FixedEvent>(`users/${userId}/fixedEvents`);
+const postFixedEvent = (pfixedEvent: PPostFixedEvent) =>
+  KezulerInstance.post<FixedEvent>(`/fixedEvents`, pfixedEvent);
 
-const deleteFixedEventById = (userId: string, eventId: string) =>
-  KezulerInstance.delete<FixedEvent>(`users/${userId}/fixedEvents/${eventId}`);
+const deleteFixedEventById = (eventId: string) =>
+  KezulerInstance.delete<FixedEvent>(`/fixedEvents/${eventId}`);
+
+const putFixedEventGuestById = (eventId: string, pfixedEvent: PPutFixedEvent) =>
+  KezulerInstance.put<FixedEvent>(
+    `fixedEvents/${eventId}/candidate`,
+    pfixedEvent
+  );
+
+const deleteFixedEventGuestById = (eventId: string) =>
+  KezulerInstance.delete<FixedEvent>(`fixedEvents/${eventId}/candidate`);
 
 export {
   getFixedEvents,
   getFixedEventById,
   patchFixedEventById,
-  postFixedEvents,
+  postFixedEvent,
   deleteFixedEventById,
+  putFixedEventGuestById,
+  deleteFixedEventGuestById,
 };
