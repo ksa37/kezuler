@@ -6,33 +6,58 @@ import (
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"net/http"
+	"time"
 )
 
-func getFixedEvents(w http.ResponseWriter, serviceAuthToken string) {
+func getFixedEvents(w http.ResponseWriter, serviceAuthToken string, payload map[string]int) {
 	client := connect()
 	defer disconnect(client)
 
-	tokenCol := client.Database("kezuler").Collection("token")
-	var tokenQueryResult bson.M
-	err := tokenCol.FindOne(context.TODO(), bson.D{{"AccessToken", serviceAuthToken}}).Decode(&tokenQueryResult)
+	currentTime := time.Now()
+
+	userCol := client.Database("kezuler").Collection("user")
+	var targetUser User
+	err := userCol.FindOne(context.TODO(), bson.M{"token.accessToken": serviceAuthToken}).Decode(&targetUser)
 	if err == mongo.ErrNoDocuments {
-		fmt.Printf("No Document was found with given userId: %s\n", serviceAuthToken)
-		http.Error(w, "Not Authorized", http.StatusUnauthorized)
+		fmt.Printf("No Document was found with given token: %s\n", serviceAuthToken)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
 	}
 
 	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
-	userId := tokenQueryResult["userId"]
-	// TODO: participant도 찾도록 로직 수정
-	cursor, err := fixedEventCol.Find(context.TODO(), bson.D{{"eventHost.userId", userId}})
-	defer cursor.Close(context.TODO())
+
+	options := options.Find()
+	options.SetSort(bson.M{"date": 1})
+	options.SetSkip(int64(payload["startIndex"]))
+	options.SetLimit(int64(payload["endIndex"] - payload["startIndex"]))
+
+	cursor, err := fixedEventCol.Find(
+		context.TODO(),
+		bson.M{"$and": []bson.M{{"date": bson.M{"$gt": currentTime.AddDate(0, -3, 0).UnixMilli()}},
+			{"$or": []bson.M{{"participants": bson.M{"$elemMatch": bson.M{"userId": targetUser.UserId}}, "isDisabled": false},
+				{"hostUser.userId": targetUser.UserId}}}}},
+		options,
+	)
 	if err != nil {
-		panic(err)
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
 	}
 
-	var results []FixedEvent
-	cursor.All(context.TODO(), &results)
+	var fixedEvents []FixedEvent
+	err = cursor.All(context.TODO(), &fixedEvents)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	results := bson.M{
+		"startIndex":  payload["startIndex"],
+		"endIndex":    payload["endIndex"],
+		"totalAmount": len(fixedEvents),
+		"fixedEvents": fixedEvents,
+	}
 
 	jsonRes, err := json.Marshal(results)
 	w.Header().Set("Content-Type", "application/json")
@@ -40,77 +65,123 @@ func getFixedEvents(w http.ResponseWriter, serviceAuthToken string) {
 	w.Write(jsonRes)
 }
 
-//func postFixedEvent(w http.ResponseWriter, serviceAuthToken string, payload PostFixedEventPayload) {
-//	client := connect()
-//	defer disconnect(client)
-//
-//	tokenCol := client.Database("kezuler").Collection("token")
-//	var tokenQueryResult bson.M
-//	err := tokenCol.FindOne(context.TODO(), bson.D{{"AccessToken", serviceAuthToken}}).Decode(&tokenQueryResult)
-//	if err == mongo.ErrNoDocuments {
-//		fmt.Printf("No Document was found in Token collection with given userId: %s\n", serviceAuthToken)
-//		http.Error(w, "Not Authorized", http.StatusUnauthorized)
-//		return
-//	}
-//
-//	pendingEventCol := client.Database("kezuler").Collection("pendingEvent")
-//	userId := tokenQueryResult["userId"]
-//
-//	var targetUser User
-//	userCol := client.Database("kezuler").Collection("user")
-//	err = userCol.FindOne(context.TODO(), bson.D{{"userId", userId}}).Decode(&targetUser)
-//	if err == mongo.ErrNoDocuments {
-//		fmt.Printf("No Document was found in Token collection with given userId: %s\n", serviceAuthToken)
-//		http.Error(w, "Not Authorized", http.StatusUnauthorized)
-//		return
-//	}
-//
-//	// TODO: Get Pending Events 구현하기
-//	// Host로 있는 정보 찾기
-//	var targetEvent PendingEvent
-//	err = pendingEventCol.FindOne(context.TODO(), bson.D{{"pendingEventId", payload.PendingEventId}}).Decode(targetEvent)
-//	if err == mongo.ErrNoDocuments {
-//		fmt.Printf("No Document was found with given peId: %s\n", payload.PendingEventId)
-//		http.Error(w, "Not Found", http.StatusNotFound)
-//		return
-//	}
-//
-//	var newFixedEvent = FixedEvent{
-//		FixedEventId: "123123", // TODO: random generate with fixedEvent ID rule
-//		HostUser:     fixedEventUser{UserId: , UserName: , UserProfileImage: },
-//		Title:        targetEvent.Title,
-//		Description:  targetEvent.Description,
-//		Duration:     targetEvent.Duration,
-//		Date:         payload.EventTime,
-//		PlaceAddress: targetEvent.PlaceAddress,
-//		PlaceUrl:     targetEvent.PlaceUrl,
-//		Attachment:   targetEvent.Attachment,
-//		Participants: []fixedEventUser{}, // TODO: Find eventTimeCandidate and set inner people to participants
-//		IsDisabled:   false,
-//	}
-//
-//	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
-//	fixedEventCol.InsertOne(context.TODO(), newFixedEvent)
-//
-//	jsonRes, err := json.Marshal(newFixedEvent)
-//	w.Header().Set("Content-Type", "application/json")
-//	w.WriteHeader(http.StatusCreated)
-//	w.Write(jsonRes)
-//}
+func postFixedEvent(w http.ResponseWriter, serviceAuthToken string, payload PostFixedEventPayload) {
+	client := connect()
+	defer disconnect(client)
+
+	userCol := client.Database("kezuler").Collection("user")
+	var targetUser User
+	err := userCol.FindOne(context.TODO(), bson.M{"token.accessToken": serviceAuthToken}).Decode(&targetUser)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No Document was found with given token: %s\n", serviceAuthToken)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+
+	var targetEvent PendingEvent
+	pendingEventCol := client.Database("kezuler").Collection("pendingEvent")
+	err = pendingEventCol.FindOne(context.TODO(), bson.D{{"pendingEventId", payload.PendingEventId}}).Decode(&targetEvent)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No Document was found with given peId: %s\n", payload.PendingEventId)
+		http.Error(w, "Not Found", http.StatusNotFound)
+		return
+	}
+
+	// Find AcceptParticipant and DeclineParticipant by iterating pendingEvent
+	var participants []fixedEventUser
+	visited := map[string]bool{} // userId: visited?
+	for i := 0; i < len(targetEvent.DeclinedUsers); i++ {
+		if visited[targetEvent.DeclinedUsers[i].UserId] == false {
+			participants = append(participants, fixedEventUser{
+				targetEvent.DeclinedUsers[i].UserId,
+				targetEvent.DeclinedUsers[i].UserName,
+				targetEvent.DeclinedUsers[i].UserProfileImage,
+				"Declined",
+			})
+			visited[targetEvent.DeclinedUsers[i].UserId] = true
+		}
+	}
+
+	targetIdx := findEventTimeCandidateByUnixTime(payload.EventTime, targetEvent.EventTimeCandidates) // get index
+	if targetIdx == -1 {
+		http.Error(w, "eventTime is not valid", http.StatusNotFound)
+		return
+	}
+	for j := 0; j < len(targetEvent.EventTimeCandidates); j++ {
+		if targetIdx == j {
+			// Accept All
+			for k := 0; k < len(targetEvent.EventTimeCandidates[j].PossibleUsers); k++ {
+				currentUser := targetEvent.EventTimeCandidates[j].PossibleUsers[k]
+				if visited[currentUser.UserId] == false {
+					participants = append(participants, fixedEventUser{
+						currentUser.UserId,
+						currentUser.UserName,
+						currentUser.UserProfileImage,
+						"Accepted",
+					})
+					visited[currentUser.UserId] = true
+					// TODO: Add Reminder with UpdateMany for AcceptUsers
+				}
+			}
+		} else {
+			// Deny All
+			for k := 0; k < len(targetEvent.EventTimeCandidates[j].PossibleUsers); k++ {
+				currentUser := targetEvent.EventTimeCandidates[j].PossibleUsers[k]
+				if visited[currentUser.UserId] == false {
+					participants = append(participants, fixedEventUser{
+						currentUser.UserId,
+						currentUser.UserName,
+						currentUser.UserProfileImage,
+						"Declined",
+					})
+					visited[currentUser.UserId] = true
+				}
+			}
+		}
+	}
+
+	var newFixedEvent = FixedEvent{
+		FixedEventId: targetEvent.PendingEventId,
+		HostUser: fixedEventUser{
+			UserId:           targetEvent.HostUser.UserId,
+			UserName:         targetEvent.HostUser.UserName,
+			UserProfileImage: targetEvent.HostUser.UserProfileImage,
+			UserStatus:       "Accepted",
+		},
+		Title:        targetEvent.Title,
+		Description:  targetEvent.Description,
+		Duration:     targetEvent.Duration,
+		Date:         payload.EventTime,
+		PlaceAddress: targetEvent.PlaceAddress,
+		PlaceUrl:     targetEvent.PlaceUrl,
+		Attachment:   targetEvent.Attachment,
+		Participants: participants,
+		IsDisabled:   false,
+	}
+
+	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
+	fixedEventCol.InsertOne(context.TODO(), newFixedEvent)
+
+	jsonRes, err := json.Marshal(newFixedEvent)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	w.Write(jsonRes)
+}
 
 func getFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId string) {
 	client := connect()
 	defer disconnect(client)
 
-	tokenCol := client.Database("kezuler").Collection("token")
-	var tokenQueryResult bson.M
-	err := tokenCol.FindOne(context.TODO(), bson.D{{"AccessToken", serviceAuthToken}}).Decode(&tokenQueryResult)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+	userCol := client.Database("kezuler").Collection("user")
+	var targetUser User
+	err := userCol.FindOne(context.TODO(), bson.M{"token.accessToken": serviceAuthToken}).Decode(&targetUser)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No Document was found with given token: %s\n", serviceAuthToken)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
 	}
 
-	fixedEventCol := client.Database("kezuler").Collection("fixedEventCol")
+	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
 	var targetEvent FixedEvent
 
 	err = fixedEventCol.FindOne(context.TODO(), bson.D{{"fixedEventId", feId}}).Decode(&targetEvent)
@@ -121,111 +192,113 @@ func getFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId st
 	}
 
 	jsonRes, err := json.Marshal(targetEvent)
-	w.WriteHeader(200)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonRes)
 }
 
-//func patchFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId string, payload patchFixedEventWithIdPayload) {
-//	// Host 용 API - Title, Description 을 변경하는 데 사용
-//	client := connect()
-//	defer disconnect(client)
-//
-//	tokenCol := client.Database("kezuler").Collection("token")
-//	var tokenQueryResult Token
-//	err := tokenCol.FindOne(context.TODO(), bson.D{{"AccessToken", serviceAuthToken}}).Decode(&tokenQueryResult)
-//	if err != nil {
-//		http.Error(w, err.Error(), http.StatusNotFound)
-//		return
-//	}
-//
-//	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
-//	var fixedEventQueryResult FixedEvent
-//	err = fixedEventCol.FindOne(context.TODO(), bson.D{{"fixedEventId", feId}}).Decode(&fixedEventQueryResult)
-//	if err != nil {
-//		http.Error(w, err.Error(), http.StatusNotFound)
-//		return
-//	}
-//
-//	targetUserId := tokenQueryResult.UserId
-//	hostUserId := fixedEventQueryResult.HostUser.UserId
-//	if targetUserId != hostUserId {
-//		http.Error(w, "Given userId is not an host of given fixedEvent", http.StatusForbidden)
-//		return
-//	}
-//
-//	// TODO: make filter valid with given payload
-//	doc, err := fixedEventCol.FindOneAndUpdate(context.TODO(), bson.M{"fixedEventId": feId}, bson.M{"%set", {"": "", "":""}}, {new: true})
-//	if err != nil {
-//		http.Error(w, err.Error(), http.StatusInternalServerError)
-//		return
-//	}
-//
-//	jsonRes, err := json.Marshal(doc)
-//	w.WriteHeader(200)
-//	w.Header().Set("Content-Type", "application/json")
-//	w.Write(jsonRes)
-//}
-
-//func deleteFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId string) {
-//	client := connect()
-//	defer disconnect(client)
-//
-//	tokenCol := client.Database("kezuler").Collection("token")
-//	var tokenQueryResult Token
-//	err := tokenCol.FindOne(context.TODO(), bson.D{{"AccessToken", serviceAuthToken}}).Decode(&tokenQueryResult)
-//	if err != nil {
-//		http.Error(w, err.Error(), http.StatusNotFound)
-//		return
-//	}
-//
-//	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
-//	var fixedEventQueryResult FixedEvent
-//	err = fixedEventCol.FindOne(context.TODO(), bson.D{{"fixedEventId", feId}}).Decode(&fixedEventQueryResult)
-//	if err != nil {
-//		http.Error(w, err.Error(), http.StatusNotFound)
-//		return
-//	}
-//
-//	targetUserId := tokenQueryResult.UserId
-//	hostUserId := fixedEventQueryResult.HostUser.UserId
-//	if targetUserId != hostUserId {
-//		http.Error(w, "Given userId is not an host of given fixedEvent", http.StatusForbidden)
-//		return
-//	}
-//
-//	err = fixedEventCol.FindOneAndUpdate(context.TODO(), bson.M{"fixedEventId": feId}, bson.M{"$set", bson.M{"isDisabled": true}})
-//	if err != nil {
-//		http.Error(w, err.Error(), http.StatusInternalServerError)
-//		return
-//	}
-//
-//	w.WriteHeader(204)
-//}
-
-func patchFixedEventCandidate(w http.ResponseWriter, serviceAuthToken string, feId string) {
+func patchFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId string, payload PatchFixedEventWithIdPayload) {
 	client := connect()
 	defer disconnect(client)
 
-	tokenCol := client.Database("kezuler").Collection("token")
-	var tokenQueryResult Token
-	err := tokenCol.FindOne(context.TODO(), bson.D{{"AccessToken", serviceAuthToken}}).Decode(&tokenQueryResult)
+	userCol := client.Database("kezuler").Collection("user")
+	var hostUser User
+	err := userCol.FindOne(context.TODO(), bson.M{"token.accessToken": serviceAuthToken}).Decode(&hostUser)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No Document was found with given token: %s\n", serviceAuthToken)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+
+	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
+	var targetEvent FixedEvent
+	err = fixedEventCol.FindOne(context.TODO(), bson.D{{"fixedEventId", feId}}).Decode(&targetEvent)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
-	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
-	var res FixedEvent
-	err = fixedEventCol.FindOneAndUpdate(context.TODO(), bson.M{"fixedEventId": feId}, bson.M{"$set": bson.M{"participants.$.userStatus": "Accepted"}}).Decode(&res)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	userId := hostUser.UserId
+	fmt.Print(payload)
+	var updatedEvent FixedEvent
+	if targetEvent.HostUser.UserId == userId {
+		fixedEventCol.FindOneAndUpdate(context.TODO(), bson.M{"fixedEventId": targetEvent.FixedEventId}, bson.M{"$set": payload}, options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&updatedEvent)
+		jsonRes, _ := json.Marshal(updatedEvent)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(jsonRes)
+	} else {
+		fmt.Printf("HostId: %s\n", serviceAuthToken)
+		http.Error(w, "Not Authorized", http.StatusUnauthorized)
+		return
+	}
+}
+
+func deleteFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId string) {
+	client := connect()
+	defer disconnect(client)
+
+	userCol := client.Database("kezuler").Collection("user")
+	var hostUser User
+	err := userCol.FindOne(context.TODO(), bson.M{"token.accessToken": serviceAuthToken}).Decode(&hostUser)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No user was found with given token: %s\n", serviceAuthToken)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
 	}
 
-	jsonRes, err := json.Marshal(res)
-	w.WriteHeader(200)
+	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
+	var targetEvent FixedEvent
+	err = fixedEventCol.FindOne(context.TODO(), bson.D{{"fixedEventId", feId}}).Decode(&targetEvent)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	targetUserId := hostUser.UserId
+	hostUserId := targetEvent.HostUser.UserId
+	if targetUserId != hostUserId {
+		http.Error(w, "Given userId is not an host of given fixedEvent", http.StatusForbidden)
+		return
+	}
+
+	var updatedEvent FixedEvent
+	updateErr := fixedEventCol.FindOneAndUpdate(context.TODO(), bson.M{"fixedEventId": feId}, bson.M{"$set": bson.M{"isDisabled": true}}).Decode(&updatedEvent)
+	if updateErr == mongo.ErrNoDocuments {
+		http.Error(w, "Target FixedEvent is not found", http.StatusNotFound)
+		return
+	}
+
+	w.WriteHeader(204)
+}
+
+func putFixedEventCandidate(w http.ResponseWriter, serviceAuthToken string, feId string) {
+	client := connect()
+	defer disconnect(client)
+
+	userCol := client.Database("kezuler").Collection("user")
+	var targetUser User
+	err := userCol.FindOne(context.TODO(), bson.M{"token.accessToken": serviceAuthToken}).Decode(&targetUser)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No Document was found with given token: %s\n", serviceAuthToken)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+
+	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
+	var updatedEvent FixedEvent
+	err = fixedEventCol.FindOneAndUpdate(context.TODO(), bson.M{"fixedEventId": feId, "participants.userId": targetUser.UserId},
+		bson.M{"$set": bson.M{"participants.$.userStatus": "Accepted"}},
+		options.FindOneAndUpdate().SetReturnDocument(options.After),
+	).Decode(&updatedEvent)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	jsonRes, err := json.Marshal(updatedEvent)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonRes)
 }
 
@@ -233,24 +306,28 @@ func deleteFixedEventCandidate(w http.ResponseWriter, serviceAuthToken string, f
 	client := connect()
 	defer disconnect(client)
 
-	tokenCol := client.Database("kezuler").Collection("token")
-	var tokenQueryResult Token
-	err := tokenCol.FindOne(context.TODO(), bson.D{{"AccessToken", serviceAuthToken}}).Decode(&tokenQueryResult)
+	userCol := client.Database("kezuler").Collection("user")
+	var targetUser User
+	err := userCol.FindOne(context.TODO(), bson.M{"token.accessToken": serviceAuthToken}).Decode(&targetUser)
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("No Document was found with given token: %s\n", serviceAuthToken)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+
+	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
+	var updatedEvent FixedEvent
+	err = fixedEventCol.FindOneAndUpdate(context.TODO(), bson.M{"fixedEventId": feId, "participants.userId": targetUser.UserId},
+		bson.M{"$set": bson.M{"participants.$.userStatus": "Declined"}},
+		options.FindOneAndUpdate().SetReturnDocument(options.After),
+	).Decode(&updatedEvent)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
-	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
-	var res FixedEvent
-	err = fixedEventCol.FindOneAndUpdate(context.TODO(), bson.M{"fixedEventId": feId}, bson.M{"$set": bson.M{"participants.$.userStatus": "Declined"}}).Decode(&res)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	jsonRes, err := json.Marshal(res)
-	w.WriteHeader(200)
+	jsonRes, err := json.Marshal(updatedEvent)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonRes)
 }

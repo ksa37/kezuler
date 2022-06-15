@@ -19,7 +19,6 @@ func getPendingEvents(w http.ResponseWriter, serviceAuthToken string) {
 	userCol := client.Database("kezuler").Collection("user")
 	var targetUser User
 	err := userCol.FindOne(context.TODO(), bson.M{"token.accessToken": serviceAuthToken}).Decode(&targetUser)
-	log.Println(targetUser)
 	if err == mongo.ErrNoDocuments {
 		fmt.Printf("No Document was found with given token: %s\n", serviceAuthToken)
 		http.Error(w, err.Error(), http.StatusUnauthorized)
@@ -36,7 +35,7 @@ func getPendingEvents(w http.ResponseWriter, serviceAuthToken string) {
 	var pendingEvents []PendingEvent
 	err = cursor.All(context.TODO(), &pendingEvents)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
@@ -45,7 +44,7 @@ func getPendingEvents(w http.ResponseWriter, serviceAuthToken string) {
 	}
 	jsonRes, err := json.Marshal(res)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
@@ -191,7 +190,7 @@ func deletePendingEventWithId(w http.ResponseWriter, serviceAuthToken string, pe
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func patchPendingEventCandidate(w http.ResponseWriter, serviceAuthToken string, peId string, payload PatchPendingEventCandidatePayload) {
+func putPendingEventCandidate(w http.ResponseWriter, serviceAuthToken string, peId string, payload PatchPendingEventCandidatePayload) {
 	client := connect()
 	defer disconnect(client)
 

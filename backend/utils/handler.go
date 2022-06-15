@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/gorilla/mux"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -49,13 +50,24 @@ func FixedEventHandler(w http.ResponseWriter, r *http.Request) { // GET
 	serviceAuthToken := r.Header.Get("Authorization")
 	splitToken := strings.Split(serviceAuthToken, "Bearer")
 	if len(splitToken) != 2 {
-		// 401: Unauthorized
 		http.Error(w, "Not Authorized", http.StatusUnauthorized)
 		return
 	}
+	serviceAuthToken = strings.TrimSpace(splitToken[1])
+
 	if r.Method == "GET" {
 		// TODO: implement GET /fixedEvents with given user
-		getFixedEvents(w, serviceAuthToken)
+		startIndex, startIndexErr := strconv.Atoi(r.URL.Query().Get("startIndex"))
+		endIndex, endIndexErr := strconv.Atoi(r.URL.Query().Get("endIndex"))
+		if startIndexErr != nil || endIndexErr != nil {
+			http.Error(w, "Error occured while retrieving startIndex and endIndex.", http.StatusNotFound)
+			return
+		}
+		payload := map[string]int{
+			"startIndex": startIndex,
+			"endIndex":   endIndex,
+		}
+		getFixedEvents(w, serviceAuthToken, payload)
 	} else if r.Method == "POST" {
 		headerContentType := r.Header.Get("Content-Type")
 		if headerContentType != "application/json" {
@@ -79,7 +91,7 @@ func FixedEventHandler(w http.ResponseWriter, r *http.Request) { // GET
 		}
 
 		// TODO: implement POST /fixedEvents
-		//postFixedEvent(w, serviceAuthToken, payload)
+		postFixedEvent(w, serviceAuthToken, payload)
 	} else {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 	}
@@ -95,6 +107,8 @@ func FixedEventWithIdHandler(w http.ResponseWriter, r *http.Request) { // GET, P
 		http.Error(w, "Not Authorized", http.StatusUnauthorized)
 		return
 	}
+	serviceAuthToken = strings.TrimSpace(splitToken[1])
+
 	if r.Method == "GET" {
 		// TODO: implement GET /fixedEvents/{feId}
 		getFixedEventWithId(w, serviceAuthToken, feId)
@@ -102,12 +116,32 @@ func FixedEventWithIdHandler(w http.ResponseWriter, r *http.Request) { // GET, P
 
 	if r.Method == "PATCH" {
 		// TODO: implement PATCH /fixedEvents/{feId}
-		//patchFixedEventWithId(w, serviceAuthToken, feId, payload)
+		headerContentType := r.Header.Get("Content-Type")
+		if headerContentType != "application/json" {
+			http.Error(w, "Content Type is not application/json", http.StatusUnsupportedMediaType)
+			return
+		}
+
+		var payload PatchFixedEventWithIdPayload
+		var unmarshalError *json.UnmarshalTypeError
+		decoder := json.NewDecoder(r.Body)
+		decoder.DisallowUnknownFields()
+
+		err := decoder.Decode(&payload)
+		if err != nil {
+			if errors.As(err, &unmarshalError) {
+				http.Error(w, "Bad Request. Wrong Type provided for field "+unmarshalError.Field, http.StatusBadRequest)
+			} else {
+				http.Error(w, "Bad Request "+err.Error(), http.StatusBadRequest)
+			}
+			return
+		}
+		patchFixedEventWithId(w, serviceAuthToken, feId, payload)
 	}
 
 	if r.Method == "DELETE" {
 		// TODO: implement DELETE /fixedEvents/{feId}
-		//deleteFixedEventWithId(w, serviceAuthToken, feId)
+		deleteFixedEventWithId(w, serviceAuthToken, feId)
 	}
 }
 
@@ -122,11 +156,9 @@ func FixedEventCandidateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	serviceAuthToken = strings.TrimSpace(splitToken[1])
-	if r.Method == "PATCH" {
-		// TODO: implement PATCH /fixedEvents/{peId}/candidate
-		patchFixedEventCandidate(w, serviceAuthToken, feId)
+	if r.Method == "PUT" {
+		putFixedEventCandidate(w, serviceAuthToken, feId)
 	} else if r.Method == "DELETE" {
-		// TODO: implement DELETE /fixedEvents/{peId}/candidate
 		deleteFixedEventCandidate(w, serviceAuthToken, feId)
 	} else {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
@@ -260,7 +292,7 @@ func PendingEventCandidateHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		patchPendingEventCandidate(w, serviceAuthToken, peId, payload)
+		putPendingEventCandidate(w, serviceAuthToken, peId, payload)
 	} else if r.Method == "DELETE" {
 		headerContentType := r.Header.Get("Content-Type")
 		if headerContentType != "application/json" {
