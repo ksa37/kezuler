@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AcceptMeetingSteps } from 'src/constants/Steps';
-import { useGetPendingEvent } from 'src/hooks/usePendingEvent';
+import { useGetInvitation } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
@@ -19,7 +19,6 @@ import 'src/styles/AcceptMeeting.scss';
 function AcceptMeeting() {
   const dispatch = useDispatch<AppDispatch>();
   const { step } = useSelector((state: RootState) => state.acceptMeeting);
-  // const { setEventID } = acceptMeetingActions;
   const { decreaseStep } = acceptMeetingActions;
 
   const totalStepsNum = Object.keys(AcceptMeetingSteps).length / 2 - 1;
@@ -52,10 +51,10 @@ function AcceptMeeting() {
   };
   const { eventId } = useParams();
 
-  const getPendingEventInfo = useGetPendingEvent();
+  const getPendingEventInfo = useGetInvitation();
   useMemo(() => {
     if (eventId) {
-      getPendingEventInfo(eventId, 0);
+      getPendingEventInfo(eventId);
     }
   }, [eventId]);
 

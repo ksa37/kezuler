@@ -64,6 +64,7 @@ function TimeListSelector() {
     },
     []
   );
+
   const declineNum = declinedUsers.length;
 
   type EventTimeListWithPossibleNum = {
@@ -103,10 +104,10 @@ function TimeListSelector() {
       { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
       { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
     ],
-    // '4/12 화': [
-    //   { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
-    //   { timeRange: '하루종일', scheduleTitle: '수아' },
-    // ],
+    '4/12 화': [
+      { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
+      { timeRange: '하루종일', scheduleTitle: '수아' },
+    ],
     '4/13 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
     '4/15 금': [
       { timeRange: '하루종일', scheduleTitle: '제주도 여행' },

@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import classNames from 'classnames';
 
+import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
 import useModal from 'src/hooks/useModal';
 import { RootState } from 'src/reducers';
@@ -31,6 +33,8 @@ function PendingEventCard({ event }: Props) {
     eventTimeCandidates,
   } = event;
 
+  const navigate = useNavigate();
+
   const handleChangeTime = () => {
     console.log('change time');
   };
@@ -53,7 +57,7 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleInviteClick = () => {
-    console.log('invite click', eventId);
+    navigate(`${PathName.invite}/${eventId}`);
   };
 
   const isHost = useMemo(() => curUserId === hostId, [curUserId, hostId]);

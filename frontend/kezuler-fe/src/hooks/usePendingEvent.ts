@@ -14,6 +14,7 @@ import {
   PPutPendingEvent,
 } from 'src/types/pendingEvent';
 
+import { getInvitationById } from 'src/api/invitation';
 import {
   deletePendingEventGuestById,
   getPendingEventsById,
@@ -48,6 +49,26 @@ const useGetPendingEvent = () => {
             console.log('error');
           }
         }
+      })
+      .catch((err) => {
+        console.log('미팅 수락 에러', err);
+        window.alert('미팅 정보를 받아올 수 없습니다');
+        navigate(PathName.invite + `/${eventId}`, { replace: true });
+      });
+  };
+
+  return getPendingEventInfo;
+};
+
+const useGetInvitation = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
+
+  const getPendingEventInfo = (eventId: string) => {
+    getInvitationById(eventId)
+      .then((res) => {
+        dispatch(setAcceptPendingEvent(res.data));
       })
       .catch((err) => {
         console.log('미팅 수락 에러', err);
@@ -133,4 +154,5 @@ export {
   usePostPendingEvent,
   usePutPendingEventGuest,
   useDeletePendingEventGuest,
+  useGetInvitation,
 };
