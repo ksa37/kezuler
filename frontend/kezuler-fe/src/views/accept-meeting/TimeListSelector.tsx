@@ -1,12 +1,15 @@
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { usePutPendingEventGuest } from 'src/hooks/usePendingEvent';
+import {
+  useDeletePendingEventGuest,
+  usePutPendingEventGuest,
+} from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { AppDispatch } from 'src/store';
-import { PPutPendingEvent } from 'src/types/pendingEvent';
+import { PDeletePendingEvent, PPutPendingEvent } from 'src/types/pendingEvent';
 import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
@@ -27,7 +30,8 @@ function TimeListSelector() {
   const { pendingEvent, availableTimes, declineReason } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
-  const { addAvailableTimes, deleteAvailableTimes } = acceptMeetingActions;
+  const { addAvailableTimes, deleteAvailableTimes, increaseStep } =
+    acceptMeetingActions;
 
   const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
@@ -35,18 +39,30 @@ function TimeListSelector() {
   const { show } = participantsPopupAction;
 
   const putEventTimeCandidate = usePutPendingEventGuest();
+  const deleteEventTimeCandidate = useDeletePendingEventGuest();
 
   const handlePutClick = () => {
     console.log('put');
-    // const putData: PPutPendingEvent = { eventTimeCandidates: availableTimes };
-    // if (availableTimes.length === 0 && declineReason && declineReason !== '') {
-    //   putData.userDeclineReason = declineReason;
-    // }
-    // putEventTimeCandidate(eventId, putData);
+    const putData: PPutPendingEvent = { addTimeCandidates: availableTimes };
+
+    if (availableTimes.length === 0) {
+      if (declineReason && declineReason !== '') {
+        const DeleteData: PDeletePendingEvent = {
+          UserDeclineReason: declineReason,
+        };
+        deleteEventTimeCandidate(eventId, DeleteData);
+      } else {
+        deleteEventTimeCandidate(eventId);
+      }
+    } else {
+      putEventTimeCandidate(eventId, putData);
+    }
+
+    dispatch(increaseStep());
   };
 
   const handleEventTimeClick = (eventStartsAt: Date) => {
-    const dateToAdd = eventStartsAt.toISOString();
+    const dateToAdd = eventStartsAt.getTime();
     if (availableTimes.includes(dateToAdd)) {
       dispatch(deleteAvailableTimes(dateToAdd));
     } else {
@@ -163,7 +179,7 @@ function TimeListSelector() {
                       isSelected={availableTimes.includes(
                         eventTimeListDevideByDate[dateKey][
                           index
-                        ].eventStartsAt.toISOString()
+                        ].eventStartsAt.getTime()
                       )}
                       onClick={() =>
                         handleEventTimeClick(
@@ -176,7 +192,15 @@ function TimeListSelector() {
                         eventTimeDuration
                       )}
                       possibleNum={
-                        eventTimeListDevideByDate[dateKey][index].possibleNum
+                        availableTimes.includes(
+                          eventTimeListDevideByDate[dateKey][
+                            index
+                          ].eventStartsAt.getTime()
+                        )
+                          ? eventTimeListDevideByDate[dateKey][index]
+                              .possibleNum + 1
+                          : eventTimeListDevideByDate[dateKey][index]
+                              .possibleNum
                       }
                     />
                   ) : (

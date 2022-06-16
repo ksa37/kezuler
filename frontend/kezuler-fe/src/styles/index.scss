@@ -70,7 +70,6 @@ main {
   height: calc(100% - #{$app-bar-height});
   padding-top: $app-bar-height;
   background: $color-background;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   // .create-meeting-page.calendar-selector {
@@ -90,4 +89,59 @@ textarea {
   box-shadow: none;
   width: 100%;
   align-items: center;
+}
+
+$common-tab-size: 64px;
+
+.common-tab {
+  box-sizing: border-box;
+  padding: 24px 20px 8px;
+  position: fixed;
+  top: $app-bar-height;
+  background: $color-background;
+  left: 0;
+  width: 100%;
+  min-height: 64px;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+
+  .common-tab-button {
+    color: #bfbfbf;
+    font-size: $font-20;
+    border: none;
+    background: none;
+    cursor: pointer;
+    min-height: 30px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &.left {
+      padding: 0;
+
+      &::after {
+        padding: 0 12px 0 0;
+        content: '';
+        height: 20px;
+        border-right: 1px solid #bfbfbf;
+      }
+    }
+
+    &.right {
+      padding: 0 0 0 12px;
+    }
+
+    &.selected {
+      color: $color-highlight;
+      font-size: $font-24;
+      font-weight: bold;
+    }
+
+    &.disabled {
+      pointer-events: none;
+    }
+  }
 }

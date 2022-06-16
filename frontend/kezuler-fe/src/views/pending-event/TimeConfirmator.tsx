@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { ConfirmMeetingSteps } from 'src/constants/Steps';
+import useDialog from 'src/hooks/useDialog';
 import { usePostFixedEvent } from 'src/hooks/useFixedEvent';
 import { useGetPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
@@ -35,6 +36,7 @@ function TimeConfirmator() {
   const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
   const { show } = participantsPopupAction;
+  const { openDialog } = useDialog();
 
   const totalStepsNum = Object.keys(ConfirmMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
@@ -53,12 +55,22 @@ function TimeConfirmator() {
 
   const postFixedEventByConfirm = usePostFixedEvent();
   const handlePostClick = () => {
-    const pfixedEventConfirmed: PPostFixedEvent = {
-      pendingEventId: eventId,
-      eventTimeStartsAt: selectedTime,
+    const handleConfirm = () => {
+      const pfixedEventConfirmed: PPostFixedEvent = {
+        pendingEventId: eventId,
+        eventTimeStartsAt: selectedTime,
+      };
+      postFixedEventByConfirm(pfixedEventConfirmed, eventId);
+      dispatch(increaseStep());
     };
-    postFixedEventByConfirm(pfixedEventConfirmed, eventId);
-    dispatch(increaseStep());
+
+    openDialog({
+      date: '2022년 6월 1일',
+      title: '미팅시간을 최종 확정하시겠어요?',
+      description: '확정 시, 참여자들에게\n카카오톡 메세지가 전송됩니다.',
+      onConfirm: handleConfirm,
+    });
+
     // console.log('post!');
   };
 

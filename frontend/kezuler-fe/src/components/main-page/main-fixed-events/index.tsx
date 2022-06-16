@@ -1,10 +1,14 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { FIXED_TODAY_ID } from 'src/constants/Main';
 import { RootState } from 'src/reducers';
 import { getFixedEventsThunk } from 'src/reducers/mainFixed';
 import { AppDispatch } from 'src/store';
-import { getMonthFromDateString } from 'src/utils/dateParser';
+import {
+  getIntervalFromToday,
+  getMonthFromDateString,
+} from 'src/utils/dateParser';
 
 import BottomPopper from '../../common/BottomPopper';
 import FixedEventCard from './FixedEventCard';
@@ -12,18 +16,21 @@ import EmptyFixedEventCard from 'src/components/main-page/main-fixed-events/Empt
 import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
 
 const useMainFixed = () => {
-  const { events } = useSelector((state: RootState) => state.mainFixed);
+  const { events, isFetched } = useSelector(
+    (state: RootState) => state.mainFixed
+  );
   const dispatch = useDispatch<AppDispatch>();
 
   const getFixedEvents = useCallback(() => {
-    return dispatch(getFixedEventsThunk({ startIndex: 0, endIndex: 10 }));
+    //TODO index 설정
+    return dispatch(getFixedEventsThunk({ startIndex: '0', endIndex: '10' }));
   }, [dispatch]);
 
-  return { getFixedEvents, events };
+  return { getFixedEvents, events, isFetched };
 };
 
 function MainFixedEvents() {
-  const { getFixedEvents, events } = useMainFixed();
+  const { getFixedEvents, events, isFetched } = useMainFixed();
 
   useEffect(() => {
     getFixedEvents();
@@ -33,9 +40,33 @@ function MainFixedEvents() {
     console.log('create');
   };
 
+  // 오늘 버튼의 기준이 될 event id 를 찾는 useMemo
+  // 오늘에 해당하는 이벤트 있으면 해당하는 이벤트 중 맨 앞
+  // 없다면 제일 가까운 다가오는 이벤트
+  // 다가오는 이벤트가 없다면 제일 가까운 지나간 이벤트
+  const todayIdTargetIdx = useMemo(() => {
+    let target = -1;
+    for (let i = events.length - 1; i >= 0; i--) {
+      const date = new Date(events[i].eventTimeStartsAt);
+      const interval = getIntervalFromToday(date);
+      if (interval > 0) {
+        if (target === -1) {
+          target = i;
+        }
+        break;
+      }
+      target = i;
+    }
+    return target;
+  }, [events]);
+
+  if (!isFetched) {
+    return null;
+  }
+  console.log(events);
   if (!events.length) {
     return (
-      <div className={'main-fixed'}>
+      <div id={FIXED_TODAY_ID} className={'main-fixed'}>
         <h1 className={'main-fixed-month-divider'}>
           {getMonthFromDateString()}월
         </h1>
@@ -53,6 +84,7 @@ function MainFixedEvents() {
       </div>
     );
   }
+
   return (
     <div className={'main-fixed'}>
       {events.map((e, i) => {
@@ -65,7 +97,11 @@ function MainFixedEvents() {
                   curMonth)) && (
               <h1 className={'main-fixed-month-divider'}>{curMonth}월</h1>
             )}
-            <FixedEventCard key={e.eventId} event={e} />
+            <FixedEventCard
+              key={e.eventId}
+              event={e}
+              hasTodayId={i === todayIdTargetIdx}
+            />
           </React.Fragment>
         );
       })}

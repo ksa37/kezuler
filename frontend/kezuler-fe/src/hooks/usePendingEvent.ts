@@ -115,7 +115,7 @@ const usePutPendingEventGuest = () => {
     putPendingEventGuestById(eventId, ppendingEvent)
       .then((res) => {
         console.log(res.data);
-        dispatch(increaseStep());
+        //
       })
       .catch((err) => {
         console.log('미팅 수락/수정 에러', err);
@@ -127,15 +127,20 @@ const usePutPendingEventGuest = () => {
 };
 
 const useDeletePendingEventGuest = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const { increaseStep } = acceptMeetingActions;
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch<AppDispatch>();
+  // const { increaseStep } = acceptMeetingActions;
   //TODO
   const deleteEventTimeCandidate = (
     eventId: string,
-    ppendingEvent: PDeletePendingEvent
+    ppendingEvent?: PDeletePendingEvent
   ) => {
-    deletePendingEventGuestById(eventId, ppendingEvent);
+    if (ppendingEvent) {
+      deletePendingEventGuestById(eventId, ppendingEvent);
+    } else {
+      deletePendingEventGuestById(eventId);
+    }
+
     // .then((res) => {
     //   console.log(res.data);
     //   dispatch(increaseStep());

@@ -21,7 +21,7 @@ const getFixedEventsThunk = createAsyncThunk(
 interface MainFixedState {
   isFetched: boolean;
   loading: boolean;
-  errorMessage: string;
+  errorMessage?: string;
   curUserId: string;
   events: BFixedEvent[];
 }
@@ -54,7 +54,7 @@ export const mainFixed = createSlice({
       })
       .addCase(getFixedEventsThunk.rejected, (state, action) => {
         state.loading = false;
-        state.errorMessage = (action.payload as { message: string }).message;
+        state.errorMessage = (action.payload as { message?: string })?.message;
       });
   },
 });

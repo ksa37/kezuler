@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { REMINDER_OPTIONS } from 'src/constants/MainFIxedEvents';
+import { REMINDER_OPTIONS } from 'src/constants/Main';
 
 import KezulerDropdown from 'src/components/common/KezulerDropdown';
 

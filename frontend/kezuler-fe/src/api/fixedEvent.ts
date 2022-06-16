@@ -10,10 +10,7 @@ import {
 
 const getFixedEvents = ({ startIndex, endIndex }: PGetFixedEvents) =>
   KezulerInstance.get<RGetFixedEvents>(`fixedEvents`, {
-    data: {
-      startIndex,
-      endIndex,
-    },
+    params: { startIndex, endIndex },
   });
 
 const getFixedEventById = (eventId: string) =>

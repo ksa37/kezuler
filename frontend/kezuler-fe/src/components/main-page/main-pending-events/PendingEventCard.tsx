@@ -1,15 +1,18 @@
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import classNames from 'classnames';
 
+import { CURRENT_HOST } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
+import useCopyText from 'src/hooks/useCopyText';
 import useDialog from 'src/hooks/useDialog';
 import useModal from 'src/hooks/useModal';
-import { RootState } from 'src/reducers';
 import { BPendingEvent } from 'src/types/pendingEvent';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
+import { ReactComponent as HostIcon } from 'src/assets/icn_host.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icn_info_yb.svg';
 import { ReactComponent as SendIcon } from 'src/assets/icn_send_yb.svg';
 
@@ -20,10 +23,7 @@ interface Props {
 function PendingEventCard({ event }: Props) {
   const { openDialog } = useDialog();
   const { openModal } = useModal();
-
-  const curUserId = useSelector(
-    (state: RootState) => state.mainPending.curUserId
-  );
+  const { copyText } = useCopyText();
 
   const {
     eventId,
@@ -36,7 +36,7 @@ function PendingEventCard({ event }: Props) {
   const navigate = useNavigate();
 
   const handleChangeTime = () => {
-    console.log('change time');
+    navigate(`${PathName.modify}/${eventId}`);
   };
 
   const handleInfoClick = () => {
@@ -44,6 +44,7 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleConfirmClick = () => {
+    navigate(`${PathName.confirm}/${eventId}`);
     const handleConfirm = () => {
       console.log('미팅 시간 확정!');
     };
@@ -57,19 +58,23 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleInviteClick = () => {
-    navigate(`${PathName.invite}/${eventId}`);
+    copyText(`${CURRENT_HOST}${PathName.invite}/${eventId}`, '케줄러 링크가');
   };
 
-  const isHost = useMemo(() => curUserId === hostId, [curUserId, hostId]);
+  const isHost = useMemo(
+    () => hostId === getCurrentUserInfo()?.userId,
+    [hostId]
+  );
 
   const isParticipating = useMemo(() => {
     if (isHost) {
       return true;
     }
+    const curUserId = getCurrentUserInfo()?.userId;
     return eventTimeCandidates.some((c) =>
       c.possibleUsers.some(({ userId }) => userId === curUserId)
     );
-  }, [isHost, eventTimeCandidates, curUserId]);
+  }, [isHost, eventTimeCandidates]);
 
   const eventLocation = useMemo(() => {
     if (eventZoomAddress) {
@@ -121,6 +126,7 @@ function PendingEventCard({ event }: Props) {
           초대링크
         </Button>
       </div>
+      {isHost && <HostIcon className={'pending-event-card-host-badge'} />}
     </section>
   );
 }
