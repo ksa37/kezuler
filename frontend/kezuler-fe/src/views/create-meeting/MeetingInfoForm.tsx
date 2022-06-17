@@ -42,7 +42,7 @@ function MeetingInfoForm() {
   const eventAttachmentDescription = 'URL주소를 입력해주세요.';
 
   return (
-    <div>
+    <div className={'padding-wrapper'}>
       <div className={'description-text'}>
         {'이번 미팅에 대해'}
         <br />

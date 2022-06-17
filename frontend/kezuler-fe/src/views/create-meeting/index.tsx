@@ -1,7 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
+import PathName from 'src/constants/PathName';
 import { CreateMeetingSteps } from 'src/constants/Steps';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
@@ -18,7 +20,9 @@ import ProgressBar from 'src/components/ProgressBar';
 import 'src/styles/CreateMeeting.scss';
 
 function CreateMeeting() {
+  const dispatch = useDispatch<AppDispatch>();
   const { step } = useSelector((state: RootState) => state.createMeeting);
+  const { decreaseStep } = createMeetingActions;
 
   const totalStepsNum = Object.keys(CreateMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
@@ -57,11 +61,13 @@ function CreateMeeting() {
     }
   };
 
-  const dispatch = useDispatch<AppDispatch>();
-  const { decreaseStep } = createMeetingActions;
-
   const handlePrevClick = () => {
     dispatch(decreaseStep());
+  };
+
+  const navigate = useNavigate();
+  const handleFirstPrevClick = () => {
+    navigate(PathName.main);
   };
 
   const backgroundSetter = () => {
@@ -85,7 +91,11 @@ function CreateMeeting() {
     <>
       <TextAppBar
         onClick={
-          step === CreateMeetingSteps.Fifth ? undefined : handlePrevClick
+          step === CreateMeetingSteps.First
+            ? handleFirstPrevClick
+            : step === CreateMeetingSteps.Fifth
+            ? undefined
+            : handlePrevClick
         }
         text={getAppBarText(step)}
         mainColored={step === CreateMeetingSteps.First}

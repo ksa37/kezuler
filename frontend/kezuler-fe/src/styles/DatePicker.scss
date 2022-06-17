@@ -339,7 +339,9 @@ $datepicker__triangle-size: 8px !default;
   }
 
   .react-datepicker__month {
-    margin: 0 19px 13px 19px;
+    @media (min-width: 300px) {
+      margin: 0 19px 13px 19px;
+    }
     text-align: center;
 
     .react-datepicker__month-text,
@@ -554,6 +556,16 @@ $datepicker__triangle-size: 8px !default;
         font-size: 8px;
       }
       &.react-datepicker__day--selected {
+        &::after {
+          content: '';
+        }
+      }
+      &.react-datepicker__day--highlighted {
+        &::after {
+          content: '';
+        }
+      }
+      &.react-datepicker__day--keyboard-selected {
         &::after {
           content: '';
         }

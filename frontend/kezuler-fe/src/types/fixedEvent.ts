@@ -27,8 +27,8 @@ interface FixedEvent extends BFixedEvent {
 type PPatchFixedEvent = Partial<BFixedEvent>;
 
 interface PGetFixedEvents {
-  startIndex: number;
-  endIndex: number;
+  startIndex: string;
+  endIndex: string;
 }
 
 interface RGetFixedEvents {
@@ -39,6 +39,17 @@ interface RGetFixedEvents {
   fixedEvents: BFixedEvent[];
 }
 
+//TODO: BE에 맞게 수정
+interface PPostFixedEvent {
+  pendingEventId: string;
+  eventTimeStartsAt: number;
+}
+
+//TODO: BE에 맞게 수정
+interface PPutFixedEvent {
+  participants: string;
+}
+
 export type {
   FixedUser,
   BFixedEvent,
@@ -46,4 +57,6 @@ export type {
   RGetFixedEvents,
   FixedEvent,
   PPatchFixedEvent,
+  PPostFixedEvent,
+  PPutFixedEvent,
 };

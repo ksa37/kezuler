@@ -72,6 +72,8 @@ $my-page-gap: 20px;
 
   .my-page-row-main {
     flex: 1;
+    display: flex;
+    align-items: center;
     background: none;
     background: none;
     border: none;
@@ -86,6 +88,61 @@ $my-page-gap: 20px;
 
     svg {
       margin-right: 8px;
+    }
+  }
+}
+
+.my-page-edit {
+  .my-page-edit-avatar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 56px;
+    padding-bottom: 10px;
+  }
+  .my-page-edit-avatar {
+    position: relative;
+    .my-page-edit-avatar-img {
+      width: 88px;
+      height: 88px;
+    }
+    .my-page-edit-avatar-plus-icn {
+      width: 24px;
+      height: 24px;
+      background-color: $color-main;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  .my-page-edit-textfield {
+    margin-top: 24px;
+    padding-inline: 48px;
+    input:focus {
+      outline: none;
+      border-color: $color-highlight;
+    }
+
+    .my-page-edit-textfield-title {
+      padding-left: 8px;
+      color: $color-highlight;
+      font: normal normal bold 14px/30px Arial;
+    }
+    .my-page-edit-textfield-box {
+      box-sizing: border-box;
+      min-height: 48px;
+      width: 100%;
+      padding: 16px;
+      margin-top: 8px;
+
+      border: 1px solid #bfbfbf;
+      height: 48px;
+      border-radius: 8px;
     }
   }
 }
