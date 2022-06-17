@@ -38,9 +38,10 @@ function SelectionModifier() {
 
   if (isLoaded && !isModification(eventTimeCandidates, declinedUsers)) {
     navigate(`${PathName.invite}/${eventModifyId}`);
-  } else {
-    dispatch(setAvailableTimes(getSelectedOptions(eventTimeCandidates)));
   }
+  // } else {
+  //   dispatch(setAvailableTimes(getSelectedOptions(eventTimeCandidates)));
+  // }
   // useMemo(() => {
   //   console.log('second', isModification(eventTimeCandidates, declinedUsers));
 

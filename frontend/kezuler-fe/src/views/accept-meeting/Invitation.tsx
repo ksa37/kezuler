@@ -84,7 +84,7 @@ function Invitation() {
           </div>
           <div className={'invitation-place-text'}>
             {eventPlace ? <LocIcon /> : <PCIcon />}
-            {eventZoomAddress || eventPlace}
+            {eventPlace || '온라인'}
           </div>
         </div>
       </div>
