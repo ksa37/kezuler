@@ -23,7 +23,7 @@ import BottomButton from 'src/components/common/BottomButton';
 import TextAppBar from 'src/components/common/TextAppBar';
 import ProgressBar from 'src/components/ProgressBar';
 
-import { ReactComponent as ArrowRightIcon } from 'src/assets/arrow_right.svg';
+import { ReactComponent as ArrowRightIcon } from 'src/assets/icn_right_outline.svg';
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
 

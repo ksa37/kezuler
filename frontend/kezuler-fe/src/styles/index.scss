@@ -3,11 +3,11 @@
 .App {
   height: 100vh;
   position: relative;
-
+  overflow-x: hidden;
   @media (min-width: 700px) {
     width: 414px;
     height: 767px;
-    overflow: auto;
+    overflow-y: auto;
     box-shadow: 0 3px 30px rgba($color-highlight, 0.1);
     border-radius: 10px;
     top: 50%;
@@ -158,4 +158,8 @@ $common-tab-size: 64px;
       pointer-events: none;
     }
   }
+}
+
+.circular-progress-bar {
+  color: $color-highlight;
 }
