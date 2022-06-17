@@ -5,13 +5,19 @@
   position: relative;
   overflow-x: hidden;
   @media (min-width: 700px) {
-    width: 414px;
-    height: 767px;
+    @media (min-width: 415px) {
+      width: 414px;
+    }
+    @media (min-height: 768px) {
+      height: 767px;
+    }
+    aspect-ratio: 414px/767px;
     overflow-y: auto;
-    box-shadow: 0 3px 30px rgba($color-highlight, 0.1);
-    border-radius: 10px;
+    box-shadow: 0 2px 50px rgba($color-highlight, 0.3);
+    border-radius: 40px;
     top: 50%;
     transform: translateY(-50%);
+    border: 2.5px solid rgba($color-highlight, 0.3);
   }
 }
 
