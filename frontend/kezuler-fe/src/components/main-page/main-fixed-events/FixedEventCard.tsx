@@ -113,7 +113,7 @@ function FixedEventCard({ event, hasTodayId }: Props) {
         <div>{event.eventTitle}</div>
         <div>
           <AvatarGroup max={4}>
-            {participants.map((p) => (
+            {participants?.map((p) => (
               <Avatar key={p.userId} alt={p.userId} src={p.userProfileImage} />
             ))}
           </AvatarGroup>

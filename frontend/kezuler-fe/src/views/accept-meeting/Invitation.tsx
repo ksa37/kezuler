@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
@@ -13,6 +13,7 @@ import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 import { getCookie } from 'src/utils/cookie';
+import { isModification } from 'src/utils/joinMeeting';
 
 import BottomPopper from 'src/components/common/BottomPopper';
 
@@ -22,23 +23,26 @@ import popupBgInvite from 'src/assets/popup_bg_invitation.svg';
 
 function Invitation() {
   const dispatch = useDispatch<AppDispatch>();
-  const { eventId, pendingEvent } = useSelector(
+  const { pendingEvent } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
   const {
+    eventId,
     eventHost,
     eventTitle,
     eventZoomAddress,
     eventPlace,
-    declinedUsers,
     eventTimeCandidates,
+    declinedUsers,
   } = pendingEvent;
   const { increaseStep } = acceptMeetingActions;
 
   const navigate = useNavigate();
 
+  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+
   const handleNextClick = () => {
-    if (isModification) {
+    if (isModification(eventTimeCandidates, declinedUsers)) {
       navigate(`${PathName.modify}/${eventId}`);
     } else {
       dispatch(increaseStep());
@@ -50,27 +54,6 @@ function Invitation() {
     sessionStorage.setItem(LOGIN_REDIRECT_KEY, `${PathName.invite}/${eventId}`);
   };
 
-  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
-
-  //선택 이력이 있는지 확인
-  const possibleUsersAll = eventTimeCandidates.reduce<string[]>(
-    (prev, eventTimeCandidate) => {
-      const userIds = eventTimeCandidate.possibleUsers.map((u) => u.userId);
-      return prev.concat(userIds.filter((id) => prev.indexOf(id) < 0));
-    },
-    []
-  );
-  const declinedUsersAll = declinedUsers.map(
-    (declinedUser) => declinedUser.userId
-  );
-  //TODO 서버에서 userId 가져오거나 localstorage에서 가져오기
-  const currentUserId = 'user0002';
-  const [isModification, setIsModification] = useState(
-    possibleUsersAll.includes(currentUserId) ||
-      declinedUsersAll.includes(currentUserId)
-  );
-
-  const hostName = eventHost.userName;
   const meetingTitleDescription = '미팅 제목';
   const meetingPlaceDescription = '미팅 장소';
   const timeSelectDescription = '참여 가능한 시간을 알려주세요';
@@ -81,7 +64,7 @@ function Invitation() {
     <div className={'invitation'}>
       <div className={'invitation-info'}>
         <div className={'invitation-message'}>
-          <b>{hostName}</b>
+          <b>{eventHost.userName}</b>
           {'님이 '}
           <br />
           {'미팅에 초대합니다.'}

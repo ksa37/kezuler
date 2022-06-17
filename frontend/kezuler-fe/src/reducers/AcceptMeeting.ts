@@ -112,6 +112,10 @@ export const acceptMeetingSlice = createSlice({
         (eventTimeCandidate) => eventTimeCandidate.eventStartsAt
       );
     },
+    setAvailableTimes: (state, action: PayloadAction<number[]>) => {
+      state.availableTimes = action.payload;
+      state.availableTimes = dateSort(state.availableTimes);
+    },
     addAvailableTimes: (state, action: PayloadAction<number>) => {
       state.availableTimes.push(action.payload);
       state.availableTimes = dateSort(state.availableTimes);

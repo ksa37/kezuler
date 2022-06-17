@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import {
   useDeletePendingEventGuest,
@@ -14,6 +15,7 @@ import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
 } from 'src/utils/dateParser';
+import { getSelectedOptions } from 'src/utils/joinMeeting';
 
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
@@ -25,7 +27,10 @@ import { ReactComponent as ArrowRightIcon } from 'src/assets/arrow_right.svg';
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
 
-function TimeListSelector() {
+interface Props {
+  isModification?: boolean;
+}
+function TimeListSelector({ isModification }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const { pendingEvent, availableTimes, declineReason } = useSelector(
     (state: RootState) => state.acceptMeeting
@@ -40,11 +45,18 @@ function TimeListSelector() {
 
   const putEventTimeCandidate = usePutPendingEventGuest();
   const deleteEventTimeCandidate = useDeletePendingEventGuest();
-
+  const navigate = useNavigate();
   const handlePutClick = () => {
-    console.log('put');
-    const putData: PPutPendingEvent = { addTimeCandidates: availableTimes };
-
+    const putData: PPutPendingEvent = {
+      addTimeCandidates: availableTimes.filter(
+        (time) => !selectedOptions.includes(time)
+      ),
+      removeTimeCandidates: selectedOptions.filter(
+        (time) => !availableTimes.includes(time)
+      ),
+    };
+    console.log(availableTimes, selectedOptions);
+    console.log(putData);
     if (availableTimes.length === 0) {
       if (declineReason && declineReason !== '') {
         const DeleteData: PDeletePendingEvent = {
@@ -57,10 +69,15 @@ function TimeListSelector() {
     } else {
       putEventTimeCandidate(eventId, putData);
     }
-
-    dispatch(increaseStep());
+    if (isModification) {
+      navigate(-1);
+      //TODO: main으로 가야하나..?
+    } else {
+      dispatch(increaseStep());
+    }
   };
 
+  // selectedOptions availableTimes
   const handleEventTimeClick = (eventStartsAt: Date) => {
     const dateToAdd = eventStartsAt.getTime();
     if (availableTimes.includes(dateToAdd)) {
@@ -73,6 +90,7 @@ function TimeListSelector() {
   const handleAllShowClick = () => {
     dispatch(show(pendingEvent));
   };
+
   const possibleUsersAll = eventTimeCandidates.reduce<string[]>(
     (prev, eventTimeCandidate) => {
       const userIds = eventTimeCandidate.possibleUsers.map((u) => u.userId);
@@ -80,8 +98,11 @@ function TimeListSelector() {
     },
     []
   );
+  const declinedUsersAll = declinedUsers.map(
+    (declinedUser) => declinedUser.userId
+  );
 
-  const declineNum = declinedUsers.length;
+  const selectedOptions = getSelectedOptions(eventTimeCandidates);
 
   type EventTimeListWithPossibleNum = {
     eventStartsAt: Date;
@@ -100,7 +121,6 @@ function TimeListSelector() {
     );
   }, [eventTimeCandidates]);
 
-  console.log(eventTimeListDevideByDate);
   // const isSelected = useMemo(() => availableTimes.length > 0, [availableTimes]);
 
   const [calendarPairOpened, setCalendarPairOpened] = useState(true);
@@ -146,7 +166,7 @@ function TimeListSelector() {
           >
             <CircleIcon className={'icon-circle'} />
             <ProfilesIcon className={'icon-profiles'} />
-            {`${possibleUsersAll.length + declineNum}명 참여중`}
+            {`${possibleUsersAll.length + declinedUsersAll.length}명 참여중`}
             <ArrowRightIcon />
           </div>
         </div>
@@ -198,7 +218,7 @@ function TimeListSelector() {
                           ].eventStartsAt.getTime()
                         )
                           ? eventTimeListDevideByDate[dateKey][index]
-                              .possibleNum + 1
+                              .possibleNum
                           : eventTimeListDevideByDate[dateKey][index]
                               .possibleNum
                       }

@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import { CURRENT_HOST } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
-import useDialog from 'src/hooks/useDialog';
 import useModal from 'src/hooks/useModal';
 import { BPendingEvent } from 'src/types/pendingEvent';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
@@ -21,7 +20,6 @@ interface Props {
 }
 
 function PendingEventCard({ event }: Props) {
-  const { openDialog } = useDialog();
   const { openModal } = useModal();
   const { copyText } = useCopyText();
 
@@ -45,16 +43,6 @@ function PendingEventCard({ event }: Props) {
 
   const handleConfirmClick = () => {
     navigate(`${PathName.confirm}/${eventId}`);
-    const handleConfirm = () => {
-      console.log('미팅 시간 확정!');
-    };
-
-    openDialog({
-      date: '2022년 6월 1일',
-      title: '미팅시간을 최종 확정하시겠어요?',
-      description: '확정 시, 참여자들에게\n카카오톡 메세지가 전송됩니다.',
-      onConfirm: handleConfirm,
-    });
   };
 
   const handleInviteClick = () => {

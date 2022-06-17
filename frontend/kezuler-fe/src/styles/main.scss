@@ -298,9 +298,10 @@
 }
 
 .main-floating-button-container {
-  position: fixed;
+  position: sticky;
   bottom: 0;
   right: 0;
+  text-align: right;
   padding: 24px;
 }
 

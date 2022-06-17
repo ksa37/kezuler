@@ -24,6 +24,42 @@ function AcceptMeeting() {
   const totalStepsNum = Object.keys(AcceptMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
 
+  // const possibleUsersAll = eventTimeCandidates.reduce<string[]>(
+  //   (prev, eventTimeCandidate) => {
+  //     const userIds = eventTimeCandidate.possibleUsers.map((u) => u.userId);
+  //     return prev.concat(userIds.filter((id) => prev.indexOf(id) < 0));
+  //   },
+  //   []
+  // );
+  // const declinedUsersAll = declinedUsers.map(
+  //   (declinedUser) => declinedUser.userId
+  // );
+
+  // const currentUserId = getCurrentUserInfo()?.userId;
+  // const isModification =
+  //   currentUserId &&
+  //   (possibleUsersAll.includes(currentUserId) ||
+  //     declinedUsersAll.includes(currentUserId));
+
+  // const selectedOptions = eventTimeCandidates.reduce<number[]>(
+  //   (prev, eventTimeCandidate) => {
+  //     const included =
+  //       currentUserId &&
+  //       eventTimeCandidate.possibleUsers
+  //         .map((u) => u.userId)
+  //         .includes(currentUserId);
+  //     return included ? prev.concat(eventTimeCandidate.eventStartsAt) : prev;
+  //   },
+  //   []
+  // );
+
+  // useEffect(() => {
+  //   if (isModification) {
+  //     // console.log('hello');
+  //     dispatch(setAvailableTimes(selectedOptions));
+  //   }
+  // }, []);
+
   const getComponent = (step: AcceptMeetingSteps) => {
     switch (step) {
       case AcceptMeetingSteps.First:

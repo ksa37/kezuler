@@ -5,6 +5,7 @@ import { CURRENT_HOST } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import useDialog from 'src/hooks/useDialog';
+import { useDeletePendingEventById } from 'src/hooks/usePendingEvent';
 import { modalAction } from 'src/reducers/modal';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
@@ -82,6 +83,8 @@ function OverviewModal({ event, isCanceled, isPassed }: Props) {
   const { hide } = modalAction;
   const dispatch = useDispatch();
 
+  const removePendingEvent = useDeletePendingEventById();
+
   const closeModal = useCallback(() => {
     dispatch(hide());
   }, [dispatch]);
@@ -92,8 +95,7 @@ function OverviewModal({ event, isCanceled, isPassed }: Props) {
 
   const handleDeleteClick = () => {
     const deleteMeeting = () => {
-      //TODO pendingEvent Delete 연결
-      console.log('ho');
+      removePendingEvent(eventId);
     };
 
     openDialog({
@@ -107,6 +109,7 @@ function OverviewModal({ event, isCanceled, isPassed }: Props) {
   const handleCancelClick = () => {
     const cancel = () => {
       //TODO pendingEvent Delete candidate 연결
+
       console.log('ho');
     };
 

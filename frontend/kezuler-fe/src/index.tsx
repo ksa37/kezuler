@@ -16,13 +16,15 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   // <React.StrictMode>
-  <StyledEngineProvider injectFirst>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </StyledEngineProvider>
+  <div className={'app-wrapper'}>
+    <StyledEngineProvider injectFirst>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </StyledEngineProvider>
+  </div>
   // </React.StrictMode>
 );
 

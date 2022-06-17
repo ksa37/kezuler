@@ -16,6 +16,7 @@ import {
 
 import { getInvitationById } from 'src/api/invitation';
 import {
+  deletePendingEventById,
   deletePendingEventGuestById,
   getPendingEventsById,
   postPendingEvent,
@@ -80,6 +81,21 @@ const useGetInvitation = () => {
   return getPendingEventInfo;
 };
 
+const useDeletePendingEventById = () => {
+  const removePendingEvent = (eventId: string) => {
+    deletePendingEventById(eventId)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log('미팅 삭제 에러', err);
+        window.alert('미팅 삭제 과정 중 오류가 생겼습니다');
+      });
+  };
+
+  return removePendingEvent;
+};
+
 const usePostPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -105,8 +121,6 @@ const usePostPendingEvent = () => {
 
 const usePutPendingEventGuest = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const { increaseStep } = acceptMeetingActions;
 
   const putEventTimeCandidate = (
     eventId: string,
@@ -127,9 +141,6 @@ const usePutPendingEventGuest = () => {
 };
 
 const useDeletePendingEventGuest = () => {
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch<AppDispatch>();
-  // const { increaseStep } = acceptMeetingActions;
   //TODO
   const deleteEventTimeCandidate = (
     eventId: string,
@@ -157,6 +168,7 @@ const useDeletePendingEventGuest = () => {
 export {
   useGetPendingEvent,
   usePostPendingEvent,
+  useDeletePendingEventById,
   usePutPendingEventGuest,
   useDeletePendingEventGuest,
   useGetInvitation,
