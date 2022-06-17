@@ -30,7 +30,6 @@ function Invitation() {
     eventId,
     eventHost,
     eventTitle,
-    eventZoomAddress,
     eventPlace,
     eventTimeCandidates,
     declinedUsers,
@@ -69,12 +68,13 @@ function Invitation() {
           <br />
           {'미팅에 초대합니다.'}
         </div>
-        <img
-          className={'invitation-avatar'}
-          alt=""
-          src={eventHost.userProfileImage}
-        />
+
         <div className={'invitation-card'}>
+          <img
+            className={'invitation-avatar'}
+            alt=""
+            src={eventHost.userProfileImage}
+          />
           <div className={'invitation-title-place'}>
             {meetingTitleDescription}
           </div>
@@ -82,9 +82,11 @@ function Invitation() {
           <div className={classNames('invitation-title-place', 'place')}>
             {meetingPlaceDescription}
           </div>
-          <div className={'invitation-place-text'}>
+          <div className={'invitation-place'}>
             {eventPlace ? <LocIcon /> : <PCIcon />}
-            {eventPlace || '온라인'}
+            <div className={'invitation-place-text'}>
+              {eventPlace || '온라인'}
+            </div>
           </div>
         </div>
       </div>
@@ -94,6 +96,8 @@ function Invitation() {
           buttonText={isLoggedIn ? loginButtonText : unloginButtonText}
           onClick={isLoggedIn ? handleNextClick : handleConnectClick}
           image={popupBgInvite}
+          isSmallTitle
+          disableDelete
         />
       </div>
     </div>

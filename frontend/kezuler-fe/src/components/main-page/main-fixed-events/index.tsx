@@ -76,10 +76,12 @@ function MainFixedEvents() {
         </h2>
         <MainButtonContainer />
         <BottomPopper
-          title={'미팅 생성까지 단 3분!'}
+          title={'단 하나의 링크로 미팅 확정까지!'}
+          description={'시간 조율하느라 허비되는 시간 NO!'}
           buttonText={'첫 미팅 만들러가기'}
           onClick={handleCreateClick}
           image={''}
+          reverseOrder
         />
       </div>
     );

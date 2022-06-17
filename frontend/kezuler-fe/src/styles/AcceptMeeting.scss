@@ -6,7 +6,7 @@
   color: $color-highlight;
   font-size: 24px;
   text-align: left;
-  margin: 68px 40% 0 40px;
+  margin: 68px 0 0 40px;
 }
 
 .invitation-avatar {
@@ -14,12 +14,15 @@
   border: 1px solid #ffff;
   width: 54px;
   height: 54px;
+
   position: absolute;
-  right: 56px;
-  margin-top: -12px;
+  top: -34px;
+  right: 24px;
+  // margin-top: -12px;
 }
 
 .invitation-card {
+  position: relative;
   padding: 20px;
   text-align: left;
   background: #ffffff 0% 0% no-repeat padding-box;
@@ -28,6 +31,9 @@
   margin-top: 24px;
   margin-inline: 32px;
 
+  @media (max-width: 340px) {
+    margin-top: 40px;
+  }
   .invitation-title-place {
     font-size: 14px;
     line-height: 17px;
@@ -44,11 +50,17 @@
     font-weight: bold;
   }
 
-  .invitation-place-text {
+  .invitation-place {
     margin-top: 8px;
     font-size: 16px;
     line-height: 19px;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+
+    .invitation-place-text {
+      padding-left: 6px;
+    }
   }
 }
 

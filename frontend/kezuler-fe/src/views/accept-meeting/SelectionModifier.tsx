@@ -17,7 +17,7 @@ import 'src/styles/common/TimeLineGrid.scss';
 function SelectionModifier() {
   const dispatch = useDispatch<AppDispatch>();
   const { setAvailableTimes } = acceptMeetingActions;
-  const { pendingEvent } = useSelector(
+  const { pendingEvent, isLoaded } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
   const { declinedUsers, eventTimeCandidates } = pendingEvent;
@@ -28,26 +28,20 @@ function SelectionModifier() {
 
   const { eventModifyId } = useParams();
 
-  const [isLoaded, setIsLoaded] = useState(false);
-
   useEffect(() => {
     if (eventModifyId) {
       getPendingEventInfo(eventModifyId);
-      setIsLoaded(true);
     }
     console.log('first', isModification(eventTimeCandidates, declinedUsers));
   }, [eventModifyId]);
 
-  if (isLoaded && !isModification(eventTimeCandidates, declinedUsers)) {
-    navigate(`${PathName.invite}/${eventModifyId}`);
-  }
-  // } else {
-  //   dispatch(setAvailableTimes(getSelectedOptions(eventTimeCandidates)));
-  // }
-  // useMemo(() => {
-  //   console.log('second', isModification(eventTimeCandidates, declinedUsers));
-
-  // }, [isLoaded]);
+  useEffect(() => {
+    if (isLoaded && !isModification(eventTimeCandidates, declinedUsers)) {
+      navigate(`${PathName.invite}/${eventModifyId}`);
+    } else if (isLoaded && isModification(eventTimeCandidates, declinedUsers)) {
+      dispatch(setAvailableTimes(getSelectedOptions(eventTimeCandidates)));
+    }
+  }, [isLoaded]);
 
   const handlePrevClick = () => {
     navigate(-1);

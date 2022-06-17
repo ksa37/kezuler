@@ -64,12 +64,14 @@ const useGetPendingEvent = () => {
 const useGetInvitation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const setIsLoaded = acceptMeetingActions.setIsLoaded;
   const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
 
   const getPendingEventInfo = (eventId: string) => {
     getInvitationById(eventId)
       .then((res) => {
         dispatch(setAcceptPendingEvent(res.data));
+        dispatch(setIsLoaded(true));
       })
       .catch((err) => {
         console.log('미팅 수락 에러', err);
