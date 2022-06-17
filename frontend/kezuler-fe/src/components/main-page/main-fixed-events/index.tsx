@@ -46,25 +46,27 @@ function MainFixedEvents() {
   // 다가오는 이벤트가 없다면 제일 가까운 지나간 이벤트
   const todayIdTargetIdx = useMemo(() => {
     let target = -1;
-    for (let i = events.length - 1; i >= 0; i--) {
-      const date = new Date(events[i].eventTimeStartsAt);
-      const interval = getIntervalFromToday(date);
-      if (interval > 0) {
-        if (target === -1) {
-          target = i;
+    if (events) {
+      for (let i = events.length - 1; i >= 0; i--) {
+        const date = new Date(events[i].eventTimeStartsAt);
+        const interval = getIntervalFromToday(date);
+        if (interval > 0) {
+          if (target === -1) {
+            target = i;
+          }
+          break;
         }
-        break;
+        target = i;
       }
-      target = i;
+      return target;
     }
-    return target;
   }, [events]);
 
   if (!isFetched) {
     return null;
   }
   console.log(events);
-  if (!events.length) {
+  if (!events) {
     return (
       <div id={FIXED_TODAY_ID} className={'main-fixed'}>
         <h1 className={'main-fixed-month-divider'}>

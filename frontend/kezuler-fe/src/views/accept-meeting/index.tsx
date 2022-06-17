@@ -89,6 +89,7 @@ function AcceptMeeting() {
   const { eventId } = useParams();
 
   const getPendingEventInfo = useGetInvitation();
+
   useMemo(() => {
     if (eventId) {
       getPendingEventInfo(eventId);
