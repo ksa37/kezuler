@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';
+import PathName from 'src/constants/PathName';
 import { RootState } from 'src/reducers';
 import { getFixedEventsThunk } from 'src/reducers/mainFixed';
 import { AppDispatch } from 'src/store';
@@ -36,8 +38,10 @@ function MainFixedEvents() {
     getFixedEvents();
   }, []);
 
+  const navigate = useNavigate();
+
   const handleCreateClick = () => {
-    console.log('create');
+    navigate(PathName.create);
   };
 
   // 오늘 버튼의 기준이 될 event id 를 찾는 useMemo
