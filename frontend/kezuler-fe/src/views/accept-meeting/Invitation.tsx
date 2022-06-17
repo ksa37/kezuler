@@ -19,6 +19,7 @@ import BottomPopper from 'src/components/common/BottomPopper';
 
 import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
 import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
+import KakaoIcon from 'src/assets/img_kakao.svg';
 import popupBgInvite from 'src/assets/popup_bg_invitation.svg';
 
 function Invitation() {
@@ -98,6 +99,13 @@ function Invitation() {
           image={popupBgInvite}
           isSmallTitle
           disableDelete
+          btnStartIcon={
+            !isLoggedIn ? (
+              <img src={KakaoIcon} alt="1" className={'login-kakao-icn'} />
+            ) : (
+              <></>
+            )
+          }
         />
       </div>
     </div>

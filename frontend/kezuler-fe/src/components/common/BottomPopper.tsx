@@ -14,6 +14,7 @@ interface Props {
   isSmallTitle?: boolean;
   disableDelete?: boolean;
   reverseOrder?: boolean;
+  btnStartIcon?: React.ReactElement;
 }
 
 // 버튼이 있는, 화면 하단부에 나타는 팝업
@@ -26,6 +27,7 @@ function BottomPopper({
   isSmallTitle,
   disableDelete = false,
   reverseOrder = false,
+  btnStartIcon,
 }: Props) {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -79,7 +81,10 @@ function BottomPopper({
           <h2>{description}</h2>
         </>
       )}
-      <button onClick={onClick}>{buttonText}</button>
+      <button onClick={onClick}>
+        {btnStartIcon}
+        {buttonText}
+      </button>
     </div>
   );
 }

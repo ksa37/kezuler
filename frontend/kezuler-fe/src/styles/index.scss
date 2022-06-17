@@ -77,9 +77,9 @@ $app-bar-height: 72px;
         background: $color-main;
       }
 
-      &:first-child {
-        margin-right: 20px;
-      }
+      // &:first-child {
+      //   margin-right: 20px;
+      // }
     }
   }
 }
@@ -177,4 +177,8 @@ $common-tab-size: 64px;
   .circular-progress-bar {
     color: $color-highlight;
   }
+}
+
+.login-kakao-icn {
+  padding-right: 12px;
 }
