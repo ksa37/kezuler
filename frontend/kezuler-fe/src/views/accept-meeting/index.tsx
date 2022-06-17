@@ -15,6 +15,7 @@ import TextAppBar from 'src/components/common/TextAppBar';
 import ProgressBar from 'src/components/ProgressBar';
 
 import 'src/styles/AcceptMeeting.scss';
+import 'src/styles/common/TimeLineGrid.scss';
 
 function AcceptMeeting() {
   const dispatch = useDispatch<AppDispatch>();

@@ -18,8 +18,7 @@ function KakaoRedirect() {
   }, [code]);
 
   return (
-    <div>
-      {' '}
+    <div className={'circular-progress-bar-wrapper'}>
       <CircularProgress classes={{ root: 'circular-progress-bar' }} />
     </div>
   );

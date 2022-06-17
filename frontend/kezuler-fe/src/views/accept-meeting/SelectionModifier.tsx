@@ -12,6 +12,8 @@ import { getSelectedOptions, isModification } from 'src/utils/joinMeeting';
 import TimeListSelector from './TimeListSelector';
 import TextAppBar from 'src/components/common/TextAppBar';
 
+import 'src/styles/common/TimeLineGrid.scss';
+
 function SelectionModifier() {
   const dispatch = useDispatch<AppDispatch>();
   const { setAvailableTimes } = acceptMeetingActions;

@@ -165,6 +165,12 @@ $common-tab-size: 64px;
   }
 }
 
-.circular-progress-bar {
-  color: $color-highlight;
+.circular-progress-bar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  .circular-progress-bar {
+    color: $color-highlight;
+  }
 }

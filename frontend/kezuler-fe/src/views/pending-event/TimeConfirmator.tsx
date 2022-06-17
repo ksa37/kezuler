@@ -26,6 +26,7 @@ import ProgressBar from 'src/components/ProgressBar';
 import { ReactComponent as ArrowRightIcon } from 'src/assets/icn_right_outline.svg';
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
+import 'src/styles/common/TimeLineGrid.scss';
 
 function TimeConfirmator() {
   const dispatch = useDispatch<AppDispatch>();
