@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { format } from 'date-fns';
 
 import { ConfirmMeetingSteps } from 'src/constants/Steps';
 import useDialog from 'src/hooks/useDialog';
@@ -65,14 +66,19 @@ function TimeConfirmator() {
       dispatch(increaseStep());
     };
 
+    const selectedDateText = format(new Date(selectedTime), 'yyyy년 M월 d일');
+    const selectedTimeText = getTimeRange(
+      new Date(selectedTime),
+      eventTimeDuration
+    );
+
     openDialog({
-      date: '2022년 6월 1일',
+      date: `${selectedDateText}`,
+      timeRange: `${selectedTimeText}`,
       title: '미팅시간을 최종 확정하시겠어요?',
       description: '확정 시, 참여자들에게\n카카오톡 메세지가 전송됩니다.',
       onConfirm: handleConfirm,
     });
-
-    // console.log('post!');
   };
 
   const handlePrevClick = () => {
