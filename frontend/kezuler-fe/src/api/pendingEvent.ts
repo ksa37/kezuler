@@ -36,7 +36,7 @@ const putPendingEventGuestById = (
 
 const deletePendingEventGuestById = (
   eventId: string,
-  ppendingEvent: PDeletePendingEvent
+  ppendingEvent?: PDeletePendingEvent
 ) => {
   const config = {
     data: ppendingEvent,

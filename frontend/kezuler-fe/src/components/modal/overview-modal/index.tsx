@@ -1,8 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { CURRENT_HOST } from 'src/constants/Auth';
+import PathName from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import useDialog from 'src/hooks/useDialog';
+import { useDeletePendingEventById } from 'src/hooks/usePendingEvent';
 import { modalAction } from 'src/reducers/modal';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
@@ -33,6 +36,7 @@ interface Props {
 
 function OverviewModal({ event, isCanceled, isPassed }: Props) {
   const {
+    eventId,
     eventTitle,
     eventDescription,
     eventAttachment,
@@ -79,17 +83,20 @@ function OverviewModal({ event, isCanceled, isPassed }: Props) {
   const { hide } = modalAction;
   const dispatch = useDispatch();
 
+  const removePendingEvent = useDeletePendingEventById();
+
   const closeModal = useCallback(() => {
     dispatch(hide());
   }, [dispatch]);
 
   const handleModifyClick = () => {
+    //TODO: 미팅수정하기
     console.log('ho');
   };
 
   const handleDeleteClick = () => {
     const deleteMeeting = () => {
-      console.log('ho');
+      removePendingEvent(eventId);
     };
 
     openDialog({
@@ -102,6 +109,8 @@ function OverviewModal({ event, isCanceled, isPassed }: Props) {
 
   const handleCancelClick = () => {
     const cancel = () => {
+      //TODO pendingEvent Delete candidate 연결
+
       console.log('ho');
     };
 
@@ -112,7 +121,7 @@ function OverviewModal({ event, isCanceled, isPassed }: Props) {
   };
 
   const handleCopyLinkClick = () => {
-    copyText('hello', '케줄러 링크가');
+    copyText(`${CURRENT_HOST}${PathName.invite}/${eventId}`, '케줄러 링크가');
   };
 
   const handleCopyPlaceClick = () => {
