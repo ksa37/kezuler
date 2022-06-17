@@ -1,8 +1,12 @@
 import React, { useMemo } from 'react';
+// import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import classNames from 'classnames';
 
-import useDialog from 'src/hooks/useDialog';
+import { CURRENT_HOST } from 'src/constants/Auth';
+import PathName from 'src/constants/PathName';
+import useCopyText from 'src/hooks/useCopyText';
 import useModal from 'src/hooks/useModal';
 import { BPendingEvent } from 'src/types/pendingEvent';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
@@ -16,8 +20,8 @@ interface Props {
 }
 
 function PendingEventCard({ event }: Props) {
-  const { openDialog } = useDialog();
   const { openModal } = useModal();
+  const { copyText } = useCopyText();
 
   const {
     eventId,
@@ -27,8 +31,10 @@ function PendingEventCard({ event }: Props) {
     eventTimeCandidates,
   } = event;
 
+  const navigate = useNavigate();
+
   const handleChangeTime = () => {
-    console.log('change time');
+    navigate(`${PathName.modify}/${eventId}`);
   };
 
   const handleInfoClick = () => {
@@ -36,20 +42,11 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleConfirmClick = () => {
-    const handleConfirm = () => {
-      console.log('미팅 시간 확정!');
-    };
-
-    openDialog({
-      date: '2022년 6월 1일',
-      title: '미팅시간을 최종 확정하시겠어요?',
-      description: '확정 시, 참여자들에게\n카카오톡 메세지가 전송됩니다.',
-      onConfirm: handleConfirm,
-    });
+    navigate(`${PathName.confirm}/${eventId}`);
   };
 
   const handleInviteClick = () => {
-    console.log('invite click');
+    copyText(`${CURRENT_HOST}${PathName.invite}/${eventId}`, '케줄러 링크가');
   };
 
   const isHost = useMemo(

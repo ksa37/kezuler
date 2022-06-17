@@ -149,17 +149,17 @@ const isoStringToDateString = (isoString: string) => {
   return date + ' ' + time;
 };
 
-const getEventTimeCandidatesFromDateStrings = (eventTimeList: string[]) => {
-  const eventTimeCandidates: EventTimeCandidate[] = eventTimeList.map(
-    (dateStr) => {
-      return {
-        eventStartsAt: isoStringToDateString(dateStr),
-        possibleUsers: [],
-      };
-    }
-  );
-  return eventTimeCandidates;
-};
+// const getEventTimeCandidatesFromDateStrings = (eventTimeList: string[]) => {
+//   const eventTimeCandidates: EventTimeCandidate[] = eventTimeList.map(
+//     (dateStr) => {
+//       return {
+//         eventStartsAt: isoStringToDateString(dateStr),
+//         possibleUsers: [],
+//       };
+//     }
+//   );
+//   return eventTimeCandidates;
+// };
 
 // 같은 날짜인지 체크
 const isSameDate = (a: Date, b: Date) =>
@@ -180,7 +180,7 @@ export {
   getTimeListDevideByDate,
   getTimeListDevideByDateWithPossibleNum,
   getTimeListDivideByDateWithPossibleUsers,
-  getEventTimeCandidatesFromDateStrings,
+  // getEventTimeCandidatesFromDateStrings,
   isoStringToDateString,
   isSameDate,
 };

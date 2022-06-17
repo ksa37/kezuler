@@ -36,7 +36,7 @@ interface AcceptMeetingState {
   userName?: string;
   isDecline: boolean;
   declineReason: null | string;
-  availableTimes: string[];
+  availableTimes: number[];
 }
 
 const initialPendingEvent: PendingEvent = {
@@ -71,8 +71,7 @@ const initialState: AcceptMeetingState = {
   availableTimes: [],
 };
 
-const dateSort = (dateArr: string[]) =>
-  dateArr.sort((a, b) => new Date(a).valueOf() - new Date(b).valueOf());
+const dateSort = (dateArr: number[]) => dateArr.sort((a, b) => a - b);
 
 export const acceptMeetingSlice = createSlice({
   name: 'accept-meeting',
@@ -110,15 +109,18 @@ export const acceptMeetingSlice = createSlice({
     },
     setAllAvailableTimes: (state) => {
       state.availableTimes = state.pendingEvent.eventTimeCandidates.map(
-        (eventTimeCandidate) =>
-          new Date(eventTimeCandidate.eventStartsAt).toISOString()
+        (eventTimeCandidate) => eventTimeCandidate.eventStartsAt
       );
     },
-    addAvailableTimes: (state, action: PayloadAction<string>) => {
+    setAvailableTimes: (state, action: PayloadAction<number[]>) => {
+      state.availableTimes = action.payload;
+      state.availableTimes = dateSort(state.availableTimes);
+    },
+    addAvailableTimes: (state, action: PayloadAction<number>) => {
       state.availableTimes.push(action.payload);
       state.availableTimes = dateSort(state.availableTimes);
     },
-    deleteAvailableTimes: (state, action: PayloadAction<string>) => {
+    deleteAvailableTimes: (state, action: PayloadAction<number>) => {
       const index = state.availableTimes.indexOf(action.payload);
       if (index !== -1) {
         state.availableTimes.splice(index, 1);

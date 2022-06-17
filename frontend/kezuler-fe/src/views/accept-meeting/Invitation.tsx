@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import {
@@ -12,21 +13,40 @@ import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 import { getCookie } from 'src/utils/cookie';
+import { isModification } from 'src/utils/joinMeeting';
 
 import BottomPopper from 'src/components/common/BottomPopper';
 
+import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
+import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
 import popupBgInvite from 'src/assets/popup_bg_invitation.svg';
 
 function Invitation() {
   const dispatch = useDispatch<AppDispatch>();
-  const { eventId, pendingEvent } = useSelector(
+  const { pendingEvent } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
-  const { eventHost, eventTitle, eventZoomAddress, eventPlace } = pendingEvent;
+  const {
+    eventId,
+    eventHost,
+    eventTitle,
+    eventZoomAddress,
+    eventPlace,
+    eventTimeCandidates,
+    declinedUsers,
+  } = pendingEvent;
   const { increaseStep } = acceptMeetingActions;
 
+  const navigate = useNavigate();
+
+  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+
   const handleNextClick = () => {
-    dispatch(increaseStep());
+    if (isModification(eventTimeCandidates, declinedUsers)) {
+      navigate(`${PathName.modify}/${eventId}`);
+    } else {
+      dispatch(increaseStep());
+    }
   };
 
   const handleConnectClick = () => {
@@ -34,9 +54,6 @@ function Invitation() {
     sessionStorage.setItem(LOGIN_REDIRECT_KEY, `${PathName.invite}/${eventId}`);
   };
 
-  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
-
-  const hostName = eventHost.userName;
   const meetingTitleDescription = '미팅 제목';
   const meetingPlaceDescription = '미팅 장소';
   const timeSelectDescription = '참여 가능한 시간을 알려주세요';
@@ -47,7 +64,7 @@ function Invitation() {
     <div className={'invitation'}>
       <div className={'invitation-info'}>
         <div className={'invitation-message'}>
-          <b>{hostName}</b>
+          <b>{eventHost.userName}</b>
           {'님이 '}
           <br />
           {'미팅에 초대합니다.'}
@@ -66,7 +83,8 @@ function Invitation() {
             {meetingPlaceDescription}
           </div>
           <div className={'invitation-place-text'}>
-            {eventZoomAddress || eventPlace}
+            {eventPlace ? <LocIcon /> : <PCIcon />}
+            {eventPlace || '온라인'}
           </div>
         </div>
       </div>

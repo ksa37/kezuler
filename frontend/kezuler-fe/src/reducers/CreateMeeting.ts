@@ -8,7 +8,7 @@ interface CreateMeetingState extends PPostPendingEvent {
   step: CreateMeetingSteps;
   shareUrl: string;
   isOnline: null | boolean;
-  eventTimeList: string[];
+  eventTimeList: number[];
 }
 
 const initialState: CreateMeetingState = {
@@ -25,8 +25,7 @@ const initialState: CreateMeetingState = {
   eventAttachment: '',
 };
 
-const dateSort = (dateArr: string[]) =>
-  dateArr.sort((a, b) => new Date(a).valueOf() - new Date(b).valueOf());
+const dateSort = (dateArr: number[]) => dateArr.sort((a, b) => a - b);
 
 export const createMeetingSlice = createSlice({
   name: 'create-meeting',
@@ -47,27 +46,21 @@ export const createMeetingSlice = createSlice({
     setIsOnline: (state, action: PayloadAction<boolean>) => {
       state.isOnline = action.payload;
     },
-    // setUserID: (state, action: PayloadAction<string>) => {
-    //   state.userId = action.payload;
-    // },
-    // setEventID: (state, action: PayloadAction<string>) => {
-    //   state.eventId = action.payload;
-    // },
     seteventTimeDuration: (state, action: PayloadAction<number>) => {
       state.eventTimeDuration = action.payload;
     },
-    addTimeList: (state, action: PayloadAction<string>) => {
+    addTimeList: (state, action: PayloadAction<number>) => {
       state.eventTimeList.push(action.payload);
       state.eventTimeList = dateSort(state.eventTimeList);
     },
-    deleteTimeList: (state, action: PayloadAction<string>) => {
+    deleteTimeList: (state, action: PayloadAction<number>) => {
       const index = state.eventTimeList.indexOf(action.payload);
       if (index !== -1) {
         state.eventTimeList.splice(index, 1);
       }
       state.eventTimeList = dateSort(state.eventTimeList);
     },
-    setEventTimeCandidates: (state, action: PayloadAction<string[]>) => {
+    setEventTimeCandidates: (state, action: PayloadAction<number[]>) => {
       state.eventTimeCandidates = action.payload;
     },
     setTitle: (state, action: PayloadAction<string>) => {

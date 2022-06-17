@@ -4,13 +4,80 @@ import { Avatar } from '@mui/material';
 
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { BFixedEvent } from 'src/types/fixedEvent';
+import { BPendingEvent } from 'src/types/pendingEvent';
+import { isFixedEvent } from 'src/utils/typeGuard';
 
 interface Props {
   event: BFixedEvent;
 }
 
 function OverviewParticipants({ event }: Props) {
-  const { participants, eventHost } = event;
+  const { eventHost } = event;
+  let { participants } = event;
+  participants = [
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+  ];
+
+  // const { participants, eventHost } = event;
   const { show } = participantsPopupAction;
   const dispatch = useDispatch();
   const { userName: hostName, userProfileImage: hostProfileImage } = eventHost;
@@ -19,12 +86,12 @@ function OverviewParticipants({ event }: Props) {
     dispatch(show(event));
   };
 
-  const MAX_PREVIEW_NUM = 4;
+  const MAX_PREVIEW_NUM = 5;
 
-  const etcParticipantsNum = useMemo(
-    () => participants.length - MAX_PREVIEW_NUM,
-    [participants]
-  );
+  const etcParticipantsNum = useMemo(() => {
+    console.log(participants.length, participants.length - MAX_PREVIEW_NUM - 1);
+    return participants.length - MAX_PREVIEW_NUM + 1;
+  }, [participants]);
 
   return (
     <table className={'overview-participants-table'}>
@@ -51,23 +118,45 @@ function OverviewParticipants({ event }: Props) {
               <div>{hostName}</div>
             </div>
           </td>
-          <td>
-            {participants.slice(0, MAX_PREVIEW_NUM + 1).map((p) => (
-              <div key={p.userId} className={'participant-avatar-container'}>
+          <td colSpan={2}>
+            {participants
+              .slice(
+                0,
+                participants.length > MAX_PREVIEW_NUM
+                  ? MAX_PREVIEW_NUM - 1
+                  : MAX_PREVIEW_NUM
+              )
+              .map((p) => (
+                <div key={p.userId} className={'participant-avatar-container'}>
+                  <Avatar
+                    className={'participant-avatar'}
+                    alt={p.userName}
+                    src={p.userProfileImage}
+                  />
+                  <div>{p.userName}</div>
+                </div>
+              ))}
+            {etcParticipantsNum > 0 && (
+              <div className={'participant-avatar-container'}>
                 <Avatar
                   className={'participant-avatar'}
-                  alt={p.userName}
-                  src={p.userProfileImage}
-                />
-                <div>{p.userName}</div>
+                  alt={`+${etcParticipantsNum}`}
+                >
+                  {`+${etcParticipantsNum}`}
+                </Avatar>
               </div>
-            ))}
-          </td>
-          <td>
-            {etcParticipantsNum > 0 && (
-              <Avatar>{`+${etcParticipantsNum}`}</Avatar>
             )}
           </td>
+          {/* <td> */}
+          {/* {etcParticipantsNum > 0 && (
+              <Avatar
+                className={'participant-avatar'}
+                alt={`+${etcParticipantsNum}`}
+              >
+                {`+${etcParticipantsNum}`}
+              </Avatar>
+            )} */}
+          {/* </td> */}
         </tr>
       </tbody>
     </table>

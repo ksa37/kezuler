@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import classNames from 'classnames';
-import { format } from 'date-fns';
+import { format, isBefore } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 import TimeOptions from '../../constants/TimeOptions';
@@ -12,8 +12,8 @@ import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { AppDispatch } from '../../store';
 
-import CalendarView from '../../components/CalendarView';
 import BottomButton from '../../components/common/BottomButton';
+import CalendarView from '../../components/create-meeting/CalendarView';
 import KezulerDropdown from 'src/components/common/KezulerDropdown';
 import CalendarPopup from 'src/components/create-meeting/CalendarPopup';
 import ScheduleList from 'src/components/create-meeting/ScheduleList';
@@ -60,10 +60,10 @@ function CalendarTimeSelector() {
         startDate.getDate(),
         Number(timeOption.split(':')[0]),
         Number(timeOption.split(':')[1])
-      ).toISOString();
+      ).getTime();
     } else {
       console.log('Warning: date is null!');
-      return new Date().toISOString();
+      return new Date().getTime();
     }
   };
 
@@ -84,6 +84,10 @@ function CalendarTimeSelector() {
     } else {
       console.log('Warning: date is null!');
     }
+  };
+
+  const handleDisChipClick = () => {
+    window.alert('지난 시간은 클릭하실 수 없습니다!');
   };
 
   const handleNextClick = () => {
@@ -136,17 +140,40 @@ function CalendarTimeSelector() {
         const nowMinute = Number(format(today, 'mm'));
         let setHour = nowHour;
         let setMinute = '00';
+        // let removeBefore = ''.concat(
+        //   String(setHour === 0 ? 0 : setHour - 1),
+        //   ':',
+        //   '30'
+        // );
 
         if (nowMinute > 0 && nowMinute <= 30) {
           setMinute = '30';
+          // removeBefore = ''.concat(String(nowHour), ':', '00');
         } else if (nowMinute > 30 && nowMinute < 60) {
           setMinute = '00';
           setHour = nowHour + 1;
+          // removeBefore = ''.concat(String(nowHour), ':', '30');
         }
 
-        focusChip = document.getElementById(
-          ''.concat(String(setHour), ':', setMinute)
-        );
+        const timeToFocus = ''.concat(String(setHour), ':', setMinute);
+        focusChip = document.getElementById(timeToFocus);
+
+        //Delete unavailable options
+        // console.log(timeToFocus, removeBefore);
+        // if (timeToFocus !== '00:00') {
+        //   const removeEndIdx = TimeOptions.findIndex(
+        //     (option) => option === removeBefore
+        //   );
+
+        //   for (let i = removeEndIdx; i >= 0; i--) {
+        //     const element = document.getElementById(TimeOptions[i]);
+        //     if (element) {
+        //       // element.removeAttribute('onClick');
+        //       element.onclick = handleDisChipClick;
+        //     }
+        //     // element?.disabled = true;
+        //   }
+        // }
       }
     }
 
@@ -162,7 +189,7 @@ function CalendarTimeSelector() {
   }, [startDate]);
 
   return (
-    <div>
+    <div className={'padding-wrapper'}>
       <div className={'duration-selector-margin'} />
       <div className={'duration-selector'}>
         <ClockOrangeIcon className={'icn-clock-o20'} />
@@ -195,20 +222,21 @@ function CalendarTimeSelector() {
         <b>{'미팅시작 시각'}</b>
         {'을 선택하세요'}
       </div>
-      <Stack
-        direction="row"
-        spacing={'6px'}
-        style={{ overflow: 'auto' }}
-        sx={{ marginInline: '12px' }}
-        className={'time-chips-stack'}
-      >
+      <Stack direction="row" spacing={'6px'} className={'time-chips-stack'}>
         {TimeOptions.map((timeOption) =>
           eventTimeList.includes(createDate(timeOption)) ? (
             <div
               key={timeOption}
               id={timeOption}
               className={classNames('time-chips', 'filled')}
-              onClick={() => handleChipClick(timeOption)}
+              onClick={
+                isBefore(
+                  startDate ? startDate.getTime() : 0,
+                  createDate(timeOption)
+                )
+                  ? () => handleChipClick(timeOption)
+                  : handleDisChipClick
+              }
             >
               <div className={'text'}>{timeOption}</div>
             </div>
@@ -217,7 +245,14 @@ function CalendarTimeSelector() {
               key={timeOption}
               id={timeOption}
               className={classNames('time-chips', 'blank')}
-              onClick={() => handleChipClick(timeOption)}
+              onClick={
+                isBefore(
+                  startDate ? startDate.getTime() : 0,
+                  createDate(timeOption)
+                )
+                  ? () => handleChipClick(timeOption)
+                  : handleDisChipClick
+              }
             >
               <div className={'text'}>{timeOption}</div>
             </div>

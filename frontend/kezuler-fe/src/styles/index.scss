@@ -3,13 +3,33 @@
 .App {
   height: 100vh;
   position: relative;
+
+  @media (min-width: 700px) {
+    width: 414px;
+    height: 767px;
+    overflow: auto;
+    box-shadow: 0 3px 30px rgba($color-highlight, 0.1);
+    border-radius: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 
+.app-wrapper {
+  @media (min-width: 700px) {
+    display: flex;
+    background-color: #ffffff;
+    height: 100vh;
+    padding-right: 20%;
+    justify-content: end;
+  }
+}
 $app-bar-height: 72px;
 
 .common-app-bar {
   width: 100%;
   position: fixed;
+  // position: sticky;
   top: 0;
   right: 0;
   z-index: 1100;
@@ -72,12 +92,6 @@ main {
   background: $color-background;
   display: flex;
   flex-direction: column;
-  // .create-meeting-page.calendar-selector {
-  //   &.background-color: $color-main;
-  // }
-  // .create-meeting-page.place-info {
-  //   background-color: $color-main;
-  // }
 }
 
 textarea {

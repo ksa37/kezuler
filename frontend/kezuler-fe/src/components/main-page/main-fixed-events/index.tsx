@@ -22,7 +22,8 @@ const useMainFixed = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const getFixedEvents = useCallback(() => {
-    return dispatch(getFixedEventsThunk({ startIndex: 0, endIndex: 10 }));
+    //TODO index 설정
+    return dispatch(getFixedEventsThunk({ startIndex: '0', endIndex: '10' }));
   }, [dispatch]);
 
   return { getFixedEvents, events, isFetched };
@@ -62,7 +63,7 @@ function MainFixedEvents() {
   if (!isFetched) {
     return null;
   }
-
+  console.log(events);
   if (!events.length) {
     return (
       <div id={FIXED_TODAY_ID} className={'main-fixed'}>

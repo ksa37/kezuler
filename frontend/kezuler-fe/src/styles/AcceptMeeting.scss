@@ -89,7 +89,7 @@
   color: $color-highlight;
   text-align: left;
   font: normal normal bold 24px/36px Pretendard;
-  margin: 32px 40% 0 20px;
+  margin: 32px 0 0 20px;
 }
 
 .time-list-selector-personnel {
@@ -128,6 +128,7 @@
   margin-inline: 20px;
   flex: 1;
   position: relative;
+  padding-bottom: 100px;
 }
 .time-line-line {
   content: '';
@@ -210,7 +211,7 @@
 
     &.selected {
       background-color: $color-main;
-      border: 0.5px solid $color-highlight;
+      border: 1px solid $color-highlight;
     }
 
     font: normal normal normal 14px/18px Pretendard;
@@ -218,10 +219,10 @@
     .option-time-range {
       flex: 1;
     }
-    .profile-icon {
-    }
-    .possible-num {
-    }
+    // .profile-icon {
+    // }
+    // .possible-num {
+    // }
   }
   .check-box-icon {
     width: 20px;
