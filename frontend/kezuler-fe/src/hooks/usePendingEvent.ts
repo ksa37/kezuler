@@ -151,16 +151,6 @@ const useDeletePendingEventGuest = () => {
     } else {
       deletePendingEventGuestById(eventId);
     }
-
-    // .then((res) => {
-    //   console.log(res.data);
-    //   dispatch(increaseStep());
-    // })
-    // .catch((err) => {
-    //   console.log('미팅 수락/수정 에러', err);
-    //   window.alert('미팅 수락/수정 과정 중 오류가 생겼습니다');
-    //   navigate(`${PathName.invite}/${eventId}`, { replace: true });
-    // });
   };
   return deleteEventTimeCandidate;
 };

@@ -90,6 +90,7 @@ function OverviewModal({ event, isCanceled, isPassed }: Props) {
   }, [dispatch]);
 
   const handleModifyClick = () => {
+    //TODO: 미팅수정하기
     console.log('ho');
   };
 

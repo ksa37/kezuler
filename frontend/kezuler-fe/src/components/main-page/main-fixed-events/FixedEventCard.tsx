@@ -114,7 +114,36 @@ function FixedEventCard({ event, hasTodayId }: Props) {
         <div>
           <AvatarGroup max={4}>
             {participants?.map((p) => (
-              <Avatar key={p.userId} alt={p.userId} src={p.userProfileImage} />
+              <Avatar
+                key={p.userId}
+                alt={p.userName}
+                src={p.userProfileImage}
+                sx={{ width: 32, height: 32 }}
+              />
+            ))}
+            {participants?.map((p) => (
+              <Avatar
+                key={p.userId}
+                alt={p.userName}
+                src={p.userProfileImage}
+                sx={{ width: 32, height: 32 }}
+              />
+            ))}
+            {participants?.map((p) => (
+              <Avatar
+                key={p.userId}
+                alt={p.userName}
+                src={p.userProfileImage}
+                sx={{ width: 32, height: 32 }}
+              />
+            ))}
+            {participants?.map((p) => (
+              <Avatar
+                key={p.userId}
+                alt={p.userName}
+                src={p.userProfileImage}
+                sx={{ width: 32, height: 32 }}
+              />
             ))}
           </AvatarGroup>
           <EventLocation />
