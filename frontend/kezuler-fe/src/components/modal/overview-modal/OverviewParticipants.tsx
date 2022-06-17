@@ -12,78 +12,72 @@ interface Props {
 }
 
 function OverviewParticipants({ event }: Props) {
-  // let {participants, eventHost};
-  // if(isFixedEvent(event)){
-  //   { participants, eventHost } = event;
-  // }else{
-  //   { participants, eventHost } = event;
-  // }
-  // const { eventHost } = event;
-  // let { participants } = event;
-  // participants = [
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  // ];
+  const { eventHost } = event;
+  let { participants } = event;
+  participants = [
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Declined',
+    },
+  ];
 
-  const { participants, eventHost } = event;
+  // const { participants, eventHost } = event;
   const { show } = participantsPopupAction;
   const dispatch = useDispatch();
   const { userName: hostName, userProfileImage: hostProfileImage } = eventHost;
@@ -124,7 +118,7 @@ function OverviewParticipants({ event }: Props) {
               <div>{hostName}</div>
             </div>
           </td>
-          <td>
+          <td colSpan={2}>
             {participants
               .slice(
                 0,
