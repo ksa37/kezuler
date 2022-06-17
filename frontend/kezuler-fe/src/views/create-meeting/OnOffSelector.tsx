@@ -33,10 +33,12 @@ function OnOffSelector() {
 
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
+    dispatch(setPlace(''));
   };
 
   const handleOfflineClick = () => {
     dispatch(setIsOnline(false));
+    dispatch(setZoomAddress(''));
   };
 
   const handleOnlineChange = (event: ChangeEvent<HTMLInputElement>) => {
