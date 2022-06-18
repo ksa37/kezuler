@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import useDialog from 'src/hooks/useDialog';
 import {
   useDeletePendingEventGuest,
   usePutPendingEventGuest,
@@ -23,7 +24,7 @@ import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
 import TimeCard from 'src/components/accept-meeting/TimeCard';
 import BottomButton from 'src/components/common/BottomButton';
 
-import { ReactComponent as ArrowRightIcon } from 'src/assets/arrow_right.svg';
+import { ReactComponent as ArrowRightIcon } from 'src/assets/icn_right_outline.svg';
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
 
@@ -46,35 +47,44 @@ function TimeListSelector({ isModification }: Props) {
   const putEventTimeCandidate = usePutPendingEventGuest();
   const deleteEventTimeCandidate = useDeletePendingEventGuest();
   const navigate = useNavigate();
+  const { openDialog } = useDialog();
+
   const handlePutClick = () => {
-    const putData: PPutPendingEvent = {
-      addTimeCandidates: availableTimes.filter(
-        (time) => !selectedOptions.includes(time)
-      ),
-      removeTimeCandidates: selectedOptions.filter(
-        (time) => !availableTimes.includes(time)
-      ),
-    };
-    console.log(availableTimes, selectedOptions);
-    console.log(putData);
-    if (availableTimes.length === 0) {
-      if (declineReason && declineReason !== '') {
-        const DeleteData: PDeletePendingEvent = {
-          UserDeclineReason: declineReason,
-        };
-        deleteEventTimeCandidate(eventId, DeleteData);
+    const putMeeting = () => {
+      const putData: PPutPendingEvent = {
+        addTimeCandidates: availableTimes.filter(
+          (time) => !selectedOptions.includes(time)
+        ),
+        removeTimeCandidates: selectedOptions.filter(
+          (time) => !availableTimes.includes(time)
+        ),
+      };
+      console.log(availableTimes, selectedOptions);
+      console.log(putData);
+      if (availableTimes.length === 0) {
+        if (declineReason && declineReason !== '') {
+          const DeleteData: PDeletePendingEvent = {
+            UserDeclineReason: declineReason,
+          };
+          deleteEventTimeCandidate(eventId, DeleteData);
+        } else {
+          deleteEventTimeCandidate(eventId);
+        }
       } else {
-        deleteEventTimeCandidate(eventId);
+        putEventTimeCandidate(eventId, putData);
       }
-    } else {
-      putEventTimeCandidate(eventId, putData);
-    }
-    if (isModification) {
-      navigate(-1);
-      //TODO: main으로 가야하나..?
-    } else {
-      dispatch(increaseStep());
-    }
+      if (isModification) {
+        navigate(-1);
+        //TODO: main으로 가야하나..?
+      } else {
+        dispatch(increaseStep());
+      }
+    };
+
+    openDialog({
+      title: `미팅시간 선택을 ${isModification ? '수정' : '완료'}하시겠어요?`,
+      onConfirm: putMeeting,
+    });
   };
 
   // selectedOptions availableTimes
@@ -242,7 +252,10 @@ function TimeListSelector({ isModification }: Props) {
         ))}
       </div>
       <AvailableOptionSelector />
-      <BottomButton text={'선택 완료'} onClick={handlePutClick} />
+      <BottomButton
+        text={isModification ? '수정 완료' : '선택 완료'}
+        onClick={handlePutClick}
+      />
     </div>
   );
 }

@@ -1,7 +1,15 @@
-import React, { useEffect, useMemo } from 'react';
+
+import useMainFixed from 'src/hooks/useMainFixed';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';
-import useMainFixed from 'src/hooks/useMainFixed';
+import PathName from 'src/constants/PathName';
+import { RootState } from 'src/reducers';
+import { getFixedEventsThunk } from 'src/reducers/mainFixed';
+import { AppDispatch } from 'src/store';
+
 import {
   getIntervalFromToday,
   getMonthFromDateString,
@@ -18,8 +26,10 @@ function MainFixedEvents() {
     getFixedEvents();
   }, []);
 
+  const navigate = useNavigate();
+
   const handleCreateClick = () => {
-    console.log('create');
+    navigate(PathName.create);
   };
 
   // 오늘 버튼의 기준이 될 event id 를 찾는 useMemo
@@ -28,25 +38,27 @@ function MainFixedEvents() {
   // 다가오는 이벤트가 없다면 제일 가까운 지나간 이벤트
   const todayIdTargetIdx = useMemo(() => {
     let target = -1;
-    for (let i = events.length - 1; i >= 0; i--) {
-      const date = new Date(events[i].eventTimeStartsAt);
-      const interval = getIntervalFromToday(date);
-      if (interval > 0) {
-        if (target === -1) {
-          target = i;
+    if (events) {
+      for (let i = events.length - 1; i >= 0; i--) {
+        const date = new Date(events[i].eventTimeStartsAt);
+        const interval = getIntervalFromToday(date);
+        if (interval > 0) {
+          if (target === -1) {
+            target = i;
+          }
+          break;
         }
-        break;
+        target = i;
       }
-      target = i;
+      return target;
     }
-    return target;
   }, [events]);
 
   if (!isFetched) {
     return null;
   }
   console.log(events);
-  if (!events.length) {
+  if (!events) {
     return (
       <div id={FIXED_TODAY_ID} className={'main-fixed'}>
         <h1 className={'main-fixed-month-divider'}>
@@ -58,10 +70,12 @@ function MainFixedEvents() {
         </h2>
         <MainButtonContainer />
         <BottomPopper
-          title={'미팅 생성까지 단 3분!'}
+          title={'단 하나의 링크로 미팅 확정까지!'}
+          description={'시간 조율하느라 허비되는 시간 NO!'}
           buttonText={'첫 미팅 만들러가기'}
           onClick={handleCreateClick}
           image={''}
+          reverseOrder
         />
       </div>
     );

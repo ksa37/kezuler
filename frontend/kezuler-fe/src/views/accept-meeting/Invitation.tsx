@@ -19,6 +19,7 @@ import BottomPopper from 'src/components/common/BottomPopper';
 
 import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
 import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
+import KakaoIcon from 'src/assets/img_kakao.svg';
 import popupBgInvite from 'src/assets/popup_bg_invitation.svg';
 
 function Invitation() {
@@ -30,7 +31,6 @@ function Invitation() {
     eventId,
     eventHost,
     eventTitle,
-    eventZoomAddress,
     eventPlace,
     eventTimeCandidates,
     declinedUsers,
@@ -69,12 +69,20 @@ function Invitation() {
           <br />
           {'미팅에 초대합니다.'}
         </div>
-        <img
-          className={'invitation-avatar'}
-          alt=""
-          src={eventHost.userProfileImage}
-        />
+
         <div className={'invitation-card'}>
+          {/* <img
+            className={'invitation-avatar'}
+            alt=""
+            src={eventHost.userProfileImage}
+          /> */}
+          <img
+            className={'invitation-avatar'}
+            alt=""
+            src={
+              'https://i.ibb.co/xqPTzqX/moon-transparent-png-full-moon-11562897860tahg4ponos.png'
+            }
+          />
           <div className={'invitation-title-place'}>
             {meetingTitleDescription}
           </div>
@@ -82,9 +90,11 @@ function Invitation() {
           <div className={classNames('invitation-title-place', 'place')}>
             {meetingPlaceDescription}
           </div>
-          <div className={'invitation-place-text'}>
+          <div className={'invitation-place'}>
             {eventPlace ? <LocIcon /> : <PCIcon />}
-            {eventPlace || '온라인'}
+            <div className={'invitation-place-text'}>
+              {eventPlace || '온라인'}
+            </div>
           </div>
         </div>
       </div>
@@ -94,6 +104,15 @@ function Invitation() {
           buttonText={isLoggedIn ? loginButtonText : unloginButtonText}
           onClick={isLoggedIn ? handleNextClick : handleConnectClick}
           image={popupBgInvite}
+          isSmallTitle
+          disableDelete
+          btnStartIcon={
+            !isLoggedIn ? (
+              <img src={KakaoIcon} alt="1" className={'login-kakao-icn'} />
+            ) : (
+              <></>
+            )
+          }
         />
       </div>
     </div>

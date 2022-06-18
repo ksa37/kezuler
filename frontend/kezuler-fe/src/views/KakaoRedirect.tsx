@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { CircularProgress } from '@mui/material';
 
 import { LOGIN_REDIRECT_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
@@ -16,7 +17,11 @@ function KakaoRedirect() {
     }
   }, [code]);
 
-  return <div> Redirect... </div>;
+  return (
+    <div className={'circular-progress-bar-wrapper'}>
+      <CircularProgress classes={{ root: 'circular-progress-bar' }} />
+    </div>
+  );
 }
 
 export default KakaoRedirect;
