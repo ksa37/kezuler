@@ -36,13 +36,13 @@ function MainPendingEvents() {
   };
 
   // TODO 캘린더 연동 체크
-  const isCalenderConnected = true;
+  const isCalenderConnected = false;
 
   if (!isFetched) {
     return null;
   }
 
-  if (!events.length && !isCalenderConnected) {
+  if (!events && !isCalenderConnected) {
     return (
       <div className={'main-pending'}>
         <h2 className={classNames('main-empty-h2', 'pending')}>

@@ -1,17 +1,26 @@
 @import 'constants';
 
+* {
+  font-family: Pretendard;
+}
+
 .App {
   height: 100vh;
   position: relative;
-
+  overflow-x: hidden;
   @media (min-width: 700px) {
-    width: 414px;
-    height: 767px;
-    overflow: auto;
-    box-shadow: 0 3px 30px rgba($color-highlight, 0.1);
-    border-radius: 10px;
+    @media (min-width: 415px) {
+      width: 414px;
+    }
+    @media (min-height: 768px) {
+      height: 767px;
+    }
+    overflow-y: auto;
+    box-shadow: 0 2px 50px rgba($color-highlight, 0.3);
+    border-radius: 40px;
     top: 50%;
     transform: translateY(-50%);
+    border: 2.5px solid rgba($color-highlight, 0.3);
   }
 }
 
@@ -68,9 +77,9 @@ $app-bar-height: 72px;
         background: $color-main;
       }
 
-      &:first-child {
-        margin-right: 20px;
-      }
+      // &:first-child {
+      //   margin-right: 20px;
+      // }
     }
   }
 }
@@ -158,4 +167,18 @@ $common-tab-size: 64px;
       pointer-events: none;
     }
   }
+}
+
+.circular-progress-bar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  .circular-progress-bar {
+    color: $color-highlight;
+  }
+}
+
+.login-kakao-icn {
+  padding-right: 12px;
 }
