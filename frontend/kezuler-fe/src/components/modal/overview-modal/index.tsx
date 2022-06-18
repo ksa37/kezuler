@@ -51,7 +51,7 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
   }, [fixedEvents, pendingEvents, eventId]);
 
   if (!event) {
-    return;
+    return null;
   }
 
   const {
