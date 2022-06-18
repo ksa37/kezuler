@@ -11,7 +11,7 @@ import {
 const getPendingEvents = () =>
   KezulerInstance.get<RGetPendingEvents>('/pendingEvents');
 
-const getPendingEventsById = (eventId: string) =>
+const getPendingEventById = (eventId: string) =>
   KezulerInstance.get<PendingEvent>(`/pendingEvents/${eventId}`);
 
 const patchPendingEventsById = (eventId: string, params: PPatchPendingEvent) =>
@@ -45,7 +45,7 @@ const deletePendingEventGuestById = (
 };
 export {
   getPendingEvents,
-  getPendingEventsById,
+  getPendingEventById,
   patchPendingEventsById,
   postPendingEvent,
   deletePendingEventById,

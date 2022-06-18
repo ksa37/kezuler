@@ -7,9 +7,10 @@ import { getPendingEvents } from 'src/api/pendingEvent';
 
 const getPendingEventsThunk = createAsyncThunk(
   'getPendingEvents',
-  async (_: Record<string, never>, { rejectWithValue }) => {
+  async ({ onFinally }: { onFinally?: () => void }, { rejectWithValue }) => {
     try {
       const response = await getPendingEvents();
+      onFinally?.();
       return response.data;
       // return {
       //   pendingEvents: [
@@ -30,6 +31,7 @@ const getPendingEventsThunk = createAsyncThunk(
       // };
     } catch (error) {
       const err = error as TError;
+      onFinally?.();
       return rejectWithValue(err?.response?.data?.error);
     }
   }

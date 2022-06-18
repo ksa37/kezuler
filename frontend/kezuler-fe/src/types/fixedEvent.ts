@@ -12,7 +12,7 @@ interface BFixedEvent {
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
-  eventZoomAddress: string | null;
+  eventZoomAddress: string;
   eventPlace: string;
   eventAttachment: string;
   eventTimeStartsAt: string;
