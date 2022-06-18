@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
+import useDialog from 'src/hooks/useDialog';
 import { usePostPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
@@ -31,6 +32,8 @@ function OnOffSelector() {
     eventTimeList,
   } = useSelector((state: RootState) => state.createMeeting);
 
+  const { openDialog } = useDialog();
+
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
     dispatch(setPlace(''));
@@ -52,20 +55,25 @@ function OnOffSelector() {
   const postPendingEventAndGetShareUrl = usePostPendingEvent();
 
   const handlePostClick = () => {
-    // console.log(eventTimeList);
-    // dispatch(setEventTimeCandidates(eventTimeList));
-    // console.log(eventTimeCandidates);
-    const ppostPendingEventData: PPostPendingEvent = {
-      eventTitle,
-      eventDescription,
-      eventTimeDuration,
-      eventTimeCandidates: eventTimeList,
-      eventZoomAddress,
-      eventPlace,
-      eventAttachment,
+    const PostPendingMeeting = () => {
+      const ppostPendingEventData: PPostPendingEvent = {
+        eventTitle,
+        eventDescription,
+        eventTimeDuration,
+        eventTimeCandidates: eventTimeList,
+        eventZoomAddress,
+        eventPlace,
+        eventAttachment,
+      };
+
+      postPendingEventAndGetShareUrl(ppostPendingEventData);
     };
 
-    postPendingEventAndGetShareUrl(ppostPendingEventData);
+    openDialog({
+      title: `'${eventTitle}'\n미팅을 생성하시겠어요?`,
+      description: `생성시, 다른 사람들을 미팅에 초대할 수 있는 케줄러 링크가 생성됩니다.`,
+      onConfirm: PostPendingMeeting,
+    });
   };
 
   return (

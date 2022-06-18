@@ -27,6 +27,7 @@ interface AcceptMeetingState {
   data: string;
   errorMessage: string;
 
+  isLoaded: boolean;
   step: AcceptMeetingSteps;
 
   pendingEvent: PendingEvent;
@@ -58,6 +59,7 @@ const initialState: AcceptMeetingState = {
   data: '',
   errorMessage: '',
 
+  isLoaded: false,
   step: AcceptMeetingSteps.First,
 
   pendingEvent: initialPendingEvent,
@@ -77,6 +79,9 @@ export const acceptMeetingSlice = createSlice({
   name: 'accept-meeting',
   initialState,
   reducers: {
+    setIsLoaded: (state, action: PayloadAction<boolean>) => {
+      state.isLoaded = action.payload;
+    },
     setStep: (state, action: PayloadAction<number>) => {
       state.step = action.payload;
     },

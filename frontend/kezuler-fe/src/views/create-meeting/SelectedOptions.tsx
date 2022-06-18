@@ -10,6 +10,7 @@ import { getTimeListDevideByDate, getTimeRange } from 'src/utils/dateParser';
 import BottomButton from 'src/components/common/BottomButton';
 
 import { ReactComponent as DeleteIcon } from 'src/assets/icn_trash.svg';
+import 'src/styles/common/TimeLineGrid.scss';
 
 function SelectedOptions() {
   const dispatch = useDispatch<AppDispatch>();
