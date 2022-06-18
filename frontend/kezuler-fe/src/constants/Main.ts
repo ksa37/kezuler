@@ -5,6 +5,13 @@ const REMINDER_OPTIONS = [
   { display: '일주일 전', minutes: 120 },
 ];
 
+const PLACE_OPTIONS = [
+  { display: '온라인', isOnline: true },
+  { display: '오프라인', isOnline: false },
+];
+
 const FIXED_TODAY_ID = 'fixed-event-card-today';
 
-export { REMINDER_OPTIONS, FIXED_TODAY_ID };
+const OVERVIEW_FORM_ID = 'overview-form';
+
+export { REMINDER_OPTIONS, PLACE_OPTIONS, FIXED_TODAY_ID, OVERVIEW_FORM_ID };

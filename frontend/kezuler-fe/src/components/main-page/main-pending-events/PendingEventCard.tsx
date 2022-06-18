@@ -38,7 +38,7 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleInfoClick = () => {
-    openModal('Overview', { event });
+    openModal('Overview', { eventId, isFixed: false });
   };
 
   const handleConfirmClick = () => {
