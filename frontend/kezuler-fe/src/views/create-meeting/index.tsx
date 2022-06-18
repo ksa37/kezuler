@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
@@ -22,7 +22,13 @@ import 'src/styles/CreateMeeting.scss';
 function CreateMeeting() {
   const dispatch = useDispatch<AppDispatch>();
   const { step } = useSelector((state: RootState) => state.createMeeting);
-  const { decreaseStep } = createMeetingActions;
+  const { decreaseStep, destroy } = createMeetingActions;
+
+  useEffect(() => {
+    return () => {
+      dispatch(destroy());
+    };
+  }, []);
 
   const totalStepsNum = Object.keys(CreateMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;

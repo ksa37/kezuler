@@ -132,6 +132,7 @@ export const acceptMeetingSlice = createSlice({
       }
       state.availableTimes = dateSort(state.availableTimes);
     },
+    destroy: () => initialState,
   },
   extraReducers: (builder) => {
     builder
