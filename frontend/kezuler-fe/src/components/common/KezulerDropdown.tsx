@@ -13,10 +13,11 @@ import classNames from 'classnames';
 import 'src/styles/dropdown.scss';
 
 interface BMenu {
-  [key: string]: string | number;
+  [key: string]: string | number | boolean;
 }
 
 interface Props<T extends BMenu> {
+  startIcon?: React.ReactNode;
   endIcon: React.ReactNode;
   menuData: T[];
   displayKey: keyof T;
@@ -29,9 +30,11 @@ interface Props<T extends BMenu> {
   selectedMenuClassName?: string;
   buttonClassName?: string;
   paperClassName?: string;
+  fitToButtonWidth?: boolean;
 }
 
 function KezulerDropdown<T extends BMenu>({
+  startIcon,
   endIcon,
   setSelectedIdx,
   selectedIdx,
@@ -44,6 +47,7 @@ function KezulerDropdown<T extends BMenu>({
   selectedMenuClassName,
   buttonClassName,
   paperClassName,
+  fitToButtonWidth,
 }: Props<T>): React.ReactElement {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -63,11 +67,13 @@ function KezulerDropdown<T extends BMenu>({
   return (
     <>
       <Button
+        startIcon={startIcon}
         endIcon={endIcon}
         ref={buttonRef}
         onClick={handleButtonClick}
         className={buttonClassName}
         classes={{
+          startIcon: 'kezuler-dropdown-icon',
           endIcon: 'kezuler-dropdown-icon',
         }}
       >
@@ -89,7 +95,11 @@ function KezulerDropdown<T extends BMenu>({
             }}
           >
             <Paper
-              // style={{ width: buttonRef.current?.clientWidth }}
+              style={
+                fitToButtonWidth
+                  ? { width: buttonRef.current?.clientWidth }
+                  : {}
+              }
               className={paperClassName}
             >
               <ClickAwayListener onClickAway={handleMenuClose}>

@@ -1,14 +1,30 @@
 import React from 'react';
+import classNames from 'classnames';
 
 interface Props {
   icon: JSX.Element;
-  onClick: () => void;
+  onClick?: () => void;
   text?: string;
+  className?: string;
+  type?: 'button' | 'submit';
+  formId?: string;
 }
 
-function OverviewButton({ icon, onClick, text }: Props) {
+function OverviewButton({
+  icon,
+  onClick,
+  text,
+  className,
+  type = 'button',
+  formId,
+}: Props) {
   return (
-    <button className={'overview-btn'} onClick={onClick}>
+    <button
+      type={type}
+      form={formId}
+      className={classNames('overview-btn', className)}
+      onClick={onClick}
+    >
       <div className={'overview-btn-icon'}>{icon}</div>
       {text}
     </button>

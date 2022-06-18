@@ -209,6 +209,20 @@
   }
 }
 
+.fixed-event-card-avatar-num {
+  width: 32px;
+  height: 32px;
+  background: $color-highlight;
+  color: $color-main;
+  font-size: $font-12;
+  border: 1px solid white !important;
+}
+
+.fixed-event-card-avatar {
+  background: #bfbfbf;
+  color: white;
+}
+
 .main-pending {
   margin-top: 96px; // 64 + 32
   padding-bottom: 16px;

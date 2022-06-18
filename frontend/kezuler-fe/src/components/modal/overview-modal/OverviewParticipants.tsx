@@ -4,8 +4,6 @@ import { Avatar } from '@mui/material';
 
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { BFixedEvent } from 'src/types/fixedEvent';
-import { BPendingEvent } from 'src/types/pendingEvent';
-import { isFixedEvent } from 'src/utils/typeGuard';
 
 interface Props {
   event: BFixedEvent;
@@ -13,69 +11,69 @@ interface Props {
 
 function OverviewParticipants({ event }: Props) {
   const { eventHost } = event;
-  let { participants } = event;
-  participants = [
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-  ];
+  const { participants } = event;
+  // participants = [
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  // ];
 
   // const { participants, eventHost } = event;
   const { show } = participantsPopupAction;
@@ -88,11 +86,42 @@ function OverviewParticipants({ event }: Props) {
 
   const MAX_PREVIEW_NUM = 5;
 
+  const { avatarElements, avatarNames } = useMemo(() => {
+    const Elements: JSX.Element[] = [];
+    const Names: JSX.Element[] = [];
+
+    participants
+      .slice(
+        0,
+        participants.length > MAX_PREVIEW_NUM
+          ? MAX_PREVIEW_NUM - 1
+          : MAX_PREVIEW_NUM
+      )
+      .forEach((p) => {
+        Elements.push(
+          <Avatar
+            key={p.userId}
+            className={'participant-avatar'}
+            alt={p.userName}
+            src={p.userProfileImage}
+          />
+        );
+        Names.push(
+          <div className={'participant-name'} key={p.userId}>
+            {p.userName}
+          </div>
+        );
+      });
+
+    return { avatarElements: Elements, avatarNames: Names };
+  }, [participants]);
+
   const etcParticipantsNum = useMemo(() => {
     console.log(participants.length, participants.length - MAX_PREVIEW_NUM - 1);
     return participants.length - MAX_PREVIEW_NUM + 1;
   }, [participants]);
 
+  // TODO 작아졌을 때 처리
   return (
     <table className={'overview-participants-table'}>
       <thead>
@@ -109,54 +138,29 @@ function OverviewParticipants({ event }: Props) {
       <tbody>
         <tr>
           <td>
-            <div className={'participant-avatar-container'}>
-              <Avatar
-                className={'participant-avatar'}
-                alt={hostName}
-                src={hostProfileImage}
-              />
-              <div>{hostName}</div>
-            </div>
+            <Avatar
+              className={'participant-avatar'}
+              alt={hostName}
+              src={hostProfileImage}
+            />
           </td>
-          <td colSpan={2}>
-            {participants
-              .slice(
-                0,
-                participants.length > MAX_PREVIEW_NUM
-                  ? MAX_PREVIEW_NUM - 1
-                  : MAX_PREVIEW_NUM
-              )
-              .map((p) => (
-                <div key={p.userId} className={'participant-avatar-container'}>
-                  <Avatar
-                    className={'participant-avatar'}
-                    alt={p.userName}
-                    src={p.userProfileImage}
-                  />
-                  <div>{p.userName}</div>
-                </div>
-              ))}
+          <td>{avatarElements}</td>
+          <td>
             {etcParticipantsNum > 0 && (
-              <div className={'participant-avatar-container'}>
-                <Avatar
-                  className={'participant-avatar'}
-                  alt={`+${etcParticipantsNum}`}
-                >
-                  {`+${etcParticipantsNum}`}
-                </Avatar>
-              </div>
-            )}
-          </td>
-          {/* <td> */}
-          {/* {etcParticipantsNum > 0 && (
               <Avatar
-                className={'participant-avatar'}
+                className={'participant-avatar number'}
                 alt={`+${etcParticipantsNum}`}
               >
                 {`+${etcParticipantsNum}`}
               </Avatar>
-            )} */}
-          {/* </td> */}
+            )}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div className={'participant-name'}>{hostName}</div>
+          </td>
+          <td colSpan={2}>{avatarNames}</td>
         </tr>
       </tbody>
     </table>

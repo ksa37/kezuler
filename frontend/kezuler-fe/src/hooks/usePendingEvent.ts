@@ -18,7 +18,7 @@ import { getInvitationById } from 'src/api/invitation';
 import {
   deletePendingEventById,
   deletePendingEventGuestById,
-  getPendingEventsById,
+  getPendingEventById,
   postPendingEvent,
   putPendingEventGuestById,
 } from 'src/api/pendingEvent';
@@ -31,7 +31,7 @@ const useGetPendingEvent = () => {
   const setModifyPendingEvent = modifySelectionActions.setPendingEvent;
 
   const getPendingEventInfo = (eventId: string, setOption: number) => {
-    getPendingEventsById(eventId)
+    getPendingEventById(eventId)
       .then((res) => {
         switch (setOption) {
           case 0: {

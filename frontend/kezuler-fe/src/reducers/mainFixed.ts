@@ -7,12 +7,23 @@ import { getFixedEvents } from 'src/api/fixedEvent';
 
 const getFixedEventsThunk = createAsyncThunk(
   'getFixedEvents',
-  async (params: PGetFixedEvents, { rejectWithValue }) => {
+  async (
+    {
+      params,
+      onFinally,
+    }: {
+      params: PGetFixedEvents;
+      onFinally?: () => void;
+    },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await getFixedEvents(params);
+      onFinally?.();
       return response.data;
     } catch (error) {
       const err = error as TError;
+      onFinally?.();
       return rejectWithValue(err?.response?.data?.error);
     }
   }
