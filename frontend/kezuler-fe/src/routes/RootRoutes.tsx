@@ -6,13 +6,13 @@ import PathName from 'src/constants/PathName';
 import { getCookie } from 'src/utils/cookie';
 
 import AcceptMeeting from 'src/views/accept-meeting';
+import SelectionModifier from 'src/views/accept-meeting/SelectionModifier';
 import CreateMeeting from 'src/views/create-meeting';
 import KakaoRedirect from 'src/views/KakaoRedirect';
 import Login from 'src/views/Login';
 import MainPage from 'src/views/MainPage';
 import MyPage from 'src/views/MyPage';
 import NotiPage from 'src/views/NotiPage';
-import SelectionModifier from 'src/views/pending-event/SelectionModifier';
 import TimeConfirmator from 'src/views/pending-event/TimeConfirmator';
 import TestPage from 'src/views/TestPage';
 import MainAppBar from 'src/components/common/MainAppBar';

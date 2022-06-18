@@ -6,7 +6,7 @@
   color: $color-highlight;
   font-size: 24px;
   text-align: left;
-  margin: 68px 40% 0 40px;
+  margin: 68px 0 0 40px;
 }
 
 .invitation-avatar {
@@ -14,12 +14,15 @@
   border: 1px solid #ffff;
   width: 54px;
   height: 54px;
+
   position: absolute;
-  right: 56px;
-  margin-top: -12px;
+  top: -34px;
+  right: 24px;
+  // margin-top: -12px;
 }
 
 .invitation-card {
+  position: relative;
   padding: 20px;
   text-align: left;
   background: #ffffff 0% 0% no-repeat padding-box;
@@ -28,6 +31,9 @@
   margin-top: 24px;
   margin-inline: 32px;
 
+  @media (max-width: 340px) {
+    margin-top: 40px;
+  }
   .invitation-title-place {
     font-size: 14px;
     line-height: 17px;
@@ -44,319 +50,17 @@
     font-weight: bold;
   }
 
-  .invitation-place-text {
+  .invitation-place {
     margin-top: 8px;
     font-size: 16px;
     line-height: 19px;
     font-weight: bold;
-  }
-}
-
-// TimeListSelector
-
-.time-list-selector {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.time-list-top {
-  display: flex;
-  // position: relative;
-  margin-top: 32px;
-  margin-left: 20px;
-  margin-right: 24px;
-  @media (max-width: 330px) {
-    display: block;
-    flex: none;
-    width: 100%;
-  }
-  .time-list-top-description {
-    color: $color-highlight;
-    text-align: left;
-    flex: 1;
-    font: normal normal bold 24px/36px Pretendard;
-
-    @media (max-width: 330px) {
-      display: block;
-      flex: none;
-      width: 100%;
-    }
-  }
-}
-
-.accept-description-text {
-  color: $color-highlight;
-  text-align: left;
-  font: normal normal bold 24px/36px Pretendard;
-  margin: 32px 40% 0 20px;
-}
-
-.time-list-selector-personnel {
-  color: $color-highlight;
-  font-family: Pretendard;
-  font-size: 14px;
-  font-weight: medium;
-  line-height: 22px;
-  display: flex;
-  justify-content: right;
-  align-items: flex-end;
-  position: relative;
-
-  @media (max-width: 330px) {
-    display: block;
-    flex: none;
-    margin-top: 5px;
-  }
-
-  .time-list-selector-personnel-item {
     display: flex;
     align-items: center;
-  }
-  .icon-circle {
-    width: 20px;
-    height: 20px;
-    margin-right: 2px;
-  }
-  .icon-profiles {
-    position: absolute;
-    left: 5.24px;
-  }
-}
 
-.time-select-with-schedule {
-  margin-inline: 20px;
-  flex: 1;
-  position: relative;
-  padding-bottom: 100px;
-}
-.time-line-line {
-  content: '';
-  position: absolute;
-  // height: 100%;
-  top: 35px;
-  margin-left: calc((100% - 24px) / 3 + 11.5px);
-  // left: 0.5px;
-  bottom: 0;
-  width: 0px;
-  border: 0.5px solid #bfbfbf;
-}
-.time-select-date {
-  position: relative;
-  margin-top: 28px;
-  text-align: left;
-}
-
-.time-select-date-grid {
-  display: grid;
-
-  grid-template-columns: 1fr 2fr;
-  row-gap: 12px;
-  column-gap: 24px;
-  grid-template-areas: '. date-text';
-
-  .time-select-date-part {
-    grid-area: date-text;
-    position: relative;
-    font: normal normal bold 16px/19px Pretendard;
-
-    .time-line-circle {
-      content: '';
-      position: absolute;
-      top: 7px;
-      left: -16px;
-      z-index: 1;
-      width: 8px;
-      height: 8px;
-      box-sizing: border-box;
-      border-radius: 50%;
-      border: 1px solid #282f39;
-      background-color: #fad94f;
+    .invitation-place-text {
+      padding-left: 6px;
     }
-  }
-}
-
-.time-select-card-grid {
-  display: grid;
-  position: relative;
-  grid-template-columns: 1fr 2fr;
-  row-gap: 12px;
-  column-gap: 24px;
-  grid-template-areas: 'schedule-card time-card';
-}
-
-.time-select-time-card {
-  grid-area: time-card;
-  display: flex;
-  align-items: center;
-  margin-top: 12px;
-  position: relative;
-
-  &.no-time {
-    display: none;
-  }
-  .time-select-time-content {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    height: 40px;
-    width: 100%;
-    border-radius: 8px;
-
-    box-sizing: border-box;
-    background-color: #ffffff;
-    box-shadow: 0px 15px 35px #282f391a;
-    padding-left: 12px;
-    padding-right: 8px;
-
-    &.selected {
-      background-color: $color-main;
-      border: 0.5px solid $color-highlight;
-    }
-
-    font: normal normal normal 14px/18px Pretendard;
-
-    .option-time-range {
-      flex: 1;
-    }
-    // .profile-icon {
-    // }
-    // .possible-num {
-    // }
-  }
-  .check-box-icon {
-    width: 20px;
-    height: 20px;
-    margin-left: 5px;
-  }
-}
-
-.time-select-schedule-card {
-  grid-area: schedule-card;
-  display: flex;
-  align-items: center;
-
-  height: 40px;
-  border-radius: 8px;
-  margin-top: 12px;
-  padding-inline: 8px;
-
-  background-color: #ffffff;
-  box-shadow: 0px 15px 35px #282f391a;
-
-  &.no-schedule {
-    display: none;
-  }
-
-  .schedule-time-range {
-    font: normal normal normal 10px/12px Pretendard;
-    color: $color-highlight;
-  }
-  .schedule-title {
-    font-size: 10px;
-    line-height: 12px;
-    font-weight: medium;
-    color: #9f9f9f;
-  }
-}
-
-.calendar-pair-ask {
-  position: absolute;
-  top: 59px;
-  max-width: calc((100% - 24px) / 3);
-  .calendar-pair-ask-txt {
-    text-align: left;
-    font: normal normal normal 14px/22px Pretendard;
-    letter-spacing: 0;
-    color: #9f9f9f;
-    opacity: 1;
-  }
-  .calendar-pair-ask-btn {
-    border: 1px solid #282f39;
-    border-radius: 8px;
-    box-shadow: 0px 15px 35px #282f390d;
-    opacity: 1;
-    color: $color-highlight;
-    @media screen and (min-width: 380px) {
-      padding-inline: 11px;
-      .btn-txt {
-        display: inline;
-      }
-    }
-    text-align: center;
-    padding-top: 8px;
-    padding-bottom: 7px;
-    margin-top: 12px;
-
-    font-size: 12px;
-    box-sizing: border-box;
-  }
-}
-
-.available-option-selector {
-  z-index: 10;
-  width: 100%;
-  box-sizing: border-box;
-  position: fixed;
-
-  bottom: 56px;
-  left: 0;
-  padding: 20px;
-  border-radius: 16px 16px 0 0;
-
-  &.opened {
-    background-color: $color-highlight;
-    border-bottom: 1px solid rgba($color-background, 0.3);
-  }
-
-  .available-option-btn-group {
-    min-height: 48px;
-    display: flex;
-  }
-
-  .available-option-btn {
-    border: 0.5px solid $color-highlight;
-    border-radius: 8px;
-    box-shadow: 0 15px 35px #282f391a;
-    font-size: 16px;
-    font-weight: bold;
-    flex: 1;
-    color: $color-highlight;
-
-    background-color: white;
-    &:hover {
-      background-color: rgba(white, 0.7);
-    }
-
-    &.blurred {
-      color: #bfbfbf;
-    }
-
-    &.selected {
-      background-color: $color-main;
-      &:hover {
-        background-color: rgba($color-main, 0.7);
-      }
-    }
-  }
-
-  .available-option-text-field {
-    box-sizing: border-box;
-    width: 100%;
-    margin-top: 12px;
-    background-color: white;
-    border-radius: 8px;
-    padding: 16px 18px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    line-height: 22px;
-    font-family: Pretendard;
-    color: $color-highlight;
-  }
-  textarea::placeholder {
-    color: #bfbfbf;
-    // font-weight: bold;
   }
 }
 

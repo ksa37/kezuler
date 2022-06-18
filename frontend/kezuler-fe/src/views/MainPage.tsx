@@ -12,7 +12,7 @@ import MainTab from 'src/components/main-page/MainTab';
 import 'src/styles/main.scss';
 
 function MainPage() {
-  const [isFixedMeeting, setIsFixedMeeting] = useState(false);
+  const [isFixedMeeting, setIsFixedMeeting] = useState(true);
 
   const dispatch = useDispatch<AppDispatch>();
   const { destroy: fixedDestroy } = mainFixedActions;

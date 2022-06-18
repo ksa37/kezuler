@@ -27,8 +27,8 @@ interface FixedEvent extends BFixedEvent {
 type PPatchFixedEvent = Partial<BFixedEvent>;
 
 interface PGetFixedEvents {
-  startIndex: number;
-  endIndex: number;
+  startIndex: string;
+  endIndex: string;
 }
 
 interface RGetFixedEvents {

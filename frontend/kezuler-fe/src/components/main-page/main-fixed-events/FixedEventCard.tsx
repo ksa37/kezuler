@@ -74,18 +74,18 @@ function FixedEventCard({ event, hasTodayId }: Props) {
   }, [date]);
 
   const EventLocation = useCallback(() => {
-    if (eventZoomAddress) {
+    if (eventPlace) {
       return (
         <div className={'fixed-event-card-place'}>
-          <PCIcon />
-          온라인
+          <LocIcon />
+          {eventPlace}
         </div>
       );
     }
     return (
       <div className={'fixed-event-card-place'}>
-        <LocIcon />
-        {eventPlace}
+        <PCIcon />
+        {eventZoomAddress ? eventZoomAddress : '온라인'}
       </div>
     );
   }, [eventPlace, eventZoomAddress]);
@@ -113,8 +113,37 @@ function FixedEventCard({ event, hasTodayId }: Props) {
         <div>{event.eventTitle}</div>
         <div>
           <AvatarGroup max={4}>
-            {participants.map((p) => (
-              <Avatar key={p.userId} alt={p.userId} src={p.userProfileImage} />
+            {participants?.map((p) => (
+              <Avatar
+                key={p.userId}
+                alt={p.userName}
+                src={p.userProfileImage}
+                sx={{ width: 32, height: 32 }}
+              />
+            ))}
+            {participants?.map((p) => (
+              <Avatar
+                key={p.userId}
+                alt={p.userName}
+                src={p.userProfileImage}
+                sx={{ width: 32, height: 32 }}
+              />
+            ))}
+            {participants?.map((p) => (
+              <Avatar
+                key={p.userId}
+                alt={p.userName}
+                src={p.userProfileImage}
+                sx={{ width: 32, height: 32 }}
+              />
+            ))}
+            {participants?.map((p) => (
+              <Avatar
+                key={p.userId}
+                alt={p.userName}
+                src={p.userProfileImage}
+                sx={{ width: 32, height: 32 }}
+              />
             ))}
           </AvatarGroup>
           <EventLocation />

@@ -1,7 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
+import PathName from 'src/constants/PathName';
 import { CreateMeetingSteps } from 'src/constants/Steps';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
@@ -63,6 +65,11 @@ function CreateMeeting() {
     dispatch(decreaseStep());
   };
 
+  const navigate = useNavigate();
+  const handleFirstPrevClick = () => {
+    navigate(PathName.main);
+  };
+
   const backgroundSetter = () => {
     switch (step) {
       case CreateMeetingSteps.First:
@@ -84,7 +91,11 @@ function CreateMeeting() {
     <>
       <TextAppBar
         onClick={
-          step === CreateMeetingSteps.Fifth ? undefined : handlePrevClick
+          step === CreateMeetingSteps.First
+            ? handleFirstPrevClick
+            : step === CreateMeetingSteps.Fifth
+            ? undefined
+            : handlePrevClick
         }
         text={getAppBarText(step)}
         mainColored={step === CreateMeetingSteps.First}
