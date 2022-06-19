@@ -91,7 +91,7 @@ function OverviewParticipants({ event }: Props) {
     const Names: JSX.Element[] = [];
 
     participants
-      .slice(
+      ?.slice(
         0,
         participants.length > MAX_PREVIEW_NUM
           ? MAX_PREVIEW_NUM - 1

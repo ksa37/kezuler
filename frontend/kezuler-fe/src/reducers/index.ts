@@ -7,14 +7,12 @@ import dialog from './dialog';
 import mainFixed from './mainFixed';
 import mainPending from './mainPending';
 import modal from './modal';
-import ModifySelection from './ModifySelection';
 import participantsPopup from './ParticipantsPopup';
 import userInfo from './UserInfo';
 
 const rootReducer = combineReducers({
   acceptMeeting: AcceptMeeting,
   createMeeting: CreateMeeting,
-  modifySelection: ModifySelection,
   mainFixed: mainFixed,
   mainPending: mainPending,
   userInfo: userInfo,

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -34,7 +34,8 @@ function TimeConfirmator() {
   const { step, selectedTime, pendingEvent } = useSelector(
     (state: RootState) => state.confirmTime
   );
-  const { setSelctedTime, increaseStep, decreaseStep } = confirmTimeActions;
+  const { setSelctedTime, increaseStep, decreaseStep, destroy } =
+    confirmTimeActions;
   const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
   const { show } = participantsPopupAction;
@@ -42,6 +43,12 @@ function TimeConfirmator() {
 
   const totalStepsNum = Object.keys(ConfirmMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
+
+  useEffect(() => {
+    return () => {
+      dispatch(destroy());
+    };
+  }, []);
 
   const { eventConfirmId } = useParams();
   const getPendingEventInfo = useGetPendingEvent();
