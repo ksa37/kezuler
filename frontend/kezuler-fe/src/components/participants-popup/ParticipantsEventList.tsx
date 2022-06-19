@@ -24,7 +24,14 @@ function ParticipantsEventList({ candidates, eventDuration }: Props) {
 
   return (
     <div className={'participants-popup-timeline-list'}>
-      <div className={'participants-popup-timeline-line'} />
+      <div
+        className={
+          Object.keys(dateWithPossibleUsers).length === 0 &&
+          dateWithPossibleUsers.constructor === Object
+            ? ''
+            : 'participants-popup-timeline-line'
+        }
+      />
       {Object.entries(dateWithPossibleUsers).map(([date, value]) => (
         <div className={'participants-popup-dateblock'} key={date}>
           <div className={'participants-popup-date'}>
@@ -45,23 +52,31 @@ function ParticipantsEventList({ candidates, eventDuration }: Props) {
                   {possibleUsers.length}
                 </div>
               </div>
-              <div
-                className={classNames('participants-popup-list', 'timeline')}
-              >
-                {possibleUsers.map(({ userId, userName, userProfileImage }) => (
-                  <div
-                    className={'participants-popup-participant'}
-                    key={userId}
-                  >
-                    <Avatar
-                      className={'participant-avatar'}
-                      src={userProfileImage}
-                      alt={userName}
-                    />
-                    {userName}
-                  </div>
-                ))}
-              </div>
+              {possibleUsers.length === 0 ? (
+                <div className={'participants-popup-list-none'}>
+                  참여 가능한 인원이 없습니다.
+                </div>
+              ) : (
+                <div
+                  className={classNames('participants-popup-list', 'timeline')}
+                >
+                  {possibleUsers.map(
+                    ({ userId, userName, userProfileImage }) => (
+                      <div
+                        className={'participants-popup-participant'}
+                        key={userId}
+                      >
+                        <Avatar
+                          className={'participant-avatar'}
+                          src={userProfileImage}
+                          alt={userName}
+                        />
+                        {userName}
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>

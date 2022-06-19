@@ -12,7 +12,7 @@ interface BFixedEvent {
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
-  eventZoomAddress: string | null;
+  eventZoomAddress: string;
   eventPlace: string;
   eventAttachment: string;
   eventTimeStartsAt: string;
@@ -27,8 +27,8 @@ interface FixedEvent extends BFixedEvent {
 type PPatchFixedEvent = Partial<BFixedEvent>;
 
 interface PGetFixedEvents {
-  startIndex: number;
-  endIndex: number;
+  startIndex: string;
+  endIndex: string;
 }
 
 interface RGetFixedEvents {

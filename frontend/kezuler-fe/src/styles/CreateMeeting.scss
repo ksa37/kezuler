@@ -43,8 +43,7 @@
   color: $color-highlight;
   text-align: left;
   font: normal normal bold 24px/36px Pretendard;
-  padding-top: 32px;
-  margin: 0px 40% 0 20px;
+  margin: 32px 0 0 20px;
   box-sizing: border-box;
 }
 
@@ -153,12 +152,12 @@
 }
 .duration-selector {
   display: flex;
-  // justify-content: center;
   align-items: center;
   @media (min-width: 405px) {
     margin-inline: 60px;
   }
-  margin-inline: auto;
+  margin-inline: 18px;
+  // min-width: 280px;
   background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 20px;
   font-size: 16px;
@@ -258,7 +257,13 @@
 }
 
 .time-chips-stack {
+  margin-inline: 12px;
   margin-top: 16px;
+  overflow: auto;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .time-chips {
@@ -274,6 +279,9 @@
     background-color: #ffffff;
     background: #ffffff 0% 0% no-repeat padding-box;
     color: $color-highlight;
+  }
+  &.is-before {
+    color: #dddddd;
   }
   .text {
     font: normal normal normal 16px/18px Arial;
@@ -517,22 +525,33 @@
 
 .celebrate-smile-icon {
   position: fixed;
-  right: 218px;
+  right: 180px;
   bottom: 26%;
-  z-index: -1;
+
+  @media (max-height: 719px) {
+    display: none;
+  }
+  @media (max-width: 329px) {
+    display: none;
+  }
 }
 
 .celebrate-icon {
   position: fixed;
   right: -30px;
   bottom: 48px;
-  z-index: -1;
+  @media (max-height: 719px) {
+    display: none;
+  }
+  @media (max-width: 329px) {
+    display: none;
+  }
 }
 
-.completion-circle {
-  position: fixed;
-  // top: 43%;
-  right: -45px;
-  bottom: 16%;
-  z-index: -2;
-}
+// .completion-circle {
+//   position: fixed;
+//   // top: 43%;
+//   right: -45px;
+//   bottom: 16%;
+//   z-index: -2;
+// }

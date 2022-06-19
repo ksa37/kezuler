@@ -1,15 +1,22 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { usePutPendingEventGuest } from 'src/hooks/usePendingEvent';
+import useDialog from 'src/hooks/useDialog';
+import {
+  useDeletePendingEventGuest,
+  usePutPendingEventGuest,
+} from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
+import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { AppDispatch } from 'src/store';
-import { PPutPendingEvent } from 'src/types/pendingEvent';
+import { PDeletePendingEvent, PPutPendingEvent } from 'src/types/pendingEvent';
 import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
 } from 'src/utils/dateParser';
+import { getSelectedOptions } from 'src/utils/joinMeeting';
 
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
@@ -17,38 +24,89 @@ import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
 import TimeCard from 'src/components/accept-meeting/TimeCard';
 import BottomButton from 'src/components/common/BottomButton';
 
-import { ReactComponent as ArrowRightIcon } from 'src/assets/arrow_right.svg';
+import { ReactComponent as ArrowRightIcon } from 'src/assets/icn_right_outline.svg';
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
 
-function TimeListSelector() {
+interface Props {
+  isModification?: boolean;
+}
+function TimeListSelector({ isModification }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const { pendingEvent, availableTimes, declineReason } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
-  const { addAvailableTimes, deleteAvailableTimes } = acceptMeetingActions;
+  const { addAvailableTimes, deleteAvailableTimes, increaseStep, destroy } =
+    acceptMeetingActions;
 
   const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
 
+  const { show } = participantsPopupAction;
+
   const putEventTimeCandidate = usePutPendingEventGuest();
+  const deleteEventTimeCandidate = useDeletePendingEventGuest();
+  const navigate = useNavigate();
+  const { openDialog } = useDialog();
+
+  useEffect(() => {
+    if (isModification) {
+      return () => {
+        dispatch(destroy());
+      };
+    }
+  }, []);
 
   const handlePutClick = () => {
-    console.log('put');
-    // const putData: PPutPendingEvent = { eventTimeCandidates: availableTimes };
-    // if (availableTimes.length === 0 && declineReason && declineReason !== '') {
-    //   putData.userDeclineReason = declineReason;
-    // }
-    // putEventTimeCandidate(eventId, putData);
+    const putMeeting = () => {
+      const putData: PPutPendingEvent = {
+        addTimeCandidates: availableTimes.filter(
+          (time) => !selectedOptions.includes(time)
+        ),
+        removeTimeCandidates: selectedOptions.filter(
+          (time) => !availableTimes.includes(time)
+        ),
+      };
+      console.log(availableTimes, selectedOptions);
+      console.log(putData);
+      if (availableTimes.length === 0) {
+        if (declineReason && declineReason !== '') {
+          const DeleteData: PDeletePendingEvent = {
+            UserDeclineReason: declineReason,
+          };
+          deleteEventTimeCandidate(eventId, DeleteData);
+        } else {
+          deleteEventTimeCandidate(eventId);
+        }
+      } else {
+        putEventTimeCandidate(eventId, putData);
+      }
+      if (isModification) {
+        navigate(-1);
+        //TODO: main으로 가야하나..?
+      } else {
+        dispatch(increaseStep());
+      }
+    };
+
+    openDialog({
+      title: `미팅시간 선택을 ${isModification ? '수정' : '완료'}하시겠어요?`,
+      onConfirm: putMeeting,
+    });
   };
 
+  // selectedOptions availableTimes
   const handleEventTimeClick = (eventStartsAt: Date) => {
-    const dateToAdd = eventStartsAt.toISOString();
+    const dateToAdd = eventStartsAt.getTime();
     if (availableTimes.includes(dateToAdd)) {
       dispatch(deleteAvailableTimes(dateToAdd));
     } else {
       dispatch(addAvailableTimes(dateToAdd));
     }
+  };
+
+  const handleAllShowClick = () => {
+    dispatch(show(pendingEvent));
   };
 
   const possibleUsersAll = eventTimeCandidates.reduce<string[]>(
@@ -58,7 +116,11 @@ function TimeListSelector() {
     },
     []
   );
-  const declineNum = declinedUsers.length;
+  const declinedUsersAll = declinedUsers.map(
+    (declinedUser) => declinedUser.userId
+  );
+
+  const selectedOptions = getSelectedOptions(eventTimeCandidates);
 
   type EventTimeListWithPossibleNum = {
     eventStartsAt: Date;
@@ -77,7 +139,6 @@ function TimeListSelector() {
     );
   }, [eventTimeCandidates]);
 
-  console.log(eventTimeListDevideByDate);
   // const isSelected = useMemo(() => availableTimes.length > 0, [availableTimes]);
 
   const [calendarPairOpened, setCalendarPairOpened] = useState(true);
@@ -97,10 +158,10 @@ function TimeListSelector() {
       { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
       { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
     ],
-    // '4/12 화': [
-    //   { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
-    //   { timeRange: '하루종일', scheduleTitle: '수아' },
-    // ],
+    '4/12 화': [
+      { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
+      { timeRange: '하루종일', scheduleTitle: '수아' },
+    ],
     '4/13 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
     '4/15 금': [
       { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
@@ -117,10 +178,13 @@ function TimeListSelector() {
           {'모두 선택해주세요'}
         </div>
         <div className={'time-list-selector-personnel'}>
-          <div className={'time-list-selector-personnel-item'}>
+          <div
+            className={'time-list-selector-personnel-item'}
+            onClick={handleAllShowClick}
+          >
             <CircleIcon className={'icon-circle'} />
             <ProfilesIcon className={'icon-profiles'} />
-            {`${possibleUsersAll.length + declineNum}명 참여중`}
+            {`${possibleUsersAll.length + declinedUsersAll.length}명 참여중`}
             <ArrowRightIcon />
           </div>
         </div>
@@ -153,7 +217,7 @@ function TimeListSelector() {
                       isSelected={availableTimes.includes(
                         eventTimeListDevideByDate[dateKey][
                           index
-                        ].eventStartsAt.toISOString()
+                        ].eventStartsAt.getTime()
                       )}
                       onClick={() =>
                         handleEventTimeClick(
@@ -166,7 +230,15 @@ function TimeListSelector() {
                         eventTimeDuration
                       )}
                       possibleNum={
-                        eventTimeListDevideByDate[dateKey][index].possibleNum
+                        availableTimes.includes(
+                          eventTimeListDevideByDate[dateKey][
+                            index
+                          ].eventStartsAt.getTime()
+                        )
+                          ? eventTimeListDevideByDate[dateKey][index]
+                              .possibleNum
+                          : eventTimeListDevideByDate[dateKey][index]
+                              .possibleNum
                       }
                     />
                   ) : (
@@ -188,7 +260,10 @@ function TimeListSelector() {
         ))}
       </div>
       <AvailableOptionSelector />
-      <BottomButton text={'선택 완료'} onClick={handlePutClick} />
+      <BottomButton
+        text={isModification ? '수정 완료' : '선택 완료'}
+        onClick={handlePutClick}
+      />
     </div>
   );
 }

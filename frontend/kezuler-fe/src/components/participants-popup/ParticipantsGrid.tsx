@@ -41,7 +41,7 @@ function ParticipantsGrid({ isHost, users }: Props) {
                 src={userProfileImage}
                 alt={userName}
               />
-              <span>{userProfileImage}</span>
+              <span>{userName}</span>
               <Comment32Icon className={'participant-comment'} />
             </button>
           );
@@ -53,7 +53,7 @@ function ParticipantsGrid({ isHost, users }: Props) {
               src={userProfileImage}
               alt={userName}
             />
-            <span>{userProfileImage}</span>
+            <span>{userName}</span>
           </div>
         );
       })}

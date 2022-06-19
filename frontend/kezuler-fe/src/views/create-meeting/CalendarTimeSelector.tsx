@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import classNames from 'classnames';
-import { format } from 'date-fns';
+import { format, isBefore } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 import TimeOptions from '../../constants/TimeOptions';
@@ -86,6 +86,10 @@ function CalendarTimeSelector() {
     }
   };
 
+  const handleDisChipClick = () => {
+    window.alert('지난 시간은 클릭하실 수 없습니다!');
+  };
+
   const handleNextClick = () => {
     dispatch(increaseStep());
   };
@@ -144,9 +148,8 @@ function CalendarTimeSelector() {
           setHour = nowHour + 1;
         }
 
-        focusChip = document.getElementById(
-          ''.concat(String(setHour), ':', setMinute)
-        );
+        const timeToFocus = ''.concat(String(setHour), ':', setMinute);
+        focusChip = document.getElementById(timeToFocus);
       }
     }
 
@@ -195,20 +198,21 @@ function CalendarTimeSelector() {
         <b>{'미팅시작 시각'}</b>
         {'을 선택하세요'}
       </div>
-      <Stack
-        direction="row"
-        spacing={'6px'}
-        style={{ overflow: 'auto' }}
-        sx={{ marginInline: '12px' }}
-        className={'time-chips-stack'}
-      >
+      <Stack direction="row" spacing={'6px'} className={'time-chips-stack'}>
         {TimeOptions.map((timeOption) =>
           eventTimeList.includes(createDate(timeOption)) ? (
             <div
               key={timeOption}
               id={timeOption}
               className={classNames('time-chips', 'filled')}
-              onClick={() => handleChipClick(timeOption)}
+              onClick={
+                isBefore(
+                  createDate(timeOption),
+                  startDate ? startDate.getTime() : 0
+                )
+                  ? handleDisChipClick
+                  : () => handleChipClick(timeOption)
+              }
             >
               <div className={'text'}>{timeOption}</div>
             </div>
@@ -216,8 +220,20 @@ function CalendarTimeSelector() {
             <div
               key={timeOption}
               id={timeOption}
-              className={classNames('time-chips', 'blank')}
-              onClick={() => handleChipClick(timeOption)}
+              className={classNames('time-chips', 'blank', {
+                'is-before': isBefore(
+                  createDate(timeOption),
+                  startDate ? startDate.getTime() : 0
+                ),
+              })}
+              onClick={
+                isBefore(
+                  createDate(timeOption),
+                  startDate ? startDate.getTime() : 0
+                )
+                  ? handleDisChipClick
+                  : () => handleChipClick(timeOption)
+              }
             >
               <div className={'text'}>{timeOption}</div>
             </div>

@@ -9,78 +9,18 @@ interface ConfirmTimeState {
   step: ConfirmMeetingSteps;
 }
 
-// const currentPendingEvent: PendingEvent = {
-//   userId: '',
-//   eventId: '',
-//   eventHost: { userId: '', userName: '', userProfileImage: '' },
-//   eventTitle: '',
-//   eventDescription: '',
-//   eventTimeDuration: 60,
-//   declinedUsers: [],
-//   eventTimeCandidates: [],
-//   eventZoomAddress: '',
-//   eventPlace: '',
-//   eventAttachment: '',
-// };
-
 const currentPendingEvent: PendingEvent = {
-  eventId: 'pendingevt01',
-  eventHost: {
-    userId: 'user0001',
-    userName: '...',
-    userProfileImage: '...',
-  },
-  eventTitle: '17학번 회식',
-  eventDescription: '...',
+  userId: '',
+  eventId: '',
+  eventHost: { userId: '', userName: '', userProfileImage: '' },
+  eventTitle: '',
+  eventDescription: '',
   eventTimeDuration: 60,
-  declinedUsers: [
-    {
-      userId: 'user0004',
-      userName: '...',
-      userProfileImage: '...',
-      userDeclineReason: '...',
-    },
-    {
-      userId: 'user0005',
-      userName: '...',
-      userProfileImage: '...',
-      userDeclineReason: '...',
-    },
-  ],
-  eventTimeCandidates: [
-    {
-      eventStartsAt: 1649664000000,
-      possibleUsers: [
-        {
-          userId: 'user0002',
-          userName: '...',
-          userProfileImage: '...',
-        },
-        {
-          userId: 'user0003',
-          userName: '...',
-          userProfileImage: '...',
-        },
-      ],
-    },
-    {
-      eventStartsAt: 1649682000000,
-      possibleUsers: [
-        {
-          userId: 'user0002',
-          userName: '...',
-          userProfileImage: '...',
-        },
-      ],
-    },
-    {
-      eventStartsAt: 1649703600000,
-      possibleUsers: [],
-    },
-  ],
+  declinedUsers: [],
+  eventTimeCandidates: [],
   eventZoomAddress: '',
-  eventPlace: '...',
-  eventAttachment: '...',
+  eventPlace: '',
+  eventAttachment: '',
 };
 
 const initialState: ConfirmTimeState = {
@@ -105,6 +45,7 @@ export const confirmTimeSlice = createSlice({
     setSelctedTime: (state, action: PayloadAction<number>) => {
       state.selectedTime = action.payload;
     },
+    destroy: () => initialState,
   },
 });
 

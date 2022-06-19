@@ -1,28 +1,11 @@
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
-import { RootState } from 'src/reducers';
-import { getPendingEventsThunk } from 'src/reducers/mainPending';
-import { AppDispatch } from 'src/store';
+import useMainPending from 'src/hooks/useMainPending';
 
 import BottomPopper from '../../common/BottomPopper';
 import PendingEventCard from './PendingEventCard';
 import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
-
-const useMainPending = () => {
-  const { events, isFetched } = useSelector(
-    (state: RootState) => state.mainPending
-  );
-  const dispatch = useDispatch<AppDispatch>();
-
-  const getPendingEvents = useCallback(
-    () => dispatch(getPendingEventsThunk({})),
-    [dispatch]
-  );
-
-  return { getPendingEvents, events, isFetched };
-};
 
 function MainPendingEvents() {
   const { events, isFetched, getPendingEvents } = useMainPending();
@@ -36,13 +19,13 @@ function MainPendingEvents() {
   };
 
   // TODO 캘린더 연동 체크
-  const isCalenderConnected = true;
+  const isCalenderConnected = false;
 
   if (!isFetched) {
     return null;
   }
 
-  if (!events.length && !isCalenderConnected) {
+  if (!events && !isCalenderConnected) {
     return (
       <div className={'main-pending'}>
         <h2 className={classNames('main-empty-h2', 'pending')}>

@@ -27,6 +27,7 @@ function FixedEventCard({ event, hasTodayId }: Props) {
   const { openModal } = useModal();
 
   const {
+    eventId,
     eventTimeStartsAt,
     eventPlace,
     participants,
@@ -54,7 +55,12 @@ function FixedEventCard({ event, hasTodayId }: Props) {
   }, [hostId]);
 
   const handleOverviewClick = () => {
-    openModal('Overview', { event, isCanceled, isPassed: tense === 'past' });
+    openModal('Overview', {
+      eventId,
+      isFixed: true,
+      isCanceled,
+      isPassed: tense === 'past',
+    });
   };
 
   const MMdd = useMemo(() => dateToMMdd(date), [date]);
@@ -74,18 +80,18 @@ function FixedEventCard({ event, hasTodayId }: Props) {
   }, [date]);
 
   const EventLocation = useCallback(() => {
-    if (eventZoomAddress) {
+    if (eventPlace) {
       return (
         <div className={'fixed-event-card-place'}>
-          <PCIcon />
-          온라인
+          <LocIcon />
+          {eventPlace}
         </div>
       );
     }
     return (
       <div className={'fixed-event-card-place'}>
-        <LocIcon />
-        {eventPlace}
+        <PCIcon />
+        {eventZoomAddress ? eventZoomAddress : '온라인'}
       </div>
     );
   }, [eventPlace, eventZoomAddress]);
@@ -112,9 +118,17 @@ function FixedEventCard({ event, hasTodayId }: Props) {
         </div>
         <div>{event.eventTitle}</div>
         <div>
-          <AvatarGroup max={4}>
-            {participants.map((p) => (
-              <Avatar key={p.userId} alt={p.userId} src={p.userProfileImage} />
+          <AvatarGroup
+            max={4}
+            classes={{ avatar: 'fixed-event-card-avatar-num' }}
+          >
+            {participants?.map((p) => (
+              <Avatar
+                className={'fixed-event-card-avatar'}
+                key={p.userId}
+                alt={p.userName}
+                src={p.userProfileImage}
+              />
             ))}
           </AvatarGroup>
           <EventLocation />

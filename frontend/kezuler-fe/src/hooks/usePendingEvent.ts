@@ -6,12 +6,18 @@ import PathName from 'src/constants/PathName';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
-import { modifySelectionActions } from 'src/reducers/ModifySelection';
 import { AppDispatch } from 'src/store';
-import { PPostPendingEvent, PPutPendingEvent } from 'src/types/pendingEvent';
-
 import {
-  getPendingEventsById,
+  PDeletePendingEvent,
+  PPostPendingEvent,
+  PPutPendingEvent,
+} from 'src/types/pendingEvent';
+
+import { getInvitationById } from 'src/api/invitation';
+import {
+  deletePendingEventById,
+  deletePendingEventGuestById,
+  getPendingEventById,
   postPendingEvent,
   putPendingEventGuestById,
 } from 'src/api/pendingEvent';
@@ -21,10 +27,9 @@ const useGetPendingEvent = () => {
   const dispatch = useDispatch<AppDispatch>();
   const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
   const setConfirmPendingEvent = confirmTimeActions.setPendingEvent;
-  const setModifyPendingEvent = modifySelectionActions.setPendingEvent;
 
   const getPendingEventInfo = (eventId: string, setOption: number) => {
-    getPendingEventsById(eventId)
+    getPendingEventById(eventId)
       .then((res) => {
         switch (setOption) {
           case 0: {
@@ -35,10 +40,6 @@ const useGetPendingEvent = () => {
             dispatch(setConfirmPendingEvent(res.data));
             break;
           }
-          case 2: {
-            dispatch(setModifyPendingEvent(res.data));
-            break;
-          }
           default: {
             console.log('error');
           }
@@ -46,12 +47,49 @@ const useGetPendingEvent = () => {
       })
       .catch((err) => {
         console.log('미팅 수락 에러', err);
-        // window.alert('미팅 정보를 받아올 수 없습니다');
-        // navigate(PathName.invite + `/${eventId}`, { replace: true });
+        window.alert('미팅 정보를 받아올 수 없습니다');
+        navigate(PathName.invite + `/${eventId}`, { replace: true });
       });
   };
 
   return getPendingEventInfo;
+};
+
+const useGetInvitation = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const setIsLoaded = acceptMeetingActions.setIsLoaded;
+  const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
+
+  const getPendingEventInfo = (eventId: string) => {
+    getInvitationById(eventId)
+      .then((res) => {
+        dispatch(setAcceptPendingEvent(res.data));
+        dispatch(setIsLoaded(true));
+      })
+      .catch((err) => {
+        console.log('미팅 수락 에러', err);
+        window.alert('미팅 정보를 받아올 수 없습니다');
+        navigate(PathName.invite + `/${eventId}`, { replace: true });
+      });
+  };
+
+  return getPendingEventInfo;
+};
+
+const useDeletePendingEventById = () => {
+  const removePendingEvent = (eventId: string) => {
+    deletePendingEventById(eventId)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log('미팅 삭제 에러', err);
+        window.alert('미팅 삭제 과정 중 오류가 생겼습니다');
+      });
+  };
+
+  return removePendingEvent;
 };
 
 const usePostPendingEvent = () => {
@@ -60,6 +98,7 @@ const usePostPendingEvent = () => {
   const { increaseStep, setShareUrl } = createMeetingActions;
 
   const getShareUrl = (ppendingEvent: PPostPendingEvent) => {
+    console.log(ppendingEvent);
     postPendingEvent(ppendingEvent)
       .then((res) => {
         dispatch(
@@ -78,8 +117,6 @@ const usePostPendingEvent = () => {
 
 const usePutPendingEventGuest = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const { increaseStep } = acceptMeetingActions;
 
   const putEventTimeCandidate = (
     eventId: string,
@@ -88,15 +125,37 @@ const usePutPendingEventGuest = () => {
     putPendingEventGuestById(eventId, ppendingEvent)
       .then((res) => {
         console.log(res.data);
-        dispatch(increaseStep());
+        //
       })
       .catch((err) => {
-        console.log('미팅 수락 에러', err);
-        window.alert('미팅 수락 과정 중 오류가 생겼습니다');
+        console.log('미팅 수락/수정 에러', err);
+        window.alert('미팅 수락/수정 과정 중 오류가 생겼습니다');
         navigate(`${PathName.invite}/${eventId}`, { replace: true });
       });
   };
   return putEventTimeCandidate;
 };
 
-export { useGetPendingEvent, usePostPendingEvent, usePutPendingEventGuest };
+const useDeletePendingEventGuest = () => {
+  //TODO
+  const deleteEventTimeCandidate = (
+    eventId: string,
+    ppendingEvent?: PDeletePendingEvent
+  ) => {
+    if (ppendingEvent) {
+      deletePendingEventGuestById(eventId, ppendingEvent);
+    } else {
+      deletePendingEventGuestById(eventId);
+    }
+  };
+  return deleteEventTimeCandidate;
+};
+
+export {
+  useGetPendingEvent,
+  usePostPendingEvent,
+  useDeletePendingEventById,
+  usePutPendingEventGuest,
+  useDeletePendingEventGuest,
+  useGetInvitation,
+};

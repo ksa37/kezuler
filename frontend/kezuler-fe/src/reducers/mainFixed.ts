@@ -7,12 +7,23 @@ import { getFixedEvents } from 'src/api/fixedEvent';
 
 const getFixedEventsThunk = createAsyncThunk(
   'getFixedEvents',
-  async (params: PGetFixedEvents, { rejectWithValue }) => {
+  async (
+    {
+      params,
+      onFinally,
+    }: {
+      params: PGetFixedEvents;
+      onFinally?: () => void;
+    },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await getFixedEvents(params);
+      onFinally?.();
       return response.data;
     } catch (error) {
       const err = error as TError;
+      onFinally?.();
       return rejectWithValue(err?.response?.data?.error);
     }
   }
@@ -21,7 +32,8 @@ const getFixedEventsThunk = createAsyncThunk(
 interface MainFixedState {
   isFetched: boolean;
   loading: boolean;
-  errorMessage: string;
+  errorMessage?: string;
+  curUserId: string;
   events: BFixedEvent[];
 }
 
@@ -29,6 +41,7 @@ const initialState: MainFixedState = {
   isFetched: false,
   loading: false,
   errorMessage: '',
+  curUserId: '',
   events: [],
 };
 
@@ -48,10 +61,11 @@ export const mainFixed = createSlice({
         state.loading = false;
         const { fixedEvents, userId } = action.payload;
         state.events = fixedEvents;
+        state.curUserId = userId;
       })
       .addCase(getFixedEventsThunk.rejected, (state, action) => {
         state.loading = false;
-        state.errorMessage = (action.payload as { message: string }).message;
+        state.errorMessage = (action.payload as { message?: string })?.message;
       });
   },
 });

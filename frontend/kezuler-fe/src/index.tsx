@@ -7,22 +7,25 @@ import { StyledEngineProvider } from '@mui/material/styles';
 import { store } from './store';
 
 import App from './App';
+import KezulerIntro from './KezulerIntro';
 import reportWebVitals from './reportWebVitals';
 
 // import 'react-datepicker/dist/react-datepicker.css';
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   // <React.StrictMode>
-  <StyledEngineProvider injectFirst>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </StyledEngineProvider>
+  <div id={'app-wrapper'} className={'app-wrapper'}>
+    <KezulerIntro />
+    <StyledEngineProvider injectFirst>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </StyledEngineProvider>
+  </div>
   // </React.StrictMode>
 );
 

@@ -1,8 +1,13 @@
-import React, { useCallback, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { CURRENT_HOST } from 'src/constants/Auth';
+import { OVERVIEW_FORM_ID } from 'src/constants/Main';
+import PathName from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import useDialog from 'src/hooks/useDialog';
+import { useDeletePendingEventById } from 'src/hooks/usePendingEvent';
+import { RootState } from 'src/reducers';
 import { modalAction } from 'src/reducers/modal';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
@@ -11,85 +16,81 @@ import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
 import OverviewButton from './OverviewButton';
-import OverviewParticipants from './OverviewParticipants';
-import OverviewSection from './OverviewSection';
-import OverviewDropdown from 'src/components/modal/overview-modal/OverviewDropdown';
+import OverviewBody from 'src/components/modal/overview-modal/OverviewBody';
+import OverviewEdit from 'src/components/modal/overview-modal/OverviewEdit';
 
 import { ReactComponent as CancelIcon } from 'src/assets/icn_cancel.svg';
+import { ReactComponent as CheckIcon } from 'src/assets/icn_check.svg';
 import { ReactComponent as CloseIcon } from 'src/assets/icn_close_b.svg';
-import { ReactComponent as CopyIcon } from 'src/assets/icn_copy.svg';
+import { ReactComponent as CloseThinIcon } from 'src/assets/icn_close_thin.svg';
 import { ReactComponent as DeleteIcon } from 'src/assets/icn_delete.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icn_edit.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icn_link.svg';
-import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
-import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
 import 'src/styles/OverviewModal.scss';
 
 interface Props {
-  event: BFixedEvent | BPendingEvent;
+  isFixed: boolean;
+  eventId: string;
   isCanceled?: boolean;
   isPassed?: boolean;
 }
 
-function OverviewModal({ event, isCanceled, isPassed }: Props) {
+function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
+  const { events: fixedEvents } = useSelector(
+    (state: RootState) => state.mainFixed
+  );
+  const { events: pendingEvents } = useSelector(
+    (state: RootState) => state.mainPending
+  );
+
+  const event: BFixedEvent | BPendingEvent | undefined = useMemo(() => {
+    if (isFixed) {
+      return fixedEvents.find((e) => e.eventId === eventId);
+    }
+    return pendingEvents.find((e) => e.eventId === eventId);
+  }, [fixedEvents, pendingEvents, eventId]);
+
+  if (!event) {
+    return null;
+  }
+
   const {
     eventTitle,
-    eventDescription,
-    eventAttachment,
-    eventZoomAddress,
-    eventPlace,
-    eventHost: {
-      userId: hostId,
-      userName: hostName,
-      userProfileImage: hostProfileImage,
-    },
+    eventHost: { userId: hostId },
   } = event;
 
   const { copyText } = useCopyText();
+
+  const [isEdit, setIsEdit] = useState(false);
 
   const isHost = useMemo(
     () => hostId === getCurrentUserInfo()?.userId,
     [hostId]
   );
 
-  const place = useMemo(
-    () =>
-      eventZoomAddress ? (
-        <div className={'overview-section-place'}>
-          <PCIcon />
-          온라인
-        </div>
-      ) : (
-        <div className={'overview-section-place'}>
-          <LocIcon />
-          {eventPlace}
-        </div>
-      ),
-    [eventZoomAddress, eventPlace]
-  );
-
-  const eventDate = useMemo(() => {
-    if (isFixedEvent(event)) {
-      return dateStringToKorDate(event.eventTimeStartsAt);
-    }
-    return '';
-  }, [event]);
-
   const { openDialog } = useDialog();
   const { hide } = modalAction;
   const dispatch = useDispatch();
+
+  const removePendingEvent = useDeletePendingEventById();
 
   const closeModal = useCallback(() => {
     dispatch(hide());
   }, [dispatch]);
 
-  const handleModifyClick = () => {
-    console.log('ho');
+  // 수정
+  const handleModifyStartClick = () => {
+    setIsEdit(true);
+  };
+
+  // 수정 취소
+  const handleModifyCancelClick = () => {
+    setIsEdit(false);
   };
 
   const handleDeleteClick = () => {
     const deleteMeeting = () => {
-      console.log('ho');
+      removePendingEvent(eventId);
     };
 
     openDialog({
@@ -102,6 +103,8 @@ function OverviewModal({ event, isCanceled, isPassed }: Props) {
 
   const handleCancelClick = () => {
     const cancel = () => {
+      //TODO pendingEvent Delete candidate 연결
+
       console.log('ho');
     };
 
@@ -112,20 +115,15 @@ function OverviewModal({ event, isCanceled, isPassed }: Props) {
   };
 
   const handleCopyLinkClick = () => {
-    copyText('hello', '케줄러 링크가');
+    copyText(`${CURRENT_HOST}${PathName.invite}/${eventId}`, '케줄러 링크가');
   };
 
-  const handleCopyPlaceClick = () => {
-    if (eventZoomAddress) {
-      copyText(eventZoomAddress, '주소가');
-    } else {
-      copyText(eventPlace, '장소가');
+  const eventDate = useMemo(() => {
+    if (isFixedEvent(event)) {
+      return dateStringToKorDate(event.eventTimeStartsAt);
     }
-  };
-
-  const handleAttachmentClick = () => {
-    copyText(eventAttachment, '참고 자료가');
-  };
+    return '';
+  }, [event]);
 
   return (
     <div className={'overview'}>
@@ -134,88 +132,63 @@ function OverviewModal({ event, isCanceled, isPassed }: Props) {
         <CloseIcon />
       </button>
       <div className={'overview-container'}>
-        <header className={'overview-header'}>
-          <div className={'overview-header-title'}>미팅 제목</div>
-          <h1 className={'overview-header-desc'}>{eventTitle}</h1>
-          {isFixedEvent(event) && !isCanceled && !isPassed && (
-            <OverviewDropdown />
-          )}
-        </header>
-        <div className={'overview-body'}>
-          {!isFixedEvent(event) && (
-            <OverviewSection
-              title={'주최자'}
-              profileImageUrl={hostProfileImage}
-              profileImageAlt={hostName}
-            >
-              {hostName}
-            </OverviewSection>
-          )}
-          {eventDate && (
-            <OverviewSection title={'일시'}>{eventDate}</OverviewSection>
-          )}
-          <OverviewSection title={'장소'}>
-            {place}
-            <button
-              className={'overview-section-copy-btn'}
-              onClick={handleCopyPlaceClick}
-            >
-              <CopyIcon />
-              복사하기
-            </button>
-          </OverviewSection>
-          <OverviewSection title={'미팅 내용'}>
-            {eventDescription}
-          </OverviewSection>
-          <OverviewSection title={'참고 자료'}>
-            <a
-              href={eventAttachment}
-              target="_blank"
-              rel="noreferrer"
-              className={'overview-section-attachment'}
-            >
-              {eventAttachment}
-            </a>
-            <button
-              className={'overview-section-copy-btn'}
-              onClick={handleAttachmentClick}
-            >
-              <CopyIcon />
-              복사하기
-            </button>
-          </OverviewSection>
-          {isFixedEvent(event) && !isCanceled && (
-            <OverviewParticipants event={event} />
-          )}
-        </div>
+        {isEdit ? (
+          <OverviewEdit
+            setIsEdit={setIsEdit}
+            eventDate={eventDate}
+            event={event}
+          />
+        ) : (
+          <OverviewBody eventDate={eventDate} event={event} />
+        )}
       </div>
       {!isCanceled && !isPassed && (
         <footer className={'overview-footer'}>
-          {isHost ? (
+          {isEdit ? (
             <>
               <OverviewButton
-                icon={<EditIcon />}
-                onClick={handleModifyClick}
-                text={'미팅정보수정'}
+                className={'edit'}
+                icon={<CheckIcon />}
+                text={'변경 저장'}
+                type={'submit'}
+                formId={OVERVIEW_FORM_ID}
               />
               <OverviewButton
-                icon={<DeleteIcon />}
-                onClick={handleDeleteClick}
-                text={'미팅삭제'}
+                className={'edit'}
+                icon={<CloseThinIcon />}
+                onClick={handleModifyCancelClick}
+                text={'변경 취소'}
               />
             </>
           ) : (
-            <OverviewButton
-              icon={<CancelIcon />}
-              onClick={handleCancelClick}
-              text={'참여취소'}
-            />
+            <>
+              {isHost ? (
+                <>
+                  <OverviewButton
+                    icon={<EditIcon />}
+                    onClick={handleModifyStartClick}
+                    text={'미팅정보수정'}
+                  />
+                  <OverviewButton
+                    icon={<DeleteIcon />}
+                    onClick={handleDeleteClick}
+                    text={'미팅삭제'}
+                  />
+                </>
+              ) : (
+                <OverviewButton
+                  icon={<CancelIcon />}
+                  onClick={handleCancelClick}
+                  text={'참여취소'}
+                />
+              )}
+              <OverviewButton
+                icon={<LinkIcon />}
+                onClick={handleCopyLinkClick}
+                text={'케줄러링크 복사'}
+              />
+            </>
           )}
-          <OverviewButton
-            icon={<LinkIcon />}
-            onClick={handleCopyLinkClick}
-            text={'케줄러링크 복사'}
-          />
         </footer>
       )}
     </div>

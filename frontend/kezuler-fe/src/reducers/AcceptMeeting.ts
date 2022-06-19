@@ -27,6 +27,7 @@ interface AcceptMeetingState {
   data: string;
   errorMessage: string;
 
+  isLoaded: boolean;
   step: AcceptMeetingSteps;
 
   pendingEvent: PendingEvent;
@@ -36,7 +37,7 @@ interface AcceptMeetingState {
   userName?: string;
   isDecline: boolean;
   declineReason: null | string;
-  availableTimes: string[];
+  availableTimes: number[];
 }
 
 const initialPendingEvent: PendingEvent = {
@@ -58,6 +59,7 @@ const initialState: AcceptMeetingState = {
   data: '',
   errorMessage: '',
 
+  isLoaded: false,
   step: AcceptMeetingSteps.First,
 
   pendingEvent: initialPendingEvent,
@@ -71,13 +73,15 @@ const initialState: AcceptMeetingState = {
   availableTimes: [],
 };
 
-const dateSort = (dateArr: string[]) =>
-  dateArr.sort((a, b) => new Date(a).valueOf() - new Date(b).valueOf());
+const dateSort = (dateArr: number[]) => dateArr.sort((a, b) => a - b);
 
 export const acceptMeetingSlice = createSlice({
   name: 'accept-meeting',
   initialState,
   reducers: {
+    setIsLoaded: (state, action: PayloadAction<boolean>) => {
+      state.isLoaded = action.payload;
+    },
     setStep: (state, action: PayloadAction<number>) => {
       state.step = action.payload;
     },
@@ -110,21 +114,25 @@ export const acceptMeetingSlice = createSlice({
     },
     setAllAvailableTimes: (state) => {
       state.availableTimes = state.pendingEvent.eventTimeCandidates.map(
-        (eventTimeCandidate) =>
-          new Date(eventTimeCandidate.eventStartsAt).toISOString()
+        (eventTimeCandidate) => eventTimeCandidate.eventStartsAt
       );
     },
-    addAvailableTimes: (state, action: PayloadAction<string>) => {
+    setAvailableTimes: (state, action: PayloadAction<number[]>) => {
+      state.availableTimes = action.payload;
+      state.availableTimes = dateSort(state.availableTimes);
+    },
+    addAvailableTimes: (state, action: PayloadAction<number>) => {
       state.availableTimes.push(action.payload);
       state.availableTimes = dateSort(state.availableTimes);
     },
-    deleteAvailableTimes: (state, action: PayloadAction<string>) => {
+    deleteAvailableTimes: (state, action: PayloadAction<number>) => {
       const index = state.availableTimes.indexOf(action.payload);
       if (index !== -1) {
         state.availableTimes.splice(index, 1);
       }
       state.availableTimes = dateSort(state.availableTimes);
     },
+    destroy: () => initialState,
   },
   extraReducers: (builder) => {
     builder
