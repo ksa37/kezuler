@@ -7,8 +7,8 @@ import { StyledEngineProvider } from '@mui/material/styles';
 import { store } from './store';
 
 import App from './App';
-import KezulerIntro from './KezulerIntro';
 import reportWebVitals from './reportWebVitals';
+import KezulerIntro from './components/KezulerIntro';
 
 // import 'react-datepicker/dist/react-datepicker.css';
 const root = ReactDOM.createRoot(
@@ -17,10 +17,10 @@ const root = ReactDOM.createRoot(
 root.render(
   // <React.StrictMode>
   <div id={'app-wrapper'} className={'app-wrapper'}>
-    <KezulerIntro />
     <StyledEngineProvider injectFirst>
       <Provider store={store}>
         <BrowserRouter>
+          <KezulerIntro />
           <App />
         </BrowserRouter>
       </Provider>

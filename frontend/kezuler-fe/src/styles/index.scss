@@ -8,7 +8,7 @@
   height: 100vh;
   position: relative;
   overflow-x: hidden;
-  @media (min-width: 700px) {
+  @media (min-width: 900px) {
     @media (min-width: 415px) {
       width: 414px;
     }
@@ -25,7 +25,7 @@
 }
 
 .app-wrapper {
-  @media (min-width: 700px) {
+  @media (min-width: 900px) {
     display: flex;
     background-color: #ffffff;
     height: 100vh;
@@ -34,6 +34,52 @@
   }
 }
 $app-bar-height: 72px;
+
+.kezuler-intro {
+  @media (max-width: 1200px) {
+    display: none;
+  }
+  display: flex;
+  justify-content: center;
+  // align-items: center;
+  flex-direction: column;
+  text-align: left;
+  margin-right: 10%;
+  .kezuler-intro-title {
+    font-size: 70px;
+    color: $color-highlight;
+    span {
+      color: #3100ff;
+    }
+    .kezuler-intro-title-bold {
+      font-weight: bold;
+      font-size: 120px;
+    }
+  }
+  .kezuler-intro-decription {
+    font-size: 30px;
+  }
+  .kezuler-intro-login-kakao-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: $color-highlight;
+    // height: 84px;
+    // padding-inline: 5px;
+    margin-top: 20px;
+    width: 400px;
+    color: #fae301;
+    border-radius: 24px;
+    font-size: 30px;
+  }
+
+  .kezuler-intro-login-kakao-icn {
+    padding-right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+}
 
 .common-app-bar {
   width: 100%;
