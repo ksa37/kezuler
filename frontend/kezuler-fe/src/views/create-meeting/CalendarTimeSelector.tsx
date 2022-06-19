@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import classNames from 'classnames';
-import { format, isBefore } from 'date-fns';
+import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 import TimeOptions from '../../constants/TimeOptions';
@@ -33,19 +33,18 @@ function CalendarTimeSelector() {
 
   const [startDate, setStartDate] = useState<Date | null>(new Date());
 
-  const setDateString = (startDate: Date | null) => {
-    const dateFnsStr = startDate ? (
-      <div>
-        <b>{format(startDate, 'M월 d일 ', { locale: ko })}</b>
-        {format(startDate, 'EEE', { locale: ko })}
-      </div>
-    ) : (
-      <div>{''}</div>
-    );
-    return dateFnsStr;
-  };
-
-  const dateStr = useMemo(() => setDateString(startDate), [startDate]);
+  const dateStr = useMemo(
+    () =>
+      startDate ? (
+        <div>
+          <b>{format(startDate, 'M월 d일 ', { locale: ko })}</b>
+          {format(startDate, 'EEE', { locale: ko })}
+        </div>
+      ) : (
+        <div>{''}</div>
+      ),
+    [startDate]
+  );
 
   const eventTimeListDateToHighlight = useMemo(
     () => eventTimeList.map((dateString) => new Date(dateString)),
@@ -86,9 +85,9 @@ function CalendarTimeSelector() {
     }
   };
 
-  const handleDisChipClick = () => {
-    window.alert('지난 시간은 클릭하실 수 없습니다!');
-  };
+  // const handleDisChipClick = () => {
+  //   window.alert('지난 시간은 클릭하실 수 없습니다!');
+  // };
 
   const handleNextClick = () => {
     dispatch(increaseStep());
@@ -131,27 +130,7 @@ function CalendarTimeSelector() {
 
   // Time Option Chip Focus 설정
   const setChipFocus = () => {
-    let focusChip = document.getElementById('08:00');
-
-    if (startDate) {
-      const today = new Date();
-      if (format(today, 'yyyy-mm-dd') === format(startDate, 'yyyy-mm-dd')) {
-        const nowHour = Number(format(today, 'HH'));
-        const nowMinute = Number(format(today, 'mm'));
-        let setHour = nowHour;
-        let setMinute = '00';
-
-        if (nowMinute > 0 && nowMinute <= 30) {
-          setMinute = '30';
-        } else if (nowMinute > 30 && nowMinute < 60) {
-          setMinute = '00';
-          setHour = nowHour + 1;
-        }
-
-        const timeToFocus = ''.concat(String(setHour), ':', setMinute);
-        focusChip = document.getElementById(timeToFocus);
-      }
-    }
+    const focusChip = document.getElementById('08:00');
 
     focusChip?.scrollIntoView({
       behavior: 'auto',
@@ -163,6 +142,28 @@ function CalendarTimeSelector() {
   useEffect(() => {
     setChipFocus();
   }, [startDate]);
+
+  const getChips = useMemo(
+    () =>
+      startDate &&
+      TimeOptions(startDate).map((timeOption) => {
+        const included = eventTimeList.includes(createDate(timeOption));
+        return (
+          <div
+            key={startDate?.getTime() + timeOption}
+            id={timeOption}
+            className={classNames('time-chips', {
+              filled: included,
+              blank: !included,
+            })}
+            onClick={() => handleChipClick(timeOption)}
+          >
+            <div className={'text'}>{timeOption}</div>
+          </div>
+        );
+      }),
+    [startDate, eventTimeList]
+  );
 
   return (
     <div className={'padding-wrapper'}>
@@ -190,55 +191,14 @@ function CalendarTimeSelector() {
         <CalendarIcon className={'calendar-icon'} />
         <div className={'date-string-text'}>{dateStr}</div>
       </div>
-
       {scheduleConnected && <ScheduleList schedules={mockSceduleData} />}
-
       <div className={'time-chip-text'}>
         <ClockIcon className={'icn-clock-b20'} />
         <b>{'미팅시작 시각'}</b>
         {'을 선택하세요'}
       </div>
       <Stack direction="row" spacing={'6px'} className={'time-chips-stack'}>
-        {TimeOptions.map((timeOption) =>
-          eventTimeList.includes(createDate(timeOption)) ? (
-            <div
-              key={timeOption}
-              id={timeOption}
-              className={classNames('time-chips', 'filled')}
-              onClick={
-                isBefore(
-                  createDate(timeOption),
-                  startDate ? startDate.getTime() : 0
-                )
-                  ? handleDisChipClick
-                  : () => handleChipClick(timeOption)
-              }
-            >
-              <div className={'text'}>{timeOption}</div>
-            </div>
-          ) : (
-            <div
-              key={timeOption}
-              id={timeOption}
-              className={classNames('time-chips', 'blank', {
-                'is-before': isBefore(
-                  createDate(timeOption),
-                  startDate ? startDate.getTime() : 0
-                ),
-              })}
-              onClick={
-                isBefore(
-                  createDate(timeOption),
-                  startDate ? startDate.getTime() : 0
-                )
-                  ? handleDisChipClick
-                  : () => handleChipClick(timeOption)
-              }
-            >
-              <div className={'text'}>{timeOption}</div>
-            </div>
-          )
-        )}
+        {getChips}
       </Stack>
       {!popupDisable && (
         <CalendarPopup

@@ -281,7 +281,7 @@
     color: $color-highlight;
   }
   &.is-before {
-    color: #dddddd;
+    display: none;
   }
   .text {
     font: normal normal normal 16px/18px Arial;
