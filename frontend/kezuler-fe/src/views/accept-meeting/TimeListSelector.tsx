@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,7 +36,7 @@ function TimeListSelector({ isModification }: Props) {
   const { pendingEvent, availableTimes, declineReason } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
-  const { addAvailableTimes, deleteAvailableTimes, increaseStep } =
+  const { addAvailableTimes, deleteAvailableTimes, increaseStep, destroy } =
     acceptMeetingActions;
 
   const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
@@ -48,6 +48,14 @@ function TimeListSelector({ isModification }: Props) {
   const deleteEventTimeCandidate = useDeletePendingEventGuest();
   const navigate = useNavigate();
   const { openDialog } = useDialog();
+
+  useEffect(() => {
+    if (isModification) {
+      return () => {
+        dispatch(destroy());
+      };
+    }
+  }, []);
 
   const handlePutClick = () => {
     const putMeeting = () => {

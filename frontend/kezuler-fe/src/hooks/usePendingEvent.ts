@@ -6,7 +6,6 @@ import PathName from 'src/constants/PathName';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
-import { modifySelectionActions } from 'src/reducers/ModifySelection';
 import { AppDispatch } from 'src/store';
 import {
   PDeletePendingEvent,
@@ -28,7 +27,6 @@ const useGetPendingEvent = () => {
   const dispatch = useDispatch<AppDispatch>();
   const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
   const setConfirmPendingEvent = confirmTimeActions.setPendingEvent;
-  const setModifyPendingEvent = modifySelectionActions.setPendingEvent;
 
   const getPendingEventInfo = (eventId: string, setOption: number) => {
     getPendingEventById(eventId)
@@ -40,10 +38,6 @@ const useGetPendingEvent = () => {
           }
           case 1: {
             dispatch(setConfirmPendingEvent(res.data));
-            break;
-          }
-          case 2: {
-            dispatch(setModifyPendingEvent(res.data));
             break;
           }
           default: {

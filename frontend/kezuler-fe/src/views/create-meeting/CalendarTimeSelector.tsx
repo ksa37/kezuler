@@ -140,40 +140,16 @@ function CalendarTimeSelector() {
         const nowMinute = Number(format(today, 'mm'));
         let setHour = nowHour;
         let setMinute = '00';
-        // let removeBefore = ''.concat(
-        //   String(setHour === 0 ? 0 : setHour - 1),
-        //   ':',
-        //   '30'
-        // );
 
         if (nowMinute > 0 && nowMinute <= 30) {
           setMinute = '30';
-          // removeBefore = ''.concat(String(nowHour), ':', '00');
         } else if (nowMinute > 30 && nowMinute < 60) {
           setMinute = '00';
           setHour = nowHour + 1;
-          // removeBefore = ''.concat(String(nowHour), ':', '30');
         }
 
         const timeToFocus = ''.concat(String(setHour), ':', setMinute);
         focusChip = document.getElementById(timeToFocus);
-
-        //Delete unavailable options
-        // console.log(timeToFocus, removeBefore);
-        // if (timeToFocus !== '00:00') {
-        //   const removeEndIdx = TimeOptions.findIndex(
-        //     (option) => option === removeBefore
-        //   );
-
-        //   for (let i = removeEndIdx; i >= 0; i--) {
-        //     const element = document.getElementById(TimeOptions[i]);
-        //     if (element) {
-        //       // element.removeAttribute('onClick');
-        //       element.onclick = handleDisChipClick;
-        //     }
-        //     // element?.disabled = true;
-        //   }
-        // }
       }
     }
 
@@ -195,12 +171,12 @@ function CalendarTimeSelector() {
         <ClockOrangeIcon className={'icn-clock-o20'} />
         <div className={'duration-text'}>미팅 길이</div>
         <KezulerDropdown
-          endIcon={<ArrowDownIcon />}
+          buttonClassName={'duration-dropdown'}
           menuData={MEETING_LENGTH_LIST}
           displayKey={'display'}
           selectedIdx={selectedLengthIdx}
           setSelectedIdx={setSelectedLengthIdx}
-          buttonClassName={'duration-dropdown'}
+          endIcon={<ArrowDownIcon />}
         />
       </div>
       <div className={'calendar'}>
@@ -231,11 +207,11 @@ function CalendarTimeSelector() {
               className={classNames('time-chips', 'filled')}
               onClick={
                 isBefore(
-                  startDate ? startDate.getTime() : 0,
-                  createDate(timeOption)
+                  createDate(timeOption),
+                  startDate ? startDate.getTime() : 0
                 )
-                  ? () => handleChipClick(timeOption)
-                  : handleDisChipClick
+                  ? handleDisChipClick
+                  : () => handleChipClick(timeOption)
               }
             >
               <div className={'text'}>{timeOption}</div>
@@ -244,14 +220,19 @@ function CalendarTimeSelector() {
             <div
               key={timeOption}
               id={timeOption}
-              className={classNames('time-chips', 'blank')}
+              className={classNames('time-chips', 'blank', {
+                'is-before': isBefore(
+                  createDate(timeOption),
+                  startDate ? startDate.getTime() : 0
+                ),
+              })}
               onClick={
                 isBefore(
-                  startDate ? startDate.getTime() : 0,
-                  createDate(timeOption)
+                  createDate(timeOption),
+                  startDate ? startDate.getTime() : 0
                 )
-                  ? () => handleChipClick(timeOption)
-                  : handleDisChipClick
+                  ? handleDisChipClick
+                  : () => handleChipClick(timeOption)
               }
             >
               <div className={'text'}>{timeOption}</div>

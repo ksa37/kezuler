@@ -280,6 +280,9 @@
     background: #ffffff 0% 0% no-repeat padding-box;
     color: $color-highlight;
   }
+  &.is-before {
+    color: #dddddd;
+  }
   .text {
     font: normal normal normal 16px/18px Arial;
     text-align: center;
