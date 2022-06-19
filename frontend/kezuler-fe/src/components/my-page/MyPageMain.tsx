@@ -38,18 +38,6 @@ function MyPageMain({
 
   const userEmail = 'example@example.com';
 
-  const handleQuestionClick = () => {
-    console.log('hi');
-  };
-
-  const handleTermsClick = () => {
-    console.log('hi');
-  };
-
-  const handlePolicyClick = () => {
-    console.log('hi');
-  };
-
   const handleLogoutClick = () => {
     deleteCookie(ACCESS_TOKEN_KEY);
     deleteCookie(REFRESH_TOKEN_KEY);
@@ -113,19 +101,16 @@ function MyPageMain({
       </MyPageRow>
       <h1 className={'my-page-h1'}>서비스 이용</h1>
       <MyPageRow
-        onClick={handleQuestionClick}
         title={'이용문의'}
         href={'https://www.notion.so/5581c32572c94984a93b6f4e0010f32a'}
         startIcon={<QuestionIcon />}
       />
       <MyPageRow
-        onClick={handleTermsClick}
         title={'이용약관'}
         href={'https://www.notion.so/4856b0c81b4b48629afd6ab3e8e6132a'}
         startIcon={<PaperIcon />}
       />
       <MyPageRow
-        onClick={handlePolicyClick}
         title={'개인정보 보호 정책'}
         href={'https://www.notion.so/b11df8e98a51409e9d7113ac3104169f'}
         startIcon={<PaperIcon />}
