@@ -85,10 +85,6 @@ function CalendarTimeSelector() {
     }
   };
 
-  // const handleDisChipClick = () => {
-  //   window.alert('지난 시간은 클릭하실 수 없습니다!');
-  // };
-
   const handleNextClick = () => {
     dispatch(increaseStep());
   };

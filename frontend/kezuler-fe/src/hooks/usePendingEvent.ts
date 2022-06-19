@@ -95,7 +95,7 @@ const useDeletePendingEventById = () => {
 const usePostPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { increaseStep, setShareUrl } = createMeetingActions;
+  const { increaseStep, setShareUrl, setEventId } = createMeetingActions;
 
   const getShareUrl = (ppendingEvent: PPostPendingEvent) => {
     console.log(ppendingEvent);
@@ -104,6 +104,7 @@ const usePostPendingEvent = () => {
         dispatch(
           setShareUrl(`${CURRENT_HOST}${PathName.invite}/${res.data.eventId}`)
         );
+        dispatch(setEventId(res.data.eventId));
         dispatch(increaseStep());
       })
       .catch((err) => {
