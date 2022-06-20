@@ -39,6 +39,12 @@ func getPendingEvents(w http.ResponseWriter, serviceAuthToken string) {
 		return
 	}
 
+	pendingEventsWithInfo, err := GetInfoInPendingEvents(client, pendingEvents)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
 	var res bson.M
 	if pendingEvents == nil {
 		res = bson.M{
@@ -46,7 +52,7 @@ func getPendingEvents(w http.ResponseWriter, serviceAuthToken string) {
 		}
 	} else {
 		res = bson.M{
-			"pendingEvents": pendingEvents,
+			"pendingEvents": pendingEventsWithInfo,
 		}
 	}
 
