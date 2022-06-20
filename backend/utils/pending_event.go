@@ -39,14 +39,23 @@ func getPendingEvents(w http.ResponseWriter, serviceAuthToken string) {
 		return
 	}
 
-	res := bson.M{
-		"pendingEvents": pendingEvents,
+	var res bson.M
+	if pendingEvents == nil {
+		res = bson.M{
+			"pendingEvents": []PendingEvent{},
+		}
+	} else {
+		res = bson.M{
+			"pendingEvents": pendingEvents,
+		}
 	}
+
 	jsonRes, err := json.Marshal(res)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	w.Write(jsonRes)
@@ -68,7 +77,7 @@ func postPendingEvent(w http.ResponseWriter, serviceAuthToken string, payload Po
 	newPendingEvent := PendingEvent{
 		PendingEventId:      uniuri.NewLen(12),
 		Title:               payload.EventTitle,
-		HostUser:            pendingEventUser{hostUser.UserId, hostUser.Name, hostUser.ProfileImage},
+		HostUser:            PendingEventUser{hostUser.UserId},
 		Description:         payload.EventDescription,
 		Duration:            payload.EventTimeDuration,
 		EventTimeCandidates: unixTimestampToEventTime(payload.EventTimeCandidates),
@@ -81,7 +90,20 @@ func postPendingEvent(w http.ResponseWriter, serviceAuthToken string, payload Po
 	pendingEventCol := client.Database("kezuler").Collection("pendingEvent")
 	_, err = pendingEventCol.InsertOne(context.TODO(), newPendingEvent)
 
-	jsonRes, err := json.Marshal(newPendingEvent)
+	newPendingEventWithInfo := PendingEventClaims{
+		PendingEventId:      newPendingEvent.PendingEventId,
+		Title:               newPendingEvent.Title,
+		HostUser:            PendingEventUserWithInfo{hostUser.UserId, hostUser.Name, hostUser.ProfileImage},
+		Description:         newPendingEvent.Description,
+		Duration:            newPendingEvent.Duration,
+		EventTimeCandidates: unixTimestampToEventTimeWithInfo(payload.EventTimeCandidates),
+		DeclinedUsers:       []DeclineUserWithInfo{},
+		PlaceAddress:        newPendingEvent.PlaceAddress,
+		PlaceUrl:            newPendingEvent.PlaceUrl,
+		Attachment:          newPendingEvent.Attachment,
+	}
+
+	jsonRes, err := json.Marshal(newPendingEventWithInfo)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	w.Write(jsonRes)
@@ -109,7 +131,13 @@ func getPendingEventWithId(w http.ResponseWriter, serviceAuthToken string, peId 
 		return
 	}
 
-	jsonRes, err := json.Marshal(targetEvent)
+	targetEventWithInfo, err := GetInfoInPendingEvent(client, targetEvent)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	jsonRes, err := json.Marshal(targetEventWithInfo)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonRes)
@@ -138,17 +166,22 @@ func patchPendingEventWithId(w http.ResponseWriter, serviceAuthToken string, peI
 	}
 
 	userId := hostUser.UserId
-	fmt.Print(payload)
 	var updatedEvent PendingEvent
 	if targetEvent.HostUser.UserId == userId {
 		pendingEventCol.FindOneAndUpdate(context.TODO(), bson.M{"pendingEventId": targetEvent.PendingEventId}, bson.M{"$set": payload}, options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&updatedEvent)
-		jsonRes, _ := json.Marshal(updatedEvent)
+
+		updatedEventWithInfo, err := GetInfoInPendingEvent(client, updatedEvent)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
+		jsonRes, _ := json.Marshal(updatedEventWithInfo)
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write(jsonRes)
 	} else {
 		fmt.Printf("HostId: %s\n", serviceAuthToken)
-		http.Error(w, "Not Authorized", http.StatusUnauthorized)
+		http.Error(w, "Given user is not an host of target PendingEvent.", http.StatusUnauthorized)
 		return
 	}
 }
@@ -225,7 +258,7 @@ func putPendingEventCandidate(w http.ResponseWriter, serviceAuthToken string, pe
 			userIdx := findUserInAcceptUsers(guestUser, updatedEvent.EventTimeCandidates[targetIdx].PossibleUsers)
 			if userIdx == -1 {
 				updatedEvent.EventTimeCandidates[targetIdx].PossibleUsers = append(updatedEvent.EventTimeCandidates[targetIdx].PossibleUsers,
-					AcceptUser{guestUser.UserId, guestUser.Name, guestUser.ProfileImage})
+					AcceptUser{UserId: guestUser.UserId})
 			}
 		}
 		declineIdx := findUserInDeclinedUsers(guestUser, updatedEvent.DeclinedUsers)
@@ -256,8 +289,14 @@ func putPendingEventCandidate(w http.ResponseWriter, serviceAuthToken string, pe
 		http.Error(w, "Cannot modify status of Host", http.StatusNotAcceptable)
 		return
 	} else {
+		log.Println(updatedEvent)
 		pendingEventCol.FindOneAndReplace(context.TODO(), bson.M{"pendingEventId": targetEvent.PendingEventId}, updatedEvent)
-		jsonRes, _ := json.Marshal(updatedEvent)
+		updatedEventWithInfo, err := GetInfoInPendingEvent(client, updatedEvent)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
+		jsonRes, _ := json.Marshal(updatedEventWithInfo)
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write(jsonRes)
@@ -296,8 +335,6 @@ func deletePendingEventCandidate(w http.ResponseWriter, serviceAuthToken string,
 
 	newDeclineUser := DeclineUser{
 		UserId:            guestUser.UserId,
-		UserName:          guestUser.Name,
-		UserProfileImage:  guestUser.ProfileImage,
 		UserDeclineReason: payload.UserDeclineReason,
 	}
 
@@ -308,7 +345,12 @@ func deletePendingEventCandidate(w http.ResponseWriter, serviceAuthToken string,
 		return
 	} else {
 		pendingEventCol.FindOneAndReplace(context.TODO(), bson.M{"pendingEventId": targetEvent.PendingEventId}, updatedEvent)
-		jsonRes, _ := json.Marshal(updatedEvent)
+		updatedEventWithInfo, err := GetInfoInPendingEvent(client, updatedEvent)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
+		jsonRes, _ := json.Marshal(updatedEventWithInfo)
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write(jsonRes)

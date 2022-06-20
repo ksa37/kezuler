@@ -1,12 +1,21 @@
 package utils
 
-type pendingEventUser struct {
+type PendingEventUser struct {
+	UserId string `json:"userId" bson:"userId"`
+}
+
+type PendingEventUserWithInfo struct {
 	UserId           string `json:"userId" bson:"userId"`
 	UserName         string `json:"userName" bson:"userName"`
 	UserProfileImage string `json:"userProfileImage" bson:"userProfileImage"`
 }
 
-type fixedEventUser struct {
+type FixedEventUser struct {
+	UserId     string `json:"userId" bson:"userId"`
+	UserStatus string `json:"userStatus" bson:"userStatus"`
+}
+
+type FixedEventUserWithInfo struct {
 	UserId           string `json:"userId" bson:"userId"`
 	UserName         string `json:"userName" bson:"userName"`
 	UserProfileImage string `json:"userProfileImage" bson:"userProfileImage"`
@@ -23,20 +32,20 @@ type Token struct {
 
 type User struct {
 	UserId           string `json:"userId" bson:"userId"`
-	Name             string `json:"name" bson:"name"`
-	Email            string `json:"email" bson:"email"`
-	PhoneNumber      string `json:"phoneNumber" bson:"phoneNumber"`
-	ProfileImage     string `json:"profileImage" bson:"profileImage"`
-	Timezone         string `json:"timezone" bson:"timezone"`
+	Name             string `json:"userName" bson:"name"`
+	Email            string `json:"userEmail" bson:"email"`
+	PhoneNumber      string `json:"userPhoneNumber" bson:"phoneNumber"`
+	ProfileImage     string `json:"userProfileImage" bson:"profileImage"`
+	Timezone         string `json:"userTimezone" bson:"timezone"`
 	KakaoId          string `json:"kakaoId" bson:"kakaoId"`
-	GoogleCalendarId string `json:"googleCalendarId" bson:"googleCalendarId"`
+	GoogleCalendarId string `json:"userGoogleCalenderId" bson:"googleCalenderId"`
 	Token            Token  `json:"userToken" bson:"token"`
 }
 
 type PendingEvent struct {
 	PendingEventId      string               `json:"eventId" bson:"pendingEventId"`
 	Title               string               `json:"eventTitle" bson:"title"`
-	HostUser            pendingEventUser     `json:"eventHost" bson:"hostUser"`
+	HostUser            PendingEventUser     `json:"eventHost" bson:"hostUser"`
 	Description         string               `json:"eventDescription" bson:"description"`
 	Duration            int                  `json:"eventTimeDuration" bson:"duration"`
 	EventTimeCandidates []EventTimeCandidate `json:"eventTimeCandidates" bson:"eventTimeCandidates"`
@@ -62,7 +71,7 @@ type DeclinedSurvey struct {
 
 type FixedEvent struct {
 	FixedEventId string           `json:"eventId" bson:"fixedEventId"`
-	HostUser     fixedEventUser   `json:"eventHost" bson:"hostUser"`
+	HostUser     FixedEventUser   `json:"eventHost" bson:"hostUser"`
 	Title        string           `json:"eventTitle" bson:"title"`
 	Description  string           `json:"eventDescription" bson:"description"`
 	Duration     int              `json:"eventTimeDuration" bson:"duration"`
@@ -70,13 +79,13 @@ type FixedEvent struct {
 	PlaceAddress string           `json:"eventPlace" bson:"placeAddress"`
 	PlaceUrl     string           `json:"eventZoomAddress" bson:"placeUrl"`
 	Attachment   string           `json:"eventAttachment" bson:"attachment"`
-	Participants []fixedEventUser `json:"participants" bson:"participants"`
+	Participants []FixedEventUser `json:"participants" bson:"participants"`
 	IsDisabled   bool             `json:"isDisabled" bson:"isDisabled"`
 }
 
 type Reminder struct {
-	ReminderId   string   `json:"reminderId" bson:"reminderId"`
 	FixedEventId string   `json:"fixedEventId" bson:"fixedEventId"`
 	UserId       string   `json:"userId" bson:"userId"`
 	Date         unixTime `json:"date" bson:"date"`
+	TimeDelta    unixTime `json:"timeDelta" bson:"timeDelta"`
 }
