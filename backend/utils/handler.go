@@ -25,7 +25,7 @@ func UserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func UserWithIdHandler(w http.ResponseWriter, r *http.Request) {
+func UserWithTokenHandler(w http.ResponseWriter, r *http.Request) {
 	serviceAuthToken := r.Header.Get("Authorization")
 	splitToken := strings.Split(serviceAuthToken, "Bearer")
 	if len(splitToken) != 2 {
@@ -203,6 +203,8 @@ func FixedEventReminderHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			putReminder(w, serviceAuthToken, feId, payload.TimeDelta)
 		}
+	} else if r.Method == "DELETE" {
+		deleteReminder(w, serviceAuthToken, feId)
 	} else {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 	}

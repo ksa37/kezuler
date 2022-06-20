@@ -214,7 +214,7 @@ func SetToSlices(s *Set) []string {
 	return keys
 }
 
-// Append Info by PendingEvent
+// GetInfoInPendingEvent Appends Info to PendingEvent
 func GetInfoInPendingEvent(client *mongo.Client, targetEvent PendingEvent) (PendingEventClaims, error) {
 	userCol := client.Database("kezuler").Collection("user")
 
@@ -299,7 +299,7 @@ func GetInfoInPendingEvent(client *mongo.Client, targetEvent PendingEvent) (Pend
 	return targetEventWithInfo, nil
 }
 
-// Append Info by PendingEvents
+// GetInfoInPendingEvents Appends Infos to PendingEvents
 func GetInfoInPendingEvents(client *mongo.Client, targetEvents []PendingEvent) ([]PendingEventClaims, error) {
 	userCol := client.Database("kezuler").Collection("user")
 
@@ -393,4 +393,143 @@ func GetInfoInPendingEvents(client *mongo.Client, targetEvents []PendingEvent) (
 	}
 
 	return targetEventWithInfos, nil
+}
+
+// GetInfoInFixedEvent Append Info to FixedEvent
+func GetInfoInFixedEvent(client *mongo.Client, targetEvent FixedEvent) (FixedEventClaims, error) {
+	userCol := client.Database("kezuler").Collection("user")
+
+	targetUsers := NewSet()
+	targetUsers.Add(targetEvent.HostUser.UserId)
+
+	for i := 0; i < len(targetEvent.Participants); i++ {
+		targetUsers.Add(targetEvent.Participants[i].UserId)
+	}
+	userSlices := SetToSlices(targetUsers)
+
+	// 2. Query once to retrieve Infos
+	cursor, err := userCol.Find(
+		context.TODO(),
+		bson.M{"userId": bson.M{"$in": userSlices}},
+	)
+	if err != nil {
+		return FixedEventClaims{}, err
+	}
+
+	// 3. Append data with *WithInfo scheme
+	var resUsers []User
+	err = cursor.All(context.TODO(), &resUsers)
+	if err != nil {
+		return FixedEventClaims{}, err
+	}
+
+	hostIdx := findUserInUsers(targetEvent.HostUser.UserId, resUsers)
+	resHostUser := FixedEventUserWithInfo{
+		UserId:           targetEvent.HostUser.UserId,
+		UserName:         resUsers[hostIdx].Name,
+		UserProfileImage: resUsers[hostIdx].ProfileImage,
+		UserStatus:       targetEvent.HostUser.UserStatus,
+	}
+
+	resParticipants := []FixedEventUserWithInfo{}
+	for i := 0; i < len(targetEvent.Participants); i++ {
+		participantIdx := findUserInUsers(targetEvent.Participants[i].UserId, resUsers)
+		resParticipants = append(resParticipants, FixedEventUserWithInfo{
+			UserId:           targetEvent.Participants[i].UserId,
+			UserName:         resUsers[participantIdx].Name,
+			UserProfileImage: resUsers[participantIdx].ProfileImage,
+			UserStatus:       targetEvent.Participants[i].UserStatus,
+		})
+	}
+
+	targetEventWithInfo := FixedEventClaims{
+		FixedEventId: targetEvent.FixedEventId,
+		HostUser:     resHostUser,
+		Title:        targetEvent.Title,
+		Description:  targetEvent.Description,
+		Duration:     targetEvent.Duration,
+		Date:         targetEvent.Date,
+		PlaceAddress: targetEvent.PlaceAddress,
+		PlaceUrl:     targetEvent.PlaceUrl,
+		Attachment:   targetEvent.Attachment,
+		Participants: resParticipants,
+		IsDisabled:   targetEvent.IsDisabled,
+	}
+
+	return targetEventWithInfo, nil
+}
+
+// GetInfoInFixedEvent Append Info to FixedEvent
+func GetInfoInFixedEvents(client *mongo.Client, targetEvents []FixedEvent) ([]FixedEventClaims, error) {
+	userCol := client.Database("kezuler").Collection("user")
+
+	targetUsers := NewSet()
+
+	for t := 0; t < len(targetEvents); t++ {
+		targetEvent := targetEvents[t]
+		targetUsers.Add(targetEvent.HostUser.UserId)
+		for i := 0; i < len(targetEvent.Participants); i++ {
+			targetUsers.Add(targetEvent.Participants[i].UserId)
+		}
+	}
+
+	userSlices := SetToSlices(targetUsers)
+
+	// 2. Query once to retrieve Infos
+	cursor, err := userCol.Find(
+		context.TODO(),
+		bson.M{"userId": bson.M{"$in": userSlices}},
+	)
+	if err != nil {
+		return []FixedEventClaims{}, err
+	}
+
+	// 3. Append data with *WithInfo scheme
+	var resUsers []User
+	err = cursor.All(context.TODO(), &resUsers)
+	if err != nil {
+		return []FixedEventClaims{}, err
+	}
+
+	targetEventsWithInfo := []FixedEventClaims{}
+	for t := 0; t < len(targetEvents); t++ {
+		targetEvent := targetEvents[t]
+
+		hostIdx := findUserInUsers(targetEvent.HostUser.UserId, resUsers)
+		resHostUser := FixedEventUserWithInfo{
+			UserId:           targetEvent.HostUser.UserId,
+			UserName:         resUsers[hostIdx].Name,
+			UserProfileImage: resUsers[hostIdx].ProfileImage,
+			UserStatus:       targetEvent.HostUser.UserStatus,
+		}
+
+		resParticipants := []FixedEventUserWithInfo{}
+		for i := 0; i < len(targetEvent.Participants); i++ {
+			participantIdx := findUserInUsers(targetEvent.Participants[i].UserId, resUsers)
+			resParticipants = append(resParticipants, FixedEventUserWithInfo{
+				UserId:           targetEvent.Participants[i].UserId,
+				UserName:         resUsers[participantIdx].Name,
+				UserProfileImage: resUsers[participantIdx].ProfileImage,
+				UserStatus:       targetEvent.Participants[i].UserStatus,
+			})
+		}
+
+		targetEventWithInfo := FixedEventClaims{
+			FixedEventId: targetEvent.FixedEventId,
+			HostUser:     resHostUser,
+			Title:        targetEvent.Title,
+			Description:  targetEvent.Description,
+			Duration:     targetEvent.Duration,
+			Date:         targetEvent.Date,
+			PlaceAddress: targetEvent.PlaceAddress,
+			PlaceUrl:     targetEvent.PlaceUrl,
+			Attachment:   targetEvent.Attachment,
+			Participants: resParticipants,
+			IsDisabled:   targetEvent.IsDisabled,
+		}
+
+		targetEventsWithInfo = append(targetEventsWithInfo, targetEventWithInfo)
+	}
+
+	return targetEventsWithInfo, nil
 }
