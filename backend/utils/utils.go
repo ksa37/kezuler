@@ -298,3 +298,99 @@ func GetInfoInPendingEvent(client *mongo.Client, targetEvent PendingEvent) (Pend
 
 	return targetEventWithInfo, nil
 }
+
+// Append Info by PendingEvents
+func GetInfoInPendingEvents(client *mongo.Client, targetEvents []PendingEvent) ([]PendingEventClaims, error) {
+	userCol := client.Database("kezuler").Collection("user")
+
+	targetUsers := NewSet()
+
+	for i := 0; i < len(targetEvents); i++ {
+		targetEvent := targetEvents[i]
+		targetUsers.Add(targetEvent.HostUser.UserId)
+
+		for j := 0; j < len(targetEvent.EventTimeCandidates); j++ {
+			for k := 0; k < len(targetEvent.EventTimeCandidates[j].PossibleUsers); k++ {
+				targetUsers.Add(targetEvent.EventTimeCandidates[j].PossibleUsers[k].UserId)
+			}
+		}
+
+		for j := 0; j < len(targetEvent.DeclinedUsers); j++ {
+			targetUsers.Add(targetEvent.DeclinedUsers[j].UserId)
+		}
+	}
+	userSlices := SetToSlices(targetUsers)
+
+	// 2. Query once to retrieve Infos
+	cursor, err := userCol.Find(
+		context.TODO(),
+		bson.M{"userId": bson.M{"$in": userSlices}},
+	)
+	if err != nil {
+		return []PendingEventClaims{}, err
+	}
+
+	// 3. Append data with *WithInfo scheme
+	var resUsers []User
+	err = cursor.All(context.TODO(), &resUsers)
+	if err != nil {
+		return []PendingEventClaims{}, err
+	}
+
+	targetEventWithInfos := []PendingEventClaims{}
+
+	for t := 0; t < len(targetEvents); t++ {
+		targetEvent := targetEvents[t]
+		hostIdx := findUserInUsers(targetEvent.HostUser.UserId, resUsers)
+		resHostUser := PendingEventUserWithInfo{
+			UserId:           targetEvent.HostUser.UserId,
+			UserName:         resUsers[hostIdx].Name,
+			UserProfileImage: resUsers[hostIdx].ProfileImage,
+		}
+		resEventTimeCandidates := []EventTimeCandidateWithInfo{}
+		resDeclinedUsers := []DeclineUserWithInfo{}
+
+		for i := 0; i < len(targetEvent.EventTimeCandidates); i++ {
+			newEventTimeCandidateWithInfo := EventTimeCandidateWithInfo{
+				EventStartsAt: targetEvent.EventTimeCandidates[i].EventStartsAt,
+				PossibleUsers: []AcceptUserWithInfo{},
+			}
+			for j := 0; j < len(targetEvent.EventTimeCandidates[i].PossibleUsers); j++ {
+				targetIdx := findUserInUsers(targetEvent.EventTimeCandidates[i].PossibleUsers[j].UserId, resUsers)
+				newEventTimeCandidateWithInfo.PossibleUsers =
+					append(newEventTimeCandidateWithInfo.PossibleUsers, AcceptUserWithInfo{
+						targetEvent.EventTimeCandidates[i].PossibleUsers[j].UserId,
+						resUsers[targetIdx].Name,
+						resUsers[targetIdx].ProfileImage,
+					})
+			}
+			resEventTimeCandidates = append(resEventTimeCandidates, newEventTimeCandidateWithInfo)
+		}
+
+		for i := 0; i < len(targetEvent.DeclinedUsers); i++ {
+			declineUserIdx := findUserInUsers(targetEvent.DeclinedUsers[i].UserId, resUsers)
+			resDeclinedUsers = append(resDeclinedUsers, DeclineUserWithInfo{
+				UserId:            targetEvent.DeclinedUsers[i].UserId,
+				UserName:          resUsers[declineUserIdx].Name,
+				UserProfileImage:  resUsers[declineUserIdx].ProfileImage,
+				UserDeclineReason: targetEvent.DeclinedUsers[i].UserDeclineReason,
+			})
+		}
+
+		targetEventWithInfo := PendingEventClaims{
+			PendingEventId:      targetEvent.PendingEventId,
+			Title:               targetEvent.Title,
+			HostUser:            resHostUser,
+			Description:         targetEvent.Description,
+			EventTimeCandidates: resEventTimeCandidates,
+			DeclinedUsers:       resDeclinedUsers,
+			PlaceAddress:        targetEvent.PlaceAddress,
+			PlaceUrl:            targetEvent.PlaceUrl,
+			Attachment:          targetEvent.Attachment,
+		}
+
+		targetEventWithInfos = append(targetEventWithInfos, targetEventWithInfo)
+	}
+
+	return targetEventWithInfos, nil
+}
