@@ -7,9 +7,12 @@ import { AppDispatch } from 'src/store';
 const useGetUserInfo = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const getUserInfo = useCallback(() => {
-    return dispatch(getUserInfoThunk({}));
-  }, [dispatch]);
+  const getUserInfo = useCallback(
+    (params?: { onFinally?: () => void }) => {
+      return dispatch(getUserInfoThunk({ onFinally: params?.onFinally }));
+    },
+    [dispatch]
+  );
 
   return { getUserInfo };
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { Avatar } from '@mui/material';
 
+import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
 import { SettingUser } from 'src/types/user';
 
@@ -28,11 +29,16 @@ function MyPageEdit({
   const watchProfileImage = watch('userProfileImage', userProfileImage);
 
   const { changeUser } = usePatchUser();
+  const { getUserInfo } = useGetUserInfo();
 
   const onValid: SubmitHandler<UserForm> = (data) => {
     //TODO
     //email 반영
-    changeUser(data, { onSuccess: goToMain });
+    changeUser(data, {
+      onSuccess: () => {
+        getUserInfo({ onFinally: goToMain });
+      },
+    });
   };
   const onInvalid: SubmitErrorHandler<UserForm> = (error) => {
     console.log(error);

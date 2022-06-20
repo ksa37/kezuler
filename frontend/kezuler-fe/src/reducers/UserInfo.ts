@@ -8,16 +8,18 @@ import { getUser } from 'src/api/user';
 
 export const getUserInfoThunk = createAsyncThunk(
   'getUserInfo',
-  async (_: Record<string, never>, { rejectWithValue }) => {
+  async ({ onFinally }: { onFinally?: () => void }, { rejectWithValue }) => {
     try {
       const response = await getUser();
       localStorage.setItem(
         CURRENT_USER_INFO_KEY,
         JSON.stringify(response.data)
       );
+      onFinally?.();
       return response.data;
     } catch (error) {
       const err = error as TError;
+      onFinally?.();
       return rejectWithValue(err?.response?.data?.error);
     }
   }
