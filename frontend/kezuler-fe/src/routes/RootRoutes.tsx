@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { ACCESS_TOKEN_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
+import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { getCookie } from 'src/utils/cookie';
 
 import AcceptMeeting from 'src/views/accept-meeting';
@@ -20,7 +21,14 @@ import MainAppBar from 'src/components/common/MainAppBar';
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
   const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
-  // const isLoggedIn = true;
+
+  // TODO 리덕스 필요한지 확인 필요
+  const { getUserInfo } = useGetUserInfo();
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUserInfo();
+    }
+  }, [isLoggedIn]);
 
   return (
     <>

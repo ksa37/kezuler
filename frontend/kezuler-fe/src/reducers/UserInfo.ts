@@ -1,15 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { TError } from '../types/axios';
+import { CURRENT_USER_INFO_KEY } from 'src/constants/Auth';
+import { TError } from 'src/types/axios';
 import { User } from 'src/types/user';
 
-import { getUserById } from 'src/api/user';
+import { getUser } from 'src/api/user';
 
 export const getUserInfoThunk = createAsyncThunk(
   'getUserInfo',
-  async (userId: string, { rejectWithValue }) => {
+  async (_: Record<string, never>, { rejectWithValue }) => {
     try {
-      const response = await getUserById(userId);
+      const response = await getUser();
+      localStorage.setItem(
+        CURRENT_USER_INFO_KEY,
+        JSON.stringify(response.data)
+      );
       return response.data;
     } catch (error) {
       const err = error as TError;
