@@ -52,11 +52,17 @@ func getFixedEvents(w http.ResponseWriter, serviceAuthToken string, payload map[
 		return
 	}
 
+	fixedEventsWithInfo, err := GetInfoInFixedEvents(client, fixedEvents)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
 	results := bson.M{
 		"startIndex":  payload["startIndex"],
 		"endIndex":    payload["endIndex"],
-		"totalAmount": len(fixedEvents),
-		"fixedEvents": fixedEvents,
+		"totalAmount": len(fixedEventsWithInfo),
+		"fixedEvents": fixedEventsWithInfo,
 	}
 
 	jsonRes, err := json.Marshal(results)
@@ -161,7 +167,14 @@ func postFixedEvent(w http.ResponseWriter, serviceAuthToken string, payload Post
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
-	jsonRes, err := json.Marshal(newFixedEvent)
+
+	newFixedEventWithInfo, err := GetInfoInFixedEvent(client, newFixedEvent)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	jsonRes, err := json.Marshal(newFixedEventWithInfo)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	w.Write(jsonRes)
@@ -190,7 +203,13 @@ func getFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId st
 		return
 	}
 
-	jsonRes, err := json.Marshal(targetEvent)
+	targetEventWithInfo, err := GetInfoInFixedEvent(client, targetEvent)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	jsonRes, err := json.Marshal(targetEventWithInfo)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonRes)
@@ -205,7 +224,7 @@ func patchFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId 
 	err := userCol.FindOne(context.TODO(), bson.M{"token.accessToken": serviceAuthToken}).Decode(&hostUser)
 	if err == mongo.ErrNoDocuments {
 		fmt.Printf("No Document was found with given token: %s\n", serviceAuthToken)
-		http.Error(w, err.Error(), http.StatusUnauthorized)
+		http.Error(w, "Error occurred during executing userCol.FindOne:"+err.Error(), http.StatusUnauthorized)
 		return
 	}
 
@@ -213,7 +232,7 @@ func patchFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId 
 	var targetEvent FixedEvent
 	err = fixedEventCol.FindOne(context.TODO(), bson.D{{"fixedEventId", feId}}).Decode(&targetEvent)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		http.Error(w, "Error occurred during executing fixedEventCol.FindOne:"+err.Error(), http.StatusNotFound)
 		return
 	}
 
@@ -222,7 +241,12 @@ func patchFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId 
 	var updatedEvent FixedEvent
 	if targetEvent.HostUser.UserId == userId {
 		fixedEventCol.FindOneAndUpdate(context.TODO(), bson.M{"fixedEventId": targetEvent.FixedEventId}, bson.M{"$set": payload}, options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&updatedEvent)
-		jsonRes, _ := json.Marshal(updatedEvent)
+		updatedEventWithInfo, err := GetInfoInFixedEvent(client, updatedEvent)
+		if err != nil {
+			http.Error(w, "Error occurred during executing GetInfoInFixedEvent:", http.StatusNotFound)
+			return
+		}
+		jsonRes, _ := json.Marshal(updatedEventWithInfo)
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write(jsonRes)
@@ -268,7 +292,7 @@ func deleteFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId
 		return
 	}
 
-	w.WriteHeader(204)
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func putFixedEventCandidate(w http.ResponseWriter, serviceAuthToken string, feId string) {
@@ -294,8 +318,12 @@ func putFixedEventCandidate(w http.ResponseWriter, serviceAuthToken string, feId
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
-
-	jsonRes, err := json.Marshal(updatedEvent)
+	updatedEventWithInfo, err := GetInfoInFixedEvent(client, updatedEvent)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	jsonRes, _ := json.Marshal(updatedEventWithInfo)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonRes)
@@ -325,7 +353,12 @@ func deleteFixedEventCandidate(w http.ResponseWriter, serviceAuthToken string, f
 		return
 	}
 
-	jsonRes, err := json.Marshal(updatedEvent)
+	updatedEventWithInfo, err := GetInfoInFixedEvent(client, updatedEvent)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	jsonRes, _ := json.Marshal(updatedEventWithInfo)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonRes)

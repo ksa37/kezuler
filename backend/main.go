@@ -21,9 +21,9 @@ func main() {
 	logger := log.New(os.Stdout, "", log.LstdFlags)
 	mainRouter := mux.NewRouter()
 
-	userRouter := mainRouter.PathPrefix("/users").Subrouter()
+	userRouter := mainRouter.PathPrefix("/user").Subrouter()
 	userRouter.HandleFunc("", utils.UserHandler).Methods("POST")
-	userRouter.HandleFunc("/{userId}", utils.UserWithIdHandler).Methods("GET", "PATCH", "DELETE")
+	userRouter.HandleFunc("", utils.UserWithTokenHandler).Methods("GET", "PATCH", "DELETE")
 
 	fixedEventRouter := mainRouter.PathPrefix("/fixedEvents").Subrouter()
 	fixedEventRouter.HandleFunc("", utils.FixedEventHandler).Methods("GET", "POST")

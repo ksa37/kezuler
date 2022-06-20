@@ -25,11 +25,11 @@ type AuthTokenClaims struct {
 }
 
 type UserToken struct {
-	TokenType             string `json:"tokenType"`
-	AccessToken           string `json:"accessToken"`
-	AccessTokenExpiresIn  int    `json:"accessTokenExpiresIn"`
-	RefreshToken          string `json:"refreshToken"`
-	RefreshTokenExpiresIn int    `json:"refreshTokenExpiresIn"`
+	TokenType             string   `json:"tokenType"`
+	AccessToken           string   `json:"accessToken"`
+	AccessTokenExpiresIn  unixTime `json:"accessTokenExpiresIn"`
+	RefreshToken          string   `json:"refreshToken"`
+	RefreshTokenExpiresIn unixTime `json:"refreshTokenExpiresIn"`
 }
 
 type PostUserClaims struct {
