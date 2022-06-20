@@ -103,7 +103,6 @@ func FixedEventWithIdHandler(w http.ResponseWriter, r *http.Request) { // GET, P
 	feId := mux.Vars(r)["fixedEventId"]
 
 	if len(splitToken) != 2 {
-		// 401: Unauthorized
 		http.Error(w, "Not Authorized", http.StatusUnauthorized)
 		return
 	}
@@ -115,7 +114,6 @@ func FixedEventWithIdHandler(w http.ResponseWriter, r *http.Request) { // GET, P
 	}
 
 	if r.Method == "PATCH" {
-		// TODO: implement PATCH /fixedEvents/{feId}
 		headerContentType := r.Header.Get("Content-Type")
 		if headerContentType != "application/json" {
 			http.Error(w, "Content Type is not application/json", http.StatusUnsupportedMediaType)
@@ -160,6 +158,51 @@ func FixedEventCandidateHandler(w http.ResponseWriter, r *http.Request) {
 		putFixedEventCandidate(w, serviceAuthToken, feId)
 	} else if r.Method == "DELETE" {
 		deleteFixedEventCandidate(w, serviceAuthToken, feId)
+	} else {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+	}
+}
+
+func FixedEventReminderHandler(w http.ResponseWriter, r *http.Request) {
+	serviceAuthToken := r.Header.Get("Authorization")
+	splitToken := strings.Split(serviceAuthToken, "Bearer")
+	feId := mux.Vars(r)["fixedEventId"]
+
+	if len(splitToken) != 2 {
+		http.Error(w, "Not Authorized", http.StatusUnauthorized)
+		return
+	}
+	serviceAuthToken = strings.TrimSpace(splitToken[1])
+
+	if r.Method == "GET" {
+		getReminder(w, serviceAuthToken, feId)
+	} else if r.Method == "PUT" || r.Method == "POST" {
+		headerContentType := r.Header.Get("Content-Type")
+		if headerContentType != "application/json" {
+			http.Error(w, "Content Type is not application/json", http.StatusUnsupportedMediaType)
+			return
+		}
+
+		var payload PostRemindPayload
+		var unmarshalError *json.UnmarshalTypeError
+		decoder := json.NewDecoder(r.Body)
+		decoder.DisallowUnknownFields()
+
+		err := decoder.Decode(&payload)
+		if err != nil {
+			if errors.As(err, &unmarshalError) {
+				http.Error(w, "Bad Request. Wrong Type provided for field "+unmarshalError.Field, http.StatusBadRequest)
+			} else {
+				http.Error(w, "Bad Request. "+err.Error(), http.StatusBadRequest)
+			}
+			return
+		}
+
+		if r.Method == "POST" {
+			postReminder(w, serviceAuthToken, feId, payload.TimeDelta)
+		} else {
+			putReminder(w, serviceAuthToken, feId, payload.TimeDelta)
+		}
 	} else {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 	}
@@ -326,15 +369,6 @@ func InvitationHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
 		getInvitationInfo(w, peId)
-	} else {
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
-	}
-}
-
-func ReminderHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "PATCH" {
-		// TODO: Implement PATCH /fixedEvents/{feId}/reminder
-		patchReminder()
 	} else {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 	}

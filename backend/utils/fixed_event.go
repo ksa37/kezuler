@@ -88,14 +88,12 @@ func postFixedEvent(w http.ResponseWriter, serviceAuthToken string, payload Post
 	}
 
 	// Find AcceptParticipant and DeclineParticipant by iterating pendingEvent
-	var participants []fixedEventUser
+	var participants []FixedEventUser
 	visited := map[string]bool{} // userId: visited?
 	for i := 0; i < len(targetEvent.DeclinedUsers); i++ {
 		if visited[targetEvent.DeclinedUsers[i].UserId] == false {
-			participants = append(participants, fixedEventUser{
+			participants = append(participants, FixedEventUser{
 				targetEvent.DeclinedUsers[i].UserId,
-				targetEvent.DeclinedUsers[i].UserName,
-				targetEvent.DeclinedUsers[i].UserProfileImage,
 				"Declined",
 			})
 			visited[targetEvent.DeclinedUsers[i].UserId] = true
@@ -113,10 +111,8 @@ func postFixedEvent(w http.ResponseWriter, serviceAuthToken string, payload Post
 			for k := 0; k < len(targetEvent.EventTimeCandidates[j].PossibleUsers); k++ {
 				currentUser := targetEvent.EventTimeCandidates[j].PossibleUsers[k]
 				if visited[currentUser.UserId] == false {
-					participants = append(participants, fixedEventUser{
+					participants = append(participants, FixedEventUser{
 						currentUser.UserId,
-						currentUser.UserName,
-						currentUser.UserProfileImage,
 						"Accepted",
 					})
 					visited[currentUser.UserId] = true
@@ -128,10 +124,8 @@ func postFixedEvent(w http.ResponseWriter, serviceAuthToken string, payload Post
 			for k := 0; k < len(targetEvent.EventTimeCandidates[j].PossibleUsers); k++ {
 				currentUser := targetEvent.EventTimeCandidates[j].PossibleUsers[k]
 				if visited[currentUser.UserId] == false {
-					participants = append(participants, fixedEventUser{
+					participants = append(participants, FixedEventUser{
 						currentUser.UserId,
-						currentUser.UserName,
-						currentUser.UserProfileImage,
 						"Declined",
 					})
 					visited[currentUser.UserId] = true
@@ -142,11 +136,9 @@ func postFixedEvent(w http.ResponseWriter, serviceAuthToken string, payload Post
 
 	var newFixedEvent = FixedEvent{
 		FixedEventId: targetEvent.PendingEventId,
-		HostUser: fixedEventUser{
-			UserId:           targetEvent.HostUser.UserId,
-			UserName:         targetEvent.HostUser.UserName,
-			UserProfileImage: targetEvent.HostUser.UserProfileImage,
-			UserStatus:       "Accepted",
+		HostUser: FixedEventUser{
+			UserId:     targetEvent.HostUser.UserId,
+			UserStatus: "Accepted",
 		},
 		Title:        targetEvent.Title,
 		Description:  targetEvent.Description,
@@ -162,6 +154,13 @@ func postFixedEvent(w http.ResponseWriter, serviceAuthToken string, payload Post
 	fixedEventCol := client.Database("kezuler").Collection("fixedEvent")
 	fixedEventCol.InsertOne(context.TODO(), newFixedEvent)
 
+	_, err = pendingEventCol.DeleteOne(
+		context.TODO(), bson.M{"pendingEventId": targetEvent.PendingEventId},
+	)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
 	jsonRes, err := json.Marshal(newFixedEvent)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)

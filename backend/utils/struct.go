@@ -80,26 +80,27 @@ type EventTimeCandidate struct {
 	PossibleUsers []AcceptUser `json:"possibleUsers" bson:"possibleUsers"`
 }
 
-type PendingEventClaims struct {
-	EventId             string               `json:"eventId"`
-	EventHost           pendingEventUser     `json:"eventHost"`
-	EventTitle          string               `json:"eventTitle"`
-	EventDescription    string               `json:"eventDescription"`
-	EventTimeDuration   int                  `json:"eventTimeDuration"`
-	DeclinedUsers       []DeclineUser        `json:"declinedUsers"`
-	EventTimeCandidates []EventTimeCandidate `json:"eventTimeCandidates"`
-	EventZoomAddress    interface{}          `json:"eventZoomAddress"`
-	EventPlace          string               `json:"eventPlace"`
-	EventAttachment     string               `json:"eventAttachment"`
+type EventTimeCandidateWithInfo struct {
+	EventStartsAt unixTime             `json:"eventStartsAt" bson:"eventStartsAt"`
+	PossibleUsers []AcceptUserWithInfo `json:"possibleUsers" bson:"possibleUsers"`
 }
 
 type AcceptUser struct {
+	UserId string `json:"userId" bson:"userId"`
+}
+
+type AcceptUserWithInfo struct {
 	UserId           string `json:"userId" bson:"userId"`
 	UserName         string `json:"userName" bson:"userName"`
 	UserProfileImage string `json:"userProfileImage" bson:"userProfileImage"`
 }
 
 type DeclineUser struct {
+	UserId            string `json:"userId" bson:"userId"`
+	UserDeclineReason string `json:"userDeclineReason" bson:"userDeclineReason"`
+}
+
+type DeclineUserWithInfo struct {
 	UserId            string `json:"userId" bson:"userId"`
 	UserName          string `json:"userName" bson:"userName"`
 	UserProfileImage  string `json:"userProfileImage" bson:"userProfileImage"`
@@ -128,4 +129,35 @@ type DeletePendingEventCandidatePayload struct {
 type PatchFixedEventWithIdPayload struct {
 	EventTitle       string `json:"eventTitle,omitempty" bson:"title,omitempty"`
 	EventDescription string `json:"eventDescription,omitempty" bson:"description,omitempty"`
+}
+
+type PostRemindPayload struct {
+	TimeDelta unixTime `json:"timeDelta" bson:"timeDelta"`
+}
+
+type PendingEventClaims struct {
+	PendingEventId      string                       `json:"eventId" bson:"pendingEventId"`
+	Title               string                       `json:"eventTitle" bson:"title"`
+	HostUser            PendingEventUserWithInfo     `json:"eventHost" bson:"hostUser"`
+	Description         string                       `json:"eventDescription" bson:"description"`
+	Duration            int                          `json:"eventTimeDuration" bson:"duration"`
+	EventTimeCandidates []EventTimeCandidateWithInfo `json:"eventTimeCandidates" bson:"eventTimeCandidates"`
+	DeclinedUsers       []DeclineUserWithInfo        `json:"declinedUsers" bson:"declinedUsers"`
+	PlaceAddress        string                       `json:"eventPlace" bson:"placeAddress"`
+	PlaceUrl            string                       `json:"eventZoomAddress" bson:"placeUrl"`
+	Attachment          string                       `json:"eventAttachment" bson:"attachment"`
+}
+
+type FixedEventClaims struct {
+	FixedEventId string                   `json:"eventId" bson:"fixedEventId"`
+	HostUser     FixedEventUserWithInfo   `json:"eventHost" bson:"hostUser"`
+	Title        string                   `json:"eventTitle" bson:"title"`
+	Description  string                   `json:"eventDescription" bson:"description"`
+	Duration     int                      `json:"eventTimeDuration" bson:"duration"`
+	Date         unixTime                 `json:"eventTimeStartsAt" bson:"date"`
+	PlaceAddress string                   `json:"eventPlace" bson:"placeAddress"`
+	PlaceUrl     string                   `json:"eventZoomAddress" bson:"placeUrl"`
+	Attachment   string                   `json:"eventAttachment" bson:"attachment"`
+	Participants []FixedEventUserWithInfo `json:"participants" bson:"participants"`
+	IsDisabled   bool                     `json:"isDisabled" bson:"isDisabled"`
 }

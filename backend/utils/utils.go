@@ -2,8 +2,10 @@ package utils
 
 import (
 	"bytes"
+	"context"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
 	"net/url"
@@ -55,6 +57,24 @@ func findUserInDeclinedUsers(targetUser User, declinedUsers []DeclineUser) int {
 	return -1
 }
 
+func findUserInFixedEventUsers(targetUser User, slice []FixedEventUser) int {
+	for i := 0; i < len(slice); i++ {
+		if targetUser.UserId == slice[i].UserId {
+			return i
+		}
+	}
+	return -1
+}
+
+func findUserInUsers(userId string, users []User) int {
+	for i := 0; i < len(users); i++ {
+		if userId == users[i].UserId {
+			return i
+		}
+	}
+	return -1
+}
+
 func structToBsonD(v interface{}) (doc *bson.D, err error) {
 	data, err := bson.Marshal(v)
 	if err != nil {
@@ -88,6 +108,22 @@ func unixTimestampToEventTime(unixTimestamps []unixTime) []EventTimeCandidate {
 
 	return newEventTimeCandidate
 }
+
+func unixTimestampToEventTimeWithInfo(unixTimestamps []unixTime) []EventTimeCandidateWithInfo {
+
+	n := len(unixTimestamps)
+
+	newEventTimeCandidate := make([]EventTimeCandidateWithInfo, n)
+
+	for i := 0; i < n; i++ {
+		newEventTimeCandidate[i].EventStartsAt = unixTimestamps[i]
+		newEventTimeCandidate[i].PossibleUsers = []AcceptUserWithInfo{}
+	}
+
+	return newEventTimeCandidate
+}
+
+// Utils to make Middleware for logging
 
 type LogResponseWriter struct {
 	http.ResponseWriter
@@ -134,4 +170,131 @@ func (m *LogMiddleware) Func() mux.MiddlewareFunc {
 				logRespWriter.buf.String())
 		})
 	}
+}
+
+// Utils to make Set datastructures
+
+type Set struct {
+	list map[string]struct{} //empty structs occupy 0 memory
+}
+
+func (s *Set) Has(v string) bool {
+	_, ok := s.list[v]
+	return ok
+}
+
+func (s *Set) Add(v string) {
+	s.list[v] = struct{}{}
+}
+
+func (s *Set) Remove(v string) {
+	delete(s.list, v)
+}
+
+func (s *Set) Clear() {
+	s.list = make(map[string]struct{})
+}
+
+func (s *Set) Size() int {
+	return len(s.list)
+}
+
+func NewSet() *Set {
+	s := &Set{}
+	s.list = make(map[string]struct{})
+	return s
+}
+
+func SetToSlices(s *Set) []string {
+	keys := make([]string, 0, len(s.list))
+	for key := range s.list {
+		keys = append(keys, key)
+	}
+
+	return keys
+}
+
+// Append Info by PendingEvent
+func GetInfoInPendingEvent(client *mongo.Client, targetEvent PendingEvent) (PendingEventClaims, error) {
+	userCol := client.Database("kezuler").Collection("user")
+
+	targetUsers := NewSet()
+	targetUsers.Add(targetEvent.HostUser.UserId)
+
+	for i := 0; i < len(targetEvent.EventTimeCandidates); i++ {
+		for j := 0; j < len(targetEvent.EventTimeCandidates[i].PossibleUsers); j++ {
+			targetUsers.Add(targetEvent.EventTimeCandidates[i].PossibleUsers[j].UserId)
+		}
+	}
+
+	for i := 0; i < len(targetEvent.DeclinedUsers); i++ {
+		targetUsers.Add(targetEvent.DeclinedUsers[i].UserId)
+	}
+	userSlices := SetToSlices(targetUsers)
+
+	// 2. Query once to retrieve Infos
+	cursor, err := userCol.Find(
+		context.TODO(),
+		bson.M{"userId": bson.M{"$in": userSlices}},
+	)
+	if err != nil {
+		return PendingEventClaims{}, err
+	}
+
+	// 3. Append data with *WithInfo scheme
+	var resUsers []User
+	err = cursor.All(context.TODO(), &resUsers)
+	if err != nil {
+		return PendingEventClaims{}, err
+	}
+
+	hostIdx := findUserInUsers(targetEvent.HostUser.UserId, resUsers)
+	resHostUser := PendingEventUserWithInfo{
+		UserId:           targetEvent.HostUser.UserId,
+		UserName:         resUsers[hostIdx].Name,
+		UserProfileImage: resUsers[hostIdx].ProfileImage,
+	}
+	resEventTimeCandidates := []EventTimeCandidateWithInfo{}
+	resDeclinedUsers := []DeclineUserWithInfo{}
+
+	for i := 0; i < len(targetEvent.EventTimeCandidates); i++ {
+		newEventTimeCandidateWithInfo := EventTimeCandidateWithInfo{
+			EventStartsAt: targetEvent.EventTimeCandidates[i].EventStartsAt,
+			PossibleUsers: []AcceptUserWithInfo{},
+		}
+		for j := 0; j < len(targetEvent.EventTimeCandidates[i].PossibleUsers); j++ {
+			targetIdx := findUserInUsers(targetEvent.EventTimeCandidates[i].PossibleUsers[j].UserId, resUsers)
+			newEventTimeCandidateWithInfo.PossibleUsers =
+				append(newEventTimeCandidateWithInfo.PossibleUsers, AcceptUserWithInfo{
+					targetEvent.EventTimeCandidates[i].PossibleUsers[j].UserId,
+					resUsers[targetIdx].Name,
+					resUsers[targetIdx].ProfileImage,
+				})
+		}
+		resEventTimeCandidates = append(resEventTimeCandidates, newEventTimeCandidateWithInfo)
+	}
+
+	for i := 0; i < len(targetEvent.DeclinedUsers); i++ {
+		declineUserIdx := findUserInUsers(targetEvent.DeclinedUsers[i].UserId, resUsers)
+		resDeclinedUsers = append(resDeclinedUsers, DeclineUserWithInfo{
+			UserId:            targetEvent.DeclinedUsers[i].UserId,
+			UserName:          resUsers[declineUserIdx].Name,
+			UserProfileImage:  resUsers[declineUserIdx].ProfileImage,
+			UserDeclineReason: targetEvent.DeclinedUsers[i].UserDeclineReason,
+		})
+	}
+
+	targetEventWithInfo := PendingEventClaims{
+		PendingEventId:      targetEvent.PendingEventId,
+		Title:               targetEvent.Title,
+		HostUser:            resHostUser,
+		Description:         targetEvent.Description,
+		EventTimeCandidates: resEventTimeCandidates,
+		DeclinedUsers:       resDeclinedUsers,
+		PlaceAddress:        targetEvent.PlaceAddress,
+		PlaceUrl:            targetEvent.PlaceUrl,
+		Attachment:          targetEvent.Attachment,
+	}
+
+	return targetEventWithInfo, nil
 }

@@ -29,6 +29,7 @@ func main() {
 	fixedEventRouter.HandleFunc("", utils.FixedEventHandler).Methods("GET", "POST")
 	fixedEventRouter.HandleFunc("/{fixedEventId}", utils.FixedEventWithIdHandler).Methods("GET", "PATCH", "DELETE")
 	fixedEventRouter.HandleFunc("/{fixedEventId}/candidate", utils.FixedEventCandidateHandler).Methods("PUT", "DELETE")
+	fixedEventRouter.HandleFunc("/{fixedEventId}/reminder", utils.FixedEventReminderHandler).Methods("GET", "POST", "PUT", "DELETE")
 
 	pendingEventRouter := mainRouter.PathPrefix("/pendingEvents").Subrouter()
 	pendingEventRouter.HandleFunc("", utils.PendingEventHandler).Methods("GET", "POST")
@@ -37,9 +38,6 @@ func main() {
 
 	invitationRouter := mainRouter.PathPrefix("/invitation").Subrouter()
 	invitationRouter.HandleFunc("/{pendingEventId}", utils.InvitationHandler).Methods("GET")
-
-	reminderRouter := mainRouter.PathPrefix("/reminder").Subrouter()
-	reminderRouter.HandleFunc("/{fixedEventId}", utils.ReminderHandler).Methods("GET", "PATCH")
 
 	logMiddleWare := utils.NewLogMiddleware(logger)
 	mainRouter.Use(logMiddleWare.Func())
