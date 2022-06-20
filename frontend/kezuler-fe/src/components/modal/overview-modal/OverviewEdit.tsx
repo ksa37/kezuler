@@ -86,7 +86,7 @@ function OverviewEdit({
 
   const { loading, patch } = usePatchEvent();
 
-  const { register, handleSubmit, getValues, setValue } = useForm<EventForm>();
+  const { register, handleSubmit, setValue } = useForm<EventForm>();
 
   const onValid: SubmitHandler<EventForm> = (data) => {
     console.log(data);

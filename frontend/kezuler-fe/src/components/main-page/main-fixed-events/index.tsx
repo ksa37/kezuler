@@ -1,15 +1,9 @@
-
-import useMainFixed from 'src/hooks/useMainFixed';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';
 import PathName from 'src/constants/PathName';
-import { RootState } from 'src/reducers';
-import { getFixedEventsThunk } from 'src/reducers/mainFixed';
-import { AppDispatch } from 'src/store';
-
+import useMainFixed from 'src/hooks/useMainFixed';
 import {
   getIntervalFromToday,
   getMonthFromDateString,
@@ -19,6 +13,7 @@ import BottomPopper from '../../common/BottomPopper';
 import FixedEventCard from './FixedEventCard';
 import EmptyFixedEventCard from 'src/components/main-page/main-fixed-events/EmptyFixedEventCard';
 import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
+
 function MainFixedEvents() {
   const { getFixedEvents, events, isFetched } = useMainFixed();
 

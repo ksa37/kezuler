@@ -1,87 +1,118 @@
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
+import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { Avatar } from '@mui/material';
 
-import { usePatchUserById } from 'src/hooks/userUser';
-import { User } from 'src/types/user';
+import useGetUserInfo from 'src/hooks/useGetUserInfo';
+import { usePatchUser } from 'src/hooks/usePatchUser';
+import { SettingUser } from 'src/types/user';
 
 import BottomButton from '../common/BottomButton';
 
 import { ReactComponent as PlusIconYellow } from 'src/assets/btn_plus_y.svg';
 
 interface Props {
-  currentUser: User;
+  currentUser: SettingUser;
   goToMain: () => void;
 }
 
-function MyPageEdit({ currentUser, goToMain }: Props) {
-  const [editUserName, setEditUserName] = useState(currentUser.userName);
-  // const [editUserEMail, setEditUserEMail] = useState(currentUser.userEmail);
-  const [editUserEmail, setEditUserEmail] = useState('일단 넣음');
+interface UserForm {
+  userName: string;
+  userEmail: string;
+  userProfileImage: string;
+}
 
-  const handleUserProfileImageChange = () => {
-    //TODO
-    console.log('change profile image');
-  };
-  const handleUserNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEditUserName(event.target.value);
-  };
-  const handleUserEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEditUserEmail(event.target.value);
-  };
+function MyPageEdit({
+  currentUser: { userName, userEmail, userProfileImage },
+  goToMain,
+}: Props) {
+  const { register, handleSubmit, setValue, watch } = useForm<UserForm>();
+  const watchProfileImage = watch('userProfileImage', userProfileImage);
 
-  const changeUserById = usePatchUserById();
-  const handleUserInfoChange = () => {
+  const { changeUser } = usePatchUser();
+  const { getUserInfo } = useGetUserInfo();
+
+  const onValid: SubmitHandler<UserForm> = (data) => {
     //TODO
     //email 반영
-    changeUserById(currentUser.userId, {
-      userName: editUserName,
-      userProfileImage: currentUser.userProfileImage,
+    changeUser(data, {
+      onSuccess: () => {
+        getUserInfo({ onFinally: goToMain });
+      },
     });
-    goToMain();
+  };
+  const onInvalid: SubmitErrorHandler<UserForm> = (error) => {
+    console.log(error);
+  };
+
+  const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      if (base64) {
+        const encoded = base64 as string;
+        setValue('userProfileImage', encoded);
+      } else {
+        alert('이미지 변환을 실패했습니다.');
+      }
+      e.target.value = '';
+    };
+    if (e.target.files?.[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.code === 'Enter') {
+      e.preventDefault();
+    }
   };
 
   return (
     <div className={'my-page-edit'}>
-      <div className={'my-page-edit-avatar-wrapper'}>
-        <div
-          className={'my-page-edit-avatar'}
-          onClick={handleUserProfileImageChange}
-        >
-          <Avatar
-            className={'my-page-edit-avatar-img'}
-            src={currentUser.userProfileImage}
-            alt={currentUser.userName}
-          />
-          <PlusIconYellow className={'my-page-edit-avatar-plus-icn'} />
+      <form onSubmit={handleSubmit(onValid, onInvalid)}>
+        <div className={'my-page-edit-avatar-wrapper'}>
+          <label className={'my-page-profile-label'} htmlFor="profile-upload">
+            <input
+              className={'my-page-profile-input'}
+              onChange={handleProfileImageChange}
+              id={'profile-upload'}
+              type={'file'}
+              accept="image/*"
+            />
+            <Avatar
+              className={'my-page-edit-avatar-img'}
+              src={watchProfileImage}
+              alt={userName}
+            />
+            <PlusIconYellow className={'my-page-edit-avatar-plus-icn'} />
+          </label>
         </div>
-      </div>
-      <div className={'my-page-edit-textfield'}>
-        <div className={'my-page-edit-textfield-title'}>이름</div>
-        <input
-          type="text"
-          id="userName"
-          required
-          className={'my-page-edit-textfield-box'}
-          placeholder={'이름을 입력해주세요.'}
-          value={editUserName}
-          maxLength={7}
-          onChange={handleUserNameChange}
-        />
-      </div>
-      <div className={'my-page-edit-textfield'}>
-        <div className={'my-page-edit-textfield-title'}>이메일</div>
-        <input
-          type="text"
-          id="userEmail"
-          required
-          className={'my-page-edit-textfield-box'}
-          placeholder={'이메일을 입력해주세요.'}
-          value={editUserEmail}
-          maxLength={7}
-          onChange={handleUserEmailChange}
-        />
-      </div>
-      <BottomButton onClick={handleUserInfoChange} text={'저장하기'} />
+        <div className={'my-page-edit-textfield'}>
+          <div className={'my-page-edit-textfield-title'}>이름</div>
+          <input
+            onKeyDown={handleKeyDown}
+            className={'my-page-edit-textfield-box'}
+            placeholder={'이름을 입력해주세요.'}
+            defaultValue={userName}
+            {...register('userName', {
+              required: true,
+            })}
+          />
+        </div>
+        <div className={'my-page-edit-textfield'}>
+          <div className={'my-page-edit-textfield-title'}>이메일</div>
+          <input
+            onKeyDown={handleKeyDown}
+            className={'my-page-edit-textfield-box'}
+            placeholder={'이메일을 입력해주세요.'}
+            defaultValue={userEmail}
+            {...register('userEmail', {
+              required: true,
+            })}
+          />
+        </div>
+        <BottomButton type={'submit'} text={'저장하기'} />
+      </form>
     </div>
   );
 }

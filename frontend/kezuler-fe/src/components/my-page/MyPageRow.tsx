@@ -15,9 +15,7 @@ function MyPageRow({ onClick, href, title, startIcon, children }: Props) {
         <a
           className={'my-page-row-main'}
           href={href}
-          target="_blank"
-          rel="noreferrer"
-          onClick={onClick}
+          {...(onClick ? { onClick } : { target: '_blank', rel: 'noreferrer' })}
         >
           {startIcon}
           {title}

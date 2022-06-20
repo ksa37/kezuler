@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 import KezulerInstance, { HOST_ADDRESS } from 'src/constants/api';
-import { PPatchUser, RPostUser, User } from 'src/types/user';
+import { PPatchUser, RPostUser, SettingUser, User } from 'src/types/user';
 
 // 로그인 / 회원 가입
 // accessToken: Kakao Access Token
 const postUser = (accessToken: string) =>
   axios.post<RPostUser>(
-    `${HOST_ADDRESS}users/`,
+    `${HOST_ADDRESS}user/`,
     {
       registerWith: 'kakao',
     },
@@ -18,15 +18,16 @@ const postUser = (accessToken: string) =>
     }
   );
 
-const getUserById = (userId: string) =>
-  KezulerInstance.get<User>(`users/${userId}`);
+// 현재 유저 정보 가져오기
+const getUser = () => KezulerInstance.get<SettingUser>('user');
 
-const patchUserById = (userId: string, params: PPatchUser) =>
-  KezulerInstance.patch<User>(`users/${userId}`, {
+// 현재 유저 정보 수정
+const patchUser = (params: PPatchUser) =>
+  KezulerInstance.patch<User>('user', {
     ...params,
   });
 
-const deleteUserById = (userId: string) =>
-  KezulerInstance.delete(`users/${userId}`);
+// 현재 유저 정보 삭제
+const deleteUser = () => KezulerInstance.delete('user');
 
-export { postUser, getUserById, patchUserById, deleteUserById };
+export { postUser, getUser, patchUser, deleteUser };
