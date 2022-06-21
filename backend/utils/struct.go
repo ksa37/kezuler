@@ -32,6 +32,12 @@ type UserToken struct {
 	RefreshTokenExpiresIn unixTime `json:"refreshTokenExpiresIn"`
 }
 
+type PatchUserPayload struct {
+	Name         string `json:"userName,omitempty" bson:"name,omitempty"`
+	ProfileImage string `json:"userProfileImage,omitempty" bson:"profileImage,omitempty"`
+	Timezone     string `json:"userTimezone,omitempty" bson:"timezone,omitempty"`
+}
+
 type PostUserClaims struct {
 	UserId           string    `json:"userId"`
 	UserName         string    `json:"userName"`
