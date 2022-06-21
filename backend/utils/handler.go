@@ -36,9 +36,27 @@ func UserWithTokenHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		getUserWithId(w, serviceAuthToken)
 	} else if r.Method == "PATCH" {
-		r.ParseForm()
-		claim := r.Form
-		patchUserWithId(w, claim, serviceAuthToken)
+		headerContentType := r.Header.Get("Content-Type")
+		if headerContentType != "application/json" {
+			http.Error(w, "Content Type is not application/json", http.StatusUnsupportedMediaType)
+			return
+		}
+
+		var payload PatchUserPayload
+		var unmarshalError *json.UnmarshalTypeError
+		decoder := json.NewDecoder(r.Body)
+		decoder.DisallowUnknownFields()
+
+		err := decoder.Decode(&payload)
+		if err != nil {
+			if errors.As(err, &unmarshalError) {
+				http.Error(w, "Bad Request. Wrong Type provided for field "+unmarshalError.Field, http.StatusBadRequest)
+			} else {
+				http.Error(w, "Bad Request "+err.Error(), http.StatusBadRequest)
+			}
+			return
+		}
+		patchUserWithId(w, serviceAuthToken, payload)
 	} else if r.Method == "DELETE" {
 		deleteUserWithId(w, serviceAuthToken)
 	} else {

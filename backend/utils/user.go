@@ -121,7 +121,7 @@ func getUserWithId(w http.ResponseWriter, serviceAuthToken string) {
 	w.Write(jsonRes)
 }
 
-func patchUserWithId(w http.ResponseWriter, claim url.Values, serviceAuthToken string) {
+func patchUserWithId(w http.ResponseWriter, serviceAuthToken string, payload PatchUserPayload) {
 	client := connect()
 	defer disconnect(client)
 
@@ -129,12 +129,12 @@ func patchUserWithId(w http.ResponseWriter, claim url.Values, serviceAuthToken s
 	var updatedUser User
 	err := userCol.FindOneAndUpdate(context.TODO(),
 		bson.M{"token.accessToken": serviceAuthToken},
-		mapToBsonD(claim),
+		bson.M{"$set": payload},
 		options.FindOneAndUpdate().SetReturnDocument(options.After),
 	).Decode(&updatedUser)
 	if err == mongo.ErrNoDocuments {
 		fmt.Printf("No Document was found with given  userId: %s\n", serviceAuthToken)
-		http.Error(w, "Not Authorized", http.StatusUnauthorized)
+		http.Error(w, "Not Found", http.StatusNotFound)
 		return
 	}
 	log.Println(updatedUser)
@@ -156,7 +156,7 @@ func deleteUserWithId(w http.ResponseWriter, serviceAuthToken string) {
 	_, err := userCol.DeleteOne(context.TODO(), bson.M{"token.accessToken": serviceAuthToken})
 	if err == mongo.ErrNoDocuments {
 		fmt.Printf("No Document was found with given  userId: %s\n", serviceAuthToken)
-		http.Error(w, "Not Authorized", http.StatusUnauthorized)
+		http.Error(w, "Not Authorized", http.StatusNotFound)
 		return
 	}
 
