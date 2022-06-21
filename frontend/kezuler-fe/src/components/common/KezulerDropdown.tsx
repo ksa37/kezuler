@@ -17,6 +17,7 @@ interface BMenu {
 }
 
 interface Props<T extends BMenu> {
+  disabled?: boolean;
   startIcon?: React.ReactNode;
   endIcon: React.ReactNode;
   menuData: T[];
@@ -34,6 +35,7 @@ interface Props<T extends BMenu> {
 }
 
 function KezulerDropdown<T extends BMenu>({
+  disabled,
   startIcon,
   endIcon,
   setSelectedIdx,
@@ -71,7 +73,9 @@ function KezulerDropdown<T extends BMenu>({
         endIcon={endIcon}
         ref={buttonRef}
         onClick={handleButtonClick}
-        className={buttonClassName}
+        className={classNames(buttonClassName, {
+          'kezuler-dropdown-disabled': disabled,
+        })}
         classes={{
           startIcon: 'kezuler-dropdown-icon',
           endIcon: 'kezuler-dropdown-icon',

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Button } from '@mui/material';
 
 import {
@@ -6,9 +6,10 @@ import {
   CURRENT_USER_INFO_KEY,
   REFRESH_TOKEN_KEY,
 } from 'src/constants/Auth';
-import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
 import PathName from 'src/constants/PathName';
-import { User } from 'src/types/user';
+import { TIME_ZONE_LIST } from 'src/constants/TimeZones';
+import { usePatchUser } from 'src/hooks/usePatchUser';
+import { SettingUser } from 'src/types/user';
 import { deleteCookie } from 'src/utils/cookie';
 
 import MyPageRow from './MyPageRow';
@@ -26,18 +27,14 @@ import { ReactComponent as ToggleOnIcon } from 'src/assets/toggle_on.svg';
 import 'src/styles/myPage.scss';
 
 interface Props {
-  currentUser: User;
+  currentUser: SettingUser;
   goToEdit: () => void;
 }
 
 function MyPageMain({
-  currentUser: { userProfileImage, userName },
+  currentUser: { userProfileImage, userName, userEmail, userTimezone },
   goToEdit,
 }: Props) {
-  //TODO email 가져오기
-
-  const userEmail = 'example@example.com';
-
   const handleLogoutClick = () => {
     deleteCookie(ACCESS_TOKEN_KEY);
     deleteCookie(REFRESH_TOKEN_KEY);
@@ -55,7 +52,32 @@ function MyPageMain({
   //TODO 구글 캘린더 연동
   const [isCalendarPaired, setIsCalendarPaired] = useState(false);
 
-  const [selectedLengthIdx, setSelectedLengthIdx] = useState(1);
+  const [selectedIdx, setSelectedIdx] = useState(0);
+  // 화면 진입 시 선택되어있는 타임존 찾아옴
+  useEffect(() => {
+    const targetIdx = TIME_ZONE_LIST.findIndex(
+      (t) =>
+        t.value ===
+        (userTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone)
+    );
+    if (targetIdx !== -1) {
+      setSelectedIdx(targetIdx);
+    }
+  }, [userTimezone]);
+
+  const { changeUser, loading } = usePatchUser();
+  const patchTimeZone = (newIdx: number) => {
+    const before = selectedIdx;
+    setSelectedIdx(newIdx);
+    changeUser(
+      { userTimezone: TIME_ZONE_LIST[newIdx].value },
+      {
+        onError: () => {
+          setSelectedIdx(before);
+        },
+      }
+    );
+  };
 
   return (
     <>
@@ -91,12 +113,14 @@ function MyPageMain({
       </MyPageRow>
       <MyPageRow title={'타임존 설정'} startIcon={<ClockIcon />}>
         <KezulerDropdown
+          disabled={loading}
           buttonClassName={'timezone-dropdown'}
-          menuData={MEETING_LENGTH_LIST}
-          displayKey={'display'}
-          selectedIdx={selectedLengthIdx}
-          setSelectedIdx={setSelectedLengthIdx}
+          menuData={TIME_ZONE_LIST}
+          displayKey={'name'}
+          selectedIdx={selectedIdx}
+          setSelectedIdx={patchTimeZone}
           endIcon={<ArrowDownIcon />}
+          paperClassName={'timezone-dropdown-paper'}
         />
       </MyPageRow>
       <h1 className={'my-page-h1'}>서비스 이용</h1>
