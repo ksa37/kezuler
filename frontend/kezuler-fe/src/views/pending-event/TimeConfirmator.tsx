@@ -126,7 +126,7 @@ function TimeConfirmator() {
   // console.log(eventTimeListDevideByDate);
 
   return (
-    <>
+    <div className={'accept-wrapper'}>
       <TextAppBar onClick={handlePrevClick} text={'미팅시간 확정'} />
       <ProgressBar progress={progressPerStep * step} yellowBar={true} />
       {step === ConfirmMeetingSteps.First ? (
@@ -196,7 +196,7 @@ function TimeConfirmator() {
           regularTextSecond="확정된 일정이 전송되었습니다."
         />
       )}
-    </>
+    </div>
   );
 }
 

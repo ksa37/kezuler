@@ -5,33 +5,31 @@
   box-sizing: border-box;
   // height: fit-content;
   // padding-bottom: 100px;
+  margin-top: 72px;
   display: flex;
   flex-direction: column;
   flex: 1;
 
   &.meeting-form {
-    background: fixed
-      linear-gradient(
-        to bottom,
-        $color-main 265px,
-        $color-background 265px 100%
-      );
+    background: linear-gradient(
+      to bottom,
+      $color-main 193px,
+      $color-background 193px 100%
+    );
   }
   &.calendar-selector {
-    background: fixed
-      linear-gradient(
-        to bottom,
-        $color-background 367px,
-        $color-main 367px 100%
-      );
+    background: linear-gradient(
+      to bottom,
+      $color-background 295px,
+      $color-main 295px 100%
+    );
   }
   &.place-info {
-    background: fixed
-      linear-gradient(
-        to bottom,
-        $color-background 276px,
-        $color-main 276px 100%
-      );
+    background: linear-gradient(
+      to bottom,
+      $color-background 204px,
+      $color-main 204px 100%
+    );
   }
 }
 

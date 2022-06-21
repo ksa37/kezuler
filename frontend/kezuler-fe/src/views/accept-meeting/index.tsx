@@ -71,7 +71,7 @@ function AcceptMeeting() {
   };
 
   return (
-    <>
+    <div className={'accept-wrapper'}>
       <TextAppBar
         onClick={
           step === AcceptMeetingSteps.Second ? handlePrevClick : undefined
@@ -80,7 +80,7 @@ function AcceptMeeting() {
       />
       <ProgressBar progress={progressPerStep * step} yellowBar={true} />
       {getComponent(step)}
-    </>
+    </div>
   );
 }
 

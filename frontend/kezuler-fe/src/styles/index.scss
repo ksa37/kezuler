@@ -8,7 +8,7 @@
   height: 100vh;
   position: relative;
   overflow-x: hidden;
-  @media (min-width: 900px) {
+  @media (min-width: $pc-view-width) {
     @media (min-width: 415px) {
       width: 414px;
     }
@@ -25,31 +25,31 @@
 }
 
 .app-wrapper {
-  @media (min-width: 900px) {
+  @media (min-width: $pc-view-width) {
     display: flex;
+    justify-content: center;
+    // align-items: center;
     background-color: #ffffff;
     height: 100vh;
-    padding-right: 20%;
-    justify-content: end;
   }
 }
 $app-bar-height: 72px;
 
 .kezuler-intro {
-  @media (max-width: 1200px) {
+  @media (max-width: $intro-show-width) {
     display: none;
   }
+
   display: flex;
   justify-content: center;
-  // align-items: center;
   flex-direction: column;
   text-align: left;
-  margin-right: 10%;
+  margin-right: 40px;
   .kezuler-intro-title {
     font-size: 70px;
     color: $color-highlight;
     span {
-      color: #3100ff;
+      color: #6d4be5;
     }
     .kezuler-intro-title-bold {
       font-weight: bold;
@@ -83,8 +83,8 @@ $app-bar-height: 72px;
 
 .common-app-bar {
   width: 100%;
-  position: fixed;
-  // position: sticky;
+  // position: fixed;
+  position: sticky;
   top: 0;
   right: 0;
   z-index: 1100;
@@ -93,7 +93,8 @@ $app-bar-height: 72px;
 
 .main-app-bar {
   box-sizing: border-box;
-  height: 100%;
+  // height: 100%;
+  height: $app-bar-height;
   padding: 0 20px;
   border-radius: 0 0 12px 12px;
   background: white;
@@ -142,11 +143,16 @@ body {
 }
 
 main {
-  height: calc(100% - #{$app-bar-height});
-  padding-top: $app-bar-height;
+  // height: calc(100% - #{$app-bar-height});
+  height: 100%;
+  // padding-top: $app-bar-height;
   background: $color-background;
   display: flex;
   flex-direction: column;
+
+  @media (min-width: $pc-view-width) {
+    padding-top: 0;
+  }
 }
 
 textarea {
@@ -165,7 +171,7 @@ $common-tab-size: 64px;
 .common-tab {
   box-sizing: border-box;
   padding: 24px 20px 8px;
-  position: fixed;
+  position: sticky;
   top: $app-bar-height;
   background: $color-background;
   left: 0;

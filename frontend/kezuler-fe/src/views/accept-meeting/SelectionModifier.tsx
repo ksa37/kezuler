@@ -48,14 +48,14 @@ function SelectionModifier() {
   };
 
   return (
-    <>
+    <div className={'accept-wrapper'}>
       <TextAppBar onClick={handlePrevClick} text={'선택한 시간 수정'} />
       <TimeListSelector
         isModification={
           isModification(eventTimeCandidates, declinedUsers) as boolean
         }
       />
-    </>
+    </div>
   );
 }
 

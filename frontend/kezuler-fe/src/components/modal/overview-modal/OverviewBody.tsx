@@ -46,15 +46,15 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
 
   const place = useMemo(
     () =>
-      eventZoomAddress ? (
-        <div className={'overview-section-place'}>
-          <PCIcon />
-          온라인
-        </div>
-      ) : (
+      eventPlace !== '' ? (
         <div className={'overview-section-place'}>
           <LocIcon />
           {eventPlace}
+        </div>
+      ) : (
+        <div className={'overview-section-place'}>
+          <PCIcon />
+          {eventZoomAddress ? eventZoomAddress : '온라인'}
         </div>
       ),
     [eventZoomAddress, eventPlace]
