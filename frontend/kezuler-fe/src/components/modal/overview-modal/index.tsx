@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { CURRENT_HOST } from 'src/constants/Auth';
 import { OVERVIEW_FORM_ID } from 'src/constants/Main';
@@ -71,7 +72,7 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
   const { openDialog } = useDialog();
   const { hide } = modalAction;
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const removePendingEvent = useDeletePendingEventById();
 
   const closeModal = useCallback(() => {
@@ -91,6 +92,9 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
   const handleDeleteClick = () => {
     const deleteMeeting = () => {
       removePendingEvent(eventId);
+      dispatch(hide());
+      navigate(PathName.main, { state: { isFixed: false } });
+      location.reload();
     };
 
     openDialog({

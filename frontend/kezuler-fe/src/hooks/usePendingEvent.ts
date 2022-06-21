@@ -23,6 +23,8 @@ import {
   putPendingEventGuestById,
 } from 'src/api/pendingEvent';
 
+const { show } = dialogAction;
+
 const useGetPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -61,7 +63,6 @@ const useGetInvitation = () => {
   const dispatch = useDispatch<AppDispatch>();
   const setIsLoaded = acceptMeetingActions.setIsLoaded;
   const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
-  const { show } = dialogAction;
 
   const getPendingEventInfo = (eventId: string) => {
     getInvitationById(eventId)
@@ -116,7 +117,12 @@ const usePostPendingEvent = () => {
       })
       .catch((err) => {
         console.log('미팅 생성 에러', err);
-        window.alert('미팅 생성 과정 중 오류가 생겼습니다');
+        dispatch(
+          show({
+            title: '미팅 생성 오류',
+            description: '미팅을 생성할 수 없습니다.',
+          })
+        );
         navigate(PathName.create, { replace: true });
       });
   };

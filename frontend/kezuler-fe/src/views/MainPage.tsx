@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import { mainFixedActions } from 'src/reducers/mainFixed';
 import { mainPendingActions } from 'src/reducers/mainPending';
@@ -12,7 +13,17 @@ import MainTab from 'src/components/main-page/MainTab';
 import 'src/styles/main.scss';
 
 function MainPage() {
-  const [isFixedMeeting, setIsFixedMeeting] = useState(true);
+  const location = useLocation();
+
+  let isFixed = true;
+
+  if (location) {
+    const state: any = location.state;
+    if (state) {
+      isFixed = state.isFixed;
+    }
+  }
+  const [isFixedMeeting, setIsFixedMeeting] = useState(isFixed);
 
   const dispatch = useDispatch<AppDispatch>();
   const { destroy: fixedDestroy } = mainFixedActions;
