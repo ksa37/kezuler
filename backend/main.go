@@ -95,7 +95,7 @@ func main() {
 		AllowedOrigins:   []string{"*"},
 		AllowCredentials: true,
 		AllowedHeaders:   []string{"accept", "authorization", "content-type"},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		Debug:            true,
 	})
 	routerWithCors := c.Handler(mainRouter)
