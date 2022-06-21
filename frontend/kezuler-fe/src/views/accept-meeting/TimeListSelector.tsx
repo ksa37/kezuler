@@ -16,6 +16,7 @@ import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
 } from 'src/utils/dateParser';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 import { getSelectedOptions } from 'src/utils/joinMeeting';
 
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
@@ -130,7 +131,9 @@ function TimeListSelector({ isModification }: Props) {
   const eventTimeListDevideByDate = useMemo(() => {
     const eventTimeListWithPossibleNums: EventTimeListWithPossibleNum[] =
       eventTimeCandidates.map((eventTimeCandidate) => ({
-        eventStartsAt: new Date(eventTimeCandidate.eventStartsAt),
+        eventStartsAt: getTimezoneDate(
+          new Date(eventTimeCandidate.eventStartsAt).getTime()
+        ),
         possibleNum: eventTimeCandidate.possibleUsers.length,
       }));
 

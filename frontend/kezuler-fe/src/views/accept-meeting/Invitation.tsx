@@ -9,7 +9,6 @@ import {
   LOGIN_REDIRECT_KEY,
 } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
-import useDialog from 'src/hooks/useDialog';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { dialogAction } from 'src/reducers/dialog';
@@ -50,7 +49,6 @@ function Invitation() {
     () => eventHost.userId === getCurrentUserInfo()?.userId,
     [eventHost.userId]
   );
-  const { openDialog } = useDialog();
 
   const handleNextClick = () => {
     if (isHost) {

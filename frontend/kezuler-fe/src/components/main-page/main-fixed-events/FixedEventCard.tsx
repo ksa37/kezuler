@@ -13,6 +13,7 @@ import {
   isSameDate,
 } from 'src/utils/dateParser';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 
 import { ReactComponent as HostIcon } from 'src/assets/icn_host.svg';
 import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
@@ -36,7 +37,10 @@ function FixedEventCard({ event, hasTodayId }: Props) {
     isDisabled: isCanceled,
   } = event;
 
-  const date = useMemo(() => new Date(eventTimeStartsAt), [event]);
+  const date = useMemo(
+    () => getTimezoneDate(new Date(eventTimeStartsAt).getTime()),
+    [event]
+  );
 
   const isHost = useMemo(
     () => hostId === getCurrentUserInfo()?.userId,
@@ -44,7 +48,7 @@ function FixedEventCard({ event, hasTodayId }: Props) {
   );
 
   const tense: 'today' | 'past' | 'future' = useMemo(() => {
-    const now = new Date();
+    const now = getTimezoneDate(new Date().getTime());
     if (isSameDate(now, date)) {
       return 'today';
     }

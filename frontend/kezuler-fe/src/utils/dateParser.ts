@@ -5,6 +5,8 @@ import DAY_OF_WEEK from 'src/constants/DayofWeek';
 import { EventTimeCandidate } from 'src/types/pendingEvent';
 import { User } from 'src/types/user';
 
+import getTimezoneDate from './getTimezoneDate';
+
 // api 의 모든 response (date string) 는 yyyy-MM-dd hh:mm:ss 형태로
 
 const formatTwoDigits = (n: number) => (n < 10 ? `0${n}` : n);
@@ -28,8 +30,8 @@ const dateToDailyTime = (date: Date) => {
 };
 
 const getIntervalFromToday = (date: Date) => {
-  const today = new Date().setHours(0, 0, 0, 0);
-  const target = new Date(date).setHours(0, 0, 0, 0);
+  const today = getTimezoneDate(new Date()).setHours(0, 0, 0, 0);
+  const target = date.setHours(0, 0, 0, 0);
   return (today - target) / 86_400_000;
 };
 
@@ -39,11 +41,11 @@ const getDDay = (date: Date) => {
 };
 
 // 월 반환
-const getMonthFromDateString = (dateString?: string) => {
-  if (!dateString) {
-    return new Date().getMonth() + 1;
+const getMonthFromTimeStamp = (timeStamp?: number) => {
+  if (!timeStamp) {
+    return getTimezoneDate(new Date().getTime()).getMonth() + 1;
   }
-  return new Date(dateString).getMonth() + 1;
+  return getTimezoneDate(new Date(timeStamp).getTime()).getMonth() + 1;
 };
 
 // 한국 요일 반환
@@ -51,17 +53,13 @@ const getKorDay = (date: Date) => DAY_OF_WEEK[date.getDay()];
 
 const getTimeRange = (startDate: Date, durationMinutes: number) => {
   const endDate = new Date(startDate.getTime() + durationMinutes * 60000);
-
   return `${dateToDailyTime(startDate)} ~ ${dateToDailyTime(endDate)}`;
 };
 
 // date string => YYYY년 m월 dd일 오후(오전) HH:MM
-const dateStringToKorDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  return `${year}년 ${month}월 ${day}일 ${dateToDailyTime(date)}`;
+const dateStringToKorDate = (timeStamp: number) => {
+  const date = getTimezoneDate(new Date(timeStamp));
+  return format(date, 'yyyy년 M월 d일 ') + dateToDailyTime(date);
 };
 
 // [Date, Date, Date]  => {M/d EEE: [Date, Date, Date, ...]   }
@@ -120,7 +118,7 @@ const getTimeListDivideByDateWithPossibleUsers = (
   eventCandidates.reduce<EventTimeListByDateWithPossibleUser>(
     (prev, eventCandidate) => {
       const { eventStartsAt, possibleUsers } = eventCandidate;
-      const date = new Date(eventStartsAt);
+      const date = getTimezoneDate(new Date(eventStartsAt).getTime());
       const dateAndDay = format(date, 'M/d EEE', {
         locale: ko,
       });
@@ -174,7 +172,7 @@ export {
   dateToDailyTime,
   getIntervalFromToday,
   getDDay,
-  getMonthFromDateString,
+  getMonthFromTimeStamp,
   getKorDay,
   getTimeRange,
   getTimeListDevideByDate,

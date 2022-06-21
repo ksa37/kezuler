@@ -15,7 +15,7 @@ interface BFixedEvent {
   eventZoomAddress: string;
   eventPlace: string;
   eventAttachment: string;
-  eventTimeStartsAt: string;
+  eventTimeStartsAt: number;
   participants: FixedUser[];
   isDisabled: boolean; // 취소 여부
 }

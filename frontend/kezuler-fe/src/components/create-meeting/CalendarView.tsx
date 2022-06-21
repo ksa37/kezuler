@@ -3,6 +3,8 @@ import DatePicker from 'react-datepicker';
 import { addMonths } from 'date-fns';
 import { ko } from 'date-fns/esm/locale';
 
+import getTimezoneDate from 'src/utils/getTimezoneDate';
+
 import 'src/styles/DatePicker.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -21,7 +23,7 @@ function CalendarView({ startDate, setStartDate, highlightDates }: Props) {
         onChange={setStartDate}
         // renderCustomHeader
         highlightDates={highlightDates}
-        minDate={new Date()}
+        minDate={getTimezoneDate(new Date().getTime())}
         maxDate={addMonths(new Date(), 6)}
         showDisabledMonthNavigation
         inline

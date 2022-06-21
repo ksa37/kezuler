@@ -16,6 +16,7 @@ import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
 } from 'src/utils/dateParser';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 
 import CompletionPage from '../../components/common/CompletionPage';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
@@ -73,9 +74,12 @@ function TimeConfirmator() {
       dispatch(increaseStep());
     };
 
-    const selectedDateText = format(new Date(selectedTime), 'yyyy년 M월 d일');
+    const selectedDateText = format(
+      getTimezoneDate(new Date(selectedTime).getTime()),
+      'yyyy년 M월 d일'
+    );
     const selectedTimeText = getTimeRange(
-      new Date(selectedTime),
+      getTimezoneDate(new Date(selectedTime).getTime()),
       eventTimeDuration
     );
 
@@ -113,7 +117,9 @@ function TimeConfirmator() {
   const eventTimeListDevideByDate = useMemo(() => {
     const eventTimeListWithPossibleNums: EventTimeListWithPossibleNum[] =
       eventTimeCandidates.map((eventTimeCandidate) => ({
-        eventStartsAt: new Date(eventTimeCandidate.eventStartsAt),
+        eventStartsAt: getTimezoneDate(
+          new Date(eventTimeCandidate.eventStartsAt).getTime()
+        ),
         possibleNum: eventTimeCandidate.possibleUsers.length,
       }));
 

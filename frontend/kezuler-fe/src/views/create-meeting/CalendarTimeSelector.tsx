@@ -11,6 +11,7 @@ import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { AppDispatch } from '../../store';
+import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
 import BottomButton from '../../components/common/BottomButton';
 import CalendarView from '../../components/create-meeting/CalendarView';
@@ -31,7 +32,9 @@ function CalendarTimeSelector() {
   const { increaseStep, addTimeList, deleteTimeList, seteventTimeDuration } =
     createMeetingActions;
 
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(
+    getTimezoneDate(new Date().getTime())
+  );
 
   const dateStr = useMemo(
     () =>
@@ -47,28 +50,34 @@ function CalendarTimeSelector() {
   );
 
   const eventTimeListDateToHighlight = useMemo(
-    () => eventTimeList.map((dateString) => new Date(dateString)),
+    () =>
+      eventTimeList.map((timeStamp) =>
+        getTimezoneDate(new Date(timeStamp).getTime())
+      ),
     [eventTimeList]
   );
 
   const createDate = (timeOption: string) => {
     if (startDate) {
-      return new Date(
-        startDate.getFullYear(),
-        startDate.getMonth(),
-        startDate.getDate(),
-        Number(timeOption.split(':')[0]),
-        Number(timeOption.split(':')[1])
+      return getUTCDate(
+        new Date(
+          startDate.getFullYear(),
+          startDate.getMonth(),
+          startDate.getDate(),
+          Number(timeOption.split(':')[0]),
+          Number(timeOption.split(':')[1])
+        )
       ).getTime();
     } else {
       console.log('Warning: date is null!');
-      return new Date().getTime();
+      return getTimezoneDate(new Date().getTime()).getTime();
     }
   };
 
   const handleChipClick = (timeOption: string) => {
     if (startDate) {
       const dateToAdd = createDate(timeOption);
+      console.log(dateToAdd);
       if (eventTimeList.includes(dateToAdd)) {
         dispatch(deleteTimeList(dateToAdd));
         console.log('Deleted Date !', dateToAdd);

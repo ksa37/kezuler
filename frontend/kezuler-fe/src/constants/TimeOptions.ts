@@ -1,18 +1,22 @@
 import { isBefore } from 'date-fns';
 
+import { getUTCDate } from 'src/utils/getTimezoneDate';
+
 const TimeOptions = (startDate: Date) => {
   const timeOptionList: string[] = [];
-  const nowDate = new Date();
+  const nowDate = new Date().getTime();
 
   for (let i = 0; i < 24; i++) {
     if (
       !isBefore(
-        new Date(
-          startDate.getFullYear(),
-          startDate.getMonth(),
-          startDate.getDate(),
-          i,
-          0
+        getUTCDate(
+          new Date(
+            startDate.getFullYear(),
+            startDate.getMonth(),
+            startDate.getDate(),
+            i,
+            0
+          ).getTime()
         ),
         nowDate
       )
@@ -22,12 +26,14 @@ const TimeOptions = (startDate: Date) => {
 
     if (
       !isBefore(
-        new Date(
-          startDate.getFullYear(),
-          startDate.getMonth(),
-          startDate.getDate(),
-          i,
-          30
+        getUTCDate(
+          new Date(
+            startDate.getFullYear(),
+            startDate.getMonth(),
+            startDate.getDate(),
+            i,
+            30
+          ).getTime()
         ),
         nowDate
       )
