@@ -48,7 +48,6 @@ function MyPageMain({
   const handleCalendarToggle = () => {
     setIsCalendarPaired(true);
   };
-
   //TODO 구글 캘린더 연동
   const [isCalendarPaired, setIsCalendarPaired] = useState(false);
 

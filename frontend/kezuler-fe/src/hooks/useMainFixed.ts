@@ -18,7 +18,7 @@ const useMainFixed = () => {
         getFixedEventsThunk({
           params: {
             startIndex: '0',
-            endIndex: '10',
+            endIndex: '10000',
           },
           onFinally,
         })

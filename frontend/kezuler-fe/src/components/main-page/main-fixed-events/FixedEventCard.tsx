@@ -91,7 +91,7 @@ function FixedEventCard({ event, hasTodayId }: Props) {
     return (
       <div className={'fixed-event-card-place'}>
         <PCIcon />
-        {eventZoomAddress ? eventZoomAddress : '온라인'}
+        온라인
       </div>
     );
   }, [eventPlace, eventZoomAddress]);

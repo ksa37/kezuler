@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import { ConfirmMeetingSteps } from 'src/constants/Steps';
@@ -34,12 +34,12 @@ function TimeConfirmator() {
   const { step, selectedTime, pendingEvent } = useSelector(
     (state: RootState) => state.confirmTime
   );
-  const { setSelctedTime, increaseStep, decreaseStep, destroy } =
-    confirmTimeActions;
+  const { setSelctedTime, increaseStep, destroy } = confirmTimeActions;
   const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
   const { show } = participantsPopupAction;
   const { openDialog } = useDialog();
+  const navigate = useNavigate();
 
   const totalStepsNum = Object.keys(ConfirmMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
@@ -89,8 +89,7 @@ function TimeConfirmator() {
   };
 
   const handlePrevClick = () => {
-    console.log('prev!');
-    dispatch(decreaseStep());
+    navigate(-1);
   };
 
   const handleAllShowClick = () => {
@@ -127,7 +126,12 @@ function TimeConfirmator() {
 
   return (
     <>
-      <TextAppBar onClick={handlePrevClick} text={'미팅시간 확정'} />
+      <TextAppBar
+        onClick={
+          step === ConfirmMeetingSteps.First ? handlePrevClick : undefined
+        }
+        text={'미팅시간 확정'}
+      />
       <ProgressBar progress={progressPerStep * step} yellowBar={true} />
       {step === ConfirmMeetingSteps.First ? (
         <div className={'time-list-selector'}>

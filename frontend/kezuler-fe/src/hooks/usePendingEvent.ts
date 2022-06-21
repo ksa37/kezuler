@@ -6,6 +6,7 @@ import PathName from 'src/constants/PathName';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
+import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from 'src/store';
 import {
   PDeletePendingEvent,
@@ -60,6 +61,7 @@ const useGetInvitation = () => {
   const dispatch = useDispatch<AppDispatch>();
   const setIsLoaded = acceptMeetingActions.setIsLoaded;
   const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
+  const { show } = dialogAction;
 
   const getPendingEventInfo = (eventId: string) => {
     getInvitationById(eventId)
@@ -69,8 +71,13 @@ const useGetInvitation = () => {
       })
       .catch((err) => {
         console.log('미팅 수락 에러', err);
-        window.alert('미팅 정보를 받아올 수 없습니다');
-        navigate(PathName.invite + `/${eventId}`, { replace: true });
+        dispatch(
+          show({
+            title: '참여 오류',
+            description: '미팅 정보를 불러올 수 없습니다.',
+          })
+        );
+        navigate(PathName.main);
       });
   };
 
