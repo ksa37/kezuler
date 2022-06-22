@@ -23,12 +23,13 @@ import {
   putPendingEventGuestById,
 } from 'src/api/pendingEvent';
 
-const { show } = dialogAction;
+// const { show } = dialogAction;
 
 // 시간 확정시 정보 불러오기
 const useGetPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const { show } = dialogAction;
   const setConfirmPendingEvent = confirmTimeActions.setPendingEvent;
 
   const getPendingEventInfo = (eventId: string) => {
@@ -55,6 +56,7 @@ const useGetPendingEvent = () => {
 const useGetInvitation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const { show } = dialogAction;
   const setIsLoaded = acceptMeetingActions.setIsLoaded;
   const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
 
@@ -80,9 +82,9 @@ const useGetInvitation = () => {
 };
 
 const useDeletePendingEventById = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = dialogAction;
   const removePendingEvent = (eventId: string) => {
-    const dispatch = useDispatch<AppDispatch>();
-
     deletePendingEventById(eventId)
       .then((res) => {
         console.log(res);
@@ -108,6 +110,7 @@ const usePostPendingEvent = () => {
 
   const getShareUrl = (ppendingEvent: PPostPendingEvent) => {
     console.log(ppendingEvent);
+    const { show } = dialogAction;
     postPendingEvent(ppendingEvent)
       .then((res) => {
         dispatch(
@@ -133,7 +136,7 @@ const usePostPendingEvent = () => {
 const usePutPendingEventGuest = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-
+  const { show } = dialogAction;
   const putEventTimeCandidate = (
     eventId: string,
     ppendingEvent: PPutPendingEvent
