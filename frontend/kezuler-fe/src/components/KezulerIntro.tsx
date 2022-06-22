@@ -26,7 +26,7 @@ function KezulerIntro() {
 
       <div>
         <Button
-          href={KAKAO_AUTH_URL}
+          // href={KAKAO_AUTH_URL}
           classes={{ root: 'kezuler-intro-login-kakao-btn' }}
         >
           <img
