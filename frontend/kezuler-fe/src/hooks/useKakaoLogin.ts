@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import KezulerInstance from '../constants/api';
@@ -7,14 +8,18 @@ import {
   REFRESH_TOKEN_KEY,
 } from '../constants/Auth';
 import PathName from 'src/constants/PathName';
+import { dialogAction } from 'src/reducers/dialog';
+import { AppDispatch } from 'src/store';
 import { setCookie } from '../utils/cookie';
 
 import { getKakaoAccessTokenApi } from 'src/api/Login';
 import { postUser } from 'src/api/user';
 
+const { show } = dialogAction;
+
 const useKakaoLogin = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch<AppDispatch>();
   // 리다이렉트 후 토큰 요청
   const getKakaoToken = (code: string, path: PathName) => {
     getKakaoAccessTokenApi(code)
@@ -47,13 +52,23 @@ const useKakaoLogin = () => {
           })
           .catch((e) => {
             console.log('소셜로그인 에러', e);
-            window.alert('로그인에 실패하였습니다.');
+            dispatch(
+              show({
+                title: '카카오 로그인 오류',
+                description: '로그인 과정 중 오류가 생겼습니다.',
+              })
+            );
             // navigate(PathName.login, { replace: true });
           });
       })
       .catch((err) => {
         console.log('소셜로그인 에러', err);
-        window.alert('로그인에 실패하였습니다.');
+        dispatch(
+          show({
+            title: '카카오 로그인 오류',
+            description: '로그인 과정 중 오류가 생겼습니다.',
+          })
+        );
         // navigate(PathName.login, { replace: true });
       });
   };

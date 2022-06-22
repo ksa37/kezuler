@@ -10,6 +10,7 @@ import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
 import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
+import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from '../../store';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
@@ -35,6 +36,7 @@ function CalendarTimeSelector() {
   const [startDate, setStartDate] = useState<Date | null>(
     getTimezoneDate(new Date().getTime())
   );
+  const { show } = dialogAction;
 
   const dateStr = useMemo(
     () =>
@@ -77,16 +79,19 @@ function CalendarTimeSelector() {
   const handleChipClick = (timeOption: string) => {
     if (startDate) {
       const dateToAdd = createDate(timeOption);
-      console.log(dateToAdd);
       if (eventTimeList.includes(dateToAdd)) {
         dispatch(deleteTimeList(dateToAdd));
-        console.log('Deleted Date !', dateToAdd);
+        // console.log('Deleted Date !', dateToAdd);
       } else {
         if (eventTimeList.length === 5) {
-          alert('5개까지만 추가할 수 있어요!');
+          dispatch(
+            show({
+              title: '5개 옵션까지만 선택이 가능합니다.',
+            })
+          );
         } else {
           dispatch(addTimeList(dateToAdd));
-          console.log('Added Date !', dateToAdd);
+          // console.log('Added Date !', dateToAdd);
         }
       }
     } else {

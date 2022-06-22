@@ -1,9 +1,12 @@
 import React from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { Avatar } from '@mui/material';
 
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
+import { dialogAction } from 'src/reducers/dialog';
+import { AppDispatch } from 'src/store';
 import { SettingUser } from 'src/types/user';
 
 import BottomButton from '../common/BottomButton';
@@ -27,7 +30,8 @@ function MyPageEdit({
 }: Props) {
   const { register, handleSubmit, setValue, watch } = useForm<UserForm>();
   const watchProfileImage = watch('userProfileImage', userProfileImage);
-
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = dialogAction;
   const { changeUser } = usePatchUser();
   const { getUserInfo } = useGetUserInfo();
 
@@ -52,7 +56,7 @@ function MyPageEdit({
         const encoded = base64 as string;
         setValue('userProfileImage', encoded);
       } else {
-        alert('이미지 변환을 실패했습니다.');
+        dispatch(show({ title: '이미지 변환을 실패했습니다.' }));
       }
       e.target.value = '';
     };

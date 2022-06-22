@@ -25,39 +25,33 @@ import {
 
 const { show } = dialogAction;
 
+// 시간 확정시 정보 불러오기
 const useGetPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
   const setConfirmPendingEvent = confirmTimeActions.setPendingEvent;
 
-  const getPendingEventInfo = (eventId: string, setOption: number) => {
+  const getPendingEventInfo = (eventId: string) => {
     getPendingEventById(eventId)
       .then((res) => {
-        switch (setOption) {
-          case 0: {
-            dispatch(setAcceptPendingEvent(res.data));
-            break;
-          }
-          case 1: {
-            dispatch(setConfirmPendingEvent(res.data));
-            break;
-          }
-          default: {
-            console.log('error');
-          }
-        }
+        dispatch(setConfirmPendingEvent(res.data));
       })
       .catch((err) => {
-        console.log('미팅 수락 에러', err);
-        window.alert('미팅 정보를 받아올 수 없습니다');
-        navigate(PathName.invite + `/${eventId}`, { replace: true });
+        console.log('미팅 정보 불러오기 에러', err);
+        dispatch(
+          show({
+            title: '참여 오류',
+            description: '미팅 정보를 불러올 수 없습니다.',
+          })
+        );
+        navigate(PathName.main, { state: { isFixed: false } });
       });
   };
 
   return getPendingEventInfo;
 };
 
+// 미팅 수락, 수정시 정보 불러오기
 const useGetInvitation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -71,7 +65,7 @@ const useGetInvitation = () => {
         dispatch(setIsLoaded(true));
       })
       .catch((err) => {
-        console.log('미팅 수락 에러', err);
+        console.log('미팅 정보 불러오기 에러', err);
         dispatch(
           show({
             title: '참여 오류',
@@ -87,13 +81,20 @@ const useGetInvitation = () => {
 
 const useDeletePendingEventById = () => {
   const removePendingEvent = (eventId: string) => {
+    const dispatch = useDispatch<AppDispatch>();
+
     deletePendingEventById(eventId)
       .then((res) => {
         console.log(res);
       })
       .catch((err) => {
         console.log('미팅 삭제 에러', err);
-        window.alert('미팅 삭제 과정 중 오류가 생겼습니다');
+        dispatch(
+          show({
+            title: '미팅 삭제 오류',
+            description: '미팅 삭제 과정 중 오류가 생겼습니다.',
+          })
+        );
       });
   };
 
@@ -131,6 +132,7 @@ const usePostPendingEvent = () => {
 
 const usePutPendingEventGuest = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   const putEventTimeCandidate = (
     eventId: string,
@@ -143,7 +145,12 @@ const usePutPendingEventGuest = () => {
       })
       .catch((err) => {
         console.log('미팅 수락/수정 에러', err);
-        window.alert('미팅 수락/수정 과정 중 오류가 생겼습니다');
+        dispatch(
+          show({
+            title: '미팅 참여 오류',
+            description: '미팅 참여 과정 중 오류가 생겼습니다.',
+          })
+        );
         navigate(`${PathName.invite}/${eventId}`, { replace: true });
       });
   };

@@ -55,7 +55,7 @@ function TimeConfirmator() {
   const getPendingEventInfo = useGetPendingEvent();
   useMemo(() => {
     if (eventConfirmId) {
-      getPendingEventInfo(eventConfirmId, 1);
+      getPendingEventInfo(eventConfirmId);
     }
   }, [eventConfirmId]);
 

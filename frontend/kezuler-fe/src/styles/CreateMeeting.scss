@@ -271,6 +271,8 @@
   width: 83px;
   flex: 0 0 auto;
   border-radius: 100px;
+  cursor: pointer;
+
   &.filled {
     background: $color-highlight 0% 0% no-repeat padding-box;
     color: #ffffff;
@@ -322,11 +324,13 @@
     text-align: right;
 
     .no {
+      cursor: pointer;
       color: #808080;
       margin-left: 8px;
       margin-right: 8px;
     }
     .yes {
+      cursor: pointer;
       margin-left: 8px;
       margin-right: 8px;
     }
@@ -353,6 +357,7 @@
     border-radius: 16px;
     height: 157px;
     box-sizing: border-box;
+    cursor: pointer;
 
     .on-off-title {
       margin-top: 16px;
