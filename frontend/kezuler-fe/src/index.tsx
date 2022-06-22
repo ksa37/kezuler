@@ -10,7 +10,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import KezulerIntro from './components/KezulerIntro';
 
-// import 'react-datepicker/dist/react-datepicker.css';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -27,6 +26,7 @@ root.render(
     </StyledEngineProvider>
   </div>
   // </React.StrictMode>
+
 );
 
 // If you want to start measuring performance in your app, pass a function
