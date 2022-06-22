@@ -40,7 +40,7 @@ function MeetingShare() {
       // 중복 initialization 방지
       if (!window.Kakao.isInitialized()) {
         // 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
-        window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
+        window.Kakao.init('c84daff056f54704dedf2314c5411fdf');
       }
     }
   }, []);
