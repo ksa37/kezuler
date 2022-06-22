@@ -1,0 +1,81 @@
+@import 'constants';
+
+.kezuler-dialog {
+  width: calc(100% - 64px);
+  max-width: 320px;
+  border-radius: $common-border-radius;
+}
+
+.kezuler-dialog-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+  line-height: 1.5;
+
+  .kezuler-dialog-date-wrapper {
+    position: relative;
+    z-index: 0;
+    text-align: center;
+  }
+
+  h1 {
+    text-align: center;
+    margin: 0;
+    line-height: inherit;
+    font-size: $font-16;
+    color: $color-highlight;
+    font-weight: bold;
+    white-space: pre-line;
+
+    &.date {
+      display: inline;
+      position: relative;
+
+      &::after {
+        z-index: -1;
+        width: calc(100% + 6px);
+        height: 8px;
+        left: -3px;
+        bottom: -1px;
+
+        border-radius: 5px;
+        position: absolute;
+        content: '';
+        color: $color-main;
+        background-color: $color-main;
+      }
+    }
+  }
+
+  > h2 {
+    margin: 16px 0 0;
+    line-height: inherit;
+    font-size: $font-12;
+    color: #808080;
+    white-space: pre-line;
+    text-align: center;
+  }
+}
+
+.kezuler-dialog-footer {
+  height: 48px;
+  width: 100%;
+  display: flex;
+
+  > button {
+    flex: 1;
+    color: $color-highlight;
+    font-size: $font-14;
+    font-weight: bold;
+    background-color: #eaeaea;
+    border: none;
+    cursor: pointer;
+
+    &.confirm {
+      background-color: $color-main;
+    }
+  }
+}

@@ -1,0 +1,82 @@
+@import './constants';
+
+.bottom-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: $color-highlight;
+  color: $color-main;
+  height: 56px;
+  font-family: Pretendard;
+  font-size: 16px;
+  text-align: center;
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+
+  &.disabled {
+    color: #9f9f9f;
+    pointer-events: none;
+  }
+
+  &.sub-exist {
+    justify-content: unset;
+
+    .btn-text-area {
+      display: flex;
+      text-align: left;
+
+      .btn-text {
+        padding-right: 40px;
+      }
+    }
+  }
+
+  .btn-text-area {
+    width: 100%;
+
+    .btn-subtext {
+      font-size: 14px;
+      padding-left: 32px;
+      flex: 1;
+    }
+  }
+}
+
+.text-app-bar {
+  color: $color-highlight;
+  background-color: $color-background;
+  height: 68px;
+  z-index: 2;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+
+  &.main-colored {
+    background-color: $color-main;
+  }
+
+  .text-app-bar-content {
+    margin-top: 20px;
+    .text-app-bar-content-text {
+      padding-top: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 19px;
+      align-items: center;
+      text-align: center;
+    }
+    .text-app-bar-content-bbtn {
+      cursor: pointer;
+      position: fixed;
+      left: 28px;
+      padding-block: 17px;
+    }
+  }
+}

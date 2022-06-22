@@ -1,33 +1,66 @@
-interface UserPendingEvents {
-  userId: string;
-  pendingEvents: PendingEvent[];
+import { User } from 'src/types/user';
+
+interface DeclinedUser extends User {
+  userDeclineReason: string;
 }
 
-interface PendingEvent {
-  userId?: string;
+interface EventTimeCandidate {
+  eventStartsAt: number;
+  possibleUsers: User[];
+}
+
+interface BPendingEvent {
   eventId: string;
+  eventHost: User;
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
+  declinedUsers: DeclinedUser[];
   eventTimeCandidates: EventTimeCandidate[];
-  isEventOnline: boolean;
-  eventZoomAddress: null | string;
-  eventPlaceLongitude: null | number;
-  eventPlaceLatitude: null | number;
+  eventZoomAddress: string;
+  eventPlace: string;
   eventAttachment: string;
 }
 
-interface PossibleUser {
+interface RGetPendingEvents {
   userId: string;
-  userImage: string;
+  pendingEvents: BPendingEvent[];
 }
 
-interface EventTimeWithUser {
-  eventStartsAt: string;
-  possibleUsers: PossibleUser[];
+// TODO
+interface PendingEvent extends BPendingEvent {
+  userId?: string;
 }
 
-type EventTimeCandidate = Record<string, EventTimeWithUser[]>;
+interface PPostPendingEvent {
+  eventTitle: string;
+  eventDescription: string;
+  eventTimeDuration: number;
+  eventTimeCandidates: number[];
+  eventZoomAddress: string;
+  eventPlace: string;
+  eventAttachment: string;
+}
 
-export default PendingEvent;
-export type { UserPendingEvents, PossibleUser, EventTimeCandidate };
+interface PPutPendingEvent {
+  addTimeCandidates?: number[];
+  removeTimeCandidates?: number[];
+}
+
+interface PDeletePendingEvent {
+  UserDeclineReason?: string;
+}
+
+type PPatchPendingEvent = Partial<BPendingEvent>;
+
+export type {
+  DeclinedUser,
+  BPendingEvent,
+  PendingEvent,
+  PPostPendingEvent,
+  RGetPendingEvents,
+  PPatchPendingEvent,
+  PPutPendingEvent,
+  PDeletePendingEvent,
+  EventTimeCandidate,
+};

@@ -1,0 +1,57 @@
+@import './constants';
+
+.login-wrapper {
+  overflow: hidden;
+}
+.login-kezuler-logo {
+  margin-top: 17%;
+  text-align: center;
+  z-index: 2;
+}
+
+.login-talking-img {
+  position: absolute;
+  right: 5%;
+  bottom: 20%;
+  z-index: 1;
+  @media (max-width: 300px) {
+    right: 0;
+  }
+  @media (max-height: 600px) {
+    display: none;
+  }
+}
+
+.login-bottom-bg {
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  bottom: 0;
+  width: 200%;
+  height: 30%;
+  background-color: $color-main;
+  border-top-left-radius: 40%;
+  border-top-right-radius: 50%;
+}
+
+.login-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-kakao-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 72px;
+  height: 56px;
+  width: 254px;
+  text-align: center;
+  background-color: $color-highlight;
+  box-shadow: 0px 0px 10px #282f391a;
+  font: normal normal bold 16px/12px Pretendard;
+  color: #ffffff;
+  border-radius: 8px;
+  margin-inline: 80px;
+}
