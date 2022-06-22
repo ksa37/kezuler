@@ -46,7 +46,7 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
 
   const place = useMemo(
     () =>
-      eventPlace !== '' ? (
+      eventPlace ? (
         <div className={'overview-section-place'}>
           <LocIcon />
           {eventPlace}

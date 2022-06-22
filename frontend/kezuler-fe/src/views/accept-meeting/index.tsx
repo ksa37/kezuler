@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 import { AcceptMeetingSteps } from 'src/constants/Steps';
 import { useGetInvitation } from 'src/hooks/usePendingEvent';
@@ -19,7 +20,9 @@ import 'src/styles/common/TimeLineGrid.scss';
 
 function AcceptMeeting() {
   const dispatch = useDispatch<AppDispatch>();
-  const { step } = useSelector((state: RootState) => state.acceptMeeting);
+  const { step, pendingEvent } = useSelector(
+    (state: RootState) => state.acceptMeeting
+  );
   const { decreaseStep, destroy } = acceptMeetingActions;
 
   const totalStepsNum = Object.keys(AcceptMeetingSteps).length / 2 - 1;
@@ -66,20 +69,33 @@ function AcceptMeeting() {
     }
   }, [eventId]);
 
+  const isLoaded = useMemo(
+    () => pendingEvent.eventTitle !== '',
+    [pendingEvent.eventTitle]
+  );
+
   const handlePrevClick = () => {
     dispatch(decreaseStep());
   };
 
   return (
     <div className={'accept-wrapper'}>
-      <TextAppBar
-        onClick={
-          step === AcceptMeetingSteps.Second ? handlePrevClick : undefined
-        }
-        text={getAppBarText(step)}
-      />
-      <ProgressBar progress={progressPerStep * step} yellowBar={true} />
-      {getComponent(step)}
+      {isLoaded ? (
+        <>
+          <TextAppBar
+            onClick={
+              step === AcceptMeetingSteps.Second ? handlePrevClick : undefined
+            }
+            text={getAppBarText(step)}
+          />
+          <ProgressBar progress={progressPerStep * step} yellowBar={true} />
+          {getComponent(step)}
+        </>
+      ) : (
+        <div className={'circular-progress-bar-wrapper'}>
+          <CircularProgress classes={{ root: 'circular-progress-bar' }} />
+        </div>
+      )}
     </div>
   );
 }

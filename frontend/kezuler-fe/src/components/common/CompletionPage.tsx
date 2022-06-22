@@ -22,7 +22,7 @@ function CompletionPage({
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
-    navigate(PathName.main, { replace: true });
+    navigate(PathName.main);
   };
 
   const handleConnectClick = () => {

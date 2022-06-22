@@ -16,6 +16,7 @@ import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
 } from 'src/utils/dateParser';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 import { getSelectedOptions } from 'src/utils/joinMeeting';
 
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
@@ -133,7 +134,9 @@ function TimeListSelector({ isModification }: Props) {
   const eventTimeListDevideByDate = useMemo(() => {
     const eventTimeListWithPossibleNums: EventTimeListWithPossibleNum[] =
       eventTimeCandidates.map((eventTimeCandidate) => ({
-        eventStartsAt: new Date(eventTimeCandidate.eventStartsAt),
+        eventStartsAt: getTimezoneDate(
+          new Date(eventTimeCandidate.eventStartsAt).getTime()
+        ),
         possibleNum: eventTimeCandidate.possibleUsers.length,
       }));
 
@@ -157,16 +160,16 @@ function TimeListSelector({ isModification }: Props) {
     [dateString: string]: Schedule[];
   }
   const mockSchedule: ScehdulesEachDay = {
-    '4/11 월': [
+    '6/22 수': [
       { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
       { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
     ],
-    '4/12 화': [
+    '6/23 목': [
       { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
       { timeRange: '하루종일', scheduleTitle: '수아' },
     ],
-    '4/13 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
-    '4/15 금': [
+    '6/24 금': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
+    '7/1 금': [
       { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
       { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
     ],

@@ -4,9 +4,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  &.sub-exist {
-    justify-content: unset;
-  }
+  border: none;
+  outline: none;
+  cursor: pointer;
   background-color: $color-highlight;
   color: $color-main;
   height: 56px;
@@ -18,25 +18,33 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  .btn-text-area {
-    &.sub-exist {
+
+  &.disabled {
+    color: #9f9f9f;
+    pointer-events: none;
+  }
+
+  &.sub-exist {
+    justify-content: unset;
+
+    .btn-text-area {
       display: flex;
       text-align: left;
+
+      .btn-text {
+        padding-right: 40px;
+      }
     }
+  }
+
+  .btn-text-area {
     width: 100%;
+
     .btn-subtext {
       font-size: 14px;
       padding-left: 32px;
       flex: 1;
     }
-    .btn-text {
-      &.sub-exist {
-        padding-right: 40px;
-      }
-    }
-  }
-  &.disabled {
-    color: #9f9f9f;
   }
 }
 
@@ -65,6 +73,7 @@
       text-align: center;
     }
     .text-app-bar-content-bbtn {
+      cursor: pointer;
       position: fixed;
       left: 28px;
       padding-block: 17px;

@@ -10,7 +10,9 @@ import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
 import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
+import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from '../../store';
+import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
 import BottomButton from '../../components/common/BottomButton';
 import CalendarView from '../../components/create-meeting/CalendarView';
@@ -31,7 +33,10 @@ function CalendarTimeSelector() {
   const { increaseStep, addTimeList, deleteTimeList, seteventTimeDuration } =
     createMeetingActions;
 
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(
+    getTimezoneDate(new Date().getTime())
+  );
+  const { show } = dialogAction;
 
   const dateStr = useMemo(
     () =>
@@ -47,22 +52,27 @@ function CalendarTimeSelector() {
   );
 
   const eventTimeListDateToHighlight = useMemo(
-    () => eventTimeList.map((dateString) => new Date(dateString)),
+    () =>
+      eventTimeList.map((timeStamp) =>
+        getTimezoneDate(new Date(timeStamp).getTime())
+      ),
     [eventTimeList]
   );
 
   const createDate = (timeOption: string) => {
     if (startDate) {
-      return new Date(
-        startDate.getFullYear(),
-        startDate.getMonth(),
-        startDate.getDate(),
-        Number(timeOption.split(':')[0]),
-        Number(timeOption.split(':')[1])
+      return getUTCDate(
+        new Date(
+          startDate.getFullYear(),
+          startDate.getMonth(),
+          startDate.getDate(),
+          Number(timeOption.split(':')[0]),
+          Number(timeOption.split(':')[1])
+        )
       ).getTime();
     } else {
       console.log('Warning: date is null!');
-      return new Date().getTime();
+      return getTimezoneDate(new Date().getTime()).getTime();
     }
   };
 
@@ -71,13 +81,17 @@ function CalendarTimeSelector() {
       const dateToAdd = createDate(timeOption);
       if (eventTimeList.includes(dateToAdd)) {
         dispatch(deleteTimeList(dateToAdd));
-        console.log('Deleted Date !', dateToAdd);
+        // console.log('Deleted Date !', dateToAdd);
       } else {
         if (eventTimeList.length === 5) {
-          alert('5개까지만 추가할 수 있어요!');
+          dispatch(
+            show({
+              title: '5개 옵션까지만 선택이 가능합니다.',
+            })
+          );
         } else {
           dispatch(addTimeList(dateToAdd));
-          console.log('Added Date !', dateToAdd);
+          // console.log('Added Date !', dateToAdd);
         }
       }
     } else {

@@ -1,24 +1,20 @@
-
-import useMainFixed from 'src/hooks/useMainFixed';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';
 import PathName from 'src/constants/PathName';
-import { RootState } from 'src/reducers';
-import { getFixedEventsThunk } from 'src/reducers/mainFixed';
-import { AppDispatch } from 'src/store';
-
+import useMainFixed from 'src/hooks/useMainFixed';
 import {
   getIntervalFromToday,
-  getMonthFromDateString,
+  getMonthFromTimeStamp,
 } from 'src/utils/dateParser';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 
 import BottomPopper from '../../common/BottomPopper';
 import FixedEventCard from './FixedEventCard';
 import EmptyFixedEventCard from 'src/components/main-page/main-fixed-events/EmptyFixedEventCard';
 import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
+
 function MainFixedEvents() {
   const { getFixedEvents, events, isFetched } = useMainFixed();
 
@@ -40,7 +36,9 @@ function MainFixedEvents() {
     let target = -1;
     if (events) {
       for (let i = events.length - 1; i >= 0; i--) {
-        const date = new Date(events[i].eventTimeStartsAt);
+        const date = getTimezoneDate(
+          new Date(events[i].eventTimeStartsAt).getTime()
+        );
         const interval = getIntervalFromToday(date);
         if (interval > 0) {
           if (target === -1) {
@@ -62,7 +60,7 @@ function MainFixedEvents() {
     return (
       <div id={FIXED_TODAY_ID} className={'main-fixed'}>
         <h1 className={'main-fixed-month-divider'}>
-          {getMonthFromDateString()}월
+          {getMonthFromTimeStamp()}월
         </h1>
         <EmptyFixedEventCard />
         <h2 className={'main-empty-h2'}>
@@ -84,12 +82,12 @@ function MainFixedEvents() {
   return (
     <div className={'main-fixed'}>
       {events.map((e, i) => {
-        const curMonth = getMonthFromDateString(e.eventTimeStartsAt);
+        const curMonth = getMonthFromTimeStamp(e.eventTimeStartsAt);
         return (
           <React.Fragment key={e.eventId}>
             {(i === 0 ||
               (i > 1 &&
-                getMonthFromDateString(events[i - 1].eventTimeStartsAt) !==
+                getMonthFromTimeStamp(events[i - 1].eventTimeStartsAt) !==
                   curMonth)) && (
               <h1 className={'main-fixed-month-divider'}>{curMonth}월</h1>
             )}

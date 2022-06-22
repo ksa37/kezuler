@@ -4,31 +4,36 @@ import classNames from 'classnames';
 import 'src/styles/components.scss';
 
 interface Props {
+  type?: 'button' | 'submit';
   onClick?: () => void;
   text: string;
   subtext?: string;
   disabled?: boolean;
 }
 
-function BottomButton({ onClick, text, subtext, disabled }: Props) {
+function BottomButton({
+  type = 'button',
+  onClick,
+  text,
+  subtext,
+  disabled,
+}: Props) {
   return (
-    <div
-      className={classNames(
-        'bottom-button',
-        {
-          disabled: disabled,
-        },
-        subtext ? 'sub-exist' : ''
-      )}
-      onClick={!disabled ? onClick : undefined}
+    <button
+      type={type}
+      className={classNames('bottom-button', {
+        disabled: disabled,
+        'sub-exist': subtext,
+      })}
+      onClick={onClick}
     >
-      <div className={classNames('btn-text-area', subtext ? 'sub-exist' : '')}>
+      <div className={'btn-text-area'}>
         {subtext && <div className={'btn-subtext'}>{subtext}</div>}
-        <div className={classNames('btn-text', subtext ? 'sub-exist' : '')}>
+        <div className={'btn-text'}>
           <b>{text}</b>
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
