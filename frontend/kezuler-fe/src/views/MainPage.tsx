@@ -6,6 +6,7 @@ import { mainFixedActions } from 'src/reducers/mainFixed';
 import { mainPendingActions } from 'src/reducers/mainPending';
 import { AppDispatch } from 'src/store';
 
+import MainAppBar from 'src/components/common/MainAppBar';
 import MainFixedEvents from 'src/components/main-page/main-fixed-events';
 import MainPendingEvents from 'src/components/main-page/main-pending-events';
 import MainTab from 'src/components/main-page/MainTab';
@@ -39,6 +40,7 @@ function MainPage() {
 
   return (
     <div className={'main-page'}>
+      <MainAppBar />
       <MainTab
         isFixedMeeting={isFixedMeeting}
         setIsFixedMeeting={setIsFixedMeeting}

@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { ACCESS_TOKEN_KEY } from 'src/constants/Auth';
+import { ACCESS_TOKEN_KEY, CURRENT_USER_INFO_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
+
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { getCookie } from 'src/utils/cookie';
+
 
 import AcceptMeeting from 'src/views/accept-meeting';
 import SelectionModifier from 'src/views/accept-meeting/SelectionModifier';
@@ -16,7 +18,7 @@ import MyPage from 'src/views/MyPage';
 import NotiPage from 'src/views/NotiPage';
 import TimeConfirmator from 'src/views/pending-event/TimeConfirmator';
 import TestPage from 'src/views/TestPage';
-import MainAppBar from 'src/components/common/MainAppBar';
+// import MainAppBar from 'src/components/common/MainAppBar';
 
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
@@ -35,15 +37,7 @@ function RootRoutes() {
       {isLoggedIn ? (
         <main>
           <Routes>
-            <Route
-              path={PathName.main}
-              element={
-                <>
-                  <MainAppBar />
-                  <MainPage />
-                </>
-              }
-            />
+            <Route path={PathName.main} element={<MainPage />} />
             <Route path={PathName.notification} element={<NotiPage />} />
             <Route path={PathName.myPage} element={<MyPage />} />
             <Route path={PathName.pending} element={<>login</>} />

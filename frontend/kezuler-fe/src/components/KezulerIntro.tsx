@@ -4,13 +4,15 @@ import { Button } from '@mui/material';
 import { KAKAO_AUTH_URL } from 'src/constants/Auth';
 
 import KakaoIcon from 'src/assets/img_kakao.svg';
+import { ReactComponent as PCIntro } from 'src/assets/pc_intro.svg';
 // import 'src/styles/login.scss';
 import 'src/styles/index.scss';
 
 function KezulerIntro() {
   return (
     <div className={'kezuler-intro'}>
-      <div className={'kezuler-intro-title'}>
+      <PCIntro />
+      {/* <div className={'kezuler-intro-title'}>
         일잘러들을 위한 <br />
         <span>스마트</span> 스케줄러
         <div className={'kezuler-intro-title-bold'}>케:줄러</div>
@@ -20,7 +22,8 @@ function KezulerIntro() {
         <br />
         단 하나의 케줄러 링크로 <br />
         스마트하게 미팅을 조율해봐요 🙌
-      </div>
+      </div> */}
+
       <div>
         <Button
           href={KAKAO_AUTH_URL}

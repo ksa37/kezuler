@@ -59,22 +59,24 @@ function TimeListSelector({ isModification }: Props) {
   }, []);
 
   const handlePutClick = () => {
+    const putData: PPutPendingEvent = {
+      addTimeCandidates: availableTimes.filter(
+        (time) => !selectedOptions.includes(time)
+      ),
+      removeTimeCandidates: selectedOptions.filter(
+        (time) => !availableTimes.includes(time)
+      ),
+    };
+    console.log(availableTimes, selectedOptions);
+    console.log(putData);
+
+    const DeleteData: PDeletePendingEvent = {
+      UserDeclineReason: declineReason ? declineReason : '',
+    };
+
     const putMeeting = () => {
-      const putData: PPutPendingEvent = {
-        addTimeCandidates: availableTimes.filter(
-          (time) => !selectedOptions.includes(time)
-        ),
-        removeTimeCandidates: selectedOptions.filter(
-          (time) => !availableTimes.includes(time)
-        ),
-      };
-      console.log(availableTimes, selectedOptions);
-      console.log(putData);
       if (availableTimes.length === 0) {
         if (declineReason && declineReason !== '') {
-          const DeleteData: PDeletePendingEvent = {
-            UserDeclineReason: declineReason,
-          };
           deleteEventTimeCandidate(eventId, DeleteData);
         } else {
           deleteEventTimeCandidate(eventId);
@@ -82,6 +84,7 @@ function TimeListSelector({ isModification }: Props) {
       } else {
         putEventTimeCandidate(eventId, putData);
       }
+
       if (isModification) {
         navigate(-1);
         //TODO: main으로 가야하나..?

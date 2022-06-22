@@ -79,7 +79,7 @@ function AcceptMeeting() {
   };
 
   return (
-    <>
+    <div className={'accept-wrapper'}>
       {isLoaded ? (
         <>
           <TextAppBar
@@ -96,7 +96,7 @@ function AcceptMeeting() {
           <CircularProgress classes={{ root: 'circular-progress-bar' }} />
         </div>
       )}
-    </>
+    </div>
   );
 }
 
