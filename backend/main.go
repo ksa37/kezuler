@@ -30,14 +30,13 @@ func main() {
 	fixedEventRouter.HandleFunc("/{fixedEventId}", utils.FixedEventWithIdHandler).Methods("GET", "PATCH", "DELETE")
 	fixedEventRouter.HandleFunc("/{fixedEventId}/candidate", utils.FixedEventCandidateHandler).Methods("PUT", "DELETE")
 	fixedEventRouter.HandleFunc("/{fixedEventId}/reminder", utils.FixedEventReminderHandler).Methods("GET", "POST", "PUT", "DELETE")
+	fixedEventRouter.HandleFunc("/{fixedEventId}/invitation", utils.FixedEventInvitationHandler).Methods("GET")
 
 	pendingEventRouter := mainRouter.PathPrefix("/pendingEvents").Subrouter()
 	pendingEventRouter.HandleFunc("", utils.PendingEventHandler).Methods("GET", "POST")
 	pendingEventRouter.HandleFunc("/{pendingEventId}", utils.PendingEventWithIdHandler).Methods("GET", "PATCH", "DELETE")
 	pendingEventRouter.HandleFunc("/{pendingEventId}/candidate", utils.PendingEventCandidateHandler).Methods("PUT", "DELETE")
-
-	invitationRouter := mainRouter.PathPrefix("/invitation").Subrouter()
-	invitationRouter.HandleFunc("/{pendingEventId}", utils.InvitationHandler).Methods("GET")
+	pendingEventRouter.HandleFunc("/{pendingEventId}/invitation", utils.PendingEventInvitationHandler).Methods("GET")
 
 	logMiddleWare := utils.NewLogMiddleware(logger)
 	mainRouter.Use(logMiddleWare.Func())

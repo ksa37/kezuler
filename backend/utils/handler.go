@@ -384,11 +384,21 @@ func PendingEventCandidateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func InvitationHandler(w http.ResponseWriter, r *http.Request) {
+func PendingEventInvitationHandler(w http.ResponseWriter, r *http.Request) {
 	peId := mux.Vars(r)["pendingEventId"]
 
 	if r.Method == "GET" {
-		getInvitationInfo(w, peId)
+		getPendingEventInvitationWithInfo(w, peId)
+	} else {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+	}
+}
+
+func FixedEventInvitationHandler(w http.ResponseWriter, r *http.Request) {
+	feId := mux.Vars(r)["fixedEventId"]
+
+	if r.Method == "GET" {
+		getFixedEventInvitationWithInfo(w, feId)
 	} else {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 	}

@@ -198,7 +198,7 @@ func getFixedEventWithId(w http.ResponseWriter, serviceAuthToken string, feId st
 
 	err = fixedEventCol.FindOne(context.TODO(), bson.D{{"fixedEventId", feId}}).Decode(&targetEvent)
 	if err != nil {
-		fmt.Printf("No Document was found with given feId: %s\n", serviceAuthToken)
+		fmt.Printf("No Document was found with given feId: %s\n", feId)
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
