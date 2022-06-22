@@ -1,24 +1,62 @@
-interface UserFixedEvents {
-  userId: string;
-  startDate: string;
-  endDate: string;
-  fixedEvents: FixedEvent[];
+import { User } from 'src/types/user';
+
+type TUserStatus = 'Accepted' | 'Declined';
+
+interface FixedUser extends User {
+  userStatus: TUserStatus;
 }
 
-interface FixedEvent {
-  userId?: string;
+interface BFixedEvent {
   eventId: string;
+  eventHost: FixedUser;
   eventTitle: string;
   eventDescription: string;
   eventTimeDuration: number;
-  eventTimeStartsAt: string;
-  isEventOnline: boolean;
-  eventZoomAddress: null | string;
-  eventPlaceLongitude: null | number;
-  eventPlaceLatitude: null | number;
+  eventZoomAddress: string;
+  eventPlace: string;
   eventAttachment: string;
-  participantImage: string[];
+  eventTimeStartsAt: number;
+  participants: FixedUser[];
+  isDisabled: boolean; // 취소 여부
 }
 
-export default FixedEvent;
-export type { UserFixedEvents };
+interface FixedEvent extends BFixedEvent {
+  userId: string;
+}
+
+type PPatchFixedEvent = Partial<BFixedEvent>;
+
+interface PGetFixedEvents {
+  startIndex: string;
+  endIndex: string;
+}
+
+interface RGetFixedEvents {
+  userId: string;
+  startIndex: number;
+  endIndex: number;
+  totalAmount: string;
+  fixedEvents: BFixedEvent[];
+}
+
+//TODO: BE에 맞게 수정
+interface PPostFixedEvent {
+  pendingEventId: string;
+  eventTimeStartsAt: number;
+}
+
+//TODO: BE에 맞게 수정
+interface PPutFixedEvent {
+  participants: string;
+}
+
+export type {
+  FixedUser,
+  BFixedEvent,
+  PGetFixedEvents,
+  RGetFixedEvents,
+  FixedEvent,
+  PPatchFixedEvent,
+  PPostFixedEvent,
+  PPutFixedEvent,
+};

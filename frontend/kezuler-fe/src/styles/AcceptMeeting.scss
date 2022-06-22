@@ -1,0 +1,103 @@
+@import './constants.scss';
+
+.accept-wrapper {
+  margin-top: 72px;
+}
+
+// Invitation
+
+.invitation-message {
+  color: $color-highlight;
+  font-size: 24px;
+  text-align: left;
+  margin: 68px 0 0 40px;
+}
+
+.invitation-avatar {
+  border-radius: 28px;
+  border: 1px solid #ffff;
+  width: 54px;
+  height: 54px;
+
+  position: absolute;
+  top: -34px;
+  right: 24px;
+  // margin-top: -12px;
+}
+
+.invitation-card {
+  position: relative;
+  padding: 20px;
+  text-align: left;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 15px 35px #282f390d;
+  border-radius: 16px;
+  margin-top: 24px;
+  margin-inline: 32px;
+
+  @media (max-width: 340px) {
+    margin-top: 40px;
+  }
+  .invitation-title-place {
+    font-size: 14px;
+    line-height: 17px;
+    color: #9f9f9f;
+    &.place {
+      margin-top: 16px;
+    }
+  }
+
+  .invitation-title-text {
+    margin-top: 8px;
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: bold;
+  }
+
+  .invitation-place {
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+
+    .invitation-place-text {
+      padding-left: 6px;
+    }
+  }
+}
+
+// AcceptanceCompletion
+
+.acceptance-completion-sub-description {
+  font: normal normal normal 16px/24px Pretendard;
+  color: #9f9f9f;
+  text-align: left;
+  margin-top: 32px;
+  margin-left: 20px;
+}
+
+.acceptance-bell {
+  position: fixed;
+  top: 39%;
+  // left: 32%;
+  right: 13px;
+  z-index: 1;
+}
+
+.acceptance-circle {
+  position: fixed;
+  top: 43%;
+  // left: 52%;
+  right: -45px;
+  z-index: 0;
+}
+
+.acceptance-talking-people {
+  position: fixed;
+  top: 60%;
+  // left: 52%;
+  right: 79px;
+  z-index: 2;
+}

@@ -1,27 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { StyledEngineProvider } from '@mui/material/styles';
 
-// import { Provider } from 'react-redux';
-// import { BrowserRouter } from 'react-router-dom';
-// import { store } from './store/store';
-// import App from './App';
+import { store } from './store';
+
+import App from './App';
 import reportWebVitals from './reportWebVitals';
-import TemporaryApp from './TemporaryApp';
-
-import './index.css';
+import KezulerIntro from './components/KezulerIntro';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    {/* <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider> */}
-    <TemporaryApp />
-  </React.StrictMode>
+  // <React.StrictMode>
+  <div id={'app-wrapper'} className={'app-wrapper'}>
+    <StyledEngineProvider injectFirst>
+      <Provider store={store}>
+        <BrowserRouter>
+          <KezulerIntro />
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </StyledEngineProvider>
+  </div>
+  // </React.StrictMode>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+    <path style="fill:transparent" d="M0 0h16v16H0z"/>
+    <rect data-name="사각형 30873" width="8.8" height="10.667" rx="3" transform="translate(3.999 2.667)" style="fill:#f7d64e"/>
+    <path d="M500 1831.4a.6.6 0 0 1-.6.6H497a3 3 0 0 1-3-3v-6a3 3 0 0 1 3-3h2.4a.6.6 0 0 1 0 1.2H497a1.8 1.8 0 0 0-1.8 1.8v6a1.8 1.8 0 0 0 1.8 1.8h2.4a.6.6 0 0 1 .6.6zm4.753-5.171a.6.6 0 0 0-.13-.654l-2.4-2.4a.6.6 0 1 0-.848.848l1.376 1.376H498.2a.6.6 0 1 0 0 1.2h4.552l-1.376 1.376a.6.6 0 1 0 .848.848l2.4-2.4a.587.587 0 0 0 .13-.194z" transform="translate(-491.001 -1818)" style="fill:#282f39"/>
+</svg>
