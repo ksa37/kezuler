@@ -352,8 +352,12 @@
 }
 
 .main-floating-button-text {
-  background-color: white;
-  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-highlight;
+  color: $color-main;
+  border-radius: 10px;
   padding: 2px 5px;
   box-shadow: 0 5px 30px #00000029;
 }
