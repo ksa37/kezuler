@@ -203,6 +203,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #8d8d8d;
 
   svg {
     margin-right: 4px;
@@ -348,4 +349,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.main-floating-button-text {
+  background-color: white;
+  border-radius: 16px;
+  padding: 2px 5px;
+  box-shadow: 0 5px 30px #00000029;
 }

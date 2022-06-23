@@ -23,8 +23,6 @@ import {
   putPendingEventGuestById,
 } from 'src/api/pendingEvent';
 
-// const { show } = dialogAction;
-
 // 시간 확정시 정보 불러오기
 const useGetPendingEvent = () => {
   const navigate = useNavigate();
@@ -84,6 +82,7 @@ const useGetInvitation = () => {
 const useDeletePendingEventById = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { show } = dialogAction;
+
   const removePendingEvent = (eventId: string) => {
     deletePendingEventById(eventId)
       .then((res) => {
@@ -107,10 +106,9 @@ const usePostPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { increaseStep, setShareUrl, setEventId } = createMeetingActions;
+  const { show } = dialogAction;
 
   const getShareUrl = (ppendingEvent: PPostPendingEvent) => {
-    console.log(ppendingEvent);
-    const { show } = dialogAction;
     postPendingEvent(ppendingEvent)
       .then((res) => {
         dispatch(
@@ -137,6 +135,7 @@ const usePutPendingEventGuest = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { show } = dialogAction;
+
   const putEventTimeCandidate = (
     eventId: string,
     ppendingEvent: PPutPendingEvent

@@ -8,11 +8,10 @@ import { PPostFixedEvent } from 'src/types/fixedEvent';
 
 import { postFixedEvent } from 'src/api/fixedEvent';
 
-const { show } = dialogAction;
-
 const usePostFixedEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const { show } = dialogAction;
 
   const postFixedEventByConfirm = (
     pfixedEvent: PPostFixedEvent,

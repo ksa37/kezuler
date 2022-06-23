@@ -15,11 +15,10 @@ import { setCookie } from '../utils/cookie';
 import { getKakaoAccessTokenApi } from 'src/api/Login';
 import { postUser } from 'src/api/user';
 
-const { show } = dialogAction;
-
 const useKakaoLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const { show } = dialogAction;
   // 리다이렉트 후 토큰 요청
   const getKakaoToken = (code: string, path: PathName) => {
     getKakaoAccessTokenApi(code)

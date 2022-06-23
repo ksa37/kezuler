@@ -27,7 +27,7 @@ function PendingEventCard({ event }: Props) {
     eventId,
     eventTitle,
     eventHost: { userId: hostId },
-    eventZoomAddress,
+    eventPlace,
     eventTimeCandidates,
   } = event;
 
@@ -65,11 +65,11 @@ function PendingEventCard({ event }: Props) {
   }, [isHost, eventTimeCandidates]);
 
   const eventLocation = useMemo(() => {
-    if (eventZoomAddress) {
-      return '온라인';
+    if (eventPlace) {
+      return '오프라인';
     }
-    return '오프라인';
-  }, [eventZoomAddress]);
+    return '온라인';
+  }, [eventPlace]);
 
   return (
     <section className={'pending-event-card'}>
