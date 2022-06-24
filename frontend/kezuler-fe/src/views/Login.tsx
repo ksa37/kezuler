@@ -18,12 +18,13 @@ function Login() {
   };
   return (
     <div className={'login-wrapper'}>
+      <div className={'login-kezuler-description'}>
+        일잘러들을 위한 스마트 스케줄러
+      </div>
       <div className={'login-kezuler-logo'}>
         {isEnglish ? <KezulerLogoEn /> : <KezulerLogoKo />}
       </div>
-      <div className={'login-talking-img'}>
-        <TalkingImg />
-      </div>
+      <TalkingImg className={'login-talking-img'} />
       <div className={'login-bottom-bg'} />
       <div className={'login-btn-wrapper'}>
         {/* <Button href={KAKAO_AUTH_URL} classes={{ root: 'login-kakao-btn' }}>
