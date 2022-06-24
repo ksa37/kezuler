@@ -14,6 +14,8 @@ function Login() {
   const isEnglish = false;
   const handleTempLogin = () => {
     setCookie(ACCESS_TOKEN_KEY, 'tempToken0002', 90000000000);
+    const element = document.getElementById('kezuler-intro');
+    element?.remove();
     location.reload();
   };
   return (
