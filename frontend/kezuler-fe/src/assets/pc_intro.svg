@@ -1,26 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="409px" height="422.5px" viewBox="0 0 409px 422.5px">
-<defs>
-    <style type="text/css">
-    @font-face {
-                font-family: Pretendard;
-                url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css')
-            }
-            text {
-            font-family:Pretendard;
-        }
-    <!-- @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css') -->
-    </style>
-</defs>
-<!-- <defs>
-  <style >
-    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css')
-  </style>
-</defs> -->
-<!-- <style><![CDATA[svg text{stroke:none}]]></style> -->
   <g id="그룹_94795" data-name="그룹 94795" transform="translate(1)">
     <text id="일잘러들을_위한_스마트_스케줄러_케:줄러" data-name="일잘러들을 위한 
 스마트 스케줄러
-케:줄러" transform="translate(0 69)" fill="#282f39" stroke="#000" stroke-width="1" font-size="60" style='font-family:Pretendard;' letter-spacing="-0.05em"><tspan x="0" y="0">일잘러들을 위한 </tspan><tspan fill="#6d4be5"><tspan x="0" y="72">스마트 </tspan><tspan y="72" fill="#282f39">스케줄러</tspan></tspan><tspan font-size="103" font-family="Pretendard-Bold, Pretendard" font-weight="700"><tspan x="0" y="185">케:줄러</tspan></tspan></text>
+케:줄러" transform="translate(0 69)" fill="#282f39" stroke="#000" stroke-width="1" font-size="60" font-family="Pretendard" letter-spacing="-0.05em"><tspan x="0" y="0">일잘러들을 위한 </tspan><tspan fill="#6d4be5"><tspan x="0" y="72">스마트 </tspan><tspan y="72" fill="#282f39">스케줄러</tspan></tspan><tspan font-size="103" font-family="Pretendard-Bold, Pretendard" font-weight="700"><tspan x="0" y="185">케:줄러</tspan></tspan></text>
     <circle id="타원_65570" data-name="타원 65570" cx="5.5" cy="5.5" r="5.5" transform="translate(25)" fill="#fad94f"/>
     <circle id="타원_65571" data-name="타원 65571" cx="5.5" cy="5.5" r="5.5" transform="translate(66)" fill="#fad94f"/>
     <circle id="타원_65572" data-name="타원 65572" cx="5.5" cy="5.5" r="5.5" transform="translate(115)" fill="#fad94f"/>
@@ -29,5 +11,4 @@
   <text id="커뮤니케이션_핑퐁은_이제_그만_단_하나의_케줄러_링크로_스마트하게_미팅을_조율해봐요_" data-name="커뮤니케이션 핑퐁은 이제 그만!
 단 하나의 케줄러 링크로
 스마트하게 미팅을 조율해봐요 🙌 " transform="translate(1 321.5)" fill="#282f39" stroke="#000" stroke-width="1" font-size="33" font-family="Pretendard-ExtraLight, Pretendard" font-weight="200" letter-spacing="-0.05em"><tspan x="0" y="0">커뮤니케이션 핑퐁은 이제 그만!</tspan><tspan x="0" y="45">단 하나의</tspan><tspan y="45" xml:space="preserve" font-family="Pretendard-Medium, Pretendard" font-weight="500"> 케줄러 링크</tspan><tspan y="45">로</tspan><tspan x="0" y="90">스마트하게 미팅을 조율해봐요 </tspan><tspan y="90" font-family="AppleColorEmoji, Apple Color Emoji" font-weight="400">🙌</tspan><tspan y="90"> </tspan></text>
-
 </svg>
