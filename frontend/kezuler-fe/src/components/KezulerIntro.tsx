@@ -13,7 +13,7 @@ function KezulerIntro() {
     <div className={'kezuler-intro'}>
       <img src={PCIntro} alt="1" />
       {/* <PCIntro /> */}
-      <div>
+      {/* <div>
         <Button
           // href={KAKAO_AUTH_URL}
           classes={{ root: 'kezuler-intro-login-kakao-btn' }}
@@ -25,7 +25,7 @@ function KezulerIntro() {
           />
           <div>카카오로 원클릭 로그인!</div>
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }
