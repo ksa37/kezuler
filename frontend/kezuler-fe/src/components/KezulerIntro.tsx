@@ -4,14 +4,15 @@ import { Button } from '@mui/material';
 import { KAKAO_AUTH_URL } from 'src/constants/Auth';
 
 import KakaoIcon from 'src/assets/img_kakao.svg';
-import { ReactComponent as PCIntro } from 'src/assets/pc_intro.svg';
+import PCIntro from 'src/assets/pc_intro.svg';
 // import 'src/styles/login.scss';
 import 'src/styles/index.scss';
 
 function KezulerIntro() {
   return (
     <div className={'kezuler-intro'}>
-      <PCIntro />
+      <img src={PCIntro} alt="1" />
+      {/* <PCIntro /> */}
       <div>
         <Button
           // href={KAKAO_AUTH_URL}

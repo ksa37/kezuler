@@ -46,7 +46,7 @@ function MyPageMain({
   };
 
   const handleCalendarToggle = () => {
-    setIsCalendarPaired(true);
+    setIsCalendarPaired(!isCalendarPaired);
   };
   //TODO 구글 캘린더 연동
   const [isCalendarPaired, setIsCalendarPaired] = useState(false);
@@ -102,7 +102,10 @@ function MyPageMain({
       <MyPageRow title={'캘린더 연동'} startIcon={<CalenderIcon />}>
         구글캘린더
         {isCalendarPaired ? (
-          <ToggleOnIcon className={'calendar-toggle'} />
+          <ToggleOnIcon
+            className={'calendar-toggle'}
+            onClick={handleCalendarToggle}
+          />
         ) : (
           <ToggleOffIcon
             className={'calendar-toggle'}
@@ -125,7 +128,7 @@ function MyPageMain({
       <h1 className={'my-page-h1'}>서비스 이용</h1>
       <MyPageRow
         title={'이용문의'}
-        href={'https://www.notion.so/5581c32572c94984a93b6f4e0010f32a'}
+        href={'mailto:kezuler@gmail.com'}
         startIcon={<QuestionIcon />}
       />
       <MyPageRow
