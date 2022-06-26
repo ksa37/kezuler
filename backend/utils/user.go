@@ -53,7 +53,7 @@ func postUser(w http.ResponseWriter, kakaoAuthToken string) {
 
 	coll := mongoDBClient.Database("kezuler").Collection("user")
 	var result User
-	err = coll.FindOne(context.TODO(), bson.D{{"userKakaoId", kakaoInfo.Id}}).Decode(&result)
+	err = coll.FindOne(context.TODO(), bson.D{{"kakaoId", kakaoInfo.Id}}).Decode(&result)
 
 	//TODO: Fix logic for downloading UserProfileImage
 	//TODO: Add Phone number logic after kakao biz sync is done
