@@ -52,15 +52,17 @@ func postUser(w http.ResponseWriter, kakaoAuthToken string) {
 	defer disconnect(mongoDBClient)
 
 	coll := mongoDBClient.Database("kezuler").Collection("user")
-	var result bson.M
+	var result User
 	err = coll.FindOne(context.TODO(), bson.D{{"userKakaoId", kakaoInfo.Id}}).Decode(&result)
 
+	//TODO: Fix logic for downloading UserProfileImage
+	//TODO: Add Phone number logic after kakao biz sync is done
 	if err == mongo.ErrNoDocuments {
 		postUserClaim := PostUserClaims{
 			UserId:           uniuri.NewLen(8),
-			UserName:         kakaoInfo.Properties.Nickname,
+			UserName:         kakaoInfo.KakaoAccount.Profile.Nickname,
 			UserPhoneNumber:  "010-0000-0000",
-			UserProfileImage: "https://example.com",
+			UserProfileImage: "https://kezuler-images.s3.ap-northeast-2.amazonaws.com/profileImage/user0001.png",
 			UserToken: UserToken{
 				TokenType:             "bearer",
 				AccessToken:           uniuri.NewLen(16),
@@ -79,22 +81,13 @@ func postUser(w http.ResponseWriter, kakaoAuthToken string) {
 		w.Header().Set("content-type", "application/json")
 		w.Write(claimByte)
 	} else {
-		var resStruct = PostUserClaims{}
-		bsonBytes, _ := bson.Marshal(result)
-		bson.Unmarshal(bsonBytes, &resStruct)
-		postUserClaim := PostUserClaims{
-			UserId:           resStruct.UserId,
-			UserName:         resStruct.UserName,
-			UserPhoneNumber:  resStruct.UserPhoneNumber,
-			UserProfileImage: resStruct.UserProfileImage,
-			UserToken:        resStruct.UserToken,
-		}
-		claimByte, err := json.Marshal(postUserClaim)
+		jsonRes, err := json.Marshal(result)
 		if err != nil {
 			panic(err)
 		}
-		w.Header().Set("content-type", "application/json")
-		w.Write(claimByte)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(jsonRes)
 	}
 }
 
