@@ -47,22 +47,29 @@ type PostUserClaims struct {
 }
 
 type kakaoUserInfo struct {
-	Id          int64    `json:"id"`
-	ConnectedAt unixTime `json:"connected_at"`
-	Properties  struct {
-		Nickname       string `json:"nickname"`
-		ProfileImage   string `json:"profile_image"`
-		ThumbnailImage string `json:"thumbnail_image"`
-	} `json:"properties"`
+	Id           int `json:"id"`
 	KakaoAccount struct {
-		ProfileNicknameNeedsAgreement bool `json:"profile_nickname_needs_agreement"`
-		ProfileImageNeedsAgreement    bool `json:"profile_image_needs_agreement"`
-		Profile                       struct {
-			Nickname          string `json:"nickname"`
-			ThumbnailImageUrl string `json:"thumbnail_image_url"`
-			ProfileImageUrl   string `json:"profile_image_url"`
-			IsDefaultImage    bool   `json:"is_default_image"`
+		ProfileNeedsAgreement bool `json:"profile_needs_agreement"`
+		Profile               struct {
+			Nickname          string `json:"nickname,omitempty"`
+			ThumbnailImageUrl string `json:"thumbnail_image_url,omitempty"`
+			ProfileImageUrl   string `json:"profile_image_url,omitempty"`
+			IsDefaultImage    bool   `json:"is_default_image,omitempty"`
 		} `json:"profile"`
+		NameNeedsAgreement        bool   `json:"name_needs_agreement,omitempty"`
+		Name                      string `json:"name,omitempty"`
+		EmailNeedsAgreement       bool   `json:"email_needs_agreement,omitempty"`
+		IsEmailValid              bool   `json:"is_email_valid,omitempty"`
+		IsEmailVerified           bool   `json:"is_email_verified,omitempty"`
+		Email                     string `json:"email,omitempty"`
+		AgeRangeNeedsAgreement    bool   `json:"age_range_needs_agreement,omitempty"`
+		AgeRange                  string `json:"age_range,omitempty"`
+		BirthdayNeedsAgreement    bool   `json:"birthday_needs_agreement,omitempty"`
+		Birthday                  string `json:"birthday,omitempty"`
+		GenderNeedsAgreement      bool   `json:"gender_needs_agreement,omitempty"`
+		Gender                    string `json:"gender,omitempty"`
+		PhoneNumberNeedsAgreement bool   `json:"phone_number_needs_agreement,omitempty"`
+		PhoneNumber               string `json:"phone_number,omitempty"`
 	} `json:"kakao_account"`
 }
 
