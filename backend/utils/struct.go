@@ -36,6 +36,7 @@ type PatchUserPayload struct {
 	Name         string `json:"userName,omitempty" bson:"name,omitempty"`
 	ProfileImage string `json:"userProfileImage,omitempty" bson:"profileImage,omitempty"`
 	Timezone     string `json:"userTimezone,omitempty" bson:"timezone,omitempty"`
+	Email        string `json:"userEmail" bson:"email"`
 }
 
 type PostUserClaims struct {
