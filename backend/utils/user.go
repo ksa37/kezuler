@@ -58,17 +58,20 @@ func postUser(w http.ResponseWriter, kakaoAuthToken string) {
 	//TODO: Fix logic for downloading UserProfileImage
 	//TODO: Add Phone number logic after kakao biz sync is done
 	if err == mongo.ErrNoDocuments {
-		postUserClaim := PostUserClaims{
-			UserId:           uniuri.NewLen(8),
-			UserName:         kakaoInfo.KakaoAccount.Profile.Nickname,
-			UserPhoneNumber:  "010-0000-0000",
-			UserProfileImage: "https://kezuler-images.s3.ap-northeast-2.amazonaws.com/profileImage/user0001.png",
-			UserToken: UserToken{
-				TokenType:             "bearer",
+		postUserClaim := User{
+			UserId:       uniuri.NewLen(8),
+			Name:         kakaoInfo.KakaoAccount.Profile.Nickname,
+			Email:        kakaoInfo.KakaoAccount.Email,
+			PhoneNumber:  "010-0000-0000",
+			Timezone:     "Asia/Seoul",
+			KakaoId:      kakaoInfo.Id,
+			ProfileImage: "https://kezuler-images.s3.ap-northeast-2.amazonaws.com/profileImage/user0001.png",
+			Token: Token{
+				Type:                  "bearer",
 				AccessToken:           uniuri.NewLen(16),
-				AccessTokenExpiresIn:  unixTime(time.Now().UnixMilli() + int64(259200000)),
+				AccessTokenExpiresAt:  unixTime(time.Now().UnixMilli() + int64(259200000)),
 				RefreshToken:          uniuri.NewLen(16),
-				RefreshTokenExpiresIn: unixTime(time.Now().UnixMilli() + int64(2592000000)),
+				RefreshTokenExpiresAt: unixTime(time.Now().UnixMilli() + int64(2592000000)),
 			},
 		}
 		coll.InsertOne(context.TODO(), postUserClaim)
