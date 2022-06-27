@@ -88,18 +88,18 @@ function Invitation() {
         </div>
 
         <div className={'invitation-card'}>
-          {/* <img
+          <img
             className={'invitation-avatar'}
             alt=""
             src={eventHost.userProfileImage}
-          /> */}
-          <img
+          />
+          {/* <img
             className={'invitation-avatar'}
             alt=""
             src={
               'https://i.ibb.co/xqPTzqX/moon-transparent-png-full-moon-11562897860tahg4ponos.png'
             }
-          />
+          /> */}
           <div className={'invitation-title-place'}>
             {meetingTitleDescription}
           </div>
