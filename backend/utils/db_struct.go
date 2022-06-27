@@ -37,7 +37,7 @@ type User struct {
 	PhoneNumber      string `json:"userPhoneNumber" bson:"phoneNumber"`
 	ProfileImage     string `json:"userProfileImage" bson:"profileImage"`
 	Timezone         string `json:"userTimezone" bson:"timezone"`
-	KakaoId          string `json:"kakaoId" bson:"kakaoId"`
+	KakaoId          int    `json:"userKakaoId" bson:"kakaoId"`
 	GoogleCalendarId string `json:"userGoogleCalenderId" bson:"googleCalenderId"`
 	Token            Token  `json:"userToken" bson:"token"`
 }
