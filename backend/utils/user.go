@@ -16,7 +16,6 @@ import (
 )
 
 func postUser(w http.ResponseWriter, kakaoAuthToken string) {
-	// KakaoAuth를 받아왔으니, 이를 바탕으로 생성
 	const ClientURI string = "https://kapi.kakao.com"
 	const Resource string = "/v2/user/me"
 
@@ -62,7 +61,7 @@ func postUser(w http.ResponseWriter, kakaoAuthToken string) {
 			UserId:       uniuri.NewLen(8),
 			Name:         kakaoInfo.KakaoAccount.Profile.Nickname,
 			Email:        kakaoInfo.KakaoAccount.Email,
-			PhoneNumber:  "010-0000-0000",
+			PhoneNumber:  kakaoInfo.KakaoAccount.PhoneNumber,
 			Timezone:     "Asia/Seoul",
 			KakaoId:      kakaoInfo.Id,
 			ProfileImage: "https://kezuler-images.s3.ap-northeast-2.amazonaws.com/profileImage/user0001.png",
