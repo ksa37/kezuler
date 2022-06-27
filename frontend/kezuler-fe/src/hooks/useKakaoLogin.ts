@@ -1,9 +1,10 @@
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
+// import { useNavigate } from 'react-router-dom';
 import KezulerInstance from '../constants/api';
 import {
   ACCESS_TOKEN_KEY,
+  CURRENT_HOST,
   CURRENT_USER_INFO_KEY,
   REFRESH_TOKEN_KEY,
 } from '../constants/Auth';
@@ -16,7 +17,7 @@ import { getKakaoAccessTokenApi } from 'src/api/Login';
 import { postUser } from 'src/api/user';
 
 const useKakaoLogin = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { show } = dialogAction;
   // 리다이렉트 후 토큰 요청
@@ -24,19 +25,17 @@ const useKakaoLogin = () => {
     getKakaoAccessTokenApi(code)
       .then((getRes) => {
         const accessToken = getRes.data.access_token;
-
         postUser(accessToken)
           .then((res) => {
             const {
               userToken: {
                 accessToken,
-                refreshToken,
                 accessTokenExpiresIn,
+                refreshToken,
                 refreshTokenExpiresIn,
               },
               ...userInfo
             } = res.data;
-
             localStorage.setItem(
               CURRENT_USER_INFO_KEY,
               JSON.stringify(userInfo)
@@ -47,7 +46,9 @@ const useKakaoLogin = () => {
             KezulerInstance.defaults.headers.common['Authorization'] =
               accessToken;
 
-            navigate(path, { replace: true });
+            location.replace(`${CURRENT_HOST}${path}`);
+
+            // navigate(`http://localhost:3000${path}`, { replace: true });
           })
           .catch((e) => {
             console.log('소셜로그인 에러', e);

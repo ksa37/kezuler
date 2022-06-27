@@ -55,8 +55,8 @@ function MainFixedEvents() {
   if (!isFetched) {
     return null;
   }
-  console.log(events);
-  if (!events) {
+
+  if (events.length === 0) {
     return (
       <div id={FIXED_TODAY_ID} className={'main-fixed'}>
         <h1 className={'main-fixed-month-divider'}>

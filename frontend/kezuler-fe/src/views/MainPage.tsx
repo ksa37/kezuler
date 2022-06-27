@@ -47,12 +47,12 @@ function MainPage() {
       />
       {isFixedMeeting ? <MainFixedEvents /> : <MainPendingEvents />}
       {/* TODO: footer 넣기 */}
-      <footer className={'main-footer'}>
+      {/* <footer className={'main-footer'}>
         <b>(주)올렌다</b> 대표이사 구자룡
         <br />
         서울특별시 성북구 오패산로3길 136-12(하월곡동) <br />
         사업자 등록번호 736-87-01642
-      </footer>
+      </footer> */}
     </div>
   );
 }

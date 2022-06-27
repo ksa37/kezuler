@@ -7,7 +7,7 @@ import { PPatchUser, RPostUser, SettingUser, User } from 'src/types/user';
 // accessToken: Kakao Access Token
 const postUser = (accessToken: string) =>
   axios.post<RPostUser>(
-    `${HOST_ADDRESS}user/`,
+    `${HOST_ADDRESS}/user`,
     {
       registerWith: 'kakao',
     },
