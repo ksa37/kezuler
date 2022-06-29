@@ -74,6 +74,7 @@
     font-size: $font-16;
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
   }
 
   .overview-section-copy-btn {
@@ -270,9 +271,9 @@
 }
 
 .overview-title-input {
-  box-sizing: border-box;
+  //box-sizing: border-box;
   padding: 10px 16px;
-  width: 100%;
+  width: calc(100% - 48px);
   outline: none;
   border-radius: 8px;
   border: 1px solid #bfbfbf;
@@ -280,7 +281,8 @@
 }
 
 .overview-place-dropdown-btn {
-  padding: 0 8px 0 12px;
+  padding: 6px 8px 6px 12px;
+  line-height: 1.6;
   word-break: keep-all;
   font-size: $font-14;
   border-radius: 8px;
@@ -291,12 +293,14 @@
 
 .overview-place-menu {
   font-size: $font-14;
+  min-height: initial;
 }
 
 .overview-body-input {
+  padding: 6px 16px;
+  line-height: 1.6;
   flex: 1;
-  box-sizing: border-box;
-  padding: 10px 16px;
+  //box-sizing: border-box;
   outline: none;
   font-size: $font-14;
   border-radius: 8px;
