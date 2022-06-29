@@ -8,6 +8,13 @@
   padding: 0;
 }
 
+.main-page-wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background-color: $color-background;
+}
+
 .main-page {
   flex: 1;
   background-color: $color-background;
@@ -326,6 +333,7 @@
   right: 0;
   text-align: right;
   padding: 24px;
+  pointer-events: none;
 }
 
 .main-floating-button {
@@ -343,6 +351,7 @@
   font-weight: bold;
   font-size: $font-14;
 
+  pointer-events: auto;
   cursor: pointer;
 }
 

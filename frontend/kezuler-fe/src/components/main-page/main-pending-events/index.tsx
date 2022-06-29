@@ -50,7 +50,7 @@ function MainPendingEvents() {
       ) : (
         <h2 className={'main-empty-h2'}>대기중인 미팅이 없습니다.</h2>
       )}
-      <MainButtonContainer />
+      {/* <MainButtonContainer /> */}
     </div>
   );
 }

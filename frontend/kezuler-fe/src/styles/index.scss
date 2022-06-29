@@ -157,6 +157,7 @@ main {
   background: $color-background;
   display: flex;
   flex-direction: column;
+  flex: 1;
 
   @media (min-width: $pc-view-width) {
     padding-top: 0;
