@@ -65,7 +65,7 @@ function MeetingInfoForm() {
           )}
           placeholder={eventTitleDescription}
           value={eventTitle}
-          maxLength={14}
+          maxLength={15}
           onChange={handleEventTitleChange}
         />
       </div>

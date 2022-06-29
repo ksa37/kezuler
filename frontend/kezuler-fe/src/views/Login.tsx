@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@mui/material';
 
-import { ACCESS_TOKEN_KEY, KAKAO_AUTH_URL } from 'src/constants/Auth';
+import { KAKAO_AUTH_URL } from 'src/constants/Auth';
 
 // import { setCookie } from 'src/utils/cookie';
 import KakaoIcon from 'src/assets/img_kakao.svg';
