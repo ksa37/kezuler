@@ -306,16 +306,19 @@
         @include pending-event-button;
         background-color: $color-main-dark;
         flex: 1;
+        // word-break: keep-all;
       }
 
       .pending-event-change {
         @include pending-event-button;
         background-color: $color-main;
         flex: 1;
+        // word-break: keep-all;
       }
 
       .pending-event-info {
         @include pending-event-button;
+        // word-break: keep-all;
       }
     }
   }
