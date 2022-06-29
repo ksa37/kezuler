@@ -291,7 +291,6 @@
 }
 
 .calendar-popup {
-  height: 112px;
   margin-inline: 16px;
   margin-top: 28px;
 
@@ -318,7 +317,7 @@
     font: normal normal bold 14px/20px Pretendard;
     margin-top: 16px;
     margin-right: 24px;
-    margin-bottom: 15px;
+    padding-bottom: 15px;
     text-align: right;
 
     .no {
