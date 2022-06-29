@@ -192,6 +192,14 @@
       justify-content: space-between;
     }
   }
+
+  &.isCanceled {
+    > div {
+      &:last-child {
+        margin-top: 4px;
+      }
+    }
+  }
 }
 
 .fixed-event-card-time {

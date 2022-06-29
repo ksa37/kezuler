@@ -50,7 +50,7 @@ function SelectionModifier() {
   }, [isLoaded]);
 
   const handlePrevClick = () => {
-    navigate(-1);
+    navigate(PathName.main, { state: { isFixed: false } });
   };
 
   return (

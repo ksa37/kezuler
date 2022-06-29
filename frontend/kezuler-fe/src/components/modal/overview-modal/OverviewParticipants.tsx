@@ -117,7 +117,6 @@ function OverviewParticipants({ event }: Props) {
   }, [participants]);
 
   const etcParticipantsNum = useMemo(() => {
-    console.log(participants.length, participants.length - MAX_PREVIEW_NUM - 1);
     return participants.length - MAX_PREVIEW_NUM + 1;
   }, [participants]);
 

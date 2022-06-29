@@ -115,7 +115,11 @@ function FixedEventCard({ event, hasTodayId }: Props) {
       <div className={'fixed-event-card-date'}>
         <span>{MMdd}</span> {getKorDay(date)}
       </div>
-      <div className={'fixed-event-card-info'}>
+      <div
+        className={classNames('fixed-event-card-info', {
+          isCanceled: isCanceled,
+        })}
+      >
         <div>
           <span className={'fixed-event-card-time'}>{dailyTime}</span>
           {dDay}
