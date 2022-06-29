@@ -6,13 +6,12 @@ import classNames from 'classnames';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
-import { getDeclineReason } from 'src/utils/joinMeeting';
 
 function AvailableOptionSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { isDecline, declineReason, availableTimes, pendingEvent } =
     useSelector((state: RootState) => state.acceptMeeting);
-  const { eventTimeCandidates, declinedUsers } = pendingEvent;
+  const { eventTimeCandidates } = pendingEvent;
   const {
     setIsDecline,
     setDeclineReason,
@@ -51,6 +50,7 @@ function AvailableOptionSelector() {
   }, [availableTimes]);
 
   const [allAvailable, setAllAvailable] = useState(false);
+
   useMemo(
     () => setAllAvailable(availableTimes.length === eventTimeCandidates.length),
     [availableTimes]
