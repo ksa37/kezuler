@@ -70,7 +70,7 @@ export const mainPending = createSlice({
       })
       .addCase(getPendingEventsThunk.rejected, (state, action) => {
         state.loading = false;
-        state.errorMessage = (action.payload as { message: string }).message;
+        // state.errorMessage = (action.payload as { message: string }).message;
       });
   },
 });

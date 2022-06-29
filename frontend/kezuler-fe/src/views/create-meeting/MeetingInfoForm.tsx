@@ -38,7 +38,7 @@ function MeetingInfoForm() {
 
   const eventTitleDescription = '미팅 제목을 간단하게 적어주세요.';
   const eventDescriptDescription =
-    '미팅 주제나 내용에 대해 알려주세요.(130자 이내)';
+    '미팅 주제나 내용에 대해 알려주세요.(100자 이내)';
   const eventAttachmentDescription = 'URL주소를 입력해주세요.';
 
   return (
@@ -65,7 +65,7 @@ function MeetingInfoForm() {
           )}
           placeholder={eventTitleDescription}
           value={eventTitle}
-          maxLength={14}
+          maxLength={15}
           onChange={handleEventTitleChange}
         />
       </div>
@@ -86,7 +86,7 @@ function MeetingInfoForm() {
           )}
           placeholder={eventDescriptDescription}
           value={eventDescription}
-          maxLength={130}
+          maxLength={100}
           onChange={handleEventDescriptionChange}
         />
         <div className={classNames('meeting-additional', 'url')}>

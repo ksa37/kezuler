@@ -364,10 +364,9 @@
 
 .main-footer {
   background-color: #eaeaea;
-  // text-align: center;
   font-size: 12px;
-  // padding-inline: 20px;
   padding: 20px 16px;
-  // position: absolute;
-  // bottom: 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
