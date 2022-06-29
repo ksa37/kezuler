@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 
+import PathName from 'src/constants/PathName';
 import { ConfirmMeetingSteps } from 'src/constants/Steps';
 import useDialog from 'src/hooks/useDialog';
 import { usePostFixedEvent } from 'src/hooks/useFixedEvent';
@@ -93,7 +94,7 @@ function TimeConfirmator() {
   };
 
   const handlePrevClick = () => {
-    navigate(-1);
+    navigate(PathName.main, { state: { isFixed: false } });
   };
 
   const handleAllShowClick = () => {

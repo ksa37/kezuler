@@ -27,7 +27,7 @@ function MainTab({ isFixedMeeting, setIsFixedMeeting }: Props) {
 
   return (
     <div className={classNames('common-tab', 'main-tab')}>
-      <div>
+      <div className={'common-tab-buttons-wrapper'}>
         <button
           className={classNames('common-tab-button', 'left', {
             selected: isFixedMeeting,

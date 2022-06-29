@@ -8,6 +8,13 @@
   padding: 0;
 }
 
+.main-page-wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background-color: $color-background;
+}
+
 .main-page {
   flex: 1;
   background-color: $color-background;
@@ -192,6 +199,14 @@
       justify-content: space-between;
     }
   }
+
+  &.isCanceled {
+    > div {
+      &:last-child {
+        margin-top: 4px;
+      }
+    }
+  }
 }
 
 .fixed-event-card-time {
@@ -291,16 +306,19 @@
         @include pending-event-button;
         background-color: $color-main-dark;
         flex: 1;
+        // word-break: keep-all;
       }
 
       .pending-event-change {
         @include pending-event-button;
         background-color: $color-main;
         flex: 1;
+        // word-break: keep-all;
       }
 
       .pending-event-info {
         @include pending-event-button;
+        // word-break: keep-all;
       }
     }
   }
@@ -318,6 +336,7 @@
   right: 0;
   text-align: right;
   padding: 24px;
+  pointer-events: none;
 }
 
 .main-floating-button {
@@ -335,6 +354,7 @@
   font-weight: bold;
   font-size: $font-14;
 
+  pointer-events: auto;
   cursor: pointer;
 }
 
