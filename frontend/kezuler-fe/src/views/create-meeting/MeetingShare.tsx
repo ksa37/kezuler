@@ -46,7 +46,7 @@ function MeetingShare() {
   }, []);
 
   const handleHomeClick = () => {
-    navigate(PathName.main);
+    navigate(PathName.main, { state: { isFixed: false } });
   };
 
   const handleKakaoShareClick = () => {
