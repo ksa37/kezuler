@@ -22,8 +22,6 @@ function AvailableOptionSelector() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  dispatch(setDeclineReason(getDeclineReason(declinedUsers)));
-
   const handleOutsideClick = () => {
     setIsOpen(false);
   };
@@ -105,12 +103,11 @@ function AvailableOptionSelector() {
         </ButtonGroup>
         {isOpen && (
           <textarea
-            rows={5}
             className={'available-option-text-field'}
+            placeholder={notAvailableReasonDescription}
             value={declineReason || ''}
             maxLength={100}
             onChange={handleDeclineReasonChange}
-            placeholder={notAvailableReasonDescription}
           />
         )}
       </div>

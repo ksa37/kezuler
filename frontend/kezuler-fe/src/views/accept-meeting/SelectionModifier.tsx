@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ import 'src/styles/common/TimeLineGrid.scss';
 
 function SelectionModifier() {
   const dispatch = useDispatch<AppDispatch>();
-  const { setAvailableTimes } = acceptMeetingActions;
+  const { setAvailableTimes, destroy } = acceptMeetingActions;
   const { pendingEvent, isLoaded } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
@@ -27,6 +27,12 @@ function SelectionModifier() {
   const getPendingEventInfo = useGetInvitation();
 
   const { eventModifyId } = useParams();
+
+  useEffect(() => {
+    return () => {
+      dispatch(destroy());
+    };
+  }, []);
 
   useEffect(() => {
     if (eventModifyId) {

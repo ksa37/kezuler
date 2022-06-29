@@ -16,7 +16,6 @@ import MyPage from 'src/views/MyPage';
 import NotiPage from 'src/views/NotiPage';
 import TimeConfirmator from 'src/views/pending-event/TimeConfirmator';
 import TestPage from 'src/views/TestPage';
-// import MainAppBar from 'src/components/common/MainAppBar';
 
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
