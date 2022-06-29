@@ -192,6 +192,11 @@ $common-tab-size: 64px;
   display: flex;
   align-items: center;
 
+  .common-tab-buttons-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
   .common-tab-button {
     color: #bfbfbf;
     font-size: $font-20;
@@ -203,6 +208,10 @@ $common-tab-size: 64px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    text-align: left;
+    @media (max-width: 350px) {
+      font-size: $font-18;
+    }
 
     &.left {
       padding: 0;
@@ -223,6 +232,9 @@ $common-tab-size: 64px;
       color: $color-highlight;
       font-size: $font-24;
       font-weight: bold;
+      @media (max-width: 350px) {
+        font-size: $font-20;
+      }
     }
 
     &.disabled {
