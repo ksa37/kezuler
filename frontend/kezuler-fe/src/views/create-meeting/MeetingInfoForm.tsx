@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, KeyboardEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -36,6 +36,13 @@ function MeetingInfoForm() {
     dispatch(increaseStep());
   };
 
+  const handleEnter = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key.toLowerCase() === 'enter') {
+      console.log('hello there!');
+      document.getElementById('description')?.focus();
+    }
+  };
+
   const eventTitleDescription = '미팅 제목을 간단하게 적어주세요.';
   const eventDescriptDescription =
     '미팅 주제나 내용에 대해 알려주세요.(100자 이내)';
@@ -67,6 +74,7 @@ function MeetingInfoForm() {
           value={eventTitle}
           maxLength={15}
           onChange={handleEventTitleChange}
+          onKeyPress={handleEnter}
         />
       </div>
       <div className={classNames('meeting-info', 'additional')}>
