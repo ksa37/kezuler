@@ -207,7 +207,8 @@ $my-page-gap: 20px;
 }
 
 .my-page-profile-input {
-  width: 0;
-  height: 0;
-  overflow: hidden;
+  display: none;
+  // width: 0;
+  // height: 0;
+  // overflow: hidden;
 }
