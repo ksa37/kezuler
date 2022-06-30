@@ -65,15 +65,24 @@ function MyPageEdit({
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.code === 'Enter') {
-      e.preventDefault();
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.code === 'Enter') {
+      const form = document.forms[0];
+      const index = Array.prototype.indexOf.call(form, event.target);
+      if (index + 1 < 3) {
+        const focusEl: any = form.elements[index + 1];
+        focusEl.focus();
+      }
+      event.preventDefault();
     }
   };
 
   return (
     <div className={'my-page-edit'}>
-      <form onSubmit={handleSubmit(onValid, onInvalid)}>
+      <form
+        id={'my-page-edit-form'}
+        onSubmit={handleSubmit(onValid, onInvalid)}
+      >
         <div className={'my-page-edit-avatar-wrapper'}>
           <label className={'my-page-profile-label'} htmlFor="profile-upload">
             <input

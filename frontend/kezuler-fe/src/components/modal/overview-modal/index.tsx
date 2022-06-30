@@ -26,7 +26,7 @@ import { ReactComponent as CheckIcon } from 'src/assets/icn_check.svg';
 import { ReactComponent as CloseIcon } from 'src/assets/icn_close_b.svg';
 import { ReactComponent as CloseThinIcon } from 'src/assets/icn_close_thin.svg';
 import { ReactComponent as DeleteIcon } from 'src/assets/icn_delete.svg';
-import { ReactComponent as EditIcon } from 'src/assets/icn_edit.svg';
+import { ReactComponent as EditIcon } from 'src/assets/icn_edit_big.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icn_link.svg';
 import 'src/styles/OverviewModal.scss';
 

@@ -25,7 +25,7 @@ function MainPendingEvents() {
     return null;
   }
 
-  if (events.length === 0 && !isCalenderConnected) {
+  if (!events.length && !isCalenderConnected) {
     return (
       <div className={'main-pending'}>
         <h2 className={classNames('main-empty-h2', 'pending')}>
@@ -50,7 +50,7 @@ function MainPendingEvents() {
       ) : (
         <h2 className={'main-empty-h2'}>대기중인 미팅이 없습니다.</h2>
       )}
-      <MainButtonContainer />
+      {/* <MainButtonContainer /> */}
     </div>
   );
 }
