@@ -7,26 +7,26 @@ import { StyledEngineProvider } from '@mui/material/styles';
 import { store } from './store';
 
 import App from './App';
-import KezulerIntro from './KezulerIntro';
 import reportWebVitals from './reportWebVitals';
+import KezulerIntro from './components/KezulerIntro';
 
-// import 'react-datepicker/dist/react-datepicker.css';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   // <React.StrictMode>
   <div id={'app-wrapper'} className={'app-wrapper'}>
-    <KezulerIntro />
     <StyledEngineProvider injectFirst>
       <Provider store={store}>
         <BrowserRouter>
+          <KezulerIntro />
           <App />
         </BrowserRouter>
       </Provider>
     </StyledEngineProvider>
   </div>
   // </React.StrictMode>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

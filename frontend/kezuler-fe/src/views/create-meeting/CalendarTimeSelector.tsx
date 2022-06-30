@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import classNames from 'classnames';
-import { format, isBefore } from 'date-fns';
+import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 import TimeOptions from '../../constants/TimeOptions';
@@ -10,7 +10,9 @@ import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
 import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
+import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from '../../store';
+import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
 import BottomButton from '../../components/common/BottomButton';
 import CalendarView from '../../components/create-meeting/CalendarView';
@@ -31,39 +33,46 @@ function CalendarTimeSelector() {
   const { increaseStep, addTimeList, deleteTimeList, seteventTimeDuration } =
     createMeetingActions;
 
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(
+    getTimezoneDate(new Date().getTime())
+  );
+  const { show } = dialogAction;
 
-  const setDateString = (startDate: Date | null) => {
-    const dateFnsStr = startDate ? (
-      <div>
-        <b>{format(startDate, 'M월 d일 ', { locale: ko })}</b>
-        {format(startDate, 'EEE', { locale: ko })}
-      </div>
-    ) : (
-      <div>{''}</div>
-    );
-    return dateFnsStr;
-  };
-
-  const dateStr = useMemo(() => setDateString(startDate), [startDate]);
+  const dateStr = useMemo(
+    () =>
+      startDate ? (
+        <div>
+          <b>{format(startDate, 'M월 d일 ', { locale: ko })}</b>
+          {format(startDate, 'EEE', { locale: ko })}
+        </div>
+      ) : (
+        <div>{''}</div>
+      ),
+    [startDate]
+  );
 
   const eventTimeListDateToHighlight = useMemo(
-    () => eventTimeList.map((dateString) => new Date(dateString)),
+    () =>
+      eventTimeList.map((timeStamp) =>
+        getTimezoneDate(new Date(timeStamp).getTime())
+      ),
     [eventTimeList]
   );
 
   const createDate = (timeOption: string) => {
     if (startDate) {
-      return new Date(
-        startDate.getFullYear(),
-        startDate.getMonth(),
-        startDate.getDate(),
-        Number(timeOption.split(':')[0]),
-        Number(timeOption.split(':')[1])
+      return getUTCDate(
+        new Date(
+          startDate.getFullYear(),
+          startDate.getMonth(),
+          startDate.getDate(),
+          Number(timeOption.split(':')[0]),
+          Number(timeOption.split(':')[1])
+        )
       ).getTime();
     } else {
       console.log('Warning: date is null!');
-      return new Date().getTime();
+      return getTimezoneDate(new Date().getTime()).getTime();
     }
   };
 
@@ -72,22 +81,22 @@ function CalendarTimeSelector() {
       const dateToAdd = createDate(timeOption);
       if (eventTimeList.includes(dateToAdd)) {
         dispatch(deleteTimeList(dateToAdd));
-        console.log('Deleted Date !', dateToAdd);
+        // console.log('Deleted Date !', dateToAdd);
       } else {
         if (eventTimeList.length === 5) {
-          alert('5개까지만 추가할 수 있어요!');
+          dispatch(
+            show({
+              title: '5개 옵션까지만 선택이 가능합니다.',
+            })
+          );
         } else {
           dispatch(addTimeList(dateToAdd));
-          console.log('Added Date !', dateToAdd);
+          // console.log('Added Date !', dateToAdd);
         }
       }
     } else {
       console.log('Warning: date is null!');
     }
-  };
-
-  const handleDisChipClick = () => {
-    window.alert('지난 시간은 클릭하실 수 없습니다!');
   };
 
   const handleNextClick = () => {
@@ -131,27 +140,7 @@ function CalendarTimeSelector() {
 
   // Time Option Chip Focus 설정
   const setChipFocus = () => {
-    let focusChip = document.getElementById('08:00');
-
-    if (startDate) {
-      const today = new Date();
-      if (format(today, 'yyyy-mm-dd') === format(startDate, 'yyyy-mm-dd')) {
-        const nowHour = Number(format(today, 'HH'));
-        const nowMinute = Number(format(today, 'mm'));
-        let setHour = nowHour;
-        let setMinute = '00';
-
-        if (nowMinute > 0 && nowMinute <= 30) {
-          setMinute = '30';
-        } else if (nowMinute > 30 && nowMinute < 60) {
-          setMinute = '00';
-          setHour = nowHour + 1;
-        }
-
-        const timeToFocus = ''.concat(String(setHour), ':', setMinute);
-        focusChip = document.getElementById(timeToFocus);
-      }
-    }
+    const focusChip = document.getElementById('08:00');
 
     focusChip?.scrollIntoView({
       behavior: 'auto',
@@ -163,6 +152,28 @@ function CalendarTimeSelector() {
   useEffect(() => {
     setChipFocus();
   }, [startDate]);
+
+  const getChips = useMemo(
+    () =>
+      startDate &&
+      TimeOptions(startDate).map((timeOption) => {
+        const included = eventTimeList.includes(createDate(timeOption));
+        return (
+          <div
+            key={startDate?.getTime() + timeOption}
+            id={timeOption}
+            className={classNames('time-chips', {
+              filled: included,
+              blank: !included,
+            })}
+            onClick={() => handleChipClick(timeOption)}
+          >
+            <div className={'text'}>{timeOption}</div>
+          </div>
+        );
+      }),
+    [startDate, eventTimeList]
+  );
 
   return (
     <div className={'padding-wrapper'}>
@@ -190,55 +201,14 @@ function CalendarTimeSelector() {
         <CalendarIcon className={'calendar-icon'} />
         <div className={'date-string-text'}>{dateStr}</div>
       </div>
-
       {scheduleConnected && <ScheduleList schedules={mockSceduleData} />}
-
       <div className={'time-chip-text'}>
         <ClockIcon className={'icn-clock-b20'} />
         <b>{'미팅시작 시각'}</b>
         {'을 선택하세요'}
       </div>
       <Stack direction="row" spacing={'6px'} className={'time-chips-stack'}>
-        {TimeOptions.map((timeOption) =>
-          eventTimeList.includes(createDate(timeOption)) ? (
-            <div
-              key={timeOption}
-              id={timeOption}
-              className={classNames('time-chips', 'filled')}
-              onClick={
-                isBefore(
-                  createDate(timeOption),
-                  startDate ? startDate.getTime() : 0
-                )
-                  ? handleDisChipClick
-                  : () => handleChipClick(timeOption)
-              }
-            >
-              <div className={'text'}>{timeOption}</div>
-            </div>
-          ) : (
-            <div
-              key={timeOption}
-              id={timeOption}
-              className={classNames('time-chips', 'blank', {
-                'is-before': isBefore(
-                  createDate(timeOption),
-                  startDate ? startDate.getTime() : 0
-                ),
-              })}
-              onClick={
-                isBefore(
-                  createDate(timeOption),
-                  startDate ? startDate.getTime() : 0
-                )
-                  ? handleDisChipClick
-                  : () => handleChipClick(timeOption)
-              }
-            >
-              <div className={'text'}>{timeOption}</div>
-            </div>
-          )
-        )}
+        {getChips}
       </Stack>
       {!popupDisable && (
         <CalendarPopup

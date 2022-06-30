@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
 
 import { dateToMMdd, getKorDay } from 'src/utils/dateParser';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 
 function EmptyFixedEventCard() {
-  const now = new Date();
+  const now = getTimezoneDate(new Date().getTime());
   const MMdd = useMemo(() => dateToMMdd(now), [now]);
   const day = useMemo(() => getKorDay(now), [now]);
 

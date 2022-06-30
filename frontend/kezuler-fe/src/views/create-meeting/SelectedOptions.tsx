@@ -1,11 +1,14 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import classNames from 'classnames';
 
 // import { Button } from '@mui/material';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
+import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from 'src/store';
 import { getTimeListDevideByDate, getTimeRange } from 'src/utils/dateParser';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 
 import BottomButton from 'src/components/common/BottomButton';
 
@@ -19,10 +22,13 @@ function SelectedOptions() {
     (state: RootState) => state.createMeeting
   );
 
+  const { show } = dialogAction;
   const eventTimeListDevideByDate = useMemo(
     () =>
       getTimeListDevideByDate(
-        eventTimeList.map((dateStr) => new Date(dateStr))
+        eventTimeList.map((dateStr) =>
+          getTimezoneDate(new Date(dateStr).getTime())
+        )
       ),
     [eventTimeList]
   );
@@ -31,7 +37,11 @@ function SelectedOptions() {
 
   const handleDeleteClick = (dateKey: string, time: Date) => {
     if (eventTimeList.length === 1) {
-      window.alert('1개 이상 선택해야 합니다');
+      dispatch(
+        show({
+          title: '1개 이상 선택해야 합니다.',
+        })
+      );
     } else {
       dispatch(deleteTimeList(time.getTime()));
     }
@@ -63,7 +73,9 @@ function SelectedOptions() {
             </div>
             {eventTimeListDevideByDate[dateKey].map((time) => (
               <div key={dateKey + time} className={'time-select-card-grid'}>
-                <div className={'time-select-time-card'}>
+                <div
+                  className={classNames('time-select-time-card', 'no-cursor')}
+                >
                   <div className={'time-select-time-content'}>
                     {getTimeRange(time, eventTimeDuration)}
                   </div>

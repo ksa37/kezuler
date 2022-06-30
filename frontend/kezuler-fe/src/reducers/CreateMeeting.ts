@@ -6,6 +6,7 @@ import { PPostPendingEvent } from 'src/types/pendingEvent';
 
 interface CreateMeetingState extends PPostPendingEvent {
   step: CreateMeetingSteps;
+  eventId: string;
   shareUrl: string;
   isOnline: null | boolean;
   eventTimeList: number[];
@@ -13,6 +14,7 @@ interface CreateMeetingState extends PPostPendingEvent {
 
 const initialState: CreateMeetingState = {
   step: CreateMeetingSteps.First,
+  eventId: '',
   shareUrl: '',
   isOnline: null,
   eventTimeList: [],
@@ -33,6 +35,9 @@ export const createMeetingSlice = createSlice({
   reducers: {
     setShareUrl: (state, action: PayloadAction<string>) => {
       state.shareUrl = action.payload;
+    },
+    setEventId: (state, action: PayloadAction<string>) => {
+      state.eventId = action.payload;
     },
     setStep: (state, action: PayloadAction<number>) => {
       state.step = action.payload;

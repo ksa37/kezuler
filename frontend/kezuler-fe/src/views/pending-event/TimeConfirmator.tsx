@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import { ConfirmMeetingSteps } from 'src/constants/Steps';
@@ -16,6 +16,7 @@ import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
 } from 'src/utils/dateParser';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 
 import CompletionPage from '../../components/common/CompletionPage';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
@@ -34,12 +35,12 @@ function TimeConfirmator() {
   const { step, selectedTime, pendingEvent } = useSelector(
     (state: RootState) => state.confirmTime
   );
-  const { setSelctedTime, increaseStep, decreaseStep, destroy } =
-    confirmTimeActions;
+  const { setSelctedTime, increaseStep, destroy } = confirmTimeActions;
   const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
   const { show } = participantsPopupAction;
   const { openDialog } = useDialog();
+  const navigate = useNavigate();
 
   const totalStepsNum = Object.keys(ConfirmMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
@@ -54,7 +55,7 @@ function TimeConfirmator() {
   const getPendingEventInfo = useGetPendingEvent();
   useMemo(() => {
     if (eventConfirmId) {
-      getPendingEventInfo(eventConfirmId, 1);
+      getPendingEventInfo(eventConfirmId);
     }
   }, [eventConfirmId]);
 
@@ -73,9 +74,12 @@ function TimeConfirmator() {
       dispatch(increaseStep());
     };
 
-    const selectedDateText = format(new Date(selectedTime), 'yyyy년 M월 d일');
+    const selectedDateText = format(
+      getTimezoneDate(new Date(selectedTime).getTime()),
+      'yyyy년 M월 d일'
+    );
     const selectedTimeText = getTimeRange(
-      new Date(selectedTime),
+      getTimezoneDate(new Date(selectedTime).getTime()),
       eventTimeDuration
     );
 
@@ -89,8 +93,7 @@ function TimeConfirmator() {
   };
 
   const handlePrevClick = () => {
-    console.log('prev!');
-    dispatch(decreaseStep());
+    navigate(-1);
   };
 
   const handleAllShowClick = () => {
@@ -114,7 +117,9 @@ function TimeConfirmator() {
   const eventTimeListDevideByDate = useMemo(() => {
     const eventTimeListWithPossibleNums: EventTimeListWithPossibleNum[] =
       eventTimeCandidates.map((eventTimeCandidate) => ({
-        eventStartsAt: new Date(eventTimeCandidate.eventStartsAt),
+        eventStartsAt: getTimezoneDate(
+          new Date(eventTimeCandidate.eventStartsAt).getTime()
+        ),
         possibleNum: eventTimeCandidate.possibleUsers.length,
       }));
 
@@ -126,8 +131,14 @@ function TimeConfirmator() {
   // console.log(eventTimeListDevideByDate);
 
   return (
-    <>
-      <TextAppBar onClick={handlePrevClick} text={'미팅시간 확정'} />
+    <div className={'accept-wrapper'}>
+      <TextAppBar
+        onClick={
+          step === ConfirmMeetingSteps.First ? handlePrevClick : undefined
+        }
+        text={'미팅시간 확정'}
+      />
+
       <ProgressBar progress={progressPerStep * step} yellowBar={true} />
       {step === ConfirmMeetingSteps.First ? (
         <div className={'time-list-selector'}>
@@ -196,7 +207,7 @@ function TimeConfirmator() {
           regularTextSecond="확정된 일정이 전송되었습니다."
         />
       )}
-    </>
+    </div>
   );
 }
 

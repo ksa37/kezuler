@@ -17,14 +17,12 @@ import { ReactComponent as OnlineIcon } from 'src/assets/online_icon.svg';
 
 function OnOffSelector() {
   const dispatch = useDispatch<AppDispatch>();
-  const { setIsOnline, setZoomAddress, setPlace, setEventTimeCandidates } =
-    createMeetingActions;
+  const { setIsOnline, setZoomAddress, setPlace } = createMeetingActions;
 
   const {
     eventTitle,
     eventDescription,
     eventTimeDuration,
-    eventTimeCandidates,
     eventZoomAddress,
     eventPlace,
     eventAttachment,

@@ -72,6 +72,7 @@ $my-page-gap: 20px;
 
 .timezone-dropdown-paper {
   max-height: 20vh;
+  max-height: calc(var(--vh, 1vh) * 20);
   overflow: auto;
 }
 

@@ -7,7 +7,7 @@ import KezulerDropdown from 'src/components/common/KezulerDropdown';
 import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
 
 function OverviewDropdown() {
-  const [selectedIdx, setSelectedIdx] = useState(1);
+  const [selectedIdx, setSelectedIdx] = useState(2);
 
   return (
     <KezulerDropdown

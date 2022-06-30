@@ -39,4 +39,15 @@ const getSelectedOptions = (eventTimeCandidates: EventTimeCandidate[]) => {
   }, []);
 };
 
-export { isModification, getSelectedOptions };
+const getDeclineReason = (declinedUsers: DeclinedUser[]) => {
+  const currentUser = declinedUsers.filter(
+    (declinedUser) => declinedUser.userId === getCurrentUserInfo()?.userId
+  );
+
+  if (currentUser.length === 0) {
+    return '';
+  } else {
+    return currentUser[0].userDeclineReason;
+  }
+};
+export { isModification, getSelectedOptions, getDeclineReason };

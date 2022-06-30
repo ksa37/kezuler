@@ -11,8 +11,10 @@ import {
 import PathName from 'src/constants/PathName';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
+import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from 'src/store';
 import { getCookie } from 'src/utils/cookie';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import { isModification } from 'src/utils/joinMeeting';
 
 import BottomPopper from 'src/components/common/BottomPopper';
@@ -27,6 +29,8 @@ function Invitation() {
   const { pendingEvent } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
+  const { show } = dialogAction;
+  // const dispatch = useDispatch();
   const {
     eventId,
     eventHost,
@@ -41,8 +45,21 @@ function Invitation() {
 
   const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
 
+  const isHost = useMemo(
+    () => eventHost.userId === getCurrentUserInfo()?.userId,
+    [eventHost.userId]
+  );
+
   const handleNextClick = () => {
-    if (isModification(eventTimeCandidates, declinedUsers)) {
+    if (isHost) {
+      dispatch(
+        show({
+          title: '참여오류',
+          description: '해당 미팅의 호스트입니다.',
+        })
+      );
+      navigate(`${PathName.main}`);
+    } else if (isModification(eventTimeCandidates, declinedUsers)) {
       navigate(`${PathName.modify}/${eventId}`);
     } else {
       dispatch(increaseStep());

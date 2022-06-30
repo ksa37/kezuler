@@ -6,8 +6,9 @@ import PathName from 'src/constants/PathName';
 import useMainFixed from 'src/hooks/useMainFixed';
 import {
   getIntervalFromToday,
-  getMonthFromDateString,
+  getMonthFromTimeStamp,
 } from 'src/utils/dateParser';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 
 import BottomPopper from '../../common/BottomPopper';
 import FixedEventCard from './FixedEventCard';
@@ -43,16 +44,18 @@ function MainFixedEvents() {
   const todayIdTargetIdx = useMemo(() => {
     let target = -1;
     for (let i = events.length - 1; i >= 0; i--) {
-      const date = new Date(events[i].eventTimeStartsAt);
+      const date = getTimezoneDate(
+        new Date(events[i].eventTimeStartsAt).getTime()
+      );
       const interval = getIntervalFromToday(date);
       if (interval > 0) {
         if (target === -1) {
           target = i;
-        }
-        break;
       }
-      target = i;
+      break;
     }
+    target = i;
+   }
     return target;
   }, [events]);
 
@@ -64,7 +67,7 @@ function MainFixedEvents() {
     return (
       <div id={FIXED_TODAY_ID} className={'main-fixed'}>
         <h1 className={'main-fixed-month-divider'}>
-          {getMonthFromDateString()}월
+          {getMonthFromTimeStamp()}월
         </h1>
         <EmptyFixedEventCard />
         <h2 className={'main-empty-h2'}>
@@ -86,7 +89,7 @@ function MainFixedEvents() {
   return (
     <div className={'main-fixed'}>
       {events.map((e, i) => {
-        const curMonth = getMonthFromDateString(e.eventTimeStartsAt);
+        const curMonth = getMonthFromTimeStamp(e.eventTimeStartsAt);
         return (
           <React.Fragment key={e.eventId}>
             {(i === 0 ||

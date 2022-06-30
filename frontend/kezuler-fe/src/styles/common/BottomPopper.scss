@@ -75,13 +75,14 @@
   > button {
     margin: 8px 0 0;
     padding: 14px 24px;
-
+    cursor: pointer;
     border-radius: 8px;
     border: none;
     background: $color-highlight;
     font-size: $font-16;
     font-weight: bold;
     color: $color-main;
+    border: none;
 
     display: flex;
     justify-content: center;

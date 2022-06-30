@@ -100,9 +100,7 @@ function OverviewEdit({
     console.log(error);
   };
 
-  const [selectedPlaceIdx, setSelectedPlaceIdx] = useState(
-    eventZoomAddress ? 0 : 1
-  );
+  const [selectedPlaceIdx, setSelectedPlaceIdx] = useState(eventPlace ? 1 : 0);
 
   useEffect(() => {
     if (selectedPlaceIdx === 0) {

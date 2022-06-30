@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
@@ -33,7 +33,7 @@ function CreateMeeting() {
   const totalStepsNum = Object.keys(CreateMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
 
-  const getComponent = (step: CreateMeetingSteps) => {
+  const getComponent = useCallback(() => {
     switch (step) {
       case CreateMeetingSteps.First:
         return <MeetingInfoForm />;
@@ -48,9 +48,9 @@ function CreateMeeting() {
       default:
         return <></>;
     }
-  };
+  }, [step]);
 
-  const getAppBarText = (step: CreateMeetingSteps) => {
+  const getAppBarText = useCallback(() => {
     switch (step) {
       case CreateMeetingSteps.First:
         return '미팅정보 입력';
@@ -65,7 +65,7 @@ function CreateMeeting() {
       default:
         return '';
     }
-  };
+  }, [step]);
 
   const handlePrevClick = () => {
     dispatch(decreaseStep());
@@ -103,12 +103,12 @@ function CreateMeeting() {
             ? undefined
             : handlePrevClick
         }
-        text={getAppBarText(step)}
+        text={getAppBarText()}
         mainColored={step === CreateMeetingSteps.First}
       />
       <ProgressBar progress={progressPerStep * step} />
       <div className={classNames('create-meeting-page', backgroundSetter())}>
-        {getComponent(step)}
+        {getComponent()}
       </div>
       {/* <div className={classNames('bottom-style', backgroundSetter())}></div> */}
     </>
