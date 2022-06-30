@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Stack } from '@mui/material';
 import classNames from 'classnames';
@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import PathName from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import { RootState } from 'src/reducers';
+import { dialogAction } from 'src/reducers/dialog';
+import { AppDispatch } from 'src/store';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 import BottomButton from 'src/components/common/BottomButton';
@@ -27,9 +29,10 @@ function MeetingShare() {
   const { eventTitle, shareUrl, eventId } = useSelector(
     (state: RootState) => state.createMeeting
   );
-
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { copyText } = useCopyText();
+  const { show } = dialogAction;
 
   const kakaoShareText = '카카오톡';
   const linkShareText = '링크복사';
@@ -74,7 +77,12 @@ function MeetingShare() {
         url: shareUrl, // 공유될 URL
       });
     } else {
-      alert('공유하기가 지원이 안되는 환경입니다');
+      dispatch(
+        show({
+          title: '공유하기 오류',
+          description: '공유하기가 지원이 안되는 환경입니다.',
+        })
+      );
     }
   };
 
