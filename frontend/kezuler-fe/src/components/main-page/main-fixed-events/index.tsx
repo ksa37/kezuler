@@ -22,6 +22,15 @@ function MainFixedEvents() {
     getFixedEvents();
   }, []);
 
+  // 화면 첫 진입 시 오늘로 스크롤 내림
+  useEffect(() => {
+    if (isFetched) {
+      console.log('fetched');
+      const element = document.getElementById(FIXED_TODAY_ID);
+      element?.scrollIntoView({ block: 'center', behavior: 'auto' });
+    }
+  }, [isFetched]);
+
   const navigate = useNavigate();
 
   const handleCreateClick = () => {
@@ -34,29 +43,27 @@ function MainFixedEvents() {
   // 다가오는 이벤트가 없다면 제일 가까운 지나간 이벤트
   const todayIdTargetIdx = useMemo(() => {
     let target = -1;
-    if (events) {
-      for (let i = events.length - 1; i >= 0; i--) {
-        const date = getTimezoneDate(
-          new Date(events[i].eventTimeStartsAt).getTime()
-        );
-        const interval = getIntervalFromToday(date);
-        if (interval > 0) {
-          if (target === -1) {
-            target = i;
-          }
-          break;
-        }
-        target = i;
+    for (let i = events.length - 1; i >= 0; i--) {
+      const date = getTimezoneDate(
+        new Date(events[i].eventTimeStartsAt).getTime()
+      );
+      const interval = getIntervalFromToday(date);
+      if (interval > 0) {
+        if (target === -1) {
+          target = i;
       }
-      return target;
+      break;
     }
+    target = i;
+   }
+    return target;
   }, [events]);
 
   if (!isFetched) {
     return null;
   }
-  console.log(events);
-  if (!events) {
+
+  if (!events.length) {
     return (
       <div id={FIXED_TODAY_ID} className={'main-fixed'}>
         <h1 className={'main-fixed-month-divider'}>
@@ -86,8 +93,8 @@ function MainFixedEvents() {
         return (
           <React.Fragment key={e.eventId}>
             {(i === 0 ||
-              (i > 1 &&
-                getMonthFromTimeStamp(events[i - 1].eventTimeStartsAt) !==
+              (i >= 1 &&
+                getMonthFromDateString(events[i - 1].eventTimeStartsAt) !==
                   curMonth)) && (
               <h1 className={'main-fixed-month-divider'}>{curMonth}월</h1>
             )}

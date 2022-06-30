@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { TextareaAutosize } from '@mui/material';
 
 import { OVERVIEW_FORM_ID, PLACE_OPTIONS } from 'src/constants/Main';
 import useMainFixed from 'src/hooks/useMainFixed';
 import useMainPending from 'src/hooks/useMainPending';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
+import isURL from 'src/utils/isURL';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
 import KezulerDropdown from 'src/components/common/KezulerDropdown';
@@ -121,7 +123,7 @@ function OverviewEdit({
       <header className={'overview-header'}>
         <div className={'overview-header-title'}>미팅 제목</div>
         <h1 className={'overview-header-desc'}>
-          <input
+          <TextareaAutosize
             className={'overview-title-input'}
             onKeyDown={handleKeyDown}
             defaultValue={eventTitle}
@@ -161,7 +163,7 @@ function OverviewEdit({
             fitToButtonWidth
           />
           {isSelectOnline ? (
-            <input
+            <TextareaAutosize
               className={'overview-body-input'}
               onKeyDown={handleKeyDown}
               defaultValue={eventZoomAddress}
@@ -169,7 +171,7 @@ function OverviewEdit({
               placeholder={'링크를 입력하세요. (선택)'}
             />
           ) : (
-            <input
+            <TextareaAutosize
               className={'overview-body-input'}
               onKeyDown={handleKeyDown}
               defaultValue={eventPlace}
@@ -179,7 +181,7 @@ function OverviewEdit({
           )}
         </OverviewSection>
         <OverviewSection title={'미팅 내용'}>
-          <input
+          <TextareaAutosize
             className={'overview-body-input'}
             onKeyDown={handleKeyDown}
             defaultValue={eventDescription}
@@ -188,7 +190,7 @@ function OverviewEdit({
           />
         </OverviewSection>
         <OverviewSection title={'참고 자료'}>
-          <input
+          <TextareaAutosize
             className={'overview-body-input'}
             onKeyDown={handleKeyDown}
             defaultValue={eventAttachment}
