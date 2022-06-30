@@ -25,7 +25,7 @@ function MainPendingEvents() {
     return null;
   }
 
-  if (events.length === 0 && !isCalenderConnected) {
+  if (!events.length && !isCalenderConnected) {
     return (
       <div className={'main-pending'}>
         <h2 className={classNames('main-empty-h2', 'pending')}>
