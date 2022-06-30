@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Stack } from '@mui/material';
 import classNames from 'classnames';
@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import PathName from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import { RootState } from 'src/reducers';
+import { dialogAction } from 'src/reducers/dialog';
+import { AppDispatch } from 'src/store';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 import BottomButton from 'src/components/common/BottomButton';
@@ -27,9 +29,10 @@ function MeetingShare() {
   const { eventTitle, shareUrl, eventId } = useSelector(
     (state: RootState) => state.createMeeting
   );
-
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { copyText } = useCopyText();
+  const { show } = dialogAction;
 
   const kakaoShareText = '카카오톡';
   const linkShareText = '링크복사';
@@ -64,14 +67,22 @@ function MeetingShare() {
     copyText(`${shareUrl}`, '케줄러 링크가');
   };
   const handleGeneralShareClick = () => {
+    console.log(typeof navigator.share);
     if (typeof navigator.share !== 'undefined') {
       window.navigator.share({
         title: `${
           getCurrentUserInfo()?.userName
         }님이 ${eventTitle}에 초대합니다!`, // 공유될 제목
-        text: '참여하기 버튼을 눌러 여러분이 참여 가능한 시각을 알려주세요!', // 공유될 설명
+        text: '케줄러 링크를 눌러 여러분이 참여 가능한 시각을 알려주세요!', // 공유될 설명
         url: shareUrl, // 공유될 URL
       });
+    } else {
+      dispatch(
+        show({
+          title: '공유하기 오류',
+          description: '공유하기가 지원이 안되는 환경입니다.',
+        })
+      );
     }
   };
 
@@ -93,8 +104,7 @@ function MeetingShare() {
         sx={{ marginBlock: '48px', display: 'block' }}
       >
         <Button
-          // id="kakao-link-btn"
-          className={classNames('share-icon', 'kakao')}
+          classes={{ root: classNames('share-icon', 'kakao') }}
           sx={{
             color: '#282F39',
           }}
@@ -104,7 +114,7 @@ function MeetingShare() {
           <div className={'share-text'}>{kakaoShareText}</div>
         </Button>
         <Button
-          className={'share-icon'}
+          classes={{ root: 'share-icon' }}
           sx={{
             color: '#282F39',
           }}
@@ -114,7 +124,7 @@ function MeetingShare() {
           <div className={'share-text'}>{linkShareText}</div>
         </Button>
         <Button
-          className={'share-icon'}
+          classes={{ root: 'share-icon' }}
           sx={{ color: '#282F39' }}
           onClick={handleGeneralShareClick}
         >
