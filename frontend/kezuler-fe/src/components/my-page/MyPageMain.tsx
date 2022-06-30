@@ -92,7 +92,10 @@ function MyPageMain({
         </div>
         <Button
           onClick={handleEditClick}
-          className={'my-page-profile-edit-btn'}
+          classes={{
+            root: 'my-page-profile-edit-btn',
+            startIcon: 'my-page-profile-edit-btn-icn',
+          }}
           startIcon={<EditIcon />}
         >
           편집하기
