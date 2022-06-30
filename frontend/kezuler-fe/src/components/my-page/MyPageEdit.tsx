@@ -91,13 +91,14 @@ function MyPageEdit({
               id={'profile-upload'}
               type={'file'}
               accept="image/*"
-            />
-            <Avatar
-              className={'my-page-edit-avatar-img'}
-              src={watchProfileImage}
-              alt={userName}
-            />
-            <PlusIconYellow className={'my-page-edit-avatar-plus-icn'} />
+            >
+              <Avatar
+                className={'my-page-edit-avatar-img'}
+                src={watchProfileImage}
+                alt={userName}
+              />
+              <PlusIconYellow className={'my-page-edit-avatar-plus-icn'} />
+            </input>
           </label>
         </div>
         <div className={'my-page-edit-textfield'}>
