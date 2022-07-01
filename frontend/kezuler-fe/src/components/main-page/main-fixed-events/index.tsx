@@ -73,7 +73,7 @@ function MainFixedEvents() {
         <h2 className={'main-empty-h2'}>
           {'다가오는 미팅이 없습니다.\n혹시 잊으신 일정은 없나요?'}
         </h2>
-        <MainButtonContainer />
+        {/* <MainButtonContainer /> */}
         <BottomPopper
           title={'단 하나의 링크로 미팅 확정까지!'}
           description={'시간 조율하느라 허비되는 시간 NO!'}
