@@ -382,6 +382,7 @@ func GetInfoInPendingEvents(client *mongo.Client, targetEvents []PendingEvent) (
 			Title:               targetEvent.Title,
 			HostUser:            resHostUser,
 			Description:         targetEvent.Description,
+			Duration:            targetEvent.Duration,
 			EventTimeCandidates: resEventTimeCandidates,
 			DeclinedUsers:       resDeclinedUsers,
 			PlaceAddress:        targetEvent.PlaceAddress,
