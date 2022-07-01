@@ -23,41 +23,46 @@ function ParticipantsGrid({ isHost, users }: Props) {
   };
 
   return (
-    <div className={'participants-popup-list'}>
-      {users.map((user) => {
-        const { userId, userProfileImage, userName } = user;
-        if (isHost && isDeclinedUser(user)) {
+    <>
+      {users.length === 0 && (
+        <div className={'no-decline-users'}>미참여 인원이 없습니다.</div>
+      )}
+      <div className={'participants-popup-list'}>
+        {users.map((user) => {
+          const { userId, userProfileImage, userName } = user;
+          if (isHost && isDeclinedUser(user)) {
+            return (
+              <button
+                className={classNames(
+                  'participants-popup-participant',
+                  'declined'
+                )}
+                key={userId}
+                onClick={handleNameClick(userId)}
+              >
+                <Avatar
+                  className={'participant-avatar'}
+                  src={userProfileImage}
+                  alt={userName}
+                />
+                <span>{userName}</span>
+                <Comment32Icon className={'participant-comment'} />
+              </button>
+            );
+          }
           return (
-            <button
-              className={classNames(
-                'participants-popup-participant',
-                'declined'
-              )}
-              key={userId}
-              onClick={handleNameClick(userId)}
-            >
+            <div className={'participants-popup-participant'} key={userId}>
               <Avatar
                 className={'participant-avatar'}
                 src={userProfileImage}
                 alt={userName}
               />
               <span>{userName}</span>
-              <Comment32Icon className={'participant-comment'} />
-            </button>
+            </div>
           );
-        }
-        return (
-          <div className={'participants-popup-participant'} key={userId}>
-            <Avatar
-              className={'participant-avatar'}
-              src={userProfileImage}
-              alt={userName}
-            />
-            <span>{userName}</span>
-          </div>
-        );
-      })}
-    </div>
+        })}
+      </div>
+    </>
   );
 }
 
