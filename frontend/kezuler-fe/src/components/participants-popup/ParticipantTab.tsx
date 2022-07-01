@@ -28,7 +28,7 @@ function ParticipantTab({
       <button
         className={classNames('common-tab-button', 'left', {
           selected: isAttendant,
-          disabled: attendantsNum === 0,
+          // disabled: attendantsNum === 0,
         })}
         onClick={handleAttendantClick}
       >
@@ -38,7 +38,7 @@ function ParticipantTab({
       <button
         className={classNames('common-tab-button', 'right', {
           selected: !isAttendant,
-          disabled: absentsNum === 0,
+          // disabled: absentsNum === 0,
         })}
         onClick={handleAbsentClick}
       >

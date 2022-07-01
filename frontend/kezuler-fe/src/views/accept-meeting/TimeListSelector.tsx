@@ -179,7 +179,7 @@ function TimeListSelector({ isModification }: Props) {
       { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
       { timeRange: '하루종일', scheduleTitle: '수아' },
     ],
-    '6/24 금': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
+    '6/29 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
     '7/1 금': [
       { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
       { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },

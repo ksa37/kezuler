@@ -59,6 +59,7 @@ function ParticipantsPopup() {
   const targetUsers = isAttendant ? attendants : absents;
 
   const handleClose = () => {
+    setIsAttendant(true);
     dispatch(hide());
   };
 

@@ -8,6 +8,7 @@ import {
 } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
 import { TIME_ZONE_LIST } from 'src/constants/TimeZones';
+import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
 import { SettingUser } from 'src/types/user';
 import { deleteCookie } from 'src/utils/cookie';
@@ -65,12 +66,16 @@ function MyPageMain({
   }, [userTimezone]);
 
   const { changeUser, loading } = usePatchUser();
+  const { getUserInfo } = useGetUserInfo();
   const patchTimeZone = (newIdx: number) => {
     const before = selectedIdx;
     setSelectedIdx(newIdx);
     changeUser(
       { userTimezone: TIME_ZONE_LIST[newIdx].value },
       {
+        onSuccess: () => {
+          getUserInfo();
+        },
         onError: () => {
           setSelectedIdx(before);
         },
@@ -121,10 +126,11 @@ function MyPageMain({
           disabled={loading}
           buttonClassName={'timezone-dropdown'}
           menuData={TIME_ZONE_LIST}
-          displayKey={'name'}
+          displayKey={'value'}
           selectedIdx={selectedIdx}
           setSelectedIdx={patchTimeZone}
           endIcon={<ArrowDownIcon />}
+          menuClassName={'timezone-dropdown-item'}
           paperClassName={'timezone-dropdown-paper'}
         />
       </MyPageRow>

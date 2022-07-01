@@ -28,9 +28,11 @@ function AcceptanceCompletion() {
         <br />
         {'다시 알려드릴게요.'}
       </div>
-      <Bell className={'acceptance-bell'} />
-      <Circle className={'acceptance-circle'} />
-      <TalkingPeople className={'acceptance-talking-people'} />
+      <div className={'acceptance-complete-imgs'}>
+        <Bell className={'acceptance-bell'} />
+        <Circle className={'acceptance-circle'} />
+        <TalkingPeople className={'acceptance-talking-people'} />
+      </div>
       <BottomButton onClick={handleHomeClick} text={'홈으로 가기'} />
     </div>
   );
