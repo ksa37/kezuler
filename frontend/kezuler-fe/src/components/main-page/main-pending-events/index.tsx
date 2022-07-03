@@ -7,6 +7,7 @@ import BottomPopper from '../../common/BottomPopper';
 import PendingEventCard from './PendingEventCard';
 import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
 
+import BottomCalendarBg from 'src/assets/img_bottom_popper_calendar.svg';
 function MainPendingEvents() {
   const { events, isFetched, getPendingEvents } = useMainPending();
 
@@ -37,7 +38,7 @@ function MainPendingEvents() {
           description={'캘린더를 연동하여 이중약속을 방지해요!'}
           buttonText={'구글캘린더 연동하기'}
           onClick={handleConnectClick}
-          image={''}
+          image={BottomCalendarBg}
         />
       </div>
     );

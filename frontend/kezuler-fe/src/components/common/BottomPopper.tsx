@@ -15,6 +15,7 @@ interface Props {
   disableDelete?: boolean;
   reverseOrder?: boolean;
   btnStartIcon?: React.ReactElement;
+  notFixed?: boolean;
 }
 
 // 버튼이 있는, 화면 하단부에 나타는 팝업
@@ -28,6 +29,7 @@ function BottomPopper({
   disableDelete = false,
   reverseOrder = false,
   btnStartIcon,
+  notFixed,
 }: Props) {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -40,7 +42,7 @@ function BottomPopper({
   }
   return (
     <div
-      className={'bottom-popper'}
+      className={classNames('bottom-popper', { 'not-fixed': notFixed })}
       style={{
         backgroundImage: `linear-gradient(#fad94f, #fad94f33), url(${image})`,
       }}

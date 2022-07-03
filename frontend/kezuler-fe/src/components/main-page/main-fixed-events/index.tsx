@@ -15,6 +15,8 @@ import FixedEventCard from './FixedEventCard';
 import EmptyFixedEventCard from 'src/components/main-page/main-fixed-events/EmptyFixedEventCard';
 import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
 
+import BottomCardBg from 'src/assets/img_bottom_popper_cards.svg';
+
 function MainFixedEvents() {
   const { getFixedEvents, events, isFetched } = useMainFixed();
 
@@ -79,7 +81,8 @@ function MainFixedEvents() {
           description={'시간 조율하느라 허비되는 시간 NO!'}
           buttonText={'첫 미팅 만들러가기'}
           onClick={handleCreateClick}
-          image={''}
+          image={BottomCardBg}
+          disableDelete
           reverseOrder
         />
       </div>

@@ -19,6 +19,10 @@
   bottom: 0;
   width: 100%;
 
+  &.not-fixed {
+    position: unset;
+  }
+
   &.disabled {
     color: #9f9f9f;
     pointer-events: none;

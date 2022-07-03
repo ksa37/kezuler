@@ -9,6 +9,7 @@ interface Props {
   text: string;
   subtext?: string;
   disabled?: boolean;
+  notFixed?: boolean;
 }
 
 function BottomButton({
@@ -17,14 +18,19 @@ function BottomButton({
   text,
   subtext,
   disabled,
+  notFixed,
 }: Props) {
   return (
     <button
       type={type}
-      className={classNames('bottom-button', {
-        disabled: disabled,
-        'sub-exist': subtext,
-      })}
+      className={classNames(
+        'bottom-button',
+        {
+          disabled: disabled,
+          'sub-exist': subtext,
+        },
+        { 'not-fixed': notFixed }
+      )}
       onClick={onClick}
     >
       <div className={'btn-text-area'}>
