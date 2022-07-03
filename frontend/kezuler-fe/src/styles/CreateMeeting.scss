@@ -291,7 +291,6 @@
 }
 
 .calendar-popup {
-  height: 112px;
   margin-inline: 16px;
   margin-top: 28px;
 
@@ -318,7 +317,7 @@
     font: normal normal bold 14px/20px Pretendard;
     margin-top: 16px;
     margin-right: 24px;
-    margin-bottom: 15px;
+    padding-bottom: 15px;
     text-align: right;
 
     .no {
@@ -529,12 +528,21 @@
 .celebrate-smile-icon {
   position: fixed;
   right: 180px;
-  bottom: 26%;
+  bottom: 200px;
 
   @media (max-height: 719px) {
-    display: none;
+    width: 50px;
+    height: 50px;
+    right: 130px;
+    bottom: 164px;
   }
   @media (max-width: 329px) {
+    width: 50px;
+    height: 50px;
+    right: 130px;
+    bottom: 164px;
+  }
+  @media (max-height: 650px) {
     display: none;
   }
 }
@@ -544,9 +552,14 @@
   right: -30px;
   bottom: 48px;
   @media (max-height: 719px) {
-    display: none;
+    width: 220px;
+    height: 220px;
   }
   @media (max-width: 329px) {
+    width: 220px;
+    height: 220px;
+  }
+  @media (max-height: 650px) {
     display: none;
   }
 }

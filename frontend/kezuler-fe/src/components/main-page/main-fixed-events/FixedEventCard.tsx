@@ -115,28 +115,34 @@ function FixedEventCard({ event, hasTodayId }: Props) {
       <div className={'fixed-event-card-date'}>
         <span>{MMdd}</span> {getKorDay(date)}
       </div>
-      <div className={'fixed-event-card-info'}>
+      <div
+        className={classNames('fixed-event-card-info', {
+          isCanceled: isCanceled,
+        })}
+      >
         <div>
           <span className={'fixed-event-card-time'}>{dailyTime}</span>
           {dDay}
         </div>
         <div>{event.eventTitle}</div>
-        <div>
-          <AvatarGroup
-            max={4}
-            classes={{ avatar: 'fixed-event-card-avatar-num' }}
-          >
-            {participants?.map((p) => (
-              <Avatar
-                className={'fixed-event-card-avatar'}
-                key={p.userId}
-                alt={p.userName}
-                src={p.userProfileImage}
-              />
-            ))}
-          </AvatarGroup>
-          <EventLocation />
-        </div>
+        {!isCanceled && (
+          <div>
+            <AvatarGroup
+              max={4}
+              classes={{ avatar: 'fixed-event-card-avatar-num' }}
+            >
+              {participants?.map((p) => (
+                <Avatar
+                  className={'fixed-event-card-avatar'}
+                  key={p.userId}
+                  alt={p.userName}
+                  src={p.userProfileImage}
+                />
+              ))}
+            </AvatarGroup>
+            <EventLocation />
+          </div>
+        )}
       </div>
     </button>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 import BottomButton from 'src/components/common/BottomButton';
 import BottomPopper from 'src/components/common/BottomPopper';
@@ -26,7 +27,11 @@ function CompletionPage({
   };
 
   const handleConnectClick = () => {
-    console.log('calendar pair connect needed!');
+    //TODO 캘린더 연동
+    if (getCurrentUserInfo()?.userGoogleCalendarId !== '') {
+      console.log('calendar pair connect needed!');
+      //TODO 캘린더 연동
+    }
   };
 
   return (
@@ -48,6 +53,7 @@ function CompletionPage({
         description={'캘린더를 연동하여 이중약속을 방지해요!'}
         buttonText={'구글캘린더 연동하기'}
         onClick={handleConnectClick}
+        disableDelete
         image={''}
       />
       <BottomButton onClick={handleHomeClick} text={'홈으로 가기'} />

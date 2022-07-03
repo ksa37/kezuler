@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
 import {
   useDeletePendingEventGuest,
@@ -17,7 +18,7 @@ import {
   getTimeRange,
 } from 'src/utils/dateParser';
 import getTimezoneDate from 'src/utils/getTimezoneDate';
-import { getSelectedOptions } from 'src/utils/joinMeeting';
+import { getDeclineReason, getSelectedOptions } from 'src/utils/joinMeeting';
 
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
@@ -37,28 +38,30 @@ function TimeListSelector({ isModification }: Props) {
   const { pendingEvent, availableTimes, declineReason } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
-  const { addAvailableTimes, deleteAvailableTimes, increaseStep, destroy } =
-    acceptMeetingActions;
+  const {
+    addAvailableTimes,
+    deleteAvailableTimes,
+    increaseStep,
+    setDeclineReason,
+  } = acceptMeetingActions;
 
   const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
 
   const { show } = participantsPopupAction;
 
-  const putEventTimeCandidate = usePutPendingEventGuest();
-  const deleteEventTimeCandidate = useDeletePendingEventGuest();
   const navigate = useNavigate();
   const { openDialog } = useDialog();
+  const putEventTimeCandidate = usePutPendingEventGuest();
+  const deleteEventTimeCandidate = useDeletePendingEventGuest();
 
+  // 가능한 시간 없는 이유 가져옴
   useEffect(() => {
-    if (isModification) {
-      return () => {
-        dispatch(destroy());
-      };
-    }
-  }, []);
+    dispatch(setDeclineReason(getDeclineReason(declinedUsers)));
+  }, [pendingEvent]);
 
   const handlePutClick = () => {
+    // 가능한 시간 있을때 활용
     const putData: PPutPendingEvent = {
       addTimeCandidates: availableTimes.filter(
         (time) => !selectedOptions.includes(time)
@@ -67,35 +70,45 @@ function TimeListSelector({ isModification }: Props) {
         (time) => !availableTimes.includes(time)
       ),
     };
-    console.log(availableTimes, selectedOptions);
-    console.log(putData);
 
-    const DeleteData: PDeletePendingEvent = {
-      UserDeclineReason: declineReason ? declineReason : '',
-    };
+    // 가능한 시간 없을때 활용
+    const DeleteData: PDeletePendingEvent =
+      declineReason && declineReason !== ''
+        ? {
+            UserDeclineReason: declineReason,
+          }
+        : {};
 
-    const putMeeting = () => {
-      if (availableTimes.length === 0) {
-        if (declineReason && declineReason !== '') {
-          deleteEventTimeCandidate(eventId, DeleteData);
-        } else {
-          deleteEventTimeCandidate(eventId);
-        }
-      } else {
-        putEventTimeCandidate(eventId, putData);
-      }
+    let confirmMeeting;
 
+    if (availableTimes.length !== 0) {
       if (isModification) {
-        navigate(-1);
-        //TODO: main으로 가야하나..?
+        confirmMeeting = () => {
+          putEventTimeCandidate(eventId, putData);
+          navigate(PathName.main, { state: { isFixed: false } });
+        };
       } else {
-        dispatch(increaseStep());
+        confirmMeeting = () => {
+          putEventTimeCandidate(eventId, putData);
+          dispatch(increaseStep());
+        };
       }
-    };
-
+    } else {
+      if (isModification) {
+        confirmMeeting = () => {
+          deleteEventTimeCandidate(eventId, DeleteData);
+          navigate(PathName.main, { state: { isFixed: false } });
+        };
+      } else {
+        confirmMeeting = () => {
+          deleteEventTimeCandidate(eventId, DeleteData);
+          dispatch(increaseStep());
+        };
+      }
+    }
     openDialog({
       title: `미팅시간 선택을 ${isModification ? '수정' : '완료'}하시겠어요?`,
-      onConfirm: putMeeting,
+      onConfirm: confirmMeeting,
     });
   };
 
@@ -145,8 +158,6 @@ function TimeListSelector({ isModification }: Props) {
     );
   }, [eventTimeCandidates]);
 
-  // const isSelected = useMemo(() => availableTimes.length > 0, [availableTimes]);
-
   const [calendarPairOpened, setCalendarPairOpened] = useState(true);
   const handlePairClick = () => {
     setCalendarPairOpened(false);
@@ -168,7 +179,7 @@ function TimeListSelector({ isModification }: Props) {
       { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
       { timeRange: '하루종일', scheduleTitle: '수아' },
     ],
-    '6/24 금': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
+    '6/29 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
     '7/1 금': [
       { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
       { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },

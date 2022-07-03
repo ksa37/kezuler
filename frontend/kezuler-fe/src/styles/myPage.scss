@@ -4,19 +4,24 @@ $my-page-gap: 20px;
 
 .my-page-header-back-btn {
   position: absolute;
+  padding-left: $my-page-gap;
   left: $my-page-gap;
 }
 
 .my-page-header {
-  margin-top: $my-page-gap;
-  height: calc(100% - #{$my-page-gap});
+  box-sizing: border-box;
+  padding-top: $my-page-gap;
+  color: $color-highlight;
+}
+.my-page-header-content {
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .my-page {
-  height: 100%;
+  flex: 1;
   background: white;
 }
 
@@ -56,6 +61,10 @@ $my-page-gap: 20px;
 
   svg > path {
     fill: #9f9f9f;
+  }
+
+  .my-page-profile-edit-btn-icn {
+    margin-right: 4px;
   }
 }
 
@@ -125,7 +134,7 @@ $my-page-gap: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 56px;
+    padding-top: 56px;
     padding-bottom: 10px;
   }
 
@@ -198,7 +207,13 @@ $my-page-gap: 20px;
 }
 
 .my-page-profile-input {
-  width: 0;
-  height: 0;
-  overflow: hidden;
+  display: none;
+  // width: 0;
+  // height: 0;
+  // overflow: hidden;
+}
+
+.timezone-dropdown-item {
+  font-family: Pretendard;
+  font-size: 13px;
 }

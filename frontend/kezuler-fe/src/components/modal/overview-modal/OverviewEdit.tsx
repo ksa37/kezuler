@@ -195,7 +195,7 @@ function OverviewEdit({
             onKeyDown={handleKeyDown}
             defaultValue={eventAttachment}
             {...register('eventAttachment')}
-            placeholder={'참고 자료를 입력하세요. (선택)'}
+            placeholder={'URL주소를 입력해주세요. (선택)'}
           />
         </OverviewSection>
         {isFixedEvent(event) && !isCanceled && (

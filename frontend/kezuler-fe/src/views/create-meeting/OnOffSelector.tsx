@@ -121,6 +121,7 @@ function OnOffSelector() {
           className={'field'}
           value={isOnline ? eventZoomAddress : eventPlace}
           onChange={isOnline ? handleOnlineChange : handleOfflineChange}
+          maxLength={isOnline ? 100 : 30}
           placeholder={
             isOnline
               ? '링크를 입력하세요.'

@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 
-import CommonAppBar from 'src/components/common/CommonAppBar';
-
+// import CommonAppBar from 'src/components/common/CommonAppBar';
 import { ReactComponent as BackIcon } from 'src/assets/left_arrow.svg';
 
 interface Props {
@@ -23,17 +22,18 @@ function MyPageAppBar({ isEdit, goToMain }: Props) {
   };
 
   return (
-    <CommonAppBar>
-      <div className={'my-page-header'}>
+    <header className={'my-page-header'}>
+      <div className={'my-page-header-content'}>
         <IconButton
-          className={'my-page-header-back-btn'}
+          classes={{ root: 'my-page-header-back-btn' }}
           onClick={handleGoBackClick}
         >
           <BackIcon />
         </IconButton>
-        {isEdit ? '프로필 편집' : '마이페이지'}
+
+        <b>{isEdit ? '프로필 편집' : '마이페이지'}</b>
       </div>
-    </CommonAppBar>
+    </header>
   );
 }
 

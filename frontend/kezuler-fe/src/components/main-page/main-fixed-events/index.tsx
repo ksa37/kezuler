@@ -25,7 +25,7 @@ function MainFixedEvents() {
   // 화면 첫 진입 시 오늘로 스크롤 내림
   useEffect(() => {
     if (isFetched) {
-      console.log('fetched');
+      // console.log('fetched');
       const element = document.getElementById(FIXED_TODAY_ID);
       element?.scrollIntoView({ block: 'center', behavior: 'auto' });
     }
@@ -51,11 +51,11 @@ function MainFixedEvents() {
       if (interval > 0) {
         if (target === -1) {
           target = i;
+        }
+        break;
       }
-      break;
+      target = i;
     }
-    target = i;
-   }
     return target;
   }, [events]);
 
@@ -73,7 +73,7 @@ function MainFixedEvents() {
         <h2 className={'main-empty-h2'}>
           {'다가오는 미팅이 없습니다.\n혹시 잊으신 일정은 없나요?'}
         </h2>
-        <MainButtonContainer />
+        {/* <MainButtonContainer /> */}
         <BottomPopper
           title={'단 하나의 링크로 미팅 확정까지!'}
           description={'시간 조율하느라 허비되는 시간 NO!'}
@@ -94,7 +94,7 @@ function MainFixedEvents() {
           <React.Fragment key={e.eventId}>
             {(i === 0 ||
               (i >= 1 &&
-                getMonthFromDateString(events[i - 1].eventTimeStartsAt) !==
+                getMonthFromTimeStamp(events[i - 1].eventTimeStartsAt) !==
                   curMonth)) && (
               <h1 className={'main-fixed-month-divider'}>{curMonth}월</h1>
             )}
@@ -106,7 +106,7 @@ function MainFixedEvents() {
           </React.Fragment>
         );
       })}
-      <MainButtonContainer />
+      {/* <MainButtonContainer /> */}
     </div>
   );
 }

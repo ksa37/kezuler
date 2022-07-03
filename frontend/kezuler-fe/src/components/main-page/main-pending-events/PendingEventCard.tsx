@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 // import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
-import classNames from 'classnames';
 
+// import classNames from 'classnames';
 import { CURRENT_HOST } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
@@ -28,7 +28,7 @@ function PendingEventCard({ event }: Props) {
     eventTitle,
     eventHost: { userId: hostId },
     eventPlace,
-    eventTimeCandidates,
+    // eventTimeCandidates,
   } = event;
 
   const navigate = useNavigate();
@@ -54,15 +54,15 @@ function PendingEventCard({ event }: Props) {
     [hostId]
   );
 
-  const isParticipating = useMemo(() => {
-    if (isHost) {
-      return true;
-    }
-    const curUserId = getCurrentUserInfo()?.userId;
-    return eventTimeCandidates.some((c) =>
-      c.possibleUsers.some(({ userId }) => userId === curUserId)
-    );
-  }, [isHost, eventTimeCandidates]);
+  // const isParticipating = useMemo(() => {
+  //   if (isHost) {
+  //     return true;
+  //   }
+  //   const curUserId = getCurrentUserInfo()?.userId;
+  //   return eventTimeCandidates.some((c) =>
+  //     c.possibleUsers.some(({ userId }) => userId === curUserId)
+  //   );
+  // }, [isHost, eventTimeCandidates]);
 
   const eventLocation = useMemo(() => {
     if (eventPlace) {
@@ -75,13 +75,13 @@ function PendingEventCard({ event }: Props) {
     <section className={'pending-event-card'}>
       <div>
         {eventLocation}
-        {isParticipating ? (
+        {/* {isParticipating ? (
           <div className={'pending-event-participate'}>참여</div>
         ) : (
           <div className={classNames('pending-event-participate', 'absent')}>
             미참여
           </div>
-        )}
+        )} */}
       </div>
       <div>{eventTitle}</div>
       <div>

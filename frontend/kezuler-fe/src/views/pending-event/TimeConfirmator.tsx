@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 
+import PathName from 'src/constants/PathName';
 import { ConfirmMeetingSteps } from 'src/constants/Steps';
 import useDialog from 'src/hooks/useDialog';
 import { usePostFixedEvent } from 'src/hooks/useFixedEvent';
@@ -19,6 +20,7 @@ import {
 import getTimezoneDate from 'src/utils/getTimezoneDate';
 
 import CompletionPage from '../../components/common/CompletionPage';
+import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
 import TimeCard from 'src/components/accept-meeting/TimeCard';
 import BottomButton from 'src/components/common/BottomButton';
@@ -93,7 +95,7 @@ function TimeConfirmator() {
   };
 
   const handlePrevClick = () => {
-    navigate(-1);
+    navigate(PathName.main, { state: { isFixed: false } });
   };
 
   const handleAllShowClick = () => {
@@ -130,6 +132,34 @@ function TimeConfirmator() {
 
   // console.log(eventTimeListDevideByDate);
 
+  type Schedule = {
+    timeRange: string;
+    scheduleTitle: string;
+  };
+  interface ScehdulesEachDay {
+    [dateString: string]: Schedule[];
+  }
+  const mockSchedule: ScehdulesEachDay = {
+    '6/22 수': [
+      { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
+      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
+    ],
+    '6/23 목': [
+      { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
+      { timeRange: '하루종일', scheduleTitle: '수아' },
+    ],
+    '6/29 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
+    '7/1 금': [
+      { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
+      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
+    ],
+  };
+
+  const [calendarPairOpened, setCalendarPairOpened] = useState(true);
+  const handlePairClick = () => {
+    setCalendarPairOpened(false);
+  };
+
   return (
     <div className={'accept-wrapper'}>
       <TextAppBar
@@ -161,8 +191,77 @@ function TimeConfirmator() {
             </div>
           </div>
           <div className={'time-select-with-schedule'}>
+            {calendarPairOpened && (
+              <CalendarPairBtn onClick={handlePairClick} />
+            )}
             <div className={'time-line-line'} />
             {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
+              <div key={dateKey} className={'time-select-date'}>
+                <div className={'time-select-date-grid'}>
+                  <div className={'time-select-date-part'}>
+                    <div className={'time-line-circle'} />
+                    {dateKey}
+                  </div>
+                </div>
+                {Array(
+                  Math.max(
+                    eventTimeListDevideByDate[dateKey].length,
+                    Object.keys(mockSchedule).includes(dateKey)
+                      ? mockSchedule[dateKey].length
+                      : 0
+                  )
+                )
+                  .fill(0)
+                  .map((_, index) => (
+                    <div
+                      key={dateKey + index}
+                      className={'time-select-card-grid'}
+                    >
+                      {eventTimeListDevideByDate[dateKey].length > index ? (
+                        <TimeCard
+                          isEmpty={false}
+                          isSelected={
+                            selectedTime ===
+                            eventTimeListDevideByDate[dateKey][
+                              index
+                            ].eventStartsAt.getTime()
+                          }
+                          onClick={() =>
+                            handleEventTimeClick(
+                              eventTimeListDevideByDate[dateKey][index]
+                                .eventStartsAt
+                            )
+                          }
+                          timeRange={getTimeRange(
+                            eventTimeListDevideByDate[dateKey][index]
+                              .eventStartsAt,
+                            eventTimeDuration
+                          )}
+                          possibleNum={
+                            eventTimeListDevideByDate[dateKey][index]
+                              .possibleNum
+                          }
+                        />
+                      ) : (
+                        <TimeCard isEmpty={true} />
+                      )}
+                      {Object.keys(mockSchedule).includes(dateKey) &&
+                      mockSchedule[dateKey].length > index ? (
+                        <ScheduleCard
+                          isEmpty={false}
+                          timeRange={mockSchedule[dateKey][index].timeRange}
+                          scheduleTitle={
+                            mockSchedule[dateKey][index].scheduleTitle
+                          }
+                        />
+                      ) : (
+                        <ScheduleCard isEmpty={true} />
+                      )}
+                    </div>
+                  ))}
+              </div>
+            ))}
+            {/* {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
               <div key={dateKey} className={'time-select-date'}>
                 <div className={'time-select-date-grid'}>
                   <div className={'time-select-date-part'}>
@@ -191,7 +290,7 @@ function TimeConfirmator() {
                   )
                 )}
               </div>
-            ))}
+            ))} */}
           </div>
           <BottomButton
             text={'미팅시간 확정'}

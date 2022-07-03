@@ -7,6 +7,7 @@ import { OVERVIEW_FORM_ID } from 'src/constants/Main';
 import PathName from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import useDialog from 'src/hooks/useDialog';
+import { useDeleteFixedEvent } from 'src/hooks/useFixedEvent';
 import { useDeletePendingEventById } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { modalAction } from 'src/reducers/modal';
@@ -25,7 +26,7 @@ import { ReactComponent as CheckIcon } from 'src/assets/icn_check.svg';
 import { ReactComponent as CloseIcon } from 'src/assets/icn_close_b.svg';
 import { ReactComponent as CloseThinIcon } from 'src/assets/icn_close_thin.svg';
 import { ReactComponent as DeleteIcon } from 'src/assets/icn_delete.svg';
-import { ReactComponent as EditIcon } from 'src/assets/icn_edit.svg';
+import { ReactComponent as EditIcon } from 'src/assets/icn_edit_big.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icn_link.svg';
 import 'src/styles/OverviewModal.scss';
 
@@ -73,7 +74,9 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
   const { hide } = modalAction;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const removePendingEvent = useDeletePendingEventById();
+  const removeFixedEvent = useDeleteFixedEvent();
 
   const closeModal = useCallback(() => {
     dispatch(hide());
@@ -90,7 +93,14 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
   };
 
   const handleDeleteClick = () => {
-    const deleteMeeting = () => {
+    const deleteFixedMeeting = () => {
+      removeFixedEvent(eventId);
+      dispatch(hide());
+      navigate(PathName.main, { state: { isFixed: true } });
+      location.reload();
+    };
+
+    const deletePendingMeeting = () => {
       removePendingEvent(eventId);
       dispatch(hide());
       navigate(PathName.main, { state: { isFixed: false } });
@@ -101,7 +111,9 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
       title: `'${eventTitle}'\n미팅을 취소 하시겠어요?`,
       description:
         '취소 시, 되돌리기 어려우며\n참여자들에게 카카오톡 메세지가 전송됩니다.',
-      onConfirm: deleteMeeting,
+      onConfirm: isFixedEvent(event)
+        ? deleteFixedMeeting
+        : deletePendingMeeting,
     });
   };
 
