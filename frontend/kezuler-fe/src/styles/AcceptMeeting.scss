@@ -11,9 +11,18 @@
 
 .invitation-message {
   color: $color-highlight;
-  font-size: 24px;
+  font-size: $font-24;
   text-align: left;
-  margin: 68px 0 0 40px;
+  padding: 68px 0 0 40px;
+
+  @media (max-width: 340px) {
+    padding-right: 40px;
+    font-size: $font-20;
+  }
+
+  @media (max-height: 620px) {
+    padding-top: 40px;
+  }
 }
 
 .invitation-avatar {
@@ -40,30 +49,43 @@
 
   @media (max-width: 340px) {
     margin-top: 40px;
+    padding: 16px;
   }
   .invitation-title-place {
-    font-size: 14px;
+    font-size: $font-14;
     line-height: 17px;
     color: #9f9f9f;
     &.place {
       margin-top: 16px;
+      @media (max-width: 340px) {
+        font-size: $font-12;
+        margin-top: 8px;
+      }
     }
   }
 
   .invitation-title-text {
     margin-top: 8px;
-    font-size: 18px;
+    font-size: $font-18;
     line-height: 21px;
     font-weight: bold;
+    @media (max-width: 340px) {
+      font-size: $font-16;
+      margin-top: 4px;
+    }
   }
 
   .invitation-place {
     margin-top: 8px;
-    font-size: 16px;
+    font-size: $font-16;
     line-height: 19px;
     font-weight: bold;
     display: flex;
     align-items: center;
+    @media (max-width: 340px) {
+      font-size: $font-14;
+      margin-top: 4px;
+    }
 
     .invitation-place-text {
       padding-left: 6px;
@@ -72,6 +94,17 @@
 }
 
 // AcceptanceCompletion
+
+.acceptance-completion {
+  position: relative;
+  flex: 1;
+}
+
+.acceptance-completion-bottom-area {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 
 .acceptance-completion-sub-description {
   font: normal normal normal 16px/24px Pretendard;

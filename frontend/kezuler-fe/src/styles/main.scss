@@ -16,6 +16,8 @@
 }
 
 .main-page {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   background-color: $color-background;
 }
@@ -49,9 +51,9 @@
   font-weight: normal;
   color: #bec1c7;
 
-  &.pending {
-    margin-top: 150px;
-  }
+  // &.pending {
+  //   margin: unset;
+  // }
 }
 
 .fixed-event-card {
@@ -241,7 +243,13 @@
 
 .main-pending {
   // margin-top: 96px; // 64 + 32
+  display: flex;
+  flex-direction: column;
   padding-bottom: 16px;
+  flex: 1;
+
+  // justify-content: center;
+  // align-items: center;
 }
 
 .pending-event-card {
