@@ -87,53 +87,55 @@ function MeetingShare() {
   };
 
   return (
-    <div className={'padding-wrapper'}>
-      <div className={'description-text'}>
-        {'새로운 미팅 일정이'}
-        <br />
-        {'완성되었습니다!'}
+    <div className={'create-wrapper'}>
+      <div className={'padding-wrapper'}>
+        <div className={'description-text'}>
+          {'새로운 미팅 일정이'}
+          <br />
+          {'완성되었습니다!'}
+        </div>
+        <div className={'sub-description-text'}>
+          {'케줄러 링크를 통해'}
+          <br />
+          {'사람들을 미팅에 초대하세요!'}
+        </div>
+        <Stack
+          direction="row"
+          spacing={'16px'}
+          sx={{ marginBlock: '48px', display: 'block' }}
+        >
+          <Button
+            classes={{ root: classNames('share-icon', 'kakao') }}
+            sx={{
+              color: '#282F39',
+            }}
+            onClick={handleKakaoShareClick}
+          >
+            <KakaoIcon />
+            <div className={'share-text'}>{kakaoShareText}</div>
+          </Button>
+          <Button
+            classes={{ root: 'share-icon' }}
+            sx={{
+              color: '#282F39',
+            }}
+            onClick={handleLinkShareClick}
+          >
+            <LinkIcon />
+            <div className={'share-text'}>{linkShareText}</div>
+          </Button>
+          <Button
+            classes={{ root: 'share-icon' }}
+            sx={{ color: '#282F39' }}
+            onClick={handleGeneralShareClick}
+          >
+            <ShareIcon />
+            <div className={'share-text'}>{generalShareText}</div>
+          </Button>
+        </Stack>
+        <CelebrateSmileIcon className={'celebrate-smile-icon'} />
+        <CelebrateIcon className={'celebrate-icon'} />
       </div>
-      <div className={'sub-description-text'}>
-        {'케줄러 링크를 통해'}
-        <br />
-        {'사람들을 미팅에 초대하세요!'}
-      </div>
-      <Stack
-        direction="row"
-        spacing={'16px'}
-        sx={{ marginBlock: '48px', display: 'block' }}
-      >
-        <Button
-          classes={{ root: classNames('share-icon', 'kakao') }}
-          sx={{
-            color: '#282F39',
-          }}
-          onClick={handleKakaoShareClick}
-        >
-          <KakaoIcon />
-          <div className={'share-text'}>{kakaoShareText}</div>
-        </Button>
-        <Button
-          classes={{ root: 'share-icon' }}
-          sx={{
-            color: '#282F39',
-          }}
-          onClick={handleLinkShareClick}
-        >
-          <LinkIcon />
-          <div className={'share-text'}>{linkShareText}</div>
-        </Button>
-        <Button
-          classes={{ root: 'share-icon' }}
-          sx={{ color: '#282F39' }}
-          onClick={handleGeneralShareClick}
-        >
-          <ShareIcon />
-          <div className={'share-text'}>{generalShareText}</div>
-        </Button>
-      </Stack>
-      <CelebrateSmileIcon className={'celebrate-smile-icon'} />
-      <CelebrateIcon className={'celebrate-icon'} />
       <BottomButton onClick={handleHomeClick} text="홈으로 가기" />
     </div>
   );
