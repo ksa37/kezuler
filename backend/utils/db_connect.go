@@ -18,6 +18,12 @@ type MongoDBAuthInfo struct {
 	Parameters string `json:"parameters"`
 }
 
+type S3AuthInfo struct {
+	AwsRegion          string `json:"aws_region"`
+	AwsAccessKeyId     string `json:"aws_access_key_id"`
+	AwsSecretAccessKey string `json:"aws_secret_access_key"`
+}
+
 func connect() *mongo.Client {
 	b, err := ioutil.ReadFile("./utils/mongodb_auth.json")
 	if err != nil {
