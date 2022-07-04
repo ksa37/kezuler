@@ -3,12 +3,15 @@ package utils
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
 )
 
@@ -461,7 +464,7 @@ func GetInfoInFixedEvent(client *mongo.Client, targetEvent FixedEvent) (FixedEve
 	return targetEventWithInfo, nil
 }
 
-// GetInfoInFixedEvent Append Info to FixedEvent
+// GetInfoInFixedEvents Append Info to FixedEvent
 func GetInfoInFixedEvents(client *mongo.Client, targetEvents []FixedEvent) ([]FixedEventClaims, error) {
 	userCol := client.Database("kezuler").Collection("user")
 
@@ -534,4 +537,26 @@ func GetInfoInFixedEvents(client *mongo.Client, targetEvents []FixedEvent) ([]Fi
 	}
 
 	return targetEventsWithInfo, nil
+}
+
+func downloadImage(file *os.File, url string) (err error) {
+	// Get the data
+	res, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	// Check server response
+	if res.StatusCode != http.StatusOK {
+		return fmt.Errorf("bad status: %s", res.Status)
+	}
+
+	// Writer the body to file
+	_, err = io.Copy(file, res.Body)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

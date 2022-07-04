@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -37,26 +38,30 @@ func UserWithTokenHandler(w http.ResponseWriter, r *http.Request) {
 		getUserWithId(w, serviceAuthToken)
 	} else if r.Method == "PATCH" {
 		headerContentType := r.Header.Get("Content-Type")
-		if headerContentType != "application/json" {
+		log.Print(headerContentType)
+		if headerContentType == "application/json" {
+			var payload PatchUserPayload
+			var unmarshalError *json.UnmarshalTypeError
+			decoder := json.NewDecoder(r.Body)
+			decoder.DisallowUnknownFields()
+
+			err := decoder.Decode(&payload)
+			if err != nil {
+				if errors.As(err, &unmarshalError) {
+					http.Error(w, "Bad Request. Wrong Type provided for field "+unmarshalError.Field, http.StatusBadRequest)
+				} else {
+					http.Error(w, "Bad Request "+err.Error(), http.StatusBadRequest)
+				}
+				return
+			}
+			patchUserWithId(w, serviceAuthToken, payload)
+		} else if strings.Contains(headerContentType, "multipart/form-data") {
+			patchUseProfileImageWithId(w, r, serviceAuthToken)
+		} else {
 			http.Error(w, "Content Type is not application/json", http.StatusUnsupportedMediaType)
 			return
 		}
 
-		var payload PatchUserPayload
-		var unmarshalError *json.UnmarshalTypeError
-		decoder := json.NewDecoder(r.Body)
-		decoder.DisallowUnknownFields()
-
-		err := decoder.Decode(&payload)
-		if err != nil {
-			if errors.As(err, &unmarshalError) {
-				http.Error(w, "Bad Request. Wrong Type provided for field "+unmarshalError.Field, http.StatusBadRequest)
-			} else {
-				http.Error(w, "Bad Request "+err.Error(), http.StatusBadRequest)
-			}
-			return
-		}
-		patchUserWithId(w, serviceAuthToken, payload)
 	} else if r.Method == "DELETE" {
 		deleteUserWithId(w, serviceAuthToken)
 	} else {
