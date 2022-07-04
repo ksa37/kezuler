@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import classNames from 'classnames';
 
+// import classNames from 'classnames';
 import useMainPending from 'src/hooks/useMainPending';
 
 import BottomPopper from '../../common/BottomPopper';
@@ -29,10 +29,8 @@ function MainPendingEvents() {
   if (!events.length && !isCalenderConnected) {
     return (
       <div className={'main-pending'}>
-        <h2 className={classNames('main-empty-h2', 'pending')}>
-          대기중인 미팅이 없습니다.
-        </h2>
-        {/* <MainButtonContainer /> */}
+        <h2 className={'main-empty-h2'}>대기중인 미팅이 없습니다.</h2>
+        <MainButtonContainer />
         <BottomPopper
           title={'케줄러 100% 활용하기'}
           description={'캘린더를 연동하여 이중약속을 방지해요!'}
@@ -51,7 +49,7 @@ function MainPendingEvents() {
       ) : (
         <h2 className={'main-empty-h2'}>대기중인 미팅이 없습니다.</h2>
       )}
-      {/* <MainButtonContainer /> */}
+      <MainButtonContainer />
     </div>
   );
 }

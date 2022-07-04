@@ -22,7 +22,7 @@ function MainTab({ isFixedMeeting, setIsFixedMeeting }: Props) {
 
   const handleTodayClick = () => {
     const element = document.getElementById(FIXED_TODAY_ID);
-    element?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    element?.scrollIntoView({ block: 'start', behavior: 'smooth' });
   };
 
   return (
