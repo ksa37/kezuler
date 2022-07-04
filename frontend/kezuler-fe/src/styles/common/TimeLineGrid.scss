@@ -32,6 +32,7 @@
       display: block;
       flex: none;
       width: 100%;
+      font-size: $font-20;
     }
   }
 }
@@ -256,7 +257,7 @@
   z-index: 10;
   width: 100%;
   box-sizing: border-box;
-  position: fixed;
+  position: sticky;
 
   bottom: 56px;
   left: 0;

@@ -9,7 +9,7 @@
   justify-content: center;
   border-top-left-radius: 74px;
   // border-top-left-radius: 96px;
-
+  // opacity: 0.5;
   box-sizing: border-box;
   padding: 26px 24px;
   min-height: 150px;
@@ -27,6 +27,20 @@
     border-top-left-radius: 96px;
   }
 
+  // ::after {
+  //   content: '';
+  //   position: absolute;
+  //   top: 0px;
+  //   right: 0px;
+  //   bottom: 0px;
+  //   left: 0px;
+  //   border-top-left-radius: 74px;
+  //   @media (min-width: 360px) and (min-height: 640px) {
+  //     border-top-left-radius: 96px;
+  //   }
+  //   // background-color: rgba(255, 255, 255, 0.1);
+  // }
+
   &.not-fixed {
     position: unset;
   }
@@ -36,10 +50,12 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    z-index: 2;
 
     &.disable-delete {
       // height: 32px;
       display: none;
+      z-index: 2;
       // @media (max-height: 650px) {
       //   display: none;
       // }
@@ -53,6 +69,7 @@
     > button {
       width: 32px;
       height: 32px;
+      z-index: 2;
 
       @media (max-width: 340px) {
         width: 20px;
@@ -83,6 +100,7 @@
     font-weight: bold;
     font-size: $font-24;
     color: $color-highlight;
+    z-index: 2;
 
     &.is-reverse {
       margin: 0 0 12px;
@@ -94,6 +112,7 @@
   }
 
   .small-title {
+    z-index: 2;
     font-size: $font-20;
     @media (max-width: 340px) {
       font-size: $font-18;
@@ -101,6 +120,7 @@
   }
 
   > h2 {
+    z-index: 2;
     margin: 0 0 12px;
     font-weight: normal;
     font-size: $font-16;
@@ -112,6 +132,7 @@
   }
 
   > button {
+    z-index: 2;
     margin: 8px 0 0;
     padding: 14px 24px;
     cursor: pointer;
