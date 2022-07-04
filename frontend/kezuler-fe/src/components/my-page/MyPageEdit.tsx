@@ -2,6 +2,7 @@ import React from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Avatar } from '@mui/material';
+import classNames from 'classnames';
 
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
@@ -81,6 +82,7 @@ function MyPageEdit({
     <div className={'my-page-edit'}>
       <form
         id={'my-page-edit-form'}
+        className={'my-page-edit-form'}
         onSubmit={handleSubmit(onValid, onInvalid)}
       >
         <div className={'my-page-edit-avatar-wrapper'}>
@@ -112,7 +114,7 @@ function MyPageEdit({
             })}
           />
         </div>
-        <div className={'my-page-edit-textfield'}>
+        <div className={classNames('my-page-edit-textfield', 'email')}>
           <div className={'my-page-edit-textfield-title'}>이메일</div>
           <input
             onKeyDown={handleKeyDown}
