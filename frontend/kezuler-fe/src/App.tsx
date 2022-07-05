@@ -11,7 +11,7 @@ import 'src/styles/dialog.scss';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" id="App">
       <RootRoutes />
       <KezulerModal />
       <KezulerDialog />

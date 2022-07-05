@@ -176,46 +176,48 @@ function CalendarTimeSelector() {
   );
 
   return (
-    <div className={'padding-wrapper'}>
-      <div className={'duration-selector-margin'} />
-      <div className={'duration-selector'}>
-        <ClockOrangeIcon className={'icn-clock-o20'} />
-        <div className={'duration-text'}>미팅 길이</div>
-        <KezulerDropdown
-          buttonClassName={'duration-dropdown'}
-          menuData={MEETING_LENGTH_LIST}
-          displayKey={'display'}
-          selectedIdx={selectedLengthIdx}
-          setSelectedIdx={setSelectedLengthIdx}
-          endIcon={<ArrowDownIcon />}
-        />
+    <div className={'create-wrapper'}>
+      <div className={'padding-wrapper'}>
+        <div className={'duration-selector-margin'} />
+        <div className={'duration-selector'}>
+          <ClockOrangeIcon className={'icn-clock-o20'} />
+          <div className={'duration-text'}>미팅 길이</div>
+          <KezulerDropdown
+            buttonClassName={'duration-dropdown'}
+            menuData={MEETING_LENGTH_LIST}
+            displayKey={'display'}
+            selectedIdx={selectedLengthIdx}
+            setSelectedIdx={setSelectedLengthIdx}
+            endIcon={<ArrowDownIcon />}
+          />
+        </div>
+        <div className={'calendar'}>
+          <CalendarView
+            startDate={startDate}
+            setStartDate={setStartDate}
+            highlightDates={eventTimeListDateToHighlight}
+          />
+        </div>
+        <div className={'date-string'}>
+          <CalendarIcon className={'calendar-icon'} />
+          <div className={'date-string-text'}>{dateStr}</div>
+        </div>
+        {scheduleConnected && <ScheduleList schedules={mockSceduleData} />}
+        <div className={'time-chip-text'}>
+          <ClockIcon className={'icn-clock-b20'} />
+          <b>{'미팅시작 시각'}</b>
+          {'을 선택하세요'}
+        </div>
+        <Stack direction="row" spacing={'6px'} className={'time-chips-stack'}>
+          {getChips}
+        </Stack>
+        {!popupDisable && (
+          <CalendarPopup
+            onYesClick={handleCalendarPopupYes}
+            onNoClick={handleCalendarPopupNo}
+          />
+        )}
       </div>
-      <div className={'calendar'}>
-        <CalendarView
-          startDate={startDate}
-          setStartDate={setStartDate}
-          highlightDates={eventTimeListDateToHighlight}
-        />
-      </div>
-      <div className={'date-string'}>
-        <CalendarIcon className={'calendar-icon'} />
-        <div className={'date-string-text'}>{dateStr}</div>
-      </div>
-      {scheduleConnected && <ScheduleList schedules={mockSceduleData} />}
-      <div className={'time-chip-text'}>
-        <ClockIcon className={'icn-clock-b20'} />
-        <b>{'미팅시작 시각'}</b>
-        {'을 선택하세요'}
-      </div>
-      <Stack direction="row" spacing={'6px'} className={'time-chips-stack'}>
-        {getChips}
-      </Stack>
-      {!popupDisable && (
-        <CalendarPopup
-          onYesClick={handleCalendarPopupYes}
-          onNoClick={handleCalendarPopupNo}
-        />
-      )}
       <BottomButton
         onClick={handleNextClick}
         subtext={
