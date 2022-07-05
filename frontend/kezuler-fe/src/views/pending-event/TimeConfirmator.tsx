@@ -95,7 +95,7 @@ function TimeConfirmator() {
   };
 
   const handlePrevClick = () => {
-    navigate(PathName.main, { state: { isFixed: false } });
+    navigate(PathName.mainPending);
   };
 
   const handleAllShowClick = () => {

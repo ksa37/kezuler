@@ -5,9 +5,8 @@ import { Button } from '@mui/material';
 
 // import classNames from 'classnames';
 import { CURRENT_HOST } from 'src/constants/Auth';
-import PathName from 'src/constants/PathName';
+import PathName, { makePendingInfoUrl } from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
-import useModal from 'src/hooks/useModal';
 import { BPendingEvent } from 'src/types/pendingEvent';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
@@ -20,7 +19,6 @@ interface Props {
 }
 
 function PendingEventCard({ event }: Props) {
-  const { openModal } = useModal();
   const { copyText } = useCopyText();
 
   const {
@@ -38,7 +36,7 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleInfoClick = () => {
-    openModal('Overview', { eventId, isFixed: false });
+    navigate(makePendingInfoUrl(eventId));
   };
 
   const handleConfirmClick = () => {

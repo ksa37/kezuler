@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 import classNames from 'classnames';
 
 import useMainPending from 'src/hooks/useMainPending';
 
 import BottomPopper from '../../common/BottomPopper';
 import PendingEventCard from './PendingEventCard';
-import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
 
 function MainPendingEvents() {
   const { events, isFetched, getPendingEvents } = useMainPending();
@@ -50,7 +50,7 @@ function MainPendingEvents() {
       ) : (
         <h2 className={'main-empty-h2'}>대기중인 미팅이 없습니다.</h2>
       )}
-      {/* <MainButtonContainer /> */}
+      <Outlet />
     </div>
   );
 }

@@ -85,7 +85,7 @@ function TimeListSelector({ isModification }: Props) {
       if (isModification) {
         confirmMeeting = () => {
           putEventTimeCandidate(eventId, putData);
-          navigate(PathName.main, { state: { isFixed: false } });
+          navigate(PathName.mainPending);
         };
       } else {
         confirmMeeting = () => {
@@ -97,7 +97,7 @@ function TimeListSelector({ isModification }: Props) {
       if (isModification) {
         confirmMeeting = () => {
           deleteEventTimeCandidate(eventId, DeleteData);
-          navigate(PathName.main, { state: { isFixed: false } });
+          navigate(PathName.mainPending);
         };
       } else {
         confirmMeeting = () => {

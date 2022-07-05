@@ -1,9 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, AvatarGroup } from '@mui/material';
 import classNames from 'classnames';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';
-import useModal from 'src/hooks/useModal';
+import { makeFixedInfoUrl } from 'src/constants/PathName';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import {
   dateToDailyTime,
@@ -25,7 +26,7 @@ interface Props {
 }
 
 function FixedEventCard({ event, hasTodayId }: Props) {
-  const { openModal } = useModal();
+  const navigate = useNavigate();
 
   const {
     eventId,
@@ -59,12 +60,7 @@ function FixedEventCard({ event, hasTodayId }: Props) {
   }, [hostId]);
 
   const handleOverviewClick = () => {
-    openModal('Overview', {
-      eventId,
-      isFixed: true,
-      isCanceled,
-      isPassed: tense === 'past',
-    });
+    navigate(makeFixedInfoUrl(eventId));
   };
 
   const MMdd = useMemo(() => dateToMMdd(date), [date]);

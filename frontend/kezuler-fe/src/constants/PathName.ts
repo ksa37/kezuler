@@ -4,8 +4,15 @@ const PathName = {
   notification: '/noti',
   myPage: '/mypage',
   pending: '/pending',
+  mainFixed: '/main/fixed',
+  mainFixedIdInfo: '/main/fixed/:eventId/info',
+  mainFixedIdInfoEdit: '/main/fixed/:eventId/info-edit',
+  mainPending: '/main/pending',
+  mainPendingIdInfo: '/main/pending/:eventId/info',
+  mainPendingIdInfoEdit: '/main/pending/:eventId/info-edit',
   delete: '/delete',
   create: '/create',
+  createInfo: '/create/info',
   invite: '/invite',
   share: '/share',
   modify: '/modify',
@@ -15,4 +22,12 @@ const PathName = {
 } as const;
 type PathName = typeof PathName[keyof typeof PathName];
 
+// TODO util 로?
+const makePendingInfoUrl = (eventId: string, isEdit?: boolean) =>
+  `${PathName.mainPending}/${eventId}/info${isEdit ? '-edit' : ''}`;
+
+const makeFixedInfoUrl = (eventId: string, isEdit?: boolean) =>
+  `${PathName.mainFixed}/${eventId}/info${isEdit ? '-edit' : ''}`;
+
+export { makePendingInfoUrl, makeFixedInfoUrl };
 export default PathName;

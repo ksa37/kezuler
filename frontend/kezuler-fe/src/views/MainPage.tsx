@@ -1,32 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import { mainFixedActions } from 'src/reducers/mainFixed';
 import { mainPendingActions } from 'src/reducers/mainPending';
 import { AppDispatch } from 'src/store';
 
 import MainAppBar from 'src/components/common/MainAppBar';
-import MainFixedEvents from 'src/components/main-page/main-fixed-events';
-import MainPendingEvents from 'src/components/main-page/main-pending-events';
 import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
 import MainTab from 'src/components/main-page/MainTab';
 
 import 'src/styles/main.scss';
 
 function MainPage() {
-  const location = useLocation();
-
-  let isFixed = true;
-
-  if (location) {
-    const state: any = location.state;
-    if (state) {
-      isFixed = state.isFixed;
-    }
-  }
-  const [isFixedMeeting, setIsFixedMeeting] = useState(isFixed);
-
   const dispatch = useDispatch<AppDispatch>();
   const { destroy: fixedDestroy } = mainFixedActions;
   const { destroy: pendingDestroy } = mainPendingActions;
@@ -43,11 +29,8 @@ function MainPage() {
     <div className={'main-page-wrapper'}>
       <div className={'main-page'}>
         <MainAppBar />
-        <MainTab
-          isFixedMeeting={isFixedMeeting}
-          setIsFixedMeeting={setIsFixedMeeting}
-        />
-        {isFixedMeeting ? <MainFixedEvents /> : <MainPendingEvents />}
+        <MainTab />
+        <Outlet />
         {/* <footer className={'main-footer'}>
         <b>(주)올렌다</b> 대표이사 구자룡
         <br />
