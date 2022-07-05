@@ -22,6 +22,8 @@ $my-page-gap: 20px;
 
 .my-page {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   background: white;
 }
 
@@ -130,6 +132,9 @@ $my-page-gap: 20px;
 }
 
 .my-page-edit {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   .my-page-edit-avatar-wrapper {
     display: flex;
     justify-content: center;
@@ -156,6 +161,12 @@ $my-page-gap: 20px;
     }
   }
 
+  .my-page-edit-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
   .my-page-edit-textfield {
     margin-top: 24px;
     padding-inline: 48px;
@@ -179,6 +190,11 @@ $my-page-gap: 20px;
       border: 1px solid #bfbfbf;
       height: 48px;
       border-radius: 8px;
+    }
+
+    &.email {
+      flex: 1;
+      margin-bottom: 40px;
     }
   }
 }

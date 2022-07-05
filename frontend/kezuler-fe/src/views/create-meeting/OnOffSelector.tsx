@@ -75,64 +75,66 @@ function OnOffSelector() {
   };
 
   return (
-    <div className={'padding-wrapper'}>
-      <div className={'description-text'}>
-        {'어디에서'}
-        <br /> {'만나면 좋을까요?'}
-      </div>
-
-      <div className={'on-off-group'}>
-        <div
-          className={classNames(
-            'on-off-btn',
-            isOnline ? 'selected' : 'disabled'
-          )}
-          onClick={handleOnlineClick}
-        >
-          <div className={'circle-wrapper'}>
-            <div className={'circle'}>
-              <OnlineIcon />
-            </div>
-          </div>
-          <div className={'on-off-title'}>온라인</div>
-          <div className={'on-off-subtitle'}>비대면 미팅</div>
+    <div className={'create-wrapper'}>
+      <div className={'padding-wrapper'}>
+        <div className={'description-text'}>
+          {'어디에서'}
+          <br /> {'만나면 좋을까요?'}
         </div>
-        <div
-          className={classNames(
-            'on-off-btn',
-            isOnline ? 'disabled' : 'selected'
-          )}
-          onClick={handleOfflineClick}
-        >
-          <div className={'circle-wrapper'}>
-            <div className={'circle'}>
-              <OfflineIcon />
-            </div>
-          </div>
-          <div className={'on-off-title'}>오프라인</div>
-          <div className={'on-off-subtitle'}>대면 미팅</div>
-        </div>
-      </div>
 
-      <div className={'on-off-textfield'}>
-        <div className={'title'}>{isOnline ? '접속링크' : '장소'}</div>
-        <input
-          type="text"
-          className={'field'}
-          value={isOnline ? eventZoomAddress : eventPlace}
-          onChange={isOnline ? handleOnlineChange : handleOfflineChange}
-          maxLength={isOnline ? 100 : 30}
-          placeholder={
-            isOnline
-              ? '링크를 입력하세요.'
-              : '만날 장소 또는 주소를 입력하세요.'
-          }
-        />
-        {isOnline && (
-          <div className={'skip-text'}>
-            {'아직 링크가 없다면 건너뛰기를 눌러주세요.'}
+        <div className={'on-off-group'}>
+          <div
+            className={classNames(
+              'on-off-btn',
+              isOnline ? 'selected' : 'disabled'
+            )}
+            onClick={handleOnlineClick}
+          >
+            <div className={'circle-wrapper'}>
+              <div className={'circle'}>
+                <OnlineIcon />
+              </div>
+            </div>
+            <div className={'on-off-title'}>온라인</div>
+            <div className={'on-off-subtitle'}>비대면 미팅</div>
           </div>
-        )}
+          <div
+            className={classNames(
+              'on-off-btn',
+              isOnline ? 'disabled' : 'selected'
+            )}
+            onClick={handleOfflineClick}
+          >
+            <div className={'circle-wrapper'}>
+              <div className={'circle'}>
+                <OfflineIcon />
+              </div>
+            </div>
+            <div className={'on-off-title'}>오프라인</div>
+            <div className={'on-off-subtitle'}>대면 미팅</div>
+          </div>
+        </div>
+
+        <div className={'on-off-textfield'}>
+          <div className={'title'}>{isOnline ? '접속링크' : '장소'}</div>
+          <input
+            type="text"
+            className={'field'}
+            value={isOnline ? eventZoomAddress : eventPlace}
+            onChange={isOnline ? handleOnlineChange : handleOfflineChange}
+            maxLength={isOnline ? 100 : 30}
+            placeholder={
+              isOnline
+                ? '링크를 입력하세요.'
+                : '만날 장소 또는 주소를 입력하세요.'
+            }
+          />
+          {isOnline && (
+            <div className={'skip-text'}>
+              {'아직 링크가 없다면 건너뛰기를 눌러주세요.'}
+            </div>
+          )}
+        </div>
       </div>
       <BottomButton
         onClick={!isOnline && eventPlace === '' ? undefined : handlePostClick}
