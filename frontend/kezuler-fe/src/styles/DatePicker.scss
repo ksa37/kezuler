@@ -498,6 +498,10 @@ $datepicker__triangle-size: 8px !default;
     line-height: $datepicker__item-size;
     text-align: center;
     margin: $datepicker__day-margin;
+
+    // &.react-datepicker__day--weekend {
+    //   color: rgb(220, 108, 108);
+    // }
   }
 
   .react-datepicker__day-name {
