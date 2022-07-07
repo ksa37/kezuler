@@ -36,7 +36,7 @@ type PatchUserPayload struct {
 	Name         string `json:"userName,omitempty" bson:"name,omitempty"`
 	ProfileImage string `json:"userProfileImage,omitempty" bson:"profileImage,omitempty"`
 	Timezone     string `json:"userTimezone,omitempty" bson:"timezone,omitempty"`
-	Email        string `json:"userEmail" bson:"email"`
+	Email        string `json:"userEmail,omitempty" bson:"email,omitempty"`
 }
 
 type PostUserClaims struct {
@@ -174,4 +174,48 @@ type FixedEventClaims struct {
 	Attachment   string                   `json:"eventAttachment" bson:"attachment"`
 	Participants []FixedEventUserWithInfo `json:"participants" bson:"participants"`
 	IsDisabled   bool                     `json:"isDisabled" bson:"isDisabled"`
+}
+
+type AlLimTokRequest struct {
+	PlusFriendId string `json:"plusFriendId"`
+	TemplateCode string `json:"templateCode"`
+	Messages     []struct {
+		CountryCode   string `json:"countryCode"`
+		To            string `json:"to"`
+		Title         string `json:"title"`
+		Content       string `json:"content"`
+		HeaderContent string `json:"headerContent"`
+		ItemHighlight struct {
+			Title       string `json:"title"`
+			Description string `json:"description"`
+		} `json:"itemHighlight"`
+		Item struct {
+			List []struct {
+				Title       string `json:"title"`
+				Description string `json:"description"`
+			} `json:"list"`
+			Summary struct {
+				Title       string `json:"title"`
+				Description string `json:"description"`
+			} `json:"summary"`
+		} `json:"item"`
+		Buttons []struct {
+			Type          string `json:"type"`
+			Name          string `json:"name"`
+			LinkMobile    string `json:"linkMobile"`
+			LinkPc        string `json:"linkPc"`
+			SchemeIos     string `json:"schemeIos"`
+			SchemeAndroid string `json:"schemeAndroid"`
+		} `json:"buttons"`
+		UseSmsFailover string `json:"useSmsFailover"`
+		FailoverConfig struct {
+			Type    string `json:"type"`
+			From    string `json:"from"`
+			Subject string `json:"subject"`
+			Content string `json:"content"`
+		} `json:"failoverConfig"`
+	} `json:"messages"`
+	ReserveTime     string `json:"reserveTime"`
+	ReserveTimeZone string `json:"reserveTimeZone"`
+	ScheduleCode    string `json:"scheduleCode"`
 }
