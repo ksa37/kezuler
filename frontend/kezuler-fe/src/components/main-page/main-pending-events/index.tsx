@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import classNames from 'classnames';
 
-// import classNames from 'classnames';
 import useMainPending from 'src/hooks/useMainPending';
 
 import BottomPopper from '../../common/BottomPopper';
 import PendingEventCard from './PendingEventCard';
 
 import BottomCalendarBg from 'src/assets/img_bottom_popper_calendar.svg';
+import MainButtonContainer from "../MainButtonContainer";
 function MainPendingEvents() {
   const { events, isFetched, getPendingEvents } = useMainPending();
 
