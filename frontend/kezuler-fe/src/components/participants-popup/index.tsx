@@ -111,7 +111,7 @@ function ParticipantsPopup() {
             )}
           </div>
         </div>,
-        document.body
+        document.getElementById('App') || document.body
       )
     : null;
 }

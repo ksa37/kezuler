@@ -49,68 +49,70 @@ function MeetingInfoForm() {
   const eventAttachmentDescription = 'URL주소를 입력해주세요.';
 
   return (
-    <div className={'padding-wrapper'}>
-      <div className={'description-text'}>
-        {'이번 미팅에 대해'}
-        <br />
-        {'알려주세요'}
-      </div>
-      <div className={classNames('meeting-info', 'required')}>
-        <div className={classNames('meeting-title')}>
-          <span className={classNames('meeting-title-text')}>미팅제목</span>
-          <span className={classNames('meeting-title-required')}>
-            *필수사항
-          </span>
+    <div className={'create-wrapper'}>
+      <div className={'padding-wrapper'}>
+        <div className={'description-text'}>
+          {'이번 미팅에 대해'}
+          <br />
+          {'알려주세요'}
         </div>
-        <input
-          type="text"
-          id="title"
-          required
-          className={classNames(
-            'meeting-field-title-and-reference',
-            'required'
-          )}
-          placeholder={eventTitleDescription}
-          value={eventTitle}
-          maxLength={15}
-          onChange={handleEventTitleChange}
-          onKeyPress={handleEnter}
-        />
-      </div>
-      <div className={classNames('meeting-info', 'additional')}>
-        <div className={classNames('meeting-additional')}>
-          <span className={classNames('meeting-additional-text')}>
-            추가정보
-          </span>
-          <span className={classNames('meeting-additional-additional')}>
-            선택사항
-          </span>
+        <div className={classNames('meeting-info', 'required')}>
+          <div className={classNames('meeting-title')}>
+            <span className={classNames('meeting-title-text')}>미팅제목</span>
+            <span className={classNames('meeting-title-required')}>
+              *필수사항
+            </span>
+          </div>
+          <input
+            type="text"
+            id="title"
+            required
+            className={classNames(
+              'meeting-field-title-and-reference',
+              'required'
+            )}
+            placeholder={eventTitleDescription}
+            value={eventTitle}
+            maxLength={15}
+            onChange={handleEventTitleChange}
+            onKeyPress={handleEnter}
+          />
         </div>
-        <textarea
-          id="description"
-          className={classNames(
-            'meeting-field-title-and-reference',
-            'description'
-          )}
-          placeholder={eventDescriptDescription}
-          value={eventDescription}
-          maxLength={100}
-          onChange={handleEventDescriptionChange}
-        />
-        <div className={classNames('meeting-additional', 'url')}>
-          <span className={classNames('meeting-additional-text')}>
-            참고자료
-          </span>
+        <div className={classNames('meeting-info', 'additional')}>
+          <div className={classNames('meeting-additional')}>
+            <span className={classNames('meeting-additional-text')}>
+              추가정보
+            </span>
+            <span className={classNames('meeting-additional-additional')}>
+              선택사항
+            </span>
+          </div>
+          <textarea
+            id="description"
+            className={classNames(
+              'meeting-field-title-and-reference',
+              'description'
+            )}
+            placeholder={eventDescriptDescription}
+            value={eventDescription}
+            maxLength={100}
+            onChange={handleEventDescriptionChange}
+          />
+          <div className={classNames('meeting-additional', 'url')}>
+            <span className={classNames('meeting-additional-text')}>
+              참고자료
+            </span>
+          </div>
+          <input
+            type="text"
+            id="url"
+            className={'meeting-field-title-and-reference'}
+            placeholder={eventAttachmentDescription}
+            value={eventAttachment}
+            maxLength={25}
+            onChange={handleEventAttachmentChange}
+          />
         </div>
-        <input
-          type="text"
-          id="url"
-          className={'meeting-field-title-and-reference'}
-          placeholder={eventAttachmentDescription}
-          value={eventAttachment}
-          maxLength={25}
-          onChange={handleEventAttachmentChange}
-        />
       </div>
       <BottomButton
         disabled={eventTitle ? false : true}

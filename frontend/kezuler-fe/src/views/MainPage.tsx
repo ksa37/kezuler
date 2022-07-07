@@ -7,7 +7,8 @@ import { mainPendingActions } from 'src/reducers/mainPending';
 import { AppDispatch } from 'src/store';
 
 import MainAppBar from 'src/components/common/MainAppBar';
-import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
+import MainFixedEvents from 'src/components/main-page/main-fixed-events';
+import MainPendingEvents from 'src/components/main-page/main-pending-events';
 import MainTab from 'src/components/main-page/MainTab';
 
 import 'src/styles/main.scss';
@@ -38,7 +39,6 @@ function MainPage() {
         사업자 등록번호 736-87-01642
       </footer> */}
       </div>
-      <MainButtonContainer />
     </div>
   );
 }

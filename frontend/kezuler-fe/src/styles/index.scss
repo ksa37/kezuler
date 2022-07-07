@@ -2,17 +2,18 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 * {
+  word-break: keep-all;
   font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
     'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR',
     'Malgun Gothic', sans-serif;
 }
 
 .App {
-  word-break: keep-all;
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
   position: relative;
   overflow-x: hidden;
+  background: $color-background;
   @media (min-width: $pc-view-width) {
     @media (min-width: 415px) {
       width: 414px;

@@ -10,7 +10,7 @@ import 'src/styles/dialog.scss';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" id="App">
       <RootRoutes />
       <KezulerDialog />
       <ParticipantsPopup />
