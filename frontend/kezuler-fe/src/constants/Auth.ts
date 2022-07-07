@@ -1,7 +1,7 @@
-const CURRENT_HOST = 'https://kezuler.com';
+const CURRENT_HOST = 'http://kezuler.com';
 
 const CLIENT_ID = '0c7841de042de4b73e3a11c1af2f6671';
-const REDIRECT_URI = 'https://kezuler.com/oauth/kakao/token';
+const REDIRECT_URI = 'http://kezuler.com/oauth/kakao/token';
 // const REDIRECT_URI = 'http://localhost:3000/oauth/kakao/token';
 
 const KAKAO_BASE_URL = 'https://kauth.kakao.com/oauth';
