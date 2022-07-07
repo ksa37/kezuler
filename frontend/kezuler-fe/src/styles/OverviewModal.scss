@@ -1,5 +1,12 @@
 @import './constants';
 
+.overview-modal {
+  background: none;
+  box-shadow: none;
+  width: 100%;
+  align-items: center;
+}
+
 .overview {
   display: flex;
   align-items: center;

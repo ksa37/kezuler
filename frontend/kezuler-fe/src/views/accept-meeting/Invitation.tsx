@@ -58,7 +58,7 @@ function Invitation() {
           description: '해당 미팅의 호스트입니다.',
         })
       );
-      navigate(`${PathName.main}`);
+      navigate(`${PathName.mainPending}`);
     } else if (isModification(eventTimeCandidates, declinedUsers)) {
       navigate(`${PathName.modify}/${eventId}`);
     } else {

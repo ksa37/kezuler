@@ -1,23 +1,24 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import classNames from 'classnames';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';
+import PathName from 'src/constants/PathName';
 
 import { ReactComponent as TodayIcon } from 'src/assets/icn_today.svg';
 
-interface Props {
-  isFixedMeeting: boolean;
-  setIsFixedMeeting: React.Dispatch<React.SetStateAction<boolean>>;
-}
+function MainTab() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isFixedMeeting = location.pathname.startsWith(PathName.mainFixed);
 
-function MainTab({ isFixedMeeting, setIsFixedMeeting }: Props) {
   const handleFixedClick = () => {
-    setIsFixedMeeting(true);
+    navigate(PathName.mainFixed, { replace: true });
   };
 
   const handlePendingClick = () => {
-    setIsFixedMeeting(false);
+    navigate(PathName.mainPending, { replace: true });
   };
 
   const handleTodayClick = () => {

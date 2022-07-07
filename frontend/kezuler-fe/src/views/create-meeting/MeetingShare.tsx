@@ -49,7 +49,7 @@ function MeetingShare() {
   }, []);
 
   const handleHomeClick = () => {
-    navigate(PathName.main);
+    navigate(PathName.mainPending);
   };
 
   const handleKakaoShareClick = () => {
