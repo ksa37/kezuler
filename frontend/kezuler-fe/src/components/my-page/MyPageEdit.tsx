@@ -43,8 +43,6 @@ function MyPageEdit({
     changeUser(data, {
       onSuccess: () => {
         getUserInfo({ onFinally: goToMain });
-        console.log('success');
-        location.reload();
       },
     });
   };

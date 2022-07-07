@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
+import { SettingUser } from 'src/types/user';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 import MyPageAppBar from 'src/components/common/MyPageAppBar';
@@ -17,7 +18,21 @@ function MyPage() {
     setIsEdit(false);
   };
 
-  const currentUser = useMemo(() => getCurrentUserInfo(), []);
+  const [currentUser, setCurrentUser] = useState<SettingUser | null>(
+    getCurrentUserInfo()
+  );
+  useEffect(() => {
+    console.log('re');
+    const handler = () => {
+      console.log('htnkjndsk');
+      setCurrentUser(getCurrentUserInfo());
+    };
+    window.addEventListener('storage', handler);
+
+    return () => window.removeEventListener('storage', handler);
+  }, []);
+
+  // const currentUser = useMemo(() => getCurrentUserInfo(), []);
 
   return (
     <>

@@ -73,7 +73,7 @@ function CreateMeeting() {
 
   const navigate = useNavigate();
   const handleFirstPrevClick = () => {
-    navigate(PathName.main);
+    navigate(-1);
   };
 
   const backgroundSetter = () => {

@@ -38,6 +38,10 @@ function RootRoutes() {
         <main>
           <Routes>
             <Route path={PathName.main} element={<MainPage />}>
+              <Route
+                index
+                element={<Navigate replace to={PathName.mainFixed} />}
+              />
               <Route path={PathName.mainFixed} element={<MainFixedEvents />}>
                 <Route
                   path={PathName.mainFixedIdInfo}
@@ -68,9 +72,21 @@ function RootRoutes() {
             </Route>
             <Route path={PathName.notification} element={<NotiPage />} />
             <Route path={PathName.myPage} element={<MyPage />} />
-            <Route path={PathName.pending} element={<>login</>} />
-            <Route path={PathName.delete} element={<>login</>} />
             <Route path={PathName.create} element={<CreateMeeting />} />
+            {/* <Route
+                index
+                element={<Navigate replace to={PathName.createInfo} />}
+              />
+              <Route path={PathName.createInfo} element={<>login</>} />
+              <Route path={PathName.createTime} element={<>login</>} />
+              <Route path={PathName.createCheck} element={<>login</>} />
+              <Route path={PathName.createPlace} element={<>login</>} />
+              <Route path={PathName.createComplete} element={<>login</>} />
+              <Route
+                path="*"
+                element={<Navigate replace to={PathName.createInfo} />}
+              />
+            </Route> */}
             <Route
               path={`${PathName.modify}/:eventModifyId`}
               element={<SelectionModifier />}
@@ -85,7 +101,10 @@ function RootRoutes() {
             />
             <Route path={`/test-page`} element={<TestPage />} />
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
-            <Route path="*" element={<Navigate replace to={PathName.main} />} />
+            <Route
+              path="*"
+              element={<Navigate replace to={PathName.mainFixed} />}
+            />
           </Routes>
         </main>
       ) : (

@@ -13,8 +13,11 @@ const PathName = {
   delete: '/delete',
   create: '/create',
   createInfo: '/create/info',
+  createTime: '/create/time',
+  createCheck: '/create/check',
+  createPlace: '/create/place',
+  createComplete: '/create/complete',
   invite: '/invite',
-  share: '/share',
   modify: '/modify',
   confirm: '/confirm',
 
