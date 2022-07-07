@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Avatar } from '@mui/material';
@@ -9,6 +9,7 @@ import { usePatchUser } from 'src/hooks/usePatchUser';
 import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from 'src/store';
 import { SettingUser } from 'src/types/user';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 import BottomButton from '../common/BottomButton';
 
@@ -42,6 +43,8 @@ function MyPageEdit({
     changeUser(data, {
       onSuccess: () => {
         getUserInfo({ onFinally: goToMain });
+        console.log('success');
+        location.reload();
       },
     });
   };

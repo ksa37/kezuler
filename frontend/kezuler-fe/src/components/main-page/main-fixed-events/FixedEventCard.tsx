@@ -113,11 +113,17 @@ function FixedEventCard({ event, hasTodayId }: Props) {
       </div>
       <div
         className={classNames('fixed-event-card-info', {
-          isCanceled: isCanceled,
+          'is-canceled': isCanceled,
         })}
       >
         <div>
-          <span className={'fixed-event-card-time'}>{dailyTime}</span>
+          <span
+            className={classNames('fixed-event-card-time', {
+              'is-passed': tense === 'past',
+            })}
+          >
+            {dailyTime}
+          </span>
           {dDay}
         </div>
         <div>{event.eventTitle}</div>

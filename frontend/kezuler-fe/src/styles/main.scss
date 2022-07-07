@@ -202,7 +202,7 @@
     }
   }
 
-  &.isCanceled {
+  &.is-canceled {
     > div {
       &:last-child {
         margin-top: 4px;
@@ -214,6 +214,10 @@
 .fixed-event-card-time {
   color: $color-highlight;
   font-weight: bold;
+
+  &.is-passed {
+    color: #bfbfbf;
+  }
 }
 
 .fixed-event-card-place {
