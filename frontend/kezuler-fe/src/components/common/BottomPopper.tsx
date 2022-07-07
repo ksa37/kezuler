@@ -10,6 +10,7 @@ interface Props {
   description?: string;
   buttonText: string;
   onClick: () => void;
+  onDisableClick?: () => void;
   image: string;
   isSmallTitle?: boolean;
   disableDelete?: boolean;
@@ -24,6 +25,7 @@ function BottomPopper({
   description,
   buttonText,
   onClick,
+  onDisableClick,
   image,
   isSmallTitle,
   disableDelete = false,
@@ -34,6 +36,7 @@ function BottomPopper({
   const [isOpen, setIsOpen] = useState(true);
 
   const handleCloseClick = () => {
+    onDisableClick && onDisableClick();
     setIsOpen(false);
   };
 
@@ -45,6 +48,7 @@ function BottomPopper({
       className={classNames('bottom-popper', { 'not-fixed': notFixed })}
       style={{
         backgroundImage: `linear-gradient(#fad94f, #fad94f33), url(${image})`,
+        opacity: '0.8',
       }}
     >
       {disableDelete ? (

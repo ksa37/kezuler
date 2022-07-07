@@ -90,27 +90,29 @@ function MainFixedEvents() {
   }
 
   return (
-    <div className={'main-fixed'}>
-      {events.map((e, i) => {
-        const curMonth = getMonthFromTimeStamp(e.eventTimeStartsAt);
-        return (
-          <React.Fragment key={e.eventId}>
-            {(i === 0 ||
-              (i >= 1 &&
-                getMonthFromTimeStamp(events[i - 1].eventTimeStartsAt) !==
-                  curMonth)) && (
-              <h1 className={'main-fixed-month-divider'}>{curMonth}월</h1>
-            )}
-            <FixedEventCard
-              key={e.eventId}
-              event={e}
-              hasTodayId={i === todayIdTargetIdx}
-            />
-          </React.Fragment>
-        );
-      })}
+    <>
+      <div className={'main-fixed'}>
+        {events.map((e, i) => {
+          const curMonth = getMonthFromTimeStamp(e.eventTimeStartsAt);
+          return (
+            <React.Fragment key={e.eventId}>
+              {(i === 0 ||
+                (i >= 1 &&
+                  getMonthFromTimeStamp(events[i - 1].eventTimeStartsAt) !==
+                    curMonth)) && (
+                <h1 className={'main-fixed-month-divider'}>{curMonth}월</h1>
+              )}
+              <FixedEventCard
+                key={e.eventId}
+                event={e}
+                hasTodayId={i === todayIdTargetIdx}
+              />
+            </React.Fragment>
+          );
+        })}
+      </div>
       <MainButtonContainer />
-    </div>
+    </>
   );
 }
 
