@@ -13,7 +13,9 @@ function AcceptanceCompletion() {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
-    navigate(PathName.main, { replace: true, state: { isFixed: false } });
+    navigate(PathName.mainPending, {
+      replace: true,
+    });
   };
 
   return (

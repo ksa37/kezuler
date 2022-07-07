@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';
 import PathName from 'src/constants/PathName';
@@ -13,7 +13,6 @@ import getTimezoneDate from 'src/utils/getTimezoneDate';
 import BottomPopper from '../../common/BottomPopper';
 import FixedEventCard from './FixedEventCard';
 import EmptyFixedEventCard from 'src/components/main-page/main-fixed-events/EmptyFixedEventCard';
-import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
 
 import BottomCardBg from 'src/assets/img_bottom_popper_cards.svg';
 
@@ -109,6 +108,7 @@ function MainFixedEvents() {
           </React.Fragment>
         );
       })}
+      <Outlet />
       <MainButtonContainer />
     </div>
   );

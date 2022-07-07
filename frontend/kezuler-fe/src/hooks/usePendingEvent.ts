@@ -43,7 +43,7 @@ const useGetPendingEvent = () => {
             description: '미팅 정보를 불러올 수 없습니다.',
           })
         );
-        navigate(PathName.main, { state: { isFixed: false } });
+        navigate(PathName.mainPending);
       });
   };
 
@@ -72,7 +72,7 @@ const useGetInvitation = () => {
             description: '미팅 정보를 불러올 수 없습니다.',
           })
         );
-        navigate(PathName.main);
+        navigate(PathName.mainPending);
       });
   };
 

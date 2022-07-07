@@ -5,9 +5,9 @@ import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
-import OverviewDropdown from 'src/components/modal/overview-modal/OverviewDropdown';
-import OverviewParticipants from 'src/components/modal/overview-modal/OverviewParticipants';
-import OverviewSection from 'src/components/modal/overview-modal/OverviewSection';
+import OverviewDropdown from './OverviewDropdown';
+import OverviewParticipants from './OverviewParticipants';
+import OverviewSection from './OverviewSection';
 
 import { ReactComponent as CopyIcon } from 'src/assets/icn_copy.svg';
 import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';

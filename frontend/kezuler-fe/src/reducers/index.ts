@@ -6,7 +6,6 @@ import CreateMeeting from './CreateMeeting';
 import dialog from './dialog';
 import mainFixed from './mainFixed';
 import mainPending from './mainPending';
-import modal from './modal';
 import participantsPopup from './ParticipantsPopup';
 import userInfo from './UserInfo';
 
@@ -16,7 +15,6 @@ const rootReducer = combineReducers({
   mainFixed: mainFixed,
   mainPending: mainPending,
   userInfo: userInfo,
-  modal: modal,
   dialog: dialog,
   participantsPopup: participantsPopup,
   confirmTime: ConfirmTime,

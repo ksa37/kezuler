@@ -16,6 +16,9 @@ import MyPage from 'src/views/MyPage';
 import NotiPage from 'src/views/NotiPage';
 import TimeConfirmator from 'src/views/pending-event/TimeConfirmator';
 import TestPage from 'src/views/TestPage';
+import MainFixedEvents from 'src/components/main-page/main-fixed-events';
+import MainPendingEvents from 'src/components/main-page/main-pending-events';
+import OverviewModal from 'src/components/main-page/overview-modal';
 
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
@@ -34,7 +37,35 @@ function RootRoutes() {
       {isLoggedIn ? (
         <main>
           <Routes>
-            <Route path={PathName.main} element={<MainPage />} />
+            <Route path={PathName.main} element={<MainPage />}>
+              <Route path={PathName.mainFixed} element={<MainFixedEvents />}>
+                <Route
+                  path={PathName.mainFixedIdInfo}
+                  element={<OverviewModal />}
+                />
+                <Route
+                  path={PathName.mainFixedIdInfoEdit}
+                  element={<OverviewModal />}
+                />
+              </Route>
+              <Route
+                path={PathName.mainPending}
+                element={<MainPendingEvents />}
+              >
+                <Route
+                  path={PathName.mainPendingIdInfo}
+                  element={<OverviewModal />}
+                />
+                <Route
+                  path={PathName.mainPendingIdInfoEdit}
+                  element={<OverviewModal />}
+                />
+              </Route>
+              <Route
+                path="*"
+                element={<Navigate replace to={PathName.mainFixed} />}
+              />
+            </Route>
             <Route path={PathName.notification} element={<NotiPage />} />
             <Route path={PathName.myPage} element={<MyPage />} />
             <Route path={PathName.pending} element={<>login</>} />
@@ -54,10 +85,7 @@ function RootRoutes() {
             />
             <Route path={`/test-page`} element={<TestPage />} />
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
-            <Route
-              path="/*"
-              element={<Navigate replace to={PathName.main} />}
-            />
+            <Route path="*" element={<Navigate replace to={PathName.main} />} />
           </Routes>
         </main>
       ) : (
@@ -71,7 +99,7 @@ function RootRoutes() {
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
             <Route path={`/test-page`} element={<TestPage />} />
             <Route
-              path="/*"
+              path="*"
               element={<Navigate replace to={PathName.login} />}
             />
           </Routes>
