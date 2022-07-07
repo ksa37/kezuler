@@ -72,9 +72,9 @@ function MainFixedEvents() {
           {getMonthFromTimeStamp()}월
         </h1>
         <EmptyFixedEventCard />
-        <h2 className={'main-empty-h2'}>
+        {/* <h2 className={'main-empty-h2'}>
           {'다가오는 미팅이 없습니다.\n혹시 잊으신 일정은 없나요?'}
-        </h2>
+        </h2> */}
         {/* <MainButtonContainer /> */}
         <BottomPopper
           title={'단 하나의 링크로 미팅 확정까지!'}
