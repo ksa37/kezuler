@@ -17,18 +17,15 @@ function MyPage() {
     setIsEdit(false);
   };
 
-  const currentUser = useMemo(() => getCurrentUserInfo(), []);
-
   return (
     <>
       <MyPageAppBar isEdit={isEdit} goToMain={goToMain} />
       <div className={'my-page'}>
-        {currentUser &&
-          (isEdit ? (
-            <MyPageEdit currentUser={currentUser} goToMain={goToMain} />
-          ) : (
-            <MyPageMain currentUser={currentUser} goToEdit={goToEdit} />
-          ))}
+        {isEdit ? (
+          <MyPageEdit goToMain={goToMain} />
+        ) : (
+          <MyPageMain goToEdit={goToEdit} />
+        )}
       </div>
     </>
   );

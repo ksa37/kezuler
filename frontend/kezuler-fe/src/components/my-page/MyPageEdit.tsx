@@ -16,7 +16,6 @@ import BottomButton from '../common/BottomButton';
 import { ReactComponent as PlusIconYellow } from 'src/assets/btn_plus_y.svg';
 
 interface Props {
-  currentUser: SettingUser;
   goToMain: () => void;
 }
 
@@ -26,10 +25,11 @@ interface UserForm {
   userProfileImage: string;
 }
 
-function MyPageEdit({
-  currentUser: { userName, userEmail, userProfileImage },
-  goToMain,
-}: Props) {
+function MyPageEdit({ goToMain }: Props) {
+  const { userName, userEmail, userProfileImage } = useMemo(
+    () => ({ ...getCurrentUserInfo() }),
+    []
+  );
   const { register, handleSubmit, setValue, watch } = useForm<UserForm>();
   const watchProfileImage = watch('userProfileImage', userProfileImage);
   const dispatch = useDispatch<AppDispatch>();
@@ -44,7 +44,8 @@ function MyPageEdit({
       onSuccess: () => {
         getUserInfo({ onFinally: goToMain });
         console.log('success');
-        location.reload();
+        localStorage.setItem('hihi', 'hello');
+        // location.reload();
       },
     });
   };

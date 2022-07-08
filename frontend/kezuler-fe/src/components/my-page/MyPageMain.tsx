@@ -29,14 +29,15 @@ import { ReactComponent as ToggleOnIcon } from 'src/assets/toggle_on.svg';
 import 'src/styles/myPage.scss';
 
 interface Props {
-  currentUser: SettingUser;
   goToEdit: () => void;
 }
 
-function MyPageMain({
-  currentUser: { userProfileImage, userName, userEmail, userTimezone },
-  goToEdit,
-}: Props) {
+function MyPageMain({ goToEdit }: Props) {
+  const { userTimezone, userProfileImage, userEmail, userName } = useMemo(
+    () => ({ ...getCurrentUserInfo() }),
+    []
+  );
+
   const handleLogoutClick = () => {
     deleteCookie(ACCESS_TOKEN_KEY);
     deleteCookie(REFRESH_TOKEN_KEY);
