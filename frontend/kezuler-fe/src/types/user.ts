@@ -15,7 +15,20 @@ interface SettingUser extends User {
   userGoogleCalendarId?: string;
 }
 
-type PPatchUser = Partial<SettingUser>;
+type ChangeTypeOfKeys<T extends object, Keys extends keyof T, NewType> = {
+  [key in keyof T]: key extends Keys ? NewType : T[key];
+};
+
+type PPatchUser = ChangeTypeOfKeys<
+  Partial<SettingUser>,
+  'userProfileImage',
+  File
+>;
+
+type PPatchUserExceptProfileImage = Pick<
+  Partial<SettingUser>,
+  Exclude<keyof SettingUser, 'userProfileImage'>
+>;
 
 interface UserToken {
   tokenType: string;
@@ -29,4 +42,10 @@ interface RPostUser extends SettingUser {
   userToken: UserToken;
 }
 
-export type { SettingUser, User, PPatchUser, RPostUser };
+export type {
+  SettingUser,
+  User,
+  PPatchUser,
+  PPatchUserExceptProfileImage,
+  RPostUser,
+};

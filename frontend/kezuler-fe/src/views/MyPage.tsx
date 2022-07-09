@@ -1,6 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
-
-import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
+import React, { useState } from 'react';
 
 import MyPageAppBar from 'src/components/common/MyPageAppBar';
 import MyPageEdit from 'src/components/my-page/MyPageEdit';

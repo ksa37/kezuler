@@ -1,14 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { Avatar } from '@mui/material';
 import classNames from 'classnames';
 
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
-import { dialogAction } from 'src/reducers/dialog';
-import { AppDispatch } from 'src/store';
-import { SettingUser } from 'src/types/user';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 import BottomButton from '../common/BottomButton';
@@ -22,7 +18,7 @@ interface Props {
 interface UserForm {
   userName: string;
   userEmail: string;
-  userProfileImage: string;
+  userProfileImage: File;
 }
 
 function MyPageEdit({ goToMain }: Props) {
@@ -31,11 +27,31 @@ function MyPageEdit({ goToMain }: Props) {
     []
   );
   const { register, handleSubmit, setValue, watch } = useForm<UserForm>();
-  const watchProfileImage = watch('userProfileImage', userProfileImage);
-  const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const watchProfileImage = watch('userProfileImage');
+
   const { changeUser } = usePatchUser();
   const { getUserInfo } = useGetUserInfo();
+
+  const [previewImage, setPreviewImage] = useState(userProfileImage);
+
+  const encodeAndPreview = (file: File) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      if (base64) {
+        const encoded = base64 as string;
+        setPreviewImage(encoded);
+      }
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  useEffect(() => {
+    encodeAndPreview(watchProfileImage);
+  }, [watchProfileImage]);
 
   const onValid: SubmitHandler<UserForm> = (data) => {
     //TODO
@@ -54,19 +70,9 @@ function MyPageEdit({ goToMain }: Props) {
   };
 
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result;
-      if (base64) {
-        const encoded = base64 as string;
-        setValue('userProfileImage', encoded);
-      } else {
-        dispatch(show({ title: '이미지 변환을 실패했습니다.' }));
-      }
-      e.target.value = '';
-    };
-    if (e.target.files?.[0]) {
-      reader.readAsDataURL(e.target.files[0]);
+    const file = e.target.files?.[0];
+    if (file) {
+      setValue('userProfileImage', file);
     }
   };
 
@@ -100,7 +106,7 @@ function MyPageEdit({ goToMain }: Props) {
             />
             <Avatar
               className={'my-page-edit-avatar-img'}
-              src={watchProfileImage}
+              src={previewImage}
               alt={userName}
             />
             <PlusIconYellow className={'my-page-edit-avatar-plus-icn'} />
