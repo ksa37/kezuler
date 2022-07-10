@@ -24,6 +24,12 @@ type S3AuthInfo struct {
 	AwsSecretAccessKey string `json:"aws_secret_access_key"`
 }
 
+type NcpAuthInfo struct {
+	serviceId string `json:"serviceId"`
+	AccessKey string `json:"accessKey"`
+	SecretKey string `json:"secretKey"`
+}
+
 func connect() *mongo.Client {
 	b, err := ioutil.ReadFile("./utils/mongodb_auth.json")
 	if err != nil {
