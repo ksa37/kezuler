@@ -56,8 +56,6 @@ func postUser(w http.ResponseWriter, kakaoAuthToken string) {
 	var result User
 	err = coll.FindOne(context.TODO(), bson.D{{"kakaoId", kakaoInfo.Id}}).Decode(&result)
 
-	//TODO: Fix logic for downloading UserProfileImage
-	//TODO: Add Phone number logic after kakao biz sync is done
 	if err == mongo.ErrNoDocuments {
 		newUserId := uniuri.NewLen(8)
 		newProfileImagePath := "https://kezuler-images.s3.ap-northeast-2.amazonaws.com/profileImage/" + newUserId + ".png"
@@ -87,11 +85,21 @@ func postUser(w http.ResponseWriter, kakaoAuthToken string) {
 
 		claimByte, err := json.Marshal(postUserClaim)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusNotFound)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.Header().Set("content-type", "application/json")
-		w.Write(claimByte)
+		_, err = w.Write(claimByte)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		//Send Alimtalk when new user is created
+		err = postUserAlimTalk(postUserClaim)
+		if err != nil {
+			log.Println(err)
+		}
 	} else {
 		jsonRes, err := json.Marshal(result)
 		if err != nil {
@@ -99,7 +107,11 @@ func postUser(w http.ResponseWriter, kakaoAuthToken string) {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write(jsonRes)
+		_, err = w.Write(jsonRes)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 }
 
@@ -123,7 +135,11 @@ func getUserWithId(w http.ResponseWriter, serviceAuthToken string) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(jsonRes)
+	_, err = w.Write(jsonRes)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func patchUserWithId(w http.ResponseWriter, serviceAuthToken string, payload PatchUserPayload) {
@@ -150,7 +166,11 @@ func patchUserWithId(w http.ResponseWriter, serviceAuthToken string, payload Pat
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(jsonRes)
+	_, err = w.Write(jsonRes)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func patchUseProfileImageWithId(w http.ResponseWriter, r *http.Request, serviceAuthToken string) {
@@ -162,12 +182,12 @@ func patchUseProfileImageWithId(w http.ResponseWriter, r *http.Request, serviceA
 
 	//Access the photo key - First Approach
 	file, fileHeader, err := r.FormFile("profileImage")
-	log.Println(fileHeader.Size)
-	defer file.Close()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	log.Println(fileHeader.Size)
+	defer file.Close()
 
 	//create destination file making sure the path is writeable.
 	tmpFile, err := ioutil.TempFile(os.TempDir(), "*.png")
@@ -211,7 +231,11 @@ func patchUseProfileImageWithId(w http.ResponseWriter, r *http.Request, serviceA
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(jsonRes)
+	_, err = w.Write(jsonRes)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func deleteUserWithId(w http.ResponseWriter, serviceAuthToken string) {

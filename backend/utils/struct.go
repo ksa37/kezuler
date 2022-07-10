@@ -176,46 +176,65 @@ type FixedEventClaims struct {
 	IsDisabled   bool                     `json:"isDisabled" bson:"isDisabled"`
 }
 
-type AlLimTokRequest struct {
-	PlusFriendId string `json:"plusFriendId"`
-	TemplateCode string `json:"templateCode"`
-	Messages     []struct {
-		CountryCode   string `json:"countryCode"`
-		To            string `json:"to"`
-		Title         string `json:"title"`
-		Content       string `json:"content"`
-		HeaderContent string `json:"headerContent"`
-		ItemHighlight struct {
+type AlimTalkMessageInfo struct {
+	CountryCode   string `json:"countryCode,omitempty"`
+	To            string `json:"to"`
+	Title         string `json:"title,omitempty"`
+	Content       string `json:"content"`
+	HeaderContent string `json:"headerContent,omitempty"`
+	ItemHighlight struct {
+		Title       string `json:"title"`
+		Description string `json:"description"`
+	} `json:"itemHighlight,omitempty"`
+	Item struct {
+		List []struct {
 			Title       string `json:"title"`
 			Description string `json:"description"`
-		} `json:"itemHighlight"`
-		Item struct {
-			List []struct {
-				Title       string `json:"title"`
-				Description string `json:"description"`
-			} `json:"list"`
-			Summary struct {
-				Title       string `json:"title"`
-				Description string `json:"description"`
-			} `json:"summary"`
-		} `json:"item"`
-		Buttons []struct {
-			Type          string `json:"type"`
-			Name          string `json:"name"`
-			LinkMobile    string `json:"linkMobile"`
-			LinkPc        string `json:"linkPc"`
-			SchemeIos     string `json:"schemeIos"`
-			SchemeAndroid string `json:"schemeAndroid"`
-		} `json:"buttons"`
-		UseSmsFailover string `json:"useSmsFailover"`
-		FailoverConfig struct {
-			Type    string `json:"type"`
-			From    string `json:"from"`
-			Subject string `json:"subject"`
-			Content string `json:"content"`
-		} `json:"failoverConfig"`
+		} `json:"list"`
+		Summary struct {
+			Title       string `json:"title"`
+			Description string `json:"description"`
+		} `json:"summary,omitempty"`
+	} `json:"item"`
+	Buttons []struct {
+		Type          string `json:"type"`
+		Name          string `json:"name"`
+		LinkMobile    string `json:"linkMobile"`
+		LinkPc        string `json:"linkPc"`
+		SchemeIos     string `json:"schemeIos"`
+		SchemeAndroid string `json:"schemeAndroid"`
+	} `json:"buttons,omitempty"`
+	UseSmsFailover string `json:"useSmsFailover"`
+	FailoverConfig struct {
+		Type    string `json:"type,omitempty"`
+		From    string `json:"from,omitempty"`
+		Subject string `json:"subject,omitempty"`
+		Content string `json:"content,omitempty"`
+	} `json:"failoverConfig,omitempty"`
+}
+
+type PostUserAlimTalkRequestPayload struct {
+	PlusFriendId    string                `json:"plusFriendId"`
+	TemplateCode    string                `json:"templateCode"`
+	Messages        []AlimTalkMessageInfo `json:"messages"`
+	ReserveTime     string                `json:"reserveTime,omitempty"`
+	ReserveTimeZone string                `json:"reserveTimeZone,omitempty"`
+	ScheduleCode    string                `json:"scheduleCode,omitempty"`
+}
+
+type PostUserAlimTalkResponsePayload struct {
+	RequestId   string `json:"requestId"`
+	RequestTime string `json:"requestTime"`
+	StatusCode  string `json:"statusCode"`
+	StatusName  string `json:"statusName"`
+	Messages    []struct {
+		MessageId         string `json:"messageId"`
+		CountryCode       string `json:"countryCode,omitempty"`
+		To                string `json:"to"`
+		Content           string `json:"content"`
+		RequestStatusCode string `json:"requestStatusCode"`
+		RequestStatusName string `json:"requestStatusName"`
+		RequestStatusDesc string `json:"requestStatusDesc"`
+		UseSmsFailover    string `json:"useSmsFailover"`
 	} `json:"messages"`
-	ReserveTime     string `json:"reserveTime"`
-	ReserveTimeZone string `json:"reserveTimeZone"`
-	ScheduleCode    string `json:"scheduleCode"`
 }
