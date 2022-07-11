@@ -140,7 +140,6 @@ function RootRoutes() {
       ) : (
         <main>
           <Routes>
-            <Route path={'/overview'} element={<OverviewModal />} />
             <Route
               path={`${PathName.invite}/:eventId`}
               element={<AcceptMeeting />}
