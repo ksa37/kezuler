@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Avatar } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 
 // import classNames from 'classnames';
 import PathName from 'src/constants/PathName';

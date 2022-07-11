@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Avatar } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import classNames from 'classnames';
 
 import { EventTimeCandidate } from 'src/types/pendingEvent';

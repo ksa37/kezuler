@@ -5,7 +5,7 @@ import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from 'src/store';
 import { PPatchUser } from 'src/types/user';
 
-import { patchUser } from 'src/api/user';
+import { patchUser, patchUserProfileImage } from 'src/api/user';
 
 const usePatchUser = () => {
   const [loading, setLoading] = useState(false);
@@ -20,7 +20,18 @@ const usePatchUser = () => {
     }
   ) => {
     setLoading(true);
-    patchUser(pPatchUser)
+
+    const { userProfileImage, ...patchParams } = pPatchUser;
+
+    const apiList = [];
+    if (Object.keys(patchParams).length > 0) {
+      apiList.push(patchUser(patchParams));
+    }
+    if (userProfileImage) {
+      apiList.push(patchUserProfileImage(userProfileImage));
+    }
+
+    Promise.all(apiList)
       .then(() => {
         callbacks?.onSuccess?.();
       })

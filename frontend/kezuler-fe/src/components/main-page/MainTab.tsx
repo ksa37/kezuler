@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import classNames from 'classnames';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';

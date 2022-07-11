@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import classNames from 'classnames';
 
 import { ReactComponent as CloseIcon } from 'src/assets/icn_close_b.svg';

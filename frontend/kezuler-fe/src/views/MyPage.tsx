@@ -1,6 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
-
-import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
+import React, { useState } from 'react';
 
 import MyPageAppBar from 'src/components/common/MyPageAppBar';
 import MyPageEdit from 'src/components/my-page/MyPageEdit';
@@ -17,18 +15,15 @@ function MyPage() {
     setIsEdit(false);
   };
 
-  const currentUser = useMemo(() => getCurrentUserInfo(), []);
-
   return (
     <>
       <MyPageAppBar isEdit={isEdit} goToMain={goToMain} />
       <div className={'my-page'}>
-        {currentUser &&
-          (isEdit ? (
-            <MyPageEdit currentUser={currentUser} goToMain={goToMain} />
-          ) : (
-            <MyPageMain currentUser={currentUser} goToEdit={goToEdit} />
-          ))}
+        {isEdit ? (
+          <MyPageEdit goToMain={goToMain} />
+        ) : (
+          <MyPageMain goToEdit={goToEdit} />
+        )}
       </div>
     </>
   );

@@ -1,14 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { Avatar } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import classNames from 'classnames';
 
+import { PROFILE_ACCEPTS } from 'src/constants/MyPage';
+import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
-import { dialogAction } from 'src/reducers/dialog';
-import { AppDispatch } from 'src/store';
-import { SettingUser } from 'src/types/user';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 import BottomButton from '../common/BottomButton';
@@ -16,26 +14,48 @@ import BottomButton from '../common/BottomButton';
 import { ReactComponent as PlusIconYellow } from 'src/assets/btn_plus_y.svg';
 
 interface Props {
-  currentUser: SettingUser;
   goToMain: () => void;
 }
 
 interface UserForm {
   userName: string;
   userEmail: string;
-  userProfileImage: string;
+  userProfileImage: File;
 }
 
-function MyPageEdit({
-  currentUser: { userName, userEmail, userProfileImage },
-  goToMain,
-}: Props) {
+function MyPageEdit({ goToMain }: Props) {
+  const { openDialog } = useDialog();
+
+  const { userName, userEmail, userProfileImage } = useMemo(
+    () => ({ ...getCurrentUserInfo() }),
+    []
+  );
   const { register, handleSubmit, setValue, watch } = useForm<UserForm>();
-  const watchProfileImage = watch('userProfileImage', userProfileImage);
-  const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const watchProfileImage = watch('userProfileImage');
+
   const { changeUser } = usePatchUser();
   const { getUserInfo } = useGetUserInfo();
+
+  const [previewImage, setPreviewImage] = useState(userProfileImage);
+
+  const encodeAndPreview = (file: File) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      if (base64) {
+        const encoded = base64 as string;
+        setPreviewImage(encoded);
+      }
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  useEffect(() => {
+    encodeAndPreview(watchProfileImage);
+  }, [watchProfileImage]);
 
   const onValid: SubmitHandler<UserForm> = (data) => {
     //TODO
@@ -44,7 +64,8 @@ function MyPageEdit({
       onSuccess: () => {
         getUserInfo({ onFinally: goToMain });
         console.log('success');
-        location.reload();
+        localStorage.setItem('hihi', 'hello');
+        // location.reload();
       },
     });
   };
@@ -53,20 +74,23 @@ function MyPageEdit({
   };
 
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result;
-      if (base64) {
-        const encoded = base64 as string;
-        setValue('userProfileImage', encoded);
-      } else {
-        dispatch(show({ title: '이미지 변환을 실패했습니다.' }));
-      }
-      e.target.value = '';
-    };
-    if (e.target.files?.[0]) {
-      reader.readAsDataURL(e.target.files[0]);
+    const file = e.target.files?.[0];
+    if (!file) {
+      return;
     }
+
+    const splitFile = file.name.split('.');
+    const extension = splitFile[splitFile.length - 1]?.toLowerCase();
+    if (!PROFILE_ACCEPTS.includes(extension)) {
+      openDialog({
+        title: `${PROFILE_ACCEPTS.join(
+          ', '
+        )}\n형태의 파일만 업로드 가능합니다.`,
+      });
+      return;
+    }
+
+    setValue('userProfileImage', file);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -95,11 +119,11 @@ function MyPageEdit({
               onChange={handleProfileImageChange}
               id={'profile-upload'}
               type={'file'}
-              accept="image/*"
+              accept={PROFILE_ACCEPTS.map((e) => `.${e}`).join(',')}
             />
             <Avatar
               className={'my-page-edit-avatar-img'}
-              src={watchProfileImage}
+              src={previewImage}
               alt={userName}
             />
             <PlusIconYellow className={'my-page-edit-avatar-plus-icn'} />

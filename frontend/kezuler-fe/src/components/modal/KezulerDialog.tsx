@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
 
 import { RootState } from 'src/reducers';
 import { dialogAction } from 'src/reducers/dialog';
