@@ -13,7 +13,7 @@ function KakaoRedirect() {
     if (code) {
       const path = sessionStorage.getItem(LOGIN_REDIRECT_KEY) as PathName;
       sessionStorage.removeItem(LOGIN_REDIRECT_KEY);
-      getKakaoToken(code, path ? (path as PathName) : PathName.main);
+      getKakaoToken(code, path ? (path as PathName) : PathName.mainFixed);
     }
   }, [code]);
 

@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { TextareaAutosize } from '@mui/material';
 
 import { OVERVIEW_FORM_ID, PLACE_OPTIONS } from 'src/constants/Main';
+import { makeFixedInfoUrl, makePendingInfoUrl } from 'src/constants/PathName';
 import useMainFixed from 'src/hooks/useMainFixed';
 import useMainPending from 'src/hooks/useMainPending';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
-import isURL from 'src/utils/isURL';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
+import OverviewDropdown from './OverviewDropdown';
+import OverviewParticipants from './OverviewParticipants';
+import OverviewSection from './OverviewSection';
 import KezulerDropdown from 'src/components/common/KezulerDropdown';
-import OverviewDropdown from 'src/components/modal/overview-modal/OverviewDropdown';
-import OverviewParticipants from 'src/components/modal/overview-modal/OverviewParticipants';
-import OverviewSection from 'src/components/modal/overview-modal/OverviewSection';
 
 import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
@@ -23,7 +24,6 @@ import { patchFixedEventById } from 'src/api/fixedEvent';
 import { patchPendingEventsById } from 'src/api/pendingEvent';
 
 interface Props {
-  setIsEdit: (newVal: boolean) => void;
   eventDate: string;
   event: BFixedEvent | BPendingEvent;
   isCanceled?: boolean;
@@ -69,13 +69,7 @@ const usePatchEvent = () => {
   return { loading, patch };
 };
 
-function OverviewEdit({
-  setIsEdit,
-  eventDate,
-  event,
-  isCanceled,
-  isPassed,
-}: Props) {
+function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
   const {
     eventId,
     eventTitle,
@@ -85,15 +79,17 @@ function OverviewEdit({
     eventPlace,
     eventHost: { userName: hostName, userProfileImage: hostProfileImage },
   } = event;
+  const navigate = useNavigate();
 
   const { loading, patch } = usePatchEvent();
-
   const { register, handleSubmit, setValue } = useForm<EventForm>();
 
   const onValid: SubmitHandler<EventForm> = (data) => {
     console.log(data);
     patch(isFixedEvent(event), eventId, data, () => {
-      setIsEdit(false);
+      navigate(
+        (isFixedEvent(event) ? makeFixedInfoUrl : makePendingInfoUrl)(eventId)
+      );
     });
   };
   const onInvalid: SubmitErrorHandler<EventForm> = (error) => {

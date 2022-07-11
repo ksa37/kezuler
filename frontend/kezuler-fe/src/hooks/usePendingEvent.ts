@@ -43,7 +43,7 @@ const useGetPendingEvent = () => {
             description: '미팅 정보를 불러올 수 없습니다.',
           })
         );
-        navigate(PathName.main, { state: { isFixed: false } });
+        navigate(PathName.mainPending);
       });
   };
 
@@ -72,7 +72,7 @@ const useGetInvitation = () => {
             description: '미팅 정보를 불러올 수 없습니다.',
           })
         );
-        navigate(PathName.main);
+        navigate(PathName.mainPending);
       });
   };
 
@@ -115,6 +115,7 @@ const usePostPendingEvent = () => {
           setShareUrl(`${CURRENT_HOST}${PathName.invite}/${res.data.eventId}`)
         );
         dispatch(setEventId(res.data.eventId));
+        navigate(PathName.createComplete);
         dispatch(increaseStep());
       })
       .catch((err) => {
@@ -153,7 +154,7 @@ const usePutPendingEventGuest = () => {
             description: '미팅 참여 과정 중 오류가 생겼습니다.',
           })
         );
-        navigate(`${PathName.invite}/${eventId}`, { replace: true });
+        navigate(`${PathName.invite}/${eventId}/invitation`, { replace: true });
       });
   };
   return putEventTimeCandidate;

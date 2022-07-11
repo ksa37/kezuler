@@ -46,10 +46,9 @@ function BottomPopper({
   return (
     <div
       className={classNames('bottom-popper', { 'not-fixed': notFixed })}
-      style={{
-        backgroundImage: `linear-gradient(#fad94f, #fad94f33), url(${image})`,
-        opacity: '0.8',
-      }}
+      // style={{
+      //   backgroundImage: `linear-gradient(#fad94f, #fad94f33), url(${image})`
+      // }}
     >
       {disableDelete ? (
         <div
@@ -91,6 +90,18 @@ function BottomPopper({
         {btnStartIcon}
         {buttonText}
       </button>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '0',
+          height: '100%',
+          width: '100%',
+          content: '',
+          borderTopLeftRadius: '74px',
+          backgroundImage: `linear-gradient(#fad94f, #fad94f33), url(${image})`,
+          opacity: '0.8',
+        }}
+      ></div>
     </div>
   );
 }

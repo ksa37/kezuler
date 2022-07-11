@@ -19,6 +19,7 @@ import {
 } from 'src/utils/dateParser';
 import getTimezoneDate from 'src/utils/getTimezoneDate';
 import { getDeclineReason, getSelectedOptions } from 'src/utils/joinMeeting';
+import { isModification as isModificationfunc } from 'src/utils/joinMeeting';
 
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
@@ -55,10 +56,17 @@ function TimeListSelector({ isModification }: Props) {
   const putEventTimeCandidate = usePutPendingEventGuest();
   const deleteEventTimeCandidate = useDeletePendingEventGuest();
 
+  // isModification(eventTimeCandidates, declinedUsers)
   // 가능한 시간 없는 이유 가져옴
   useEffect(() => {
     dispatch(setDeclineReason(getDeclineReason(declinedUsers)));
   }, [pendingEvent]);
+
+  useEffect(() => {
+    if (isModificationfunc(eventTimeCandidates, declinedUsers)) {
+      navigate(`/modify/${eventId}`);
+    }
+  }, []);
 
   const handlePutClick = () => {
     // 가능한 시간 있을때 활용
@@ -85,11 +93,12 @@ function TimeListSelector({ isModification }: Props) {
       if (isModification) {
         confirmMeeting = () => {
           putEventTimeCandidate(eventId, putData);
-          navigate(PathName.main, { state: { isFixed: false } });
+          navigate(PathName.mainPending);
         };
       } else {
         confirmMeeting = () => {
           putEventTimeCandidate(eventId, putData);
+          navigate(`${PathName.invite}/${eventId}/complete`);
           dispatch(increaseStep());
         };
       }
@@ -97,11 +106,12 @@ function TimeListSelector({ isModification }: Props) {
       if (isModification) {
         confirmMeeting = () => {
           deleteEventTimeCandidate(eventId, DeleteData);
-          navigate(PathName.main, { state: { isFixed: false } });
+          navigate(PathName.mainPending);
         };
       } else {
         confirmMeeting = () => {
           deleteEventTimeCandidate(eventId, DeleteData);
+          navigate(`${PathName.invite}/${eventId}/complete`);
           dispatch(increaseStep());
         };
       }

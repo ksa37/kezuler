@@ -19,7 +19,7 @@ function MainAppBar() {
   return (
     <CommonAppBar>
       <div className={'main-app-bar'}>
-        <NavLink to={PathName.main}>
+        <NavLink to={PathName.mainFixed}>
           <KezulerLogo />
         </NavLink>
         <div className={'main-app-bar-btn'}>

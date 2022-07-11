@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Avatar, Button } from '@mui/material';
 
 import {
@@ -12,6 +12,7 @@ import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
 import { SettingUser } from 'src/types/user';
 import { deleteCookie } from 'src/utils/cookie';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 import MyPageRow from './MyPageRow';
 import KezulerDropdown from 'src/components/common/KezulerDropdown';

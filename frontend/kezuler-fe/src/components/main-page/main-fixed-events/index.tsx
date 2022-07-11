@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';
 import PathName from 'src/constants/PathName';
@@ -13,9 +13,9 @@ import getTimezoneDate from 'src/utils/getTimezoneDate';
 import BottomPopper from '../../common/BottomPopper';
 import FixedEventCard from './FixedEventCard';
 import EmptyFixedEventCard from 'src/components/main-page/main-fixed-events/EmptyFixedEventCard';
-import MainButtonContainer from 'src/components/main-page/MainButtonContainer';
 
 import BottomCardBg from 'src/assets/img_bottom_popper_cards.svg';
+import MainButtonContainer from "../MainButtonContainer";
 
 function MainFixedEvents() {
   const { getFixedEvents, events, isFetched } = useMainFixed();
@@ -72,10 +72,9 @@ function MainFixedEvents() {
           {getMonthFromTimeStamp()}월
         </h1>
         <EmptyFixedEventCard />
-        <h2 className={'main-empty-h2'}>
+        {/* <h2 className={'main-empty-h2'}>
           {'다가오는 미팅이 없습니다.\n혹시 잊으신 일정은 없나요?'}
-        </h2>
-        {/* <MainButtonContainer /> */}
+        </h2> */}
         <BottomPopper
           title={'단 하나의 링크로 미팅 확정까지!'}
           description={'시간 조율하느라 허비되는 시간 NO!'}
@@ -110,6 +109,7 @@ function MainFixedEvents() {
             </React.Fragment>
           );
         })}
+        <Outlet />
       </div>
       <MainButtonContainer />
     </>

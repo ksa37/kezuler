@@ -49,7 +49,7 @@ function MeetingShare() {
   }, []);
 
   const handleHomeClick = () => {
-    navigate(PathName.main, { state: { isFixed: false } });
+    navigate(PathName.mainPending);
   };
 
   const handleKakaoShareClick = () => {
@@ -58,7 +58,7 @@ function MeetingShare() {
       templateArgs: {
         HostName: getCurrentUserInfo()?.userName,
         MeetingName: eventTitle,
-        ShareLink: `invite/${eventId}`,
+        ShareLink: `invite/${eventId}/invitation`,
         ModifyLink: `modify/${eventId}`,
       },
     });

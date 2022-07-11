@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
-import PathName from 'src/constants/PathName';
+// import PathName from 'src/constants/PathName';
 import { CreateMeetingSteps } from 'src/constants/Steps';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 
-import CalendarTimeSelector from './CalendarTimeSelector';
-import MeetingInfoForm from './MeetingInfoForm';
-import MeetingShare from './MeetingShare';
-import OnOffSelector from './OnOffSelector';
-import SelectedOptions from './SelectedOptions';
+// import CalendarTimeSelector from './CalendarTimeSelector';
+// import MeetingInfoForm from './MeetingInfoForm';
+// import MeetingShare from './MeetingShare';
+// import OnOffSelector from './OnOffSelector';
+// import SelectedOptions from './SelectedOptions';
 import TextAppBar from 'src/components/common/TextAppBar';
 import ProgressBar from 'src/components/ProgressBar';
 
@@ -33,22 +33,22 @@ function CreateMeeting() {
   const totalStepsNum = Object.keys(CreateMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
 
-  const getComponent = useCallback(() => {
-    switch (step) {
-      case CreateMeetingSteps.First:
-        return <MeetingInfoForm />;
-      case CreateMeetingSteps.Second:
-        return <CalendarTimeSelector />;
-      case CreateMeetingSteps.Third:
-        return <SelectedOptions />;
-      case CreateMeetingSteps.Fourth:
-        return <OnOffSelector />;
-      case CreateMeetingSteps.Fifth:
-        return <MeetingShare />;
-      default:
-        return <></>;
-    }
-  }, [step]);
+  // const getComponent = useCallback(() => {
+  //   switch (step) {
+  //     case CreateMeetingSteps.First:
+  //       return <MeetingInfoForm />;
+  //     case CreateMeetingSteps.Second:
+  //       return <CalendarTimeSelector />;
+  //     case CreateMeetingSteps.Third:
+  //       return <SelectedOptions />;
+  //     case CreateMeetingSteps.Fourth:
+  //       return <OnOffSelector />;
+  //     case CreateMeetingSteps.Fifth:
+  //       return <MeetingShare />;
+  //     default:
+  //       return <></>;
+  //   }
+  // }, [step]);
 
   const getAppBarText = useCallback(() => {
     switch (step) {
@@ -67,13 +67,15 @@ function CreateMeeting() {
     }
   }, [step]);
 
+  const navigate = useNavigate();
+
   const handlePrevClick = () => {
+    navigate(-1);
     dispatch(decreaseStep());
   };
 
-  const navigate = useNavigate();
   const handleFirstPrevClick = () => {
-    navigate(PathName.main);
+    navigate(-1);
   };
 
   const backgroundSetter = () => {
@@ -108,9 +110,9 @@ function CreateMeeting() {
       />
       <ProgressBar progress={progressPerStep * step} />
       <div className={classNames('create-meeting-page', backgroundSetter())}>
-        {getComponent()}
+        {/* {getComponent()} */}
+        <Outlet />
       </div>
-      {/* <div className={classNames('bottom-style', backgroundSetter())}></div> */}
     </>
   );
 }

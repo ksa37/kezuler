@@ -1,25 +1,28 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { CURRENT_HOST } from 'src/constants/Auth';
 import { OVERVIEW_FORM_ID } from 'src/constants/Main';
-import PathName from 'src/constants/PathName';
+import PathName, {
+  makeFixedInfoUrl,
+  makePendingInfoUrl,
+} from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import useDialog from 'src/hooks/useDialog';
 import { useDeleteFixedEvent } from 'src/hooks/useFixedEvent';
 import { useDeletePendingEventById } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
-import { modalAction } from 'src/reducers/modal';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
 import { dateStringToKorDate } from 'src/utils/dateParser';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
+import OverviewBody from './OverviewBody';
 import OverviewButton from './OverviewButton';
-import OverviewBody from 'src/components/modal/overview-modal/OverviewBody';
-import OverviewEdit from 'src/components/modal/overview-modal/OverviewEdit';
+import OverviewEdit from './OverviewEdit';
 
 import { ReactComponent as CancelIcon } from 'src/assets/icn_cancel.svg';
 import { ReactComponent as CheckIcon } from 'src/assets/icn_check.svg';
@@ -28,16 +31,23 @@ import { ReactComponent as CloseThinIcon } from 'src/assets/icn_close_thin.svg';
 import { ReactComponent as DeleteIcon } from 'src/assets/icn_delete.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icn_edit_big.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icn_link.svg';
-import 'src/styles/OverviewModal.scss';
 
-interface Props {
-  isFixed: boolean;
-  eventId: string;
-  isCanceled?: boolean;
-  isPassed?: boolean;
-}
+function Overview() {
+  // const location = useLocation();
+  const { eventId } = useParams();
+  const navigate = useNavigate();
 
-function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
+  const isFixedMeeting = location.pathname.startsWith(PathName.mainFixed);
+
+  const regex = new RegExp(
+    `(${PathName.mainFixed}|${PathName.pending})/.+/info-edit`
+  );
+  const isEdit = location.pathname.search(regex) !== -1;
+
+  if (!eventId) {
+    return null;
+  }
+
   const { events: fixedEvents } = useSelector(
     (state: RootState) => state.mainFixed
   );
@@ -46,7 +56,7 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
   );
 
   const event: BFixedEvent | BPendingEvent | undefined = useMemo(() => {
-    if (isFixed) {
+    if (isFixedMeeting) {
       return fixedEvents.find((e) => e.eventId === eventId);
     }
     return pendingEvents.find((e) => e.eventId === eventId);
@@ -61,9 +71,20 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
     eventHost: { userId: hostId },
   } = event;
 
-  const { copyText } = useCopyText();
+  const isCanceled = isFixedEvent(event) && event.isDisabled;
 
-  const [isEdit, setIsEdit] = useState(false);
+  const checkPassed = () => {
+    if (!isFixedEvent(event)) {
+      return false;
+    }
+    const now = getTimezoneDate(new Date().getTime());
+    const date = getTimezoneDate(new Date(event.eventTimeStartsAt).getTime());
+    return now.getTime() > date.getTime();
+  };
+
+  const isPassed = checkPassed();
+
+  const { copyText } = useCopyText();
 
   const isHost = useMemo(
     () => hostId === getCurrentUserInfo()?.userId,
@@ -71,39 +92,38 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
   );
 
   const { openDialog } = useDialog();
-  const { hide } = modalAction;
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const removePendingEvent = useDeletePendingEventById();
   const removeFixedEvent = useDeleteFixedEvent();
 
-  const closeModal = useCallback(() => {
-    dispatch(hide());
-  }, [dispatch]);
+  const closeModal = () => {
+    navigate(isFixedMeeting ? PathName.mainFixed : PathName.mainPending);
+  };
 
   // 수정
   const handleModifyStartClick = () => {
-    setIsEdit(true);
+    navigate(
+      (isFixedMeeting ? makeFixedInfoUrl : makePendingInfoUrl)(eventId, true)
+    );
   };
 
   // 수정 취소
   const handleModifyCancelClick = () => {
-    setIsEdit(false);
+    navigate((isFixedMeeting ? makeFixedInfoUrl : makePendingInfoUrl)(eventId));
   };
 
   const handleDeleteClick = () => {
     const deleteFixedMeeting = () => {
       removeFixedEvent(eventId);
-      dispatch(hide());
-      navigate(PathName.main, { state: { isFixed: true } });
+      closeModal();
+      navigate(PathName.mainFixed);
       location.reload();
     };
 
     const deletePendingMeeting = () => {
       removePendingEvent(eventId);
-      dispatch(hide());
-      navigate(PathName.main, { state: { isFixed: false } });
+      closeModal();
+      navigate(PathName.mainPending);
       location.reload();
     };
 
@@ -131,7 +151,10 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
   };
 
   const handleCopyLinkClick = () => {
-    copyText(`${CURRENT_HOST}${PathName.invite}/${eventId}`, '케줄러 링크가');
+    copyText(
+      `${CURRENT_HOST}${PathName.invite}/${eventId}/invitation`,
+      '케줄러 링크가'
+    );
   };
 
   const eventDate = useMemo(() => {
@@ -149,11 +172,7 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
       </button>
       <div className={'overview-container'}>
         {isEdit ? (
-          <OverviewEdit
-            setIsEdit={setIsEdit}
-            eventDate={eventDate}
-            event={event}
-          />
+          <OverviewEdit eventDate={eventDate} event={event} />
         ) : (
           <OverviewBody eventDate={eventDate} event={event} />
         )}
@@ -211,4 +230,4 @@ function OverviewModal({ isFixed, eventId, isCanceled, isPassed }: Props) {
   );
 }
 
-export default OverviewModal;
+export default Overview;

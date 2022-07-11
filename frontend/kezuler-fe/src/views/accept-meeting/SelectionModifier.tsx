@@ -26,7 +26,7 @@ function SelectionModifier() {
 
   const getPendingEventInfo = useGetInvitation();
 
-  const { eventModifyId } = useParams();
+  const { eventId } = useParams();
 
   useEffect(() => {
     return () => {
@@ -35,22 +35,22 @@ function SelectionModifier() {
   }, []);
 
   useEffect(() => {
-    if (eventModifyId) {
-      getPendingEventInfo(eventModifyId);
+    if (eventId) {
+      getPendingEventInfo(eventId);
     }
     // console.log('first', isModification(eventTimeCandidates, declinedUsers));
-  }, [eventModifyId]);
+  }, [eventId]);
 
   useEffect(() => {
     if (isLoaded && !isModification(eventTimeCandidates, declinedUsers)) {
-      navigate(`${PathName.invite}/${eventModifyId}`);
+      navigate(`${PathName.invite}/${eventId}/invitation`);
     } else if (isLoaded && isModification(eventTimeCandidates, declinedUsers)) {
       dispatch(setAvailableTimes(getSelectedOptions(eventTimeCandidates)));
     }
   }, [isLoaded]);
 
   const handlePrevClick = () => {
-    navigate(PathName.main, { state: { isFixed: false } });
+    navigate(PathName.mainPending);
   };
 
   return (
