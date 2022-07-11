@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { AcceptMeetingSteps } from 'src/constants/Steps';
 import { useGetInvitation } from 'src/hooks/usePendingEvent';

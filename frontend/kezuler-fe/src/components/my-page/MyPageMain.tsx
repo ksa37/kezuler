@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Avatar, Button } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 
 import {
   ACCESS_TOKEN_KEY,
@@ -10,7 +11,6 @@ import PathName from 'src/constants/PathName';
 import { TIME_ZONE_LIST } from 'src/constants/TimeZones';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
-import { SettingUser } from 'src/types/user';
 import { deleteCookie } from 'src/utils/cookie';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 

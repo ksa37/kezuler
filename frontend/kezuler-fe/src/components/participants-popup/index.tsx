@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 
 import { RootState } from 'src/reducers';
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';

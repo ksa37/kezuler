@@ -39,7 +39,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "npx cra-bundle-analyzer"
   },
   "browserslist": {
     "production": [
@@ -54,6 +55,8 @@
     ]
   },
   "devDependencies": {
-    "eslint-plugin-simple-import-sort": "^7.0.0"
+    "cra-bundle-analyzer": "0.1.1",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "webpack-bundle-analyzer": "4.5.0"
   }
 }

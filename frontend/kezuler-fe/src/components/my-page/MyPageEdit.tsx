@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
-import { Avatar } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import classNames from 'classnames';
 
+import { PROFILE_ACCEPTS } from 'src/constants/MyPage';
+import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
@@ -22,6 +24,8 @@ interface UserForm {
 }
 
 function MyPageEdit({ goToMain }: Props) {
+  const { openDialog } = useDialog();
+
   const { userName, userEmail, userProfileImage } = useMemo(
     () => ({ ...getCurrentUserInfo() }),
     []
@@ -71,9 +75,22 @@ function MyPageEdit({ goToMain }: Props) {
 
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setValue('userProfileImage', file);
+    if (!file) {
+      return;
     }
+
+    const splitFile = file.name.split('.');
+    const extension = splitFile[splitFile.length - 1]?.toLowerCase();
+    if (!PROFILE_ACCEPTS.includes(extension)) {
+      openDialog({
+        title: `${PROFILE_ACCEPTS.join(
+          ', '
+        )}\n형태의 파일만 업로드 가능합니다.`,
+      });
+      return;
+    }
+
+    setValue('userProfileImage', file);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -102,7 +119,7 @@ function MyPageEdit({ goToMain }: Props) {
               onChange={handleProfileImageChange}
               id={'profile-upload'}
               type={'file'}
-              accept="image/*"
+              accept={PROFILE_ACCEPTS.map((e) => `.${e}`).join(',')}
             />
             <Avatar
               className={'my-page-edit-avatar-img'}

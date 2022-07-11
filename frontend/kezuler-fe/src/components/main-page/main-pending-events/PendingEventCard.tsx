@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
-// import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 
 // import classNames from 'classnames';
 import { CURRENT_HOST } from 'src/constants/Auth';

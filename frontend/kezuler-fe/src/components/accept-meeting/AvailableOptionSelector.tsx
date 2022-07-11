@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, ButtonGroup, ClickAwayListener } from '@mui/material';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import classNames from 'classnames';
 
 import { RootState } from 'src/reducers';

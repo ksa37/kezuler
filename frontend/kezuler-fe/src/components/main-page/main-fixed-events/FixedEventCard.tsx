@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, AvatarGroup } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
 import classNames from 'classnames';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';

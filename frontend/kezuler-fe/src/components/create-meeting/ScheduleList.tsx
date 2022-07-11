@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack } from '@mui/material';
+import Stack from '@mui/material/Stack';
 
 type Schedule = { title: string; time: string };
 interface Props {
