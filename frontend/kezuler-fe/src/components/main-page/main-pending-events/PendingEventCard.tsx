@@ -44,7 +44,10 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleInviteClick = () => {
-    copyText(`${CURRENT_HOST}${PathName.invite}/${eventId}`, '케줄러 링크가');
+    copyText(
+      `${CURRENT_HOST}${PathName.invite}/${eventId}/invitation`,
+      '케줄러 링크가'
+    );
   };
 
   const isHost = useMemo(

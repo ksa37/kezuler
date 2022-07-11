@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 
 import { AcceptMeetingSteps } from 'src/constants/Steps';
@@ -9,9 +9,9 @@ import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
-import AcceptanceCompletion from './AcceptanceCompletion';
-import Invitation from './Invitation';
-import TimeListSelector from './TimeListSelector';
+// import AcceptanceCompletion from './AcceptanceCompletion';
+// import Invitation from './Invitation';
+// import TimeListSelector from './TimeListSelector';
 import TextAppBar from 'src/components/common/TextAppBar';
 import ProgressBar from 'src/components/ProgressBar';
 
@@ -25,6 +25,8 @@ function AcceptMeeting() {
   );
   const { decreaseStep, destroy } = acceptMeetingActions;
 
+  const navigate = useNavigate();
+
   const totalStepsNum = Object.keys(AcceptMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
 
@@ -34,18 +36,18 @@ function AcceptMeeting() {
     };
   }, []);
 
-  const getComponent = (step: AcceptMeetingSteps) => {
-    switch (step) {
-      case AcceptMeetingSteps.First:
-        return <Invitation />;
-      case AcceptMeetingSteps.Second:
-        return <TimeListSelector />;
-      case AcceptMeetingSteps.Third:
-        return <AcceptanceCompletion />;
-      default:
-        return <></>;
-    }
-  };
+  // const getComponent = (step: AcceptMeetingSteps) => {
+  //   switch (step) {
+  //     case AcceptMeetingSteps.First:
+  //       return <Invitation />;
+  //     case AcceptMeetingSteps.Second:
+  //       return <TimeListSelector />;
+  //     case AcceptMeetingSteps.Third:
+  //       return <AcceptanceCompletion />;
+  //     default:
+  //       return <></>;
+  //   }
+  // };
 
   const getAppBarText = (step: AcceptMeetingSteps) => {
     switch (step) {
@@ -75,6 +77,7 @@ function AcceptMeeting() {
   );
 
   const handlePrevClick = () => {
+    navigate(-1);
     dispatch(decreaseStep());
   };
 
@@ -89,7 +92,7 @@ function AcceptMeeting() {
             text={getAppBarText(step)}
           />
           <ProgressBar progress={progressPerStep * step} yellowBar={true} />
-          {getComponent(step)}
+          <Outlet />
         </>
       ) : (
         <div className={'circular-progress-bar-wrapper'}>

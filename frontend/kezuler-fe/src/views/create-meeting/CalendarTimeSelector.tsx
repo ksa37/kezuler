@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import classNames from 'classnames';
 import { format } from 'date-fns';
@@ -7,6 +8,7 @@ import { ko } from 'date-fns/locale';
 
 import TimeOptions from '../../constants/TimeOptions';
 import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
+import PathName from 'src/constants/PathName';
 import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
@@ -37,6 +39,8 @@ function CalendarTimeSelector() {
     getTimezoneDate(new Date().getTime())
   );
   const { show } = dialogAction;
+
+  const navigate = useNavigate();
 
   const dateStr = useMemo(
     () =>
@@ -100,6 +104,7 @@ function CalendarTimeSelector() {
   };
 
   const handleNextClick = () => {
+    navigate(PathName.createCheck);
     dispatch(increaseStep());
   };
 

@@ -58,7 +58,7 @@ function MeetingShare() {
       templateArgs: {
         HostName: getCurrentUserInfo()?.userName,
         MeetingName: eventTitle,
-        ShareLink: `invite/${eventId}`,
+        ShareLink: `invite/${eventId}/invitation`,
         ModifyLink: `modify/${eventId}`,
       },
     });

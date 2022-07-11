@@ -18,7 +18,10 @@ const PathName = {
   createPlace: '/create/place',
   createComplete: '/create/complete',
   invite: '/invite',
-  modify: '/modify',
+  inviteInvitation: '/invite/:eventId/invitation',
+  inviteSelect: '/invite/:eventId/select',
+  inviteComplete: '/invite/:eventId/complete',
+  modify: '/modify/:eventId',
   confirm: '/confirm',
 
   kakaoRedirect: '/oauth/kakao/token',

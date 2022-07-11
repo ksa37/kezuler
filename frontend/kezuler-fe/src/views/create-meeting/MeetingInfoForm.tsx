@@ -1,7 +1,9 @@
 import React, { ChangeEvent, KeyboardEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
+import PathName from 'src/constants/PathName';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
@@ -16,6 +18,8 @@ function MeetingInfoForm() {
   const { eventTitle, eventDescription, eventAttachment } = useSelector(
     (state: RootState) => state.createMeeting
   );
+
+  const navigate = useNavigate();
 
   const handleEventTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(setTitle(event.target.value));
@@ -33,6 +37,7 @@ function MeetingInfoForm() {
   };
 
   const handleNextClick = () => {
+    navigate(PathName.createTime);
     dispatch(increaseStep());
   };
 

@@ -21,7 +21,7 @@ const isModification = (
   const currentUserId = getCurrentUserInfo()?.userId;
 
   return (
-    currentUserId &&
+    !!currentUserId &&
     (possibleUsersAll.includes(currentUserId) ||
       declinedUsersAll.includes(currentUserId))
   );
