@@ -492,16 +492,26 @@ $datepicker__triangle-size: 8px !default;
 
   .react-datepicker__day,
   .react-datepicker__time-name {
-    color: #9f9f9f;
+    color: $color-highlight;
     display: inline-block;
     width: $datepicker__item-size;
     line-height: $datepicker__item-size;
     text-align: center;
     margin: $datepicker__day-margin;
 
-    // &.react-datepicker__day--weekend {
-    //   color: rgb(220, 108, 108);
-    // }
+    &.react-datepicker__day--weekend {
+      color: #9f9f9f;
+
+      &.react-datepicker__day--disabled {
+        color: $datepicker__muted-color;
+        pointer-events: none;
+
+        &:hover {
+          cursor: default;
+          background-color: transparent;
+        }
+      }
+    }
   }
 
   .react-datepicker__day-name {

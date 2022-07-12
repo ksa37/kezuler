@@ -32,7 +32,7 @@ function PendingEventCard({ event }: Props) {
   const navigate = useNavigate();
 
   const handleChangeTime = () => {
-    navigate(`${PathName.modify}/${eventId}`);
+    navigate(`/modify/${eventId}`);
   };
 
   const handleInfoClick = () => {
@@ -91,11 +91,11 @@ function PendingEventCard({ event }: Props) {
             className={'pending-event-confirm'}
             onClick={handleConfirmClick}
           >
-            미팅 시간 확정
+            시간 확정하기
           </Button>
         ) : (
           <Button className={'pending-event-change'} onClick={handleChangeTime}>
-            가능한 시간 변경
+            투표 수정하기
           </Button>
         )}
         <Button
