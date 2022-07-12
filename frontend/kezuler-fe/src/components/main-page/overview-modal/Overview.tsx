@@ -140,7 +140,7 @@ function Overview() {
   const handleCancelClick = () => {
     const cancel = () => {
       //TODO pendingEvent Delete candidate 연결
-
+      // isFixedMeeting
       console.log('ho');
     };
 

@@ -22,9 +22,9 @@ function MyPage() {
     getCurrentUserInfo()
   );
   useEffect(() => {
-    console.log('re');
+    // console.log('re');
     const handler = () => {
-      console.log('htnkjndsk');
+      // console.log('htnkjndsk');
       setCurrentUser(getCurrentUserInfo());
     };
     window.addEventListener('storage', handler);

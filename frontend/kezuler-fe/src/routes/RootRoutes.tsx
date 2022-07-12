@@ -92,6 +92,14 @@ function RootRoutes() {
                 element={<CalendarTimeSelector />}
               />
               <Route
+                path={PathName.createTimeA}
+                element={<CalendarTimeSelector />}
+              />
+              <Route
+                path={PathName.createTimeB}
+                element={<CalendarTimeSelector nogcalendar />}
+              />
+              <Route
                 path={PathName.createCheck}
                 element={<SelectedOptions />}
               />
