@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { TextareaAutosize } from '@mui/material';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 import { OVERVIEW_FORM_ID, PLACE_OPTIONS } from 'src/constants/Main';
 import { makeFixedInfoUrl, makePendingInfoUrl } from 'src/constants/PathName';

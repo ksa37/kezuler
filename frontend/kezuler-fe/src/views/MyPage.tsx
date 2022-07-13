@@ -17,33 +17,16 @@ function MyPage() {
   const goToMain = () => {
     setIsEdit(false);
   };
-
-  const [currentUser, setCurrentUser] = useState<SettingUser | null>(
-    getCurrentUserInfo()
-  );
-  useEffect(() => {
-    // console.log('re');
-    const handler = () => {
-      // console.log('htnkjndsk');
-      setCurrentUser(getCurrentUserInfo());
-    };
-    window.addEventListener('storage', handler);
-
-    return () => window.removeEventListener('storage', handler);
-  }, []);
-
-  // const currentUser = useMemo(() => getCurrentUserInfo(), []);
-
+  
   return (
     <>
       <MyPageAppBar isEdit={isEdit} goToMain={goToMain} />
       <div className={'my-page'}>
-        {currentUser &&
-          (isEdit ? (
-            <MyPageEdit currentUser={currentUser} goToMain={goToMain} />
-          ) : (
-            <MyPageMain currentUser={currentUser} goToEdit={goToEdit} />
-          ))}
+        {isEdit ? (
+          <MyPageEdit goToMain={goToMain} />
+        ) : (
+          <MyPageMain goToEdit={goToEdit} />
+        )}
       </div>
     </>
   );
