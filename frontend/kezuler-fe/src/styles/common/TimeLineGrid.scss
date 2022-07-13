@@ -183,7 +183,7 @@
       flex: 1;
     }
 
-    @media (max-width: 290px) {
+    @media (max-width: 300px) {
       font-size: 12px;
       line-height: 14px;
     }
@@ -290,11 +290,18 @@
     border-radius: 8px;
     box-shadow: 0 15px 35px #282f391a;
     font-size: $font-14;
+    line-height: $font-18;
     font-weight: bold;
     flex: 1;
     color: $color-highlight;
 
     background-color: white;
+
+    @media (max-height: $short-height-size) {
+      font-size: $font-12;
+      line-height: $font-16;
+    }
+
     &:hover {
       background-color: rgba(white, 0.7);
     }
