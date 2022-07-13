@@ -172,9 +172,19 @@ function Overview() {
       </button>
       <div className={'overview-container'}>
         {isEdit ? (
-          <OverviewEdit eventDate={eventDate} event={event} />
+          <OverviewEdit
+            eventDate={eventDate}
+            event={event}
+            isCanceled={isCanceled}
+            isPassed={isPassed}
+          />
         ) : (
-          <OverviewBody eventDate={eventDate} event={event} />
+          <OverviewBody
+            eventDate={eventDate}
+            event={event}
+            isCanceled={isCanceled}
+            isPassed={isPassed}
+          />
         )}
       </div>
       {!isCanceled && !isPassed && (
