@@ -1,5 +1,7 @@
 import React from 'react';
-import { Avatar, AvatarGroup, Card } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
+import Card from '@mui/material/Card';
 
 import { FixedEvent } from 'src/types/fixedEvent';
 

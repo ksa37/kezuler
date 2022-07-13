@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import classNames from 'classnames';
 
 import { FixedUser } from 'src/types/fixedEvent';

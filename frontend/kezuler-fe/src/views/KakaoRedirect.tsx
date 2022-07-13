@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { LOGIN_REDIRECT_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';

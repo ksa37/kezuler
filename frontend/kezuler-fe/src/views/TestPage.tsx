@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 
 import { KAKAO_AUTH_URL } from 'src/constants/Auth';
 import { RootState } from 'src/reducers';

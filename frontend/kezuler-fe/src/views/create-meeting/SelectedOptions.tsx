@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import PathName from 'src/constants/PathName';
-// import { Button } from '@mui/material';
+
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { dialogAction } from 'src/reducers/dialog';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
 
 import PathName from 'src/constants/PathName';
 

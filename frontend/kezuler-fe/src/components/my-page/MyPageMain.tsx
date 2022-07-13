@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Avatar, Button } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 
 import {
   ACCESS_TOKEN_KEY,
@@ -10,7 +11,6 @@ import PathName from 'src/constants/PathName';
 import { TIME_ZONE_LIST } from 'src/constants/TimeZones';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
-import { SettingUser } from 'src/types/user';
 import { deleteCookie } from 'src/utils/cookie';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
@@ -29,14 +29,15 @@ import { ReactComponent as ToggleOnIcon } from 'src/assets/toggle_on.svg';
 import 'src/styles/myPage.scss';
 
 interface Props {
-  currentUser: SettingUser;
   goToEdit: () => void;
 }
 
-function MyPageMain({
-  currentUser: { userProfileImage, userName, userEmail, userTimezone },
-  goToEdit,
-}: Props) {
+function MyPageMain({ goToEdit }: Props) {
+  const { userTimezone, userProfileImage, userEmail, userName } = useMemo(
+    () => ({ ...getCurrentUserInfo() }),
+    []
+  );
+
   const handleLogoutClick = () => {
     deleteCookie(ACCESS_TOKEN_KEY);
     deleteCookie(REFRESH_TOKEN_KEY);

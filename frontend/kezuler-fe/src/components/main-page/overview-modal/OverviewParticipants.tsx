@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { Avatar } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { BFixedEvent } from 'src/types/fixedEvent';

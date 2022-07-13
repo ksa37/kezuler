@@ -7,8 +7,6 @@ import { mainPendingActions } from 'src/reducers/mainPending';
 import { AppDispatch } from 'src/store';
 
 import MainAppBar from 'src/components/common/MainAppBar';
-import MainFixedEvents from 'src/components/main-page/main-fixed-events';
-import MainPendingEvents from 'src/components/main-page/main-pending-events';
 import MainTab from 'src/components/main-page/MainTab';
 
 import 'src/styles/main.scss';
