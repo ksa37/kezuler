@@ -1,0 +1,235 @@
+@import './constants';
+
+$my-page-gap: 20px;
+
+.my-page-header-back-btn {
+  position: absolute;
+  padding-left: $my-page-gap;
+  left: $my-page-gap;
+}
+
+.my-page-header {
+  box-sizing: border-box;
+  padding-top: $my-page-gap;
+  color: $color-highlight;
+}
+.my-page-header-content {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.my-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
+.my-page-profile {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 24px $my-page-gap;
+}
+
+.my-page-profile-avatar {
+  width: 72px;
+  height: 72px;
+}
+
+.my-page-profile-main {
+  padding-left: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  .my-page-profile-name {
+    font: normal normal bold 20px/24px Pretendard;
+    color: $color-highlight;
+  }
+
+  .my-page-profile-email {
+    font: normal normal normal 14px/24px Pretendard;
+    color: $color-highlight;
+  }
+}
+
+.my-page-profile-edit-btn {
+  padding: 0;
+  font-size: 14px;
+  color: #9f9f9f;
+  align-self: flex-start;
+
+  svg > path {
+    fill: #9f9f9f;
+  }
+
+  .my-page-profile-edit-btn-icn {
+    margin-right: 4px;
+  }
+}
+
+.calendar-toggle {
+  margin-left: 8px;
+}
+
+.timezone-dropdown {
+  text-decoration: none;
+  color: $color-highlight;
+  font-size: 14px;
+  font-family: Pretendard;
+}
+
+.timezone-dropdown-paper {
+  max-height: 20vh;
+  max-height: calc(var(--vh, 1vh) * 20);
+  overflow: auto;
+}
+
+.my-page-h1 {
+  font-size: 14px;
+  font-weight: bold;
+  color: $color-highlight;
+  margin: 0;
+  padding: 30px 22px 8px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.my-page-row {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #eaeaea;
+  padding: $my-page-gap;
+  color: $color-highlight;
+  font-size: 14px;
+
+  .my-page-row-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: none;
+    background: none;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    text-align: start;
+    padding: 0;
+    color: $color-highlight;
+
+    &:visited {
+      color: $color-highlight;
+    }
+
+    svg {
+      margin-right: 8px;
+    }
+  }
+}
+
+.my-page-edit {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  .my-page-edit-avatar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 56px;
+    padding-bottom: 10px;
+  }
+
+  .my-page-edit-avatar {
+    position: relative;
+    .my-page-edit-avatar-img {
+      width: 88px;
+      height: 88px;
+    }
+    .my-page-edit-avatar-plus-icn {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  .my-page-edit-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .my-page-edit-textfield {
+    margin-top: 24px;
+    padding-inline: 48px;
+    input:focus {
+      outline: none;
+      border-color: $color-highlight;
+    }
+
+    .my-page-edit-textfield-title {
+      padding-left: 8px;
+      color: $color-highlight;
+      font: normal normal bold 14px/30px Arial;
+    }
+    .my-page-edit-textfield-box {
+      box-sizing: border-box;
+      min-height: 48px;
+      width: 100%;
+      padding: 16px;
+      margin-top: 8px;
+
+      border: 1px solid #bfbfbf;
+      height: 48px;
+      border-radius: 8px;
+    }
+
+    &.email {
+      flex: 1;
+      margin-bottom: 40px;
+    }
+  }
+}
+
+.my-page-profile-label {
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+}
+
+.my-page-edit-avatar-img {
+  box-shadow: 0 5px 10px #00000029;
+  width: 88px;
+  height: 88px;
+}
+
+.my-page-edit-avatar-plus-icn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.my-page-profile-input {
+  display: none;
+  // width: 0;
+  // height: 0;
+  // overflow: hidden;
+}
+
+.timezone-dropdown-item {
+  font-family: Pretendard;
+  font-size: 13px;
+}

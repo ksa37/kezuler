@@ -1,0 +1,122 @@
+import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
+
+// import classNames from 'classnames';
+import { CURRENT_HOST } from 'src/constants/Auth';
+import PathName, { makePendingInfoUrl } from 'src/constants/PathName';
+import useCopyText from 'src/hooks/useCopyText';
+import { BPendingEvent } from 'src/types/pendingEvent';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
+
+import { ReactComponent as HostIcon } from 'src/assets/icn_host.svg';
+import { ReactComponent as InfoIcon } from 'src/assets/icn_info_yb.svg';
+import { ReactComponent as SendIcon } from 'src/assets/icn_send_yb.svg';
+
+interface Props {
+  event: BPendingEvent;
+}
+
+function PendingEventCard({ event }: Props) {
+  const { copyText } = useCopyText();
+
+  const {
+    eventId,
+    eventTitle,
+    eventHost: { userId: hostId },
+    eventPlace,
+    // eventTimeCandidates,
+  } = event;
+
+  const navigate = useNavigate();
+
+  const handleChangeTime = () => {
+    navigate(`/modify/${eventId}`);
+  };
+
+  const handleInfoClick = () => {
+    navigate(makePendingInfoUrl(eventId));
+  };
+
+  const handleConfirmClick = () => {
+    navigate(`${PathName.confirm}/${eventId}`);
+  };
+
+  const handleInviteClick = () => {
+    copyText(
+      `${CURRENT_HOST}${PathName.invite}/${eventId}/invitation`,
+      '케줄러 링크가'
+    );
+  };
+
+  const isHost = useMemo(
+    () => hostId === getCurrentUserInfo()?.userId,
+    [hostId]
+  );
+
+  // const isParticipating = useMemo(() => {
+  //   if (isHost) {
+  //     return true;
+  //   }
+  //   const curUserId = getCurrentUserInfo()?.userId;
+  //   return eventTimeCandidates.some((c) =>
+  //     c.possibleUsers.some(({ userId }) => userId === curUserId)
+  //   );
+  // }, [isHost, eventTimeCandidates]);
+
+  const eventLocation = useMemo(() => {
+    if (eventPlace) {
+      return '오프라인';
+    }
+    return '온라인';
+  }, [eventPlace]);
+
+  return (
+    <section className={'pending-event-card'}>
+      <div>
+        {eventLocation}
+        {/* {isParticipating ? (
+          <div className={'pending-event-participate'}>참여</div>
+        ) : (
+          <div className={classNames('pending-event-participate', 'absent')}>
+            미참여
+          </div>
+        )} */}
+      </div>
+      <div>{eventTitle}</div>
+      <div>
+        {isHost ? (
+          <Button
+            className={'pending-event-confirm'}
+            onClick={handleConfirmClick}
+          >
+            시간 확정하기
+          </Button>
+        ) : (
+          <Button className={'pending-event-change'} onClick={handleChangeTime}>
+            투표 수정하기
+          </Button>
+        )}
+        <Button
+          startIcon={<InfoIcon />}
+          className={'pending-event-info'}
+          onClick={handleInfoClick}
+          classes={{ startIcon: 'pending-event-icon' }}
+        >
+          미팅정보
+        </Button>
+        <Button
+          startIcon={<SendIcon />}
+          className={'pending-event-info'}
+          onClick={handleInviteClick}
+          classes={{ startIcon: 'pending-event-icon' }}
+        >
+          초대링크
+        </Button>
+      </div>
+      {isHost && <HostIcon className={'pending-event-card-host-badge'} />}
+    </section>
+  );
+}
+
+export default PendingEventCard;

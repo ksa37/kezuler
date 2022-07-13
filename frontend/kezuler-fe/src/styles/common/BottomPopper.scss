@@ -1,0 +1,155 @@
+@import '../constants';
+
+.bottom-popper {
+  position: fixed;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border-top-left-radius: 74px;
+  // border-top-left-radius: 96px;
+  // opacity: 0.5;
+  box-sizing: border-box;
+  padding: 26px 24px;
+  min-height: 150px;
+  max-height: 300px;
+  height: 30%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  text-align: center;
+
+  // background: linear-gradient($color-main, $color-main-light);
+
+  @media (min-width: 360px) and (min-height: 640px) {
+    border-top-left-radius: 96px;
+  }
+
+  // ::after {
+  //   content: '';
+  //   position: absolute;
+  //   top: 0px;
+  //   right: 0px;
+  //   bottom: 0px;
+  //   left: 0px;
+  //   border-top-left-radius: 74px;
+  //   @media (min-width: 360px) and (min-height: 640px) {
+  //     border-top-left-radius: 96px;
+  //   }
+  //   // background-color: rgba(255, 255, 255, 0.1);
+  // }
+
+  &.not-fixed {
+    position: unset;
+  }
+
+  .close-button-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 2;
+
+    &.disable-delete {
+      // height: 32px;
+      display: none;
+      z-index: 2;
+      // @media (max-height: 650px) {
+      //   display: none;
+      // }
+
+      @media (min-height: 630px) {
+        display: unset;
+        height: 32px;
+      }
+    }
+
+    > button {
+      width: 32px;
+      height: 32px;
+      z-index: 2;
+
+      @media (max-width: 340px) {
+        width: 20px;
+        height: 20px;
+      }
+
+      @media (max-height: 550px) {
+        width: 20px;
+        height: 20px;
+      }
+      svg {
+        overflow: initial;
+        @media (max-width: 340px) {
+          width: 18px;
+          height: 18px;
+        }
+
+        @media (max-height: 550px) {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+
+  > h1 {
+    margin: 0 0 8px;
+    font-weight: bold;
+    font-size: $font-24;
+    color: $color-highlight;
+    z-index: 2;
+
+    &.is-reverse {
+      margin: 0 0 12px;
+    }
+
+    @media (max-width: 340px) {
+      font-size: $font-18;
+    }
+  }
+
+  .small-title {
+    z-index: 2;
+    font-size: $font-20;
+    @media (max-width: 340px) {
+      font-size: $font-18;
+    }
+  }
+
+  > h2 {
+    z-index: 2;
+    margin: 0 0 12px;
+    font-weight: normal;
+    font-size: $font-16;
+    color: $color-highlight;
+
+    &.is-reverse {
+      margin: 0 0 8px;
+    }
+  }
+
+  > button {
+    z-index: 2;
+    margin: 8px 0 0;
+    padding: 14px 24px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    background: $color-highlight;
+    font-size: $font-16;
+    font-weight: bold;
+    color: $color-main;
+    border: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media (max-width: 340px) {
+      font-size: $font-14;
+      padding: 10px 18px;
+    }
+  }
+}

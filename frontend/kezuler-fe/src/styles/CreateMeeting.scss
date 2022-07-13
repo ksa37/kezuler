@@ -1,0 +1,646 @@
+@import './constants.scss';
+
+.create-meeting-page {
+  text-align: center;
+  box-sizing: border-box;
+  // height: fit-content;
+  // padding-bottom: 100px;
+  margin-top: $app-bar-height;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  @media (max-height: $short-height-size) {
+    margin-top: $app-bar-height--short;
+  }
+
+  &.meeting-form {
+    background: linear-gradient(
+      to bottom,
+      $color-main 193px,
+      $color-background 193px 100%
+    );
+  }
+  &.calendar-selector {
+    background: linear-gradient(
+      to bottom,
+      $color-background 295px,
+      $color-main 295px 100%
+    );
+  }
+  &.place-info {
+    background: linear-gradient(
+      to bottom,
+      $color-background 204px,
+      $color-main 204px 100%
+    );
+  }
+}
+
+.create-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.padding-wrapper {
+  flex: 1;
+  margin-bottom: 50px;
+}
+
+.description-text {
+  color: $color-highlight;
+  text-align: left;
+  font: normal normal bold 24px/36px Pretendard;
+  margin: 32px 0 0 20px;
+  box-sizing: border-box;
+
+  @media (max-height: $short-height-size) {
+    font-size: 22px;
+    line-height: 32px;
+    margin: 20px 0 0 20px;
+  }
+}
+
+.sub-description-text {
+  font: normal normal normal 16px/24px Pretendard;
+  color: #9f9f9f;
+  text-align: left;
+  margin-top: 32px;
+  margin-left: 20px;
+
+  @media (max-height: $short-height-size) {
+    margin-top: 16px;
+  }
+}
+
+.meeting-info {
+  text-align: left;
+  background-color: #ffffff;
+  box-shadow: 0px 15px 35px #282f390d;
+  border-radius: 16px;
+
+  &.required {
+    margin: 40px 24px 0 24px;
+    padding: 13px 24px 16px 24px;
+
+    @media (max-height: $short-height-size) {
+      margin-top: 16px;
+    }
+
+    @media (max-width: 340px) {
+      padding-inline: 18px;
+    }
+  }
+
+  &.additional {
+    margin: 16px 24px 0 24px;
+    padding: 16px 24px 24px 24px;
+    @media (max-width: 340px) {
+      padding-inline: 18px;
+    }
+  }
+
+  .meeting-field-title-and-reference {
+    box-sizing: border-box;
+    min-height: 48px;
+    height: fit-content;
+    width: 100%;
+    padding: 16px;
+    margin-top: 10px;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    border: 1px solid #bfbfbf;
+    border-radius: 8px;
+
+    font-family: Pretendard;
+
+    &.required {
+      border-color: $color-main-dark;
+    }
+
+    &.description {
+      min-height: 120px;
+    }
+  }
+
+  input::placeholder {
+    color: #bfbfbf;
+  }
+  textarea::placeholder {
+    color: #bfbfbf;
+  }
+  input {
+    color: $color-highlight;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: $color-highlight;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: $color-highlight;
+  }
+
+  .meeting-title {
+    width: 100%;
+    .meeting-title-text {
+      color: $color-highlight;
+      font: normal normal bold 14px/17px Arial;
+    }
+
+    .meeting-title-required {
+      float: right;
+      font: normal normal bold 12px/17px Arial;
+      color: $color-main-dark;
+    }
+  }
+
+  .meeting-additional {
+    &.url {
+      margin-top: 16px;
+    }
+    .meeting-additional-text {
+      color: #8d8d8d;
+      font: normal normal bold 14px/17px Arial;
+    }
+
+    .meeting-additional-additional {
+      float: right;
+      font: normal normal bold 12px/17px Arial;
+      color: #bfbfbf;
+    }
+  }
+}
+
+// CalendarTimeSelector
+// .duration-selector-margin {
+//   height: 28px;
+//   width: 100%;
+//   background-color: $color-background;
+// }
+.duration-selector {
+  display: flex;
+  align-items: center;
+  margin-top: 28px;
+  @media (min-width: 405px) {
+    margin-inline: 60px;
+  }
+  margin-inline: 18px;
+
+  @media (max-height: $short-height-size) {
+    margin-top: 14px;
+  }
+  // min-width: 280px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 20px;
+  font-size: 16px;
+  font-family: Pretendard;
+  .icn-clock-o20 {
+    padding-left: 16px;
+  }
+  .duration-text {
+    flex: 1;
+    text-align: left;
+    padding-left: 8.55px;
+  }
+  .duration-dropdown {
+    position: inherit;
+    text-decoration: none;
+    color: $color-highlight;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: Pretendard;
+    padding-right: 20px;
+    &:hover {
+      background: none;
+    }
+  }
+}
+
+.schedule-list {
+  margin: 13px 32px 24px 32px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 15px 35px #282f390d;
+  border-radius: 16px;
+  height: 96px;
+
+  .schedule-list-title {
+    box-sizing: border-box;
+    // height: 28px;
+    background: #fef8dc 0% 0% no-repeat padding-box;
+    font: normal normal bold 14px/17px Pretendard;
+    color: $color-highlight;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 6px;
+    padding-bottom: 5px;
+  }
+
+  .schedule-list-content {
+    display: block;
+    height: fit-content;
+
+    font: normal normal normal 14px/17px Pretendard;
+    padding-left: 20px;
+    padding-right: 15px;
+    .schedule-title {
+      float: left;
+      letter-spacing: -0.7px;
+      color: #808080;
+    }
+    .schedule-time {
+      float: right;
+      color: $color-highlight;
+    }
+  }
+}
+
+.calendar {
+  margin-top: 20px;
+
+  @media (max-height: $short-height-size) {
+    margin-top: 14px;
+  }
+}
+.date-string {
+  text-align: left;
+  margin-left: 33.67px;
+  color: $color-highlight;
+  font: normal normal normal 16px/19px Pretendard;
+  margin-top: 20px;
+  display: flex;
+  .calendar-icon {
+    // position: fixed;
+    padding-right: 9.67px;
+  }
+  .date-string-text {
+    flex: 1;
+  }
+
+  @media (max-height: $short-height-size) {
+    margin-top: 8px;
+  }
+}
+
+.time-chip-text {
+  text-align: left;
+  margin-left: 33.67px;
+  margin-top: 12px;
+  display: flex;
+  .string {
+    position: relative;
+  }
+  .icn-clock-b20 {
+    padding-right: 9.67px;
+  }
+  @media (max-height: $short-height-size) {
+    margin-top: 8px;
+  }
+}
+
+.time-chips-stack {
+  margin-inline: 12px;
+  margin-top: 16px;
+  overflow: auto;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-height: $short-height-size) {
+    margin-top: 8px;
+  }
+}
+
+.time-chips {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+
+  height: 40px;
+  width: 83px;
+  border-radius: 100px;
+  cursor: pointer;
+
+  @media (max-height: $short-height-size) {
+    height: 32px;
+    width: 64px;
+    border-radius: 60px;
+  }
+
+  &.filled {
+    background: $color-highlight 0% 0% no-repeat padding-box;
+    color: #ffffff;
+  }
+  &.blank {
+    background-color: #ffffff;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    color: $color-highlight;
+  }
+  &.is-before {
+    display: none;
+  }
+  .text {
+    font-size: $font-16;
+    line-height: $font-18;
+    text-align: center;
+
+    @media (max-height: $short-height-size) {
+      font-size: $font-14;
+    }
+  }
+}
+
+.calendar-popup {
+  margin-inline: 16px;
+  margin-top: 28px;
+
+  background: #fef8dc 0% 0% no-repeat padding-box;
+  box-shadow: 0px 15px 35px #0000000d;
+  border-radius: 16px;
+
+  color: $color-highlight;
+  text-align: left;
+  position: relative;
+  .google-icon {
+    position: absolute;
+    padding-top: 1px;
+    left: 20px;
+  }
+  .description {
+    padding: 20px 0 0 44px;
+    font: normal normal normal 14px/22px Pretendard;
+    // line-height: 22px;
+    letter-spacing: 0px;
+  }
+
+  .popup-options {
+    font: normal normal bold 14px/20px Pretendard;
+    margin-top: 16px;
+    margin-right: 24px;
+    padding-bottom: 15px;
+    text-align: right;
+
+    .no {
+      cursor: pointer;
+      color: #808080;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    .yes {
+      cursor: pointer;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+  }
+}
+
+// OnOffSelector
+.on-off-group {
+  margin-inline: 48px;
+  margin-top: 32px;
+  // height: fit-content;
+  // overflow: auto;
+  @media (max-height: $short-height-size) {
+    margin-top: 20px;
+  }
+
+  .on-off-btn:first-child {
+    float: left;
+    margin-right: 8px;
+  }
+  .on-off-btn:last-child {
+    float: right;
+  }
+  .on-off-btn {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 15px 35px #282f391a;
+    border-radius: 16px;
+    height: 157px;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    .on-off-title {
+      margin-top: 16px;
+      text-align: center;
+      font: normal normal bold 13px Arial;
+      letter-spacing: 0px;
+      color: $color-highlight;
+      opacity: 1;
+    }
+
+    .on-off-subtitle {
+      margin-top: 4px;
+      text-align: center;
+      font: normal normal normal 13px Arial;
+      letter-spacing: 0px;
+      color: #9f9f9f;
+      opacity: 1;
+    }
+
+    &.selected {
+      border: 5px solid #fad94f;
+      text-align: center;
+      width: 47%;
+      .circle-wrapper {
+        padding-top: 32px;
+        display: inline-block;
+      }
+      .circle {
+        width: 38px;
+        height: 38px;
+        background: $color-main 0% 0% no-repeat padding-box;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    &.disabled {
+      text-align: center;
+      width: 47%;
+      .circle-wrapper {
+        padding-top: 37px;
+        display: inline-block;
+      }
+      .circle {
+        width: 38px;
+        height: 38px;
+        background: #dddddd 0% 0% no-repeat padding-box;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.on-off-textfield {
+  clear: both;
+  padding-top: 50px;
+
+  @media (max-height: $short-height-size) {
+    padding-top: 20px;
+  }
+
+  .title {
+    text-align: center;
+    font: normal normal bold 18px/30px Arial;
+    color: $color-highlight;
+  }
+  .field {
+    margin-top: 12px;
+    margin-left: 48px;
+    margin-right: 48px;
+    padding: 15px 20px 15px;
+    box-sizing: border-box;
+    height: 48px;
+    width: calc(100% - 96px);
+    text-align: left;
+    font: normal normal normal 14px/22px Arial;
+    color: $color-highlight;
+    border: none;
+    background-color: #ffffff;
+    border-radius: 8px;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  input::placeholder {
+    color: #bec1c7;
+  }
+
+  .skip-text {
+    margin-top: 16px;
+    font: normal normal normal 14px/17px Pretendard;
+    color: #282f39;
+    text-align: center;
+  }
+}
+
+.selected-num {
+  position: fixed;
+  top: 108px;
+  right: 24px;
+  text-align: right;
+  font: normal normal medium 16px/22px Pretendard;
+  color: #808080;
+}
+
+.time-select-grid-container {
+  display: grid;
+  position: relative;
+  margin-inline: 20px;
+  grid-template-columns: 1fr 2fr;
+  row-gap: 12px;
+  column-gap: 24px;
+  grid-auto-rows: auto;
+  &.calendar-paired {
+    grid-template-areas: 'calendar-schedule time-option';
+  }
+  grid-template-areas: 'no-calendar-schedule time-option';
+}
+
+.timelineLine {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -12.5px;
+  bottom: 0;
+  z-index: 1;
+  width: 0px;
+  border: 0.5px solid #bfbfbf;
+}
+.timelineCircle {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -16px;
+  z-index: 1;
+  width: 8px;
+  height: 8px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1px solid #282f39;
+  background-color: #fad94f;
+}
+
+// MeetingShare
+.share-icon {
+  box-sizing: border-box;
+  background-color: #fae301;
+  box-shadow: 0px 15px 35px #282f391a;
+  border-radius: 28px;
+  aspect-ratio: 1;
+  position: relative;
+  @media (min-width: 340px) {
+    width: 80px;
+  }
+  &:hover {
+    background: 'none';
+  }
+
+  // &.kakao {
+  //   background-color: #fae301;
+  // }
+  .share-text {
+    position: absolute;
+    bottom: -28px;
+  }
+}
+
+.celebrate-smile-icon {
+  position: fixed;
+  right: 180px;
+  bottom: 200px;
+
+  @media (max-height: 719px) {
+    width: 50px;
+    height: 50px;
+    right: 130px;
+    bottom: 164px;
+  }
+  @media (max-width: 329px) {
+    width: 50px;
+    height: 50px;
+    right: 130px;
+    bottom: 164px;
+  }
+  @media (max-height: 650px) {
+    display: none;
+  }
+}
+
+.celebrate-icon {
+  position: fixed;
+  right: -30px;
+  bottom: 48px;
+  @media (max-height: 719px) {
+    width: 220px;
+    height: 220px;
+  }
+  @media (max-width: 329px) {
+    width: 220px;
+    height: 220px;
+  }
+  @media (max-height: 650px) {
+    display: none;
+  }
+}
+
+// .completion-circle {
+//   position: fixed;
+//   // top: 43%;
+//   right: -45px;
+//   bottom: 16%;
+//   z-index: -2;
+// }

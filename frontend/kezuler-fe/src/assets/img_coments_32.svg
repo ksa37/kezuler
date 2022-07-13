@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="48.857" viewBox="0 0 50 48.857">
+    <defs>
+        <filter id="vd2fx7564a" x="0" y="0" width="50" height="48.857" filterUnits="userSpaceOnUse">
+            <feOffset dy="3"/>
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feFlood flood-opacity=".161"/>
+            <feComposite operator="in" in2="blur"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+    </defs>
+    <path data-name="사각형 389" transform="translate(9 5.999)" style="fill:none" d="M0 0h32v32H0z"/>
+    <g style="filter:url(#vd2fx7564a)">
+        <path data-name="패스 116" d="M31.429 6A42.8 42.8 0 0 1 32 12.286a35.663 35.663 0 0 1-.571 6 7.187 7.187 0 0 1-2 3.429 5.532 5.532 0 0 1-3.714 1.714A70.054 70.054 0 0 1 18 24l-6.857 6.571a1.05 1.05 0 0 1-.857.286h-.572c-.571-.286-.571-.571-.571-1.143V24l-2.857-.286a7.962 7.962 0 0 1-3.714-2 6.645 6.645 0 0 1-2.286-3.428A44.237 44.237 0 0 1 0 12a44.237 44.237 0 0 1 .286-6.286 5.285 5.285 0 0 1 2.285-3.428A5.532 5.532 0 0 1 6.286.571C9.714.286 12.857 0 16 0s6.286.286 9.714.571a6.378 6.378 0 0 1 3.714 1.714C30.571 3.429 31.429 4.571 31.429 6z" transform="translate(9 6)" style="fill:#fdba41"/>
+    </g>
+    <g data-name="그룹 90823" transform="translate(-50 -140.001)">
+        <circle data-name="타원 65543" cx="1.5" cy="1.5" r="1.5" transform="translate(67 157)" style="fill:#fff"/>
+        <circle data-name="타원 65544" cx="1.5" cy="1.5" r="1.5" transform="translate(74 157)" style="fill:#fff"/>
+        <circle data-name="타원 65545" cx="1.5" cy="1.5" r="1.5" transform="translate(81 157)" style="fill:#fff"/>
+    </g>
+</svg>
