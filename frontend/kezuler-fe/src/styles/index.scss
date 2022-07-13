@@ -40,7 +40,6 @@
     height: calc(var(--vh, 1vh) * 100);
   }
 }
-$app-bar-height: 72px;
 
 .kezuler-intro {
   @media (max-width: $intro-show-width) {
@@ -99,6 +98,10 @@ $app-bar-height: 72px;
   right: 0;
   z-index: 1100;
   height: $app-bar-height;
+
+  @media (max-height: $short-height-size) {
+    height: $app-bar-height--short;
+  }
 }
 
 .main-app-bar {
@@ -113,6 +116,10 @@ $app-bar-height: 72px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-height: $short-height-size) {
+    height: $app-bar-height--short;
+  }
 
   .main-app-bar-btn {
     display: flex;
@@ -185,6 +192,10 @@ $common-tab-size: 64px;
 
   display: flex;
   align-items: center;
+
+  @media (max-height: $short-height-size) {
+    top: $app-bar-height--short;
+  }
 
   .common-tab-buttons-wrapper {
     display: flex;
