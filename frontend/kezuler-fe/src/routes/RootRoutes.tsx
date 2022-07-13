@@ -118,6 +118,7 @@ function RootRoutes() {
               path={`${PathName.confirm}/:eventConfirmId`}
               element={<TimeConfirmator />}
             />
+
             <Route
               path={`${PathName.invite}/:eventId`}
               element={<AcceptMeeting />}
@@ -148,6 +149,7 @@ function RootRoutes() {
       ) : (
         <main>
           <Routes>
+            {/* <Route path={`${PathName.create}/:path`} element={<Navigate replace to={PathName.login} state={{from: path}}/>}/> */}
             <Route
               path={`${PathName.invite}/:eventId`}
               element={<AcceptMeeting />}

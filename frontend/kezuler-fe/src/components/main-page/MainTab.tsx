@@ -43,7 +43,7 @@ function MainTab() {
           })}
           onClick={handlePendingClick}
         >
-          투표중인 미팅
+          투표중
         </button>
       </div>
       {isFixedMeeting && (

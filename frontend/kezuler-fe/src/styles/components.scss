@@ -55,12 +55,16 @@
 .text-app-bar {
   color: $color-highlight;
   background-color: $color-background;
-  height: 68px;
+  height: calc(#{$app-bar-height} - 4px);
   z-index: 2;
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
+
+  @media (max-height: $short-height-size) {
+    height: calc(#{$app-bar-height--short} - 4px);
+  }
 
   &.main-colored {
     background-color: $color-main;
@@ -68,6 +72,11 @@
 
   .text-app-bar-content {
     margin-top: 20px;
+
+    @media (max-height: $short-height-size) {
+      margin-top: 4px;
+    }
+
     .text-app-bar-content-text {
       padding-top: 15px;
       font-size: 16px;
@@ -82,5 +91,17 @@
       left: 28px;
       padding-block: 17px;
     }
+  }
+}
+
+.progress-bar {
+  width: 100%;
+  position: fixed;
+  top: calc(#{$app-bar-height} - 4px);
+  z-index: 2;
+  background-color: #ffffff;
+
+  @media (max-height: $short-height-size) {
+    top: calc(#{$app-bar-height--short} - 4px);
   }
 }

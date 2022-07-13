@@ -201,7 +201,7 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
   return (
     <div className={'create-wrapper'}>
       <div className={'padding-wrapper'}>
-        <div className={'duration-selector-margin'} />
+        {/* <div className={'duration-selector-margin'} /> */}
         <div className={'duration-selector'}>
           <ClockOrangeIcon className={'icn-clock-o20'} />
           <div className={'duration-text'}>미팅 길이</div>

@@ -13,12 +13,13 @@ function ProgressBar({ progress, yellowBar = false }: Props) {
     <LinearProgress
       variant="determinate"
       value={progress}
+      classes={{ root: 'progress-bar' }}
       sx={{
-        width: '100%',
-        position: 'fixed',
-        top: '68px',
-        zIndex: '2',
-        backgroundColor: '#ffff',
+        // width: '100%',
+        // position: 'fixed',
+        // top: '68px',
+        // zIndex: '2',
+        // backgroundColor: '#ffff',
         '& .MuiLinearProgress-barColorPrimary': {
           backgroundColor: `${barColor}`,
         },
