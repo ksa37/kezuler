@@ -5,10 +5,14 @@
   box-sizing: border-box;
   // height: fit-content;
   // padding-bottom: 100px;
-  margin-top: 72px;
+  margin-top: $app-bar-height;
   display: flex;
   flex-direction: column;
   flex: 1;
+
+  @media (max-height: $short-height-size) {
+    margin-top: $app-bar-height--short;
+  }
 
   &.meeting-form {
     background: linear-gradient(
@@ -50,6 +54,12 @@
   font: normal normal bold 24px/36px Pretendard;
   margin: 32px 0 0 20px;
   box-sizing: border-box;
+
+  @media (max-height: $short-height-size) {
+    font-size: 22px;
+    line-height: 32px;
+    margin: 20px 0 0 20px;
+  }
 }
 
 .sub-description-text {
@@ -58,6 +68,10 @@
   text-align: left;
   margin-top: 32px;
   margin-left: 20px;
+
+  @media (max-height: $short-height-size) {
+    margin-top: 16px;
+  }
 }
 
 .meeting-info {
@@ -69,11 +83,22 @@
   &.required {
     margin: 40px 24px 0 24px;
     padding: 13px 24px 16px 24px;
+
+    @media (max-height: $short-height-size) {
+      margin-top: 16px;
+    }
+
+    @media (max-width: 340px) {
+      padding-inline: 18px;
+    }
   }
 
   &.additional {
     margin: 16px 24px 0 24px;
     padding: 16px 24px 24px 24px;
+    @media (max-width: 340px) {
+      padding-inline: 18px;
+    }
   }
 
   .meeting-field-title-and-reference {
@@ -150,18 +175,23 @@
 }
 
 // CalendarTimeSelector
-.duration-selector-margin {
-  height: 28px;
-  width: 100%;
-  background-color: $color-background;
-}
+// .duration-selector-margin {
+//   height: 28px;
+//   width: 100%;
+//   background-color: $color-background;
+// }
 .duration-selector {
   display: flex;
   align-items: center;
+  margin-top: 28px;
   @media (min-width: 405px) {
     margin-inline: 60px;
   }
   margin-inline: 18px;
+
+  @media (max-height: $short-height-size) {
+    margin-top: 14px;
+  }
   // min-width: 280px;
   background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 20px;
@@ -231,6 +261,10 @@
 
 .calendar {
   margin-top: 20px;
+
+  @media (max-height: $short-height-size) {
+    margin-top: 14px;
+  }
 }
 .date-string {
   text-align: left;
@@ -246,6 +280,10 @@
   .date-string-text {
     flex: 1;
   }
+
+  @media (max-height: $short-height-size) {
+    margin-top: 8px;
+  }
 }
 
 .time-chip-text {
@@ -259,6 +297,9 @@
   .icn-clock-b20 {
     padding-right: 9.67px;
   }
+  @media (max-height: $short-height-size) {
+    margin-top: 8px;
+  }
 }
 
 .time-chips-stack {
@@ -269,14 +310,28 @@
   &::-webkit-scrollbar {
     display: none;
   }
+
+  @media (max-height: $short-height-size) {
+    margin-top: 8px;
+  }
 }
 
 .time-chips {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+
   height: 40px;
   width: 83px;
-  flex: 0 0 auto;
   border-radius: 100px;
   cursor: pointer;
+
+  @media (max-height: $short-height-size) {
+    height: 32px;
+    width: 64px;
+    border-radius: 60px;
+  }
 
   &.filled {
     background: $color-highlight 0% 0% no-repeat padding-box;
@@ -291,9 +346,13 @@
     display: none;
   }
   .text {
-    font: normal normal normal 16px/18px Arial;
+    font-size: $font-16;
+    line-height: $font-18;
     text-align: center;
-    margin-top: 11.5px;
+
+    @media (max-height: $short-height-size) {
+      font-size: $font-14;
+    }
   }
 }
 
@@ -347,6 +406,9 @@
   margin-top: 32px;
   // height: fit-content;
   // overflow: auto;
+  @media (max-height: $short-height-size) {
+    margin-top: 20px;
+  }
 
   .on-off-btn:first-child {
     float: left;
@@ -423,6 +485,10 @@
 .on-off-textfield {
   clear: both;
   padding-top: 50px;
+
+  @media (max-height: $short-height-size) {
+    padding-top: 20px;
+  }
 
   .title {
     text-align: center;

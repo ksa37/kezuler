@@ -140,7 +140,7 @@ function Overview() {
   const handleCancelClick = () => {
     const cancel = () => {
       //TODO pendingEvent Delete candidate 연결
-
+      // isFixedMeeting
       console.log('ho');
     };
 
@@ -151,7 +151,10 @@ function Overview() {
   };
 
   const handleCopyLinkClick = () => {
-    copyText(`${CURRENT_HOST}${PathName.invite}/${eventId}`, '케줄러 링크가');
+    copyText(
+      `${CURRENT_HOST}${PathName.invite}/${eventId}/invitation`,
+      '케줄러 링크가'
+    );
   };
 
   const eventDate = useMemo(() => {
@@ -169,9 +172,19 @@ function Overview() {
       </button>
       <div className={'overview-container'}>
         {isEdit ? (
-          <OverviewEdit eventDate={eventDate} event={event} />
+          <OverviewEdit
+            eventDate={eventDate}
+            event={event}
+            isCanceled={isCanceled}
+            isPassed={isPassed}
+          />
         ) : (
-          <OverviewBody eventDate={eventDate} event={event} />
+          <OverviewBody
+            eventDate={eventDate}
+            event={event}
+            isCanceled={isCanceled}
+            isPassed={isPassed}
+          />
         )}
       </div>
       {!isCanceled && !isPassed && (

@@ -42,7 +42,7 @@ function ParticipantTab({
         })}
         onClick={handleAbsentClick}
       >
-        미참여
+        미정
         <span className={'participants-popup-tab-num'}>{absentsNum}</span>
       </button>
     </div>

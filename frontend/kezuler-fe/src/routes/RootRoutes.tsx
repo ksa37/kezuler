@@ -7,8 +7,17 @@ import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { getCookie } from 'src/utils/cookie';
 
 import AcceptMeeting from 'src/views/accept-meeting';
+import AcceptanceCompletion from 'src/views/accept-meeting/AcceptanceCompletion';
+import AcceptIndex from 'src/views/accept-meeting/AcceptIndex';
+import Invitation from 'src/views/accept-meeting/Invitation';
 import SelectionModifier from 'src/views/accept-meeting/SelectionModifier';
+import TimeListSelector from 'src/views/accept-meeting/TimeListSelector';
 import CreateMeeting from 'src/views/create-meeting';
+import CalendarTimeSelector from 'src/views/create-meeting/CalendarTimeSelector';
+import MeetingInfoForm from 'src/views/create-meeting/MeetingInfoForm';
+import MeetingShare from 'src/views/create-meeting/MeetingShare';
+import OnOffSelector from 'src/views/create-meeting/OnOffSelector';
+import SelectedOptions from 'src/views/create-meeting/SelectedOptions';
 import KakaoRedirect from 'src/views/KakaoRedirect';
 import Login from 'src/views/Login';
 import MainPage from 'src/views/MainPage';
@@ -38,6 +47,10 @@ function RootRoutes() {
         <main>
           <Routes>
             <Route path={PathName.main} element={<MainPage />}>
+              <Route
+                index
+                element={<Navigate replace to={PathName.mainFixed} />}
+              />
               <Route path={PathName.mainFixed} element={<MainFixedEvents />}>
                 <Route
                   path={PathName.mainFixedIdInfo}
@@ -68,33 +81,94 @@ function RootRoutes() {
             </Route>
             <Route path={PathName.notification} element={<NotiPage />} />
             <Route path={PathName.myPage} element={<MyPage />} />
-            <Route path={PathName.pending} element={<>login</>} />
-            <Route path={PathName.delete} element={<>login</>} />
-            <Route path={PathName.create} element={<CreateMeeting />} />
-            <Route
-              path={`${PathName.modify}/:eventModifyId`}
-              element={<SelectionModifier />}
-            />
+            <Route path={PathName.create} element={<CreateMeeting />}>
+              <Route
+                index
+                element={<Navigate replace to={PathName.createInfo} />}
+              />
+              <Route path={PathName.createInfo} element={<MeetingInfoForm />} />
+              <Route
+                path={PathName.createTime}
+                element={<CalendarTimeSelector />}
+              />
+              <Route
+                path={PathName.createTimeA}
+                element={<CalendarTimeSelector />}
+              />
+              <Route
+                path={PathName.createTimeB}
+                element={<CalendarTimeSelector nogcalendar />}
+              />
+              <Route
+                path={PathName.createCheck}
+                element={<SelectedOptions />}
+              />
+              <Route path={PathName.createPlace} element={<OnOffSelector />} />
+              <Route
+                path={PathName.createComplete}
+                element={<MeetingShare />}
+              />
+              <Route
+                path="*"
+                element={<Navigate replace to={PathName.createInfo} />}
+              />
+            </Route>
+            <Route path={PathName.modify} element={<SelectionModifier />} />
             <Route
               path={`${PathName.confirm}/:eventConfirmId`}
               element={<TimeConfirmator />}
             />
+
             <Route
               path={`${PathName.invite}/:eventId`}
               element={<AcceptMeeting />}
-            />
+            >
+              <Route index element={<AcceptIndex />} />
+              <Route
+                path={PathName.inviteInvitation}
+                element={<Invitation />}
+              />
+              <Route
+                path={PathName.inviteSelect}
+                element={<TimeListSelector />}
+              />
+              <Route
+                path={PathName.inviteComplete}
+                element={<AcceptanceCompletion />}
+              />
+              <Route path="*" element={<AcceptIndex />} />
+            </Route>
             <Route path={`/test-page`} element={<TestPage />} />
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
-            <Route path="*" element={<Navigate replace to={PathName.main} />} />
+            <Route
+              path="*"
+              element={<Navigate replace to={PathName.mainFixed} />}
+            />
           </Routes>
         </main>
       ) : (
         <main>
           <Routes>
+            {/* <Route path={`${PathName.create}/:path`} element={<Navigate replace to={PathName.login} state={{from: path}}/>}/> */}
             <Route
               path={`${PathName.invite}/:eventId`}
               element={<AcceptMeeting />}
-            />
+            >
+              <Route index element={<AcceptIndex />} />
+              <Route
+                path={PathName.inviteInvitation}
+                element={<Invitation />}
+              />
+              <Route
+                path={PathName.inviteSelect}
+                element={<TimeListSelector />}
+              />
+              <Route
+                path={PathName.inviteComplete}
+                element={<AcceptanceCompletion />}
+              />
+              <Route path="*" element={<AcceptIndex />} />
+            </Route>
             <Route path={PathName.login} element={<Login />} />
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
             <Route path={`/test-page`} element={<TestPage />} />

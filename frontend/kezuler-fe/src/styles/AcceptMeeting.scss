@@ -1,10 +1,14 @@
 @import './constants.scss';
 
 .accept-wrapper {
-  margin-top: 72px;
+  margin-top: $app-bar-height;
   display: flex;
   flex: 1;
   flex-direction: column;
+
+  @media (max-height: $short-height-size) {
+    margin-top: $app-bar-height--short;
+  }
 }
 
 // Invitation

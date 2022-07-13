@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Avatar } from '@mui/material';
 import classNames from 'classnames';
 
 import {
@@ -60,15 +61,19 @@ function Invitation() {
       );
       navigate(`${PathName.mainPending}`);
     } else if (isModification(eventTimeCandidates, declinedUsers)) {
-      navigate(`${PathName.modify}/${eventId}`);
+      navigate(`/modify/${eventId}`);
     } else {
+      navigate(`${PathName.invite}/${eventId}/select`);
       dispatch(increaseStep());
     }
   };
 
   const handleConnectClick = () => {
     location.href = KAKAO_AUTH_URL;
-    sessionStorage.setItem(LOGIN_REDIRECT_KEY, `${PathName.invite}/${eventId}`);
+    sessionStorage.setItem(
+      LOGIN_REDIRECT_KEY,
+      `${PathName.invite}/${eventId}/select`
+    );
   };
 
   const meetingTitleDescription = '미팅 제목';
@@ -87,7 +92,7 @@ function Invitation() {
           {'미팅에 초대합니다.'}
         </div>
         <div className={'invitation-card'}>
-          <img
+          <Avatar
             className={'invitation-avatar'}
             alt=""
             src={eventHost.userProfileImage}

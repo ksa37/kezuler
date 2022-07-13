@@ -1,4 +1,5 @@
 const CURRENT_HOST = 'http://kezuler.com';
+// const CURRENT_HOST = 'http://localhost:3000';
 
 const CLIENT_ID = '0c7841de042de4b73e3a11c1af2f6671';
 const REDIRECT_URI = 'http://kezuler.com/oauth/kakao/token';

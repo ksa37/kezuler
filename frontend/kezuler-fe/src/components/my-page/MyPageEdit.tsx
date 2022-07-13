@@ -63,9 +63,6 @@ function MyPageEdit({ goToMain }: Props) {
     changeUser(data, {
       onSuccess: () => {
         getUserInfo({ onFinally: goToMain });
-        console.log('success');
-        localStorage.setItem('hihi', 'hello');
-        // location.reload();
       },
     });
   };

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import classNames from 'classnames';
 import { format } from 'date-fns';
@@ -7,6 +8,7 @@ import { ko } from 'date-fns/locale';
 
 import TimeOptions from '../../constants/TimeOptions';
 import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
+import PathName from 'src/constants/PathName';
 import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
@@ -25,18 +27,30 @@ import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
 import { ReactComponent as ClockOrangeIcon } from 'src/assets/icn_clock_o20.svg';
 import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 
-function CalendarTimeSelector() {
+interface Props {
+  nogcalendar?: boolean;
+}
+
+function CalendarTimeSelector({ nogcalendar }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const { eventTimeList } = useSelector(
     (state: RootState) => state.createMeeting
   );
-  const { increaseStep, addTimeList, deleteTimeList, seteventTimeDuration } =
-    createMeetingActions;
+  const {
+    increaseStep,
+    setTitle,
+    setStep,
+    addTimeList,
+    deleteTimeList,
+    seteventTimeDuration,
+  } = createMeetingActions;
 
   const [startDate, setStartDate] = useState<Date | null>(
     getTimezoneDate(new Date().getTime())
   );
   const { show } = dialogAction;
+
+  const navigate = useNavigate();
 
   const dateStr = useMemo(
     () =>
@@ -100,6 +114,7 @@ function CalendarTimeSelector() {
   };
 
   const handleNextClick = () => {
+    navigate(PathName.createCheck);
     dispatch(increaseStep());
   };
 
@@ -110,7 +125,7 @@ function CalendarTimeSelector() {
   );
 
   const handleCalendarPopupNo = () => {
-    localStorage.setItem(CREATE_CALENDAR_POPUP_DISABLE_KEY, 'true');
+    // localStorage.setItem(CREATE_CALENDAR_POPUP_DISABLE_KEY, 'true');
     setPopupDisable(true);
     console.log('no');
   };
@@ -123,10 +138,10 @@ function CalendarTimeSelector() {
   };
 
   const mockSceduleData = [
-    { title: '철수 저녁', time: '오전 7:00 ~ 오전 11:00' },
-    { title: '동아리 모임', time: '오전 7:00 ~ 오전 11:00' },
-    { title: '휴가', time: '하루종일' },
-    { title: '휴가2', time: '하루종일' },
+    { title: '인공지능개론 팀플', time: '오후 2:00 ~ 오후 3:00' },
+    { title: '수아랑 저녁', time: '오후 6:00 ~ 오후 7:00' },
+    { title: '동아리 정기모임', time: '오후 7:00 ~ 오후 9:00' },
+    { title: '토익 시험 접수', time: '하루종일' },
   ];
 
   // eventTimeDuration Index: 30, 60, 120
@@ -175,10 +190,18 @@ function CalendarTimeSelector() {
     [startDate, eventTimeList]
   );
 
+  useEffect(() => {
+    dispatch(setStep(1));
+    const link = location.href;
+    if (link.includes('A') || link.includes('B')) {
+      dispatch(setTitle('어떤 생성 방식이 좋나요'));
+    }
+  }, []);
+
   return (
     <div className={'create-wrapper'}>
       <div className={'padding-wrapper'}>
-        <div className={'duration-selector-margin'} />
+        {/* <div className={'duration-selector-margin'} /> */}
         <div className={'duration-selector'}>
           <ClockOrangeIcon className={'icn-clock-o20'} />
           <div className={'duration-text'}>미팅 길이</div>
@@ -202,7 +225,9 @@ function CalendarTimeSelector() {
           <CalendarIcon className={'calendar-icon'} />
           <div className={'date-string-text'}>{dateStr}</div>
         </div>
-        {scheduleConnected && <ScheduleList schedules={mockSceduleData} />}
+        {!nogcalendar && scheduleConnected && (
+          <ScheduleList schedules={mockSceduleData} />
+        )}
         <div className={'time-chip-text'}>
           <ClockIcon className={'icn-clock-b20'} />
           <b>{'미팅시작 시각'}</b>
@@ -211,7 +236,7 @@ function CalendarTimeSelector() {
         <Stack direction="row" spacing={'6px'} className={'time-chips-stack'}>
           {getChips}
         </Stack>
-        {!popupDisable && (
+        {!nogcalendar && !popupDisable && (
           <CalendarPopup
             onYesClick={handleCalendarPopupYes}
             onNoClick={handleCalendarPopupNo}
