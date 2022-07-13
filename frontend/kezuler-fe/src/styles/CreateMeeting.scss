@@ -54,6 +54,12 @@
   font: normal normal bold 24px/36px Pretendard;
   margin: 32px 0 0 20px;
   box-sizing: border-box;
+
+  @media (max-height: $short-height-size) {
+    font-size: 22px;
+    line-height: 32px;
+    margin: 20px 0 0 20px;
+  }
 }
 
 .sub-description-text {
@@ -62,6 +68,10 @@
   text-align: left;
   margin-top: 32px;
   margin-left: 20px;
+
+  @media (max-height: $short-height-size) {
+    margin-top: 16px;
+  }
 }
 
 .meeting-info {
@@ -73,11 +83,22 @@
   &.required {
     margin: 40px 24px 0 24px;
     padding: 13px 24px 16px 24px;
+
+    @media (max-height: $short-height-size) {
+      margin-top: 16px;
+    }
+
+    @media (max-width: 340px) {
+      padding-inline: 18px;
+    }
   }
 
   &.additional {
     margin: 16px 24px 0 24px;
     padding: 16px 24px 24px 24px;
+    @media (max-width: 340px) {
+      padding-inline: 18px;
+    }
   }
 
   .meeting-field-title-and-reference {
@@ -261,7 +282,7 @@
   }
 
   @media (max-height: $short-height-size) {
-    margin-top: 12px;
+    margin-top: 8px;
   }
 }
 
@@ -275,6 +296,9 @@
   }
   .icn-clock-b20 {
     padding-right: 9.67px;
+  }
+  @media (max-height: $short-height-size) {
+    margin-top: 8px;
   }
 }
 
@@ -382,6 +406,9 @@
   margin-top: 32px;
   // height: fit-content;
   // overflow: auto;
+  @media (max-height: $short-height-size) {
+    margin-top: 20px;
+  }
 
   .on-off-btn:first-child {
     float: left;
@@ -458,6 +485,10 @@
 .on-off-textfield {
   clear: both;
   padding-top: 50px;
+
+  @media (max-height: $short-height-size) {
+    padding-top: 20px;
+  }
 
   .title {
     text-align: center;
