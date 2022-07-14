@@ -12,10 +12,13 @@ interface Props {
 function OverviewParticipants({ event }: Props) {
   const { eventHost } = event;
   const { participants } = event;
-  // participants = [
+  const acceptParticipants = participants.filter(
+    (participant) => participant.userStatus === 'Accepted'
+  );
+  //acceptParticipants = [
   //   {
   //     userId: 'user0003',
-  //     userName: '태인',
+  //     userName: 'svsvvds태인',
   //     userProfileImage: 'https://example.com',
   //     userStatus: 'Declined',
   //   },
@@ -90,10 +93,10 @@ function OverviewParticipants({ event }: Props) {
     const Elements: JSX.Element[] = [];
     const Names: JSX.Element[] = [];
 
-    participants
+    acceptParticipants
       ?.slice(
         0,
-        participants.length > MAX_PREVIEW_NUM
+        acceptParticipants.length > MAX_PREVIEW_NUM
           ? MAX_PREVIEW_NUM - 1
           : MAX_PREVIEW_NUM
       )
@@ -114,11 +117,11 @@ function OverviewParticipants({ event }: Props) {
       });
 
     return { avatarElements: Elements, avatarNames: Names };
-  }, [participants]);
+  }, [acceptParticipants]);
 
   const etcParticipantsNum = useMemo(() => {
-    return participants.length - MAX_PREVIEW_NUM + 1;
-  }, [participants]);
+    return acceptParticipants.length - MAX_PREVIEW_NUM + 1;
+  }, [acceptParticipants]);
 
   // TODO 작아졌을 때 처리
   return (
