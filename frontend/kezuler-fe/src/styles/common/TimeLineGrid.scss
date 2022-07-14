@@ -289,17 +289,17 @@
     border: 0.5px solid $color-highlight;
     border-radius: 8px;
     box-shadow: 0 15px 35px #282f391a;
-    font-size: $font-14;
-    line-height: $font-18;
+    font-size: $font-12;
+    line-height: $font-16;
     font-weight: bold;
     flex: 1;
     color: $color-highlight;
 
     background-color: white;
 
-    @media (max-height: $short-height-size) {
-      font-size: $font-12;
-      line-height: $font-16;
+    @media (min-height: $short-height-size) and (min-width: 350px) {
+      font-size: $font-14;
+      line-height: $font-18;
     }
 
     &:hover {
