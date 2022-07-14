@@ -126,22 +126,27 @@
 
   input::placeholder {
     color: #bfbfbf;
+    font-size: $font-14;
   }
   textarea::placeholder {
     color: #bfbfbf;
+    font-size: $font-14;
   }
   input {
     color: $color-highlight;
+    font-size: $font-14;
   }
 
   input:focus {
     outline: none;
     border-color: $color-highlight;
+    font-size: $font-14;
   }
 
   textarea:focus {
     outline: none;
     border-color: $color-highlight;
+    font-size: $font-14;
   }
 
   .meeting-title {

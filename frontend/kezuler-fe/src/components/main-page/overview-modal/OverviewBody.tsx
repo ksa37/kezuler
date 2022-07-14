@@ -45,18 +45,28 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
   };
 
   const place = useMemo(
-    () =>
-      eventPlace ? (
-        <div className={'overview-section-place'}>
-          <LocIcon />
-          {eventPlace}
-        </div>
-      ) : (
-        <div className={'overview-section-place'}>
-          <PCIcon />
-          {eventZoomAddress ? eventZoomAddress : '온라인'}
-        </div>
-      ),
+    () => (
+      <div className={'overview-section-place'}>
+        {eventPlace ? (
+          <>
+            <LocIcon />
+            <span>{eventPlace}</span>
+          </>
+        ) : (
+          <>
+            <PCIcon />
+            <span>{eventZoomAddress ? eventZoomAddress : '온라인'}</span>
+          </>
+        )}
+        <button
+          className={'overview-section-copy-btn'}
+          onClick={handleCopyPlaceClick}
+        >
+          <CopyIcon />
+          복사
+        </button>
+      </div>
+    ),
     [eventZoomAddress, eventPlace]
   );
 
@@ -64,7 +74,7 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
     <>
       <header className={'overview-header'}>
         <div className={'overview-header-title'}>미팅 제목</div>
-        <h1 className={'overview-header-desc'}>{eventTitle}</h1>
+        <div className={'overview-header-desc'}>{eventTitle}</div>
         {isFixedEvent(event) && !isCanceled && !isPassed && (
           <OverviewDropdown />
         )}
@@ -76,44 +86,39 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
             profileImageUrl={hostProfileImage}
             profileImageAlt={hostName}
           >
-            {hostName}
+            <div>{hostName}</div>
           </OverviewSection>
         )}
         {eventDate && (
           <OverviewSection title={'일시'}>{eventDate}</OverviewSection>
         )}
-        <OverviewSection title={'장소'}>
-          {place}
-          <button
-            className={'overview-section-copy-btn'}
-            onClick={handleCopyPlaceClick}
-          >
-            <CopyIcon />
-            복사하기
-          </button>
-        </OverviewSection>
+        <OverviewSection title={'장소'}>{place}</OverviewSection>
         {eventDescription && (
           <OverviewSection title={'미팅 내용'}>
-            {eventDescription}
+            <div className={'overview-section-description'}>
+              {eventDescription}
+            </div>
           </OverviewSection>
         )}
         {eventAttachment && (
           <OverviewSection title={'참고 자료'}>
-            <a
-              href={eventAttachment}
-              target="_blank"
-              rel="noreferrer"
-              className={'overview-section-attachment'}
-            >
-              {eventAttachment}
-            </a>
-            <button
-              className={'overview-section-copy-btn'}
-              onClick={handleAttachmentClick}
-            >
-              <CopyIcon />
-              복사하기
-            </button>
+            <div className={'overview-section-attachment'}>
+              <a
+                href={eventAttachment}
+                target="_blank"
+                rel="noreferrer"
+                className={'overview-section-attachment-link'}
+              >
+                {eventAttachment}
+              </a>
+              <button
+                className={'overview-section-copy-btn'}
+                onClick={handleAttachmentClick}
+              >
+                <CopyIcon />
+                복사
+              </button>
+            </div>
           </OverviewSection>
         )}
         {isFixedEvent(event) && !isCanceled && (
