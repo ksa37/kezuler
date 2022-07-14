@@ -260,7 +260,7 @@
   justify-content: center;
   flex-wrap: wrap;
 
-  @media (max-height: $short-height-size) {
+  @media (max-height: 640px) {
     margin-top: 16px;
   }
 }
