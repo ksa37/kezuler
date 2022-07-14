@@ -45,24 +45,54 @@
 
   .overview-header {
     position: relative;
-    padding: 24px 24px 20px;
+    padding: 18px 18px 10px;
     background-color: $color-main;
     color: $color-highlight;
 
+    @media (min-height: $short-height-size) and (min-width: 350px) {
+      padding: 24px 24px 20px;
+    }
+
     .overview-header-title {
       font-size: $font-14;
+
+      @media (max-width: 350px) {
+        font-size: $font-12;
+      }
     }
 
     .overview-header-desc {
       margin: 8px 0 0;
       font-size: $font-24;
       font-weight: bold;
+
+      @media (max-height: $short-height-size) {
+        margin-top: 4px;
+      }
+
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+
+      @media (max-width: 440px) {
+        font-size: 20px;
+      }
+      @media (max-width: 380px) {
+        font-size: 18px;
+      }
+      @media (max-width: 350px) {
+        font-size: 16px;
+      }
     }
   }
 
   .overview-body {
-    padding: 20px 24px 12px;
+    padding: 18px 18px 6px;
     background-color: white;
+
+    @media (min-height: $short-height-size) and (min-width: 350px) {
+      padding: 20px 24px 12px;
+    }
   }
 }
 
@@ -70,18 +100,39 @@
   position: relative;
   margin-bottom: 20px;
 
+  @media (max-height: $short-height-size) {
+    margin-bottom: 10px;
+  }
+
   .overview-section-title {
     margin: 0 0 8px;
     color: #9f9f9f;
     font-size: $font-14;
+
+    @media (max-height: $short-height-size) {
+      margin-bottom: 4px;
+    }
   }
 
   .overview-section-desc {
     color: $color-highlight;
-    font-size: $font-16;
+    font-size: $font-14;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+
+    @media (min-height: $short-height-size) and (min-width: 350px) {
+      font-size: $font-16;
+    }
+  }
+
+  .overview-section-description {
+    display: -webkit-box;
+    word-break: normal;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .overview-section-copy-btn {
@@ -96,13 +147,24 @@
     color: #9f9f9f;
 
     svg {
-      margin-right: 4px;
+      margin-right: 1px;
     }
   }
 
   .overview-section-attachment {
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+
+  .overview-section-attachment-link {
     color: #6695d8;
     text-decoration: underline;
+
+    flex: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .overview-section-avatar {
@@ -114,12 +176,27 @@
   }
 
   .overview-section-place {
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    // justify-content: center;
+
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      flex: 1;
+      white-space: nowrap;
+    }
 
     svg {
       margin-right: 4px;
+      width: 16px;
+      height: 16px;
+    }
+    .overview-section-copy-btn {
+      svg {
+        margin-right: 1px;
+      }
     }
   }
 }
@@ -182,6 +259,10 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+
+  @media (max-height: $short-height-size) {
+    margin-top: 16px;
+  }
 }
 
 .overview-btn {
@@ -195,6 +276,11 @@
   justify-content: center;
   width: 48px;
   margin: 0 16px;
+
+  @media (max-width: 320px) {
+    margin: 0 10px;
+    font-size: 11px;
+  }
 
   &.edit {
     .overview-btn-icon {

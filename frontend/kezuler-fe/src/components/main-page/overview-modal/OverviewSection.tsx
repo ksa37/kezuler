@@ -16,7 +16,7 @@ function OverviewSection({
 }: Props) {
   return (
     <section className={'overview-section'}>
-      <h2 className={'overview-section-title'}>{title}</h2>
+      <div className={'overview-section-title'}>{title}</div>
       <div className={'overview-section-desc'}>{children}</div>
       {profileImageUrl && (
         <Avatar

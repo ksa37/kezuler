@@ -513,7 +513,7 @@ $datepicker__triangle-size: 8px !default;
 
   .react-datepicker__day,
   .react-datepicker__time-name {
-    color: $color-highlight;
+    color: #3d3d3d;
     display: inline-block;
     width: $datepicker__item-size;
     line-height: $datepicker__item-size;
@@ -525,7 +525,7 @@ $datepicker__triangle-size: 8px !default;
     }
 
     &.react-datepicker__day--weekend {
-      color: #9f9f9f;
+      color: #efa7ac;
 
       &.react-datepicker__day--disabled {
         color: $datepicker__muted-color;
@@ -535,6 +535,13 @@ $datepicker__triangle-size: 8px !default;
           cursor: default;
           background-color: transparent;
         }
+      }
+
+      &.react-datepicker__day--keyboard-selected {
+        color: #fff;
+      }
+      &.react-datepicker__day--selected {
+        color: #fff;
       }
     }
   }
