@@ -4,7 +4,7 @@ import {
   PGetFixedEvents,
   PPatchFixedEvent,
   PPostFixedEvent,
-  PPutFixedEvent,
+  // PPutFixedEvent,
   RGetFixedEvents,
 } from 'src/types/fixedEvent';
 
@@ -27,11 +27,14 @@ const postFixedEvent = (pfixedEvent: PPostFixedEvent) =>
 const deleteFixedEventById = (eventId: string) =>
   KezulerInstance.delete<FixedEvent>(`/fixedEvents/${eventId}`);
 
-const putFixedEventGuestById = (eventId: string, pfixedEvent: PPutFixedEvent) =>
-  KezulerInstance.put<FixedEvent>(
-    `fixedEvents/${eventId}/candidate`,
-    pfixedEvent
-  );
+// const putFixedEventGuestById = (eventId: string, pfixedEvent: PPutFixedEvent) =>
+//   KezulerInstance.put<FixedEvent>(
+//     `fixedEvents/${eventId}/candidate`,
+//     pfixedEvent
+//   );
+
+const putFixedEventGuestById = (eventId: string) =>
+  KezulerInstance.put<FixedEvent>(`fixedEvents/${eventId}/candidate`);
 
 const deleteFixedEventGuestById = (eventId: string) =>
   KezulerInstance.delete<FixedEvent>(`fixedEvents/${eventId}/candidate`);

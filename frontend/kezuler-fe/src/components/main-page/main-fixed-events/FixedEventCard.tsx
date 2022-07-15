@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
@@ -33,12 +33,75 @@ function FixedEventCard({ event, hasTodayId }: Props) {
     eventId,
     eventTimeStartsAt,
     eventPlace,
-    participants,
+    // participants,
     eventZoomAddress,
     eventHost: { userId: hostId },
     isDisabled: isCanceled,
   } = event;
 
+  let { participants } = event;
+  participants = [
+    {
+      userId: 'user0003',
+      userName: 'svsvvds태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Accepted',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Accepted',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Accepted',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Accepted',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Accepted',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Accepted',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Accepted',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Accepted',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Accepted',
+    },
+    {
+      userId: 'user0003',
+      userName: '태인',
+      userProfileImage: 'https://example.com',
+      userStatus: 'Accepted',
+    },
+  ];
   const date = useMemo(
     () => getTimezoneDate(new Date(eventTimeStartsAt).getTime()),
     [event]
@@ -85,17 +148,36 @@ function FixedEventCard({ event, hasTodayId }: Props) {
       return (
         <div className={'fixed-event-card-place'}>
           <LocIcon />
-          {eventPlace}
+          <span>{eventPlace}</span>
         </div>
       );
     }
     return (
       <div className={'fixed-event-card-place'}>
         <PCIcon />
-        온라인
+        <span>온라인</span>
       </div>
     );
   }, [eventPlace, eventZoomAddress]);
+
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  function getWindowSize() {
+    const { innerWidth, innerHeight } = window;
+    return { innerWidth, innerHeight };
+  }
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
 
   return (
     <button
@@ -131,17 +213,26 @@ function FixedEventCard({ event, hasTodayId }: Props) {
         {!isCanceled && (
           <div>
             <AvatarGroup
-              max={4}
+              max={
+                windowSize.innerWidth > 350
+                  ? 4
+                  : windowSize.innerWidth > 320
+                  ? 3
+                  : 2
+              }
               classes={{ avatar: 'fixed-event-card-avatar-num' }}
             >
-              {participants?.map((p) => (
-                <Avatar
-                  className={'fixed-event-card-avatar'}
-                  key={p.userId}
-                  alt={p.userName}
-                  src={p.userProfileImage}
-                />
-              ))}
+              {participants?.map(
+                (p) =>
+                  p.userStatus === 'Accepted' && (
+                    <Avatar
+                      className={'fixed-event-card-avatar'}
+                      key={p.userId}
+                      alt={p.userName}
+                      src={p.userProfileImage}
+                    />
+                  )
+              )}
             </AvatarGroup>
             <EventLocation />
           </div>

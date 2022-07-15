@@ -15,7 +15,7 @@ function OverviewParticipants({ event }: Props) {
   const acceptParticipants = participants.filter(
     (participant) => participant.userStatus === 'Accepted'
   );
-  //acceptParticipants = [
+  // acceptParticipants = [
   //   {
   //     userId: 'user0003',
   //     userName: 'svsvvds태인',

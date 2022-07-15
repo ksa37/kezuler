@@ -195,6 +195,7 @@
       width: 100%;
       color: $color-text;
       font-size: $font-16;
+      word-break: break-all;
     }
 
     &:last-child {
@@ -226,9 +227,18 @@
 .fixed-event-card-place {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   color: #8d8d8d;
   font-size: 14px;
+  max-width: 100px;
+
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex: 1;
+    white-space: nowrap;
+  }
+
   svg {
     margin-right: 4px;
   }
@@ -290,6 +300,7 @@
       font-weight: bold;
       font-size: $font-16;
       color: $color-highlight;
+      word-break: break-all;
     }
 
     &:nth-child(3) {

@@ -143,6 +143,10 @@
     font-size: $font-14;
   }
 
+  textarea {
+    font-size: $font-14;
+  }
+
   textarea:focus {
     outline: none;
     border-color: $color-highlight;
