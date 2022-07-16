@@ -126,65 +126,53 @@
   width: 100%;
   height: 407px;
   bottom: 79px;
-  @media (max-width: 320px) {
+
+  @media (max-width: 320px), (max-height: 720px) {
     height: 270px;
   }
 
-  @media (max-height: 720px) {
-    height: 270px;
-  }
   @media (max-height: 540px) {
     display: none;
   }
 }
 
-.acceptance-bell {
-  // top: 39%;
-  // left: 32%;
-
-  // position: fixed;
-  // bottom: 306px;
-  // right: 13px;
+.acceptance-bell-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 1;
-
   position: absolute;
+
+  width: 180px;
+  height: 180px;
+
   top: 0;
   right: 13px;
-  @media (max-width: 320px) {
-    width: 120px;
-    height: 120px;
-    top: 0;
-    right: 8px;
+
+  .acceptance-bell {
+    width: 275px;
+    height: 275px;
   }
 
-  @media (max-height: 720px) {
+  @media (max-width: 320px), (max-height: 720px) {
     width: 120px;
     height: 120px;
-    top: 0;
     right: 8px;
+
+    .acceptance-bell {
+      width: 180px;
+      height: 180px;
+    }
   }
 }
 
 .acceptance-circle {
-  // top: 43%;
-
-  // position: fixed;
-  // bottom: 122px;
-  // right: -45px;
-
   position: absolute;
   top: 68px;
   right: -45px;
   z-index: 0;
 
-  @media (max-width: 320px) {
-    width: 198px;
-    height: 198px;
-    top: 46px;
-    right: -30px;
-  }
-
-  @media (max-height: 720px) {
+  @media (max-width: 320px), (max-height: 720px) {
     width: 198px;
     height: 198px;
     top: 46px;
@@ -192,27 +180,30 @@
   }
 }
 
-.acceptance-talking-people {
-  // top: 60%;
-  // left: 52%;
-
-  // position: fixed;
-  // bottom: 79px;
-  // right: 79px;
-
+.acceptance-talking {
   position: absolute;
-  top: 180px;
+  top: 0;
   right: 79px;
   z-index: 1;
 
-  @media (max-width: 320px) {
+  @media (max-width: 320px), (max-height: 720px) {
     width: 150px;
     height: 150px;
     top: 120px;
     right: 52px;
   }
+}
 
-  @media (max-height: 720px) {
+.acceptance-talking-people {
+  position: absolute;
+  top: 180px;
+  right: 79px;
+  z-index: 1;
+
+  width: 227px;
+  height: 227px;
+
+  @media (max-width: 320px), (max-height: 720px) {
     width: 150px;
     height: 150px;
     top: 120px;
