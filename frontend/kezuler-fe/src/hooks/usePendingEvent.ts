@@ -112,7 +112,9 @@ const usePostPendingEvent = () => {
     postPendingEvent(ppendingEvent)
       .then((res) => {
         dispatch(
-          setShareUrl(`${CURRENT_HOST}${PathName.invite}/${res.data.eventId}`)
+          setShareUrl(
+            `${CURRENT_HOST}${PathName.invite}/${res.data.eventId}/invitation`
+          )
         );
         dispatch(setEventId(res.data.eventId));
         navigate(PathName.createComplete);

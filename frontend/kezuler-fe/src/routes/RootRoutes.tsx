@@ -28,6 +28,8 @@ import TestPage from 'src/views/TestPage';
 import MainFixedEvents from 'src/components/main-page/main-fixed-events';
 import MainPendingEvents from 'src/components/main-page/main-pending-events';
 import OverviewModal from 'src/components/main-page/overview-modal';
+import PrivacyPolicy from 'src/components/my-page/PrivacyPolicy';
+import TermsOfService from 'src/components/my-page/TermsOfService';
 
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
@@ -81,6 +83,8 @@ function RootRoutes() {
             </Route>
             <Route path={PathName.notification} element={<NotiPage />} />
             <Route path={PathName.myPage} element={<MyPage />} />
+            <Route path={PathName.privacyPolicy} element={<PrivacyPolicy />} />
+            <Route path={PathName.serviceTerm} element={<TermsOfService />} />
             <Route path={PathName.create} element={<CreateMeeting />}>
               <Route
                 index

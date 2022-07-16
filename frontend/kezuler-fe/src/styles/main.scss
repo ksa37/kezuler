@@ -242,6 +242,10 @@
   svg {
     margin-right: 4px;
   }
+
+  @media (max-width: 300px) {
+    max-width: 80px;
+  }
 }
 
 .fixed-event-card-avatar-num {
