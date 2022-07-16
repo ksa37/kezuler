@@ -11,11 +11,11 @@ import {
 import getTimezoneDate from 'src/utils/getTimezoneDate';
 
 import BottomPopper from '../../common/BottomPopper';
+import MainButtonContainer from '../MainButtonContainer';
 import FixedEventCard from './FixedEventCard';
 import EmptyFixedEventCard from 'src/components/main-page/main-fixed-events/EmptyFixedEventCard';
 
 import BottomCardBg from 'src/assets/img_bottom_popper_cards.svg';
-import MainButtonContainer from '../MainButtonContainer';
 
 function MainFixedEvents() {
   const { getFixedEvents, events, isFetched } = useMainFixed();
