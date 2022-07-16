@@ -5,9 +5,9 @@ import PathName from 'src/constants/PathName';
 
 import BottomButton from 'src/components/common/BottomButton';
 
-import { ReactComponent as Bell } from 'src/assets/acceptance_complete_bell.svg';
 import { ReactComponent as Circle } from 'src/assets/acceptance_complete_circle.svg';
-import { ReactComponent as TalkingPeople } from 'src/assets/img_talking_small.svg';
+import Bell from 'src/assets/image/notification-bell.png';
+import TalkingPeople from 'src/assets/image/talking-people.png';
 
 function AcceptanceCompletion() {
   const navigate = useNavigate();
@@ -31,9 +31,15 @@ function AcceptanceCompletion() {
         {'다시 알려드릴게요.'}
       </div>
       <div className={'acceptance-complete-imgs'}>
-        <Bell className={'acceptance-bell'} />
+        <div className={'acceptance-bell-container'}>
+          <img className={'acceptance-bell'} src={Bell} alt={''} />
+        </div>
         <Circle className={'acceptance-circle'} />
-        <TalkingPeople className={'acceptance-talking-people'} />
+        <img
+          className={'acceptance-talking-people'}
+          src={TalkingPeople}
+          alt={''}
+        />
       </div>
       <BottomButton onClick={handleHomeClick} text={'홈으로 가기'} />
     </div>
