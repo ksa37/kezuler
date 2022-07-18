@@ -14,8 +14,8 @@ import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 import BottomButton from 'src/components/common/BottomButton';
 
-import { ReactComponent as CelebrateIcon } from 'src/assets/celebrate_icon.svg';
-import { ReactComponent as CelebrateSmileIcon } from 'src/assets/celebrate_smile_icon.svg';
+import CelebrateIcon from 'src/assets/image/celebrate.png';
+import CelebrateSmileIcon from 'src/assets/image/celebrate-emoji.png';
 import { ReactComponent as KakaoIcon } from 'src/assets/kakao_icon_big.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/link_icon_big.svg';
 import { ReactComponent as ShareIcon } from 'src/assets/share_icon_big.svg';
@@ -137,8 +137,12 @@ function MeetingShare() {
             <div className={'share-text'}>{generalShareText}</div>
           </button>
         </Stack>
-        <CelebrateSmileIcon className={'celebrate-smile-icon'} />
-        <CelebrateIcon className={'celebrate-icon'} />
+        <img
+          src={CelebrateSmileIcon}
+          className={'celebrate-smile-icon'}
+          alt={''}
+        />
+        <img src={CelebrateIcon} className={'celebrate-icon'} alt={''} />
       </div>
       <BottomButton onClick={handleHomeClick} text="홈으로 가기" />
     </div>
