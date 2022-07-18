@@ -22,28 +22,28 @@ function OverviewDropdown({ eventId }: Props) {
   const { show } = dialogAction;
   // const putReminder = usePutReminder();
   // 화면 진입 시 선택되어있는 리마인더 찾아옴
-  useEffect(() => {
-    let reminder: Reminder;
-    getGuestReminder(eventId)
-      .then((res) => {
-        reminder = res.data;
-      })
-      .catch((err) => {
-        console.log('리마인더 에러', err);
-        dispatch(
-          show({
-            title: '리마인더 오류',
-            description: '리마인더를 가져올 수 없습니다.',
-          })
-        );
-      });
-    const targetIdx = REMINDER_OPTIONS.findIndex(
-      (t) => t.minutes === reminder.timeDelta
-    );
-    if (targetIdx !== -1) {
-      setSelectedIdx(targetIdx);
-    }
-  }, [eventId]);
+  // useEffect(() => {
+  //   let reminder: Reminder;
+  //   getGuestReminder(eventId)
+  //     .then((res) => {
+  //       reminder = res.data;
+  //     })
+  //     .catch((err) => {
+  //       console.log('리마인더 에러', err);
+  //       dispatch(
+  //         show({
+  //           title: '리마인더 오류',
+  //           description: '리마인더를 가져올 수 없습니다.',
+  //         })
+  //       );
+  //     });
+  //   const targetIdx = REMINDER_OPTIONS.findIndex(
+  //     (t) => t.minutes === reminder.timeDelta
+  //   );
+  //   if (targetIdx !== -1) {
+  //     setSelectedIdx(targetIdx);
+  //   }
+  // }, [eventId]);
 
   const handleChangeReminder = (newIdx: number) => {
     const seletedMinutes = REMINDER_OPTIONS[newIdx].minutes;

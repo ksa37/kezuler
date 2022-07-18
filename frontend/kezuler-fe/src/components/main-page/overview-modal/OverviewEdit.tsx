@@ -139,7 +139,7 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
           />
         </h1>
         {isFixedEvent(event) && !isCanceled && !isPassed && (
-          <OverviewDropdown />
+          <OverviewDropdown eventId={eventId} />
         )}
       </header>
       <div className={'overview-body'}>
