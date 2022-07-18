@@ -30,7 +30,13 @@ import { ReactComponent as CloseIcon } from 'src/assets/icn_close_b.svg';
 import { ReactComponent as CloseThinIcon } from 'src/assets/icn_close_thin.svg';
 import { ReactComponent as DeleteIcon } from 'src/assets/icn_delete.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icn_edit_big.svg';
+import { ReactComponent as JoinIcon } from 'src/assets/icn_join.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icn_link.svg';
+
+import {
+  deleteFixedEventGuestById,
+  putFixedEventGuestById,
+} from 'src/api/fixedEvent';
 
 function Overview() {
   // const location = useLocation();
@@ -91,6 +97,15 @@ function Overview() {
     [hostId]
   );
 
+  const isAccepted = useMemo(() => {
+    if (isFixedEvent(event)) {
+      const currentUser = event.participants.filter(
+        (p) => p.userId === getCurrentUserInfo()?.userId
+      );
+      return currentUser[0]?.userStatus === 'Accepted';
+    }
+  }, [event]);
+
   const { openDialog } = useDialog();
 
   const removePendingEvent = useDeletePendingEventById();
@@ -141,12 +156,25 @@ function Overview() {
     const cancel = () => {
       //TODO pendingEvent Delete candidate 연결
       // isFixedMeeting
-      console.log('ho');
+      deleteFixedEventGuestById(eventId);
+      location.reload();
     };
 
     openDialog({
       title: `'${eventTitle}'\n미팅 참여를 취소 하시겠어요?`,
       onConfirm: cancel,
+    });
+  };
+
+  const handleJoinClick = () => {
+    const join = () => {
+      putFixedEventGuestById(eventId);
+      location.reload();
+    };
+
+    openDialog({
+      title: `'${eventTitle}'\n미팅에 참여하시겠어요?`,
+      onConfirm: join,
     });
   };
 
@@ -221,11 +249,20 @@ function Overview() {
                   />
                 </>
               ) : (
-                <OverviewButton
-                  icon={<CancelIcon />}
-                  onClick={handleCancelClick}
-                  text={'참여취소'}
-                />
+                isFixedEvent(event) &&
+                (isAccepted ? (
+                  <OverviewButton
+                    icon={<CancelIcon />}
+                    onClick={handleCancelClick}
+                    text={'참여취소'}
+                  />
+                ) : (
+                  <OverviewButton
+                    icon={<JoinIcon />}
+                    onClick={handleJoinClick}
+                    text={'참여하기'}
+                  />
+                ))
               )}
               <OverviewButton
                 icon={<LinkIcon />}
