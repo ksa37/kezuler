@@ -12,71 +12,71 @@ interface Props {
 function OverviewParticipants({ event }: Props) {
   const { eventHost } = event;
   const { participants } = event;
-  let acceptParticipants = participants.filter(
+  const acceptParticipants = participants.filter(
     (participant) => participant.userStatus === 'Accepted'
   );
-  acceptParticipants = [
-    {
-      userId: 'user0003',
-      userName: 'svsvvds태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Declined',
-    },
-  ];
+  // acceptParticipants = [
+  //   {
+  //     userId: 'user0003',
+  //     userName: 'svsvvds태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Declined',
+  //   },
+  // ];
 
   // const { participants, eventHost } = event;
   const { show } = participantsPopupAction;
@@ -110,7 +110,6 @@ function OverviewParticipants({ event }: Props) {
   const MAX_PREVIEW_NUM = useMemo(() => {
     if (windowSize.innerWidth > 440) {
       return 5;
-      console.log('cscsdc');
     } else if (windowSize.innerWidth > 400) {
       return 4;
     } else if (windowSize.innerWidth > 330) {
@@ -123,7 +122,6 @@ function OverviewParticipants({ event }: Props) {
   const { avatarElements, avatarNames } = useMemo(() => {
     const Elements: JSX.Element[] = [];
     const Names: JSX.Element[] = [];
-    console.log('avartar');
     acceptParticipants
       ?.slice(
         0,
@@ -151,7 +149,6 @@ function OverviewParticipants({ event }: Props) {
   }, [acceptParticipants, MAX_PREVIEW_NUM]);
 
   const etcParticipantsNum = useMemo(() => {
-    console.log('etcParticipantsNum');
     return acceptParticipants.length - MAX_PREVIEW_NUM + 1;
   }, [acceptParticipants, MAX_PREVIEW_NUM]);
 

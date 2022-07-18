@@ -39,69 +39,69 @@ function FixedEventCard({ event, hasTodayId }: Props) {
     isDisabled: isCanceled,
   } = event;
 
-  let { participants } = event;
-  participants = [
-    {
-      userId: 'user0003',
-      userName: 'svsvvds태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Accepted',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Accepted',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Accepted',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Accepted',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Accepted',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Accepted',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Accepted',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Accepted',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Accepted',
-    },
-    {
-      userId: 'user0003',
-      userName: '태인',
-      userProfileImage: 'https://example.com',
-      userStatus: 'Accepted',
-    },
-  ];
+  const { participants } = event;
+  // participants = [
+  //   {
+  //     userId: 'user0003',
+  //     userName: 'svsvvds태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Accepted',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Accepted',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Accepted',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Accepted',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Accepted',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Accepted',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Accepted',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Accepted',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Accepted',
+  //   },
+  //   {
+  //     userId: 'user0003',
+  //     userName: '태인',
+  //     userProfileImage: 'https://example.com',
+  //     userStatus: 'Accepted',
+  //   },
+  // ];
   const date = useMemo(
     () => getTimezoneDate(new Date(eventTimeStartsAt).getTime()),
     [event]
