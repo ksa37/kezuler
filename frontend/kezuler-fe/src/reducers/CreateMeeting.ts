@@ -51,7 +51,7 @@ export const createMeetingSlice = createSlice({
     setIsOnline: (state, action: PayloadAction<boolean>) => {
       state.isOnline = action.payload;
     },
-    seteventTimeDuration: (state, action: PayloadAction<number>) => {
+    setEventTimeDuration: (state, action: PayloadAction<number>) => {
       state.eventTimeDuration = action.payload;
     },
     addTimeList: (state, action: PayloadAction<number>) => {

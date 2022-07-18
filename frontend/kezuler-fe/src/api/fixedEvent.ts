@@ -7,6 +7,7 @@ import {
   // PPutFixedEvent,
   RGetFixedEvents,
 } from 'src/types/fixedEvent';
+import { PPutReminder, Reminder } from 'src/types/reminder';
 
 const getFixedEvents = ({ startIndex, endIndex }: PGetFixedEvents) =>
   KezulerInstance.get<RGetFixedEvents>(`fixedEvents`, {
@@ -39,6 +40,18 @@ const putFixedEventGuestById = (eventId: string) =>
 const deleteFixedEventGuestById = (eventId: string) =>
   KezulerInstance.delete<FixedEvent>(`fixedEvents/${eventId}/candidate`);
 
+const getGuestReminder = (eventId: string) =>
+  KezulerInstance.get<Reminder>(`fixedEvents/${eventId}/reminder`);
+
+const postGuestReminder = (eventId: string, param: PPutReminder) =>
+  KezulerInstance.post<Reminder>(`fixedEvents/${eventId}/reminder`, param);
+
+const putGuestReminder = (eventId: string, param: PPutReminder) =>
+  KezulerInstance.put<Reminder>(`fixedEvents/${eventId}/reminder`, param);
+
+const deleteGuestReminder = (eventId: string) =>
+  KezulerInstance.delete<Reminder>(`fixedEvents/${eventId}/reminder`);
+
 export {
   getFixedEvents,
   getFixedEventById,
@@ -47,4 +60,8 @@ export {
   deleteFixedEventById,
   putFixedEventGuestById,
   deleteFixedEventGuestById,
+  getGuestReminder,
+  postGuestReminder,
+  putGuestReminder,
+  deleteGuestReminder,
 };

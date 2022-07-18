@@ -42,7 +42,7 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
     setStep,
     addTimeList,
     deleteTimeList,
-    seteventTimeDuration,
+    setEventTimeDuration,
   } = createMeetingActions;
 
   const [startDate, setStartDate] = useState<Date | null>(
@@ -149,7 +149,7 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
   // eventTimeDuration state 설정
   useMemo(() => {
     dispatch(
-      seteventTimeDuration(MEETING_LENGTH_LIST[selectedLengthIdx].minutes)
+      setEventTimeDuration(MEETING_LENGTH_LIST[selectedLengthIdx].minutes)
     );
   }, [MEETING_LENGTH_LIST[selectedLengthIdx].minutes]);
 
