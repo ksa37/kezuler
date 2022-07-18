@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import classNames from 'classnames';
 
@@ -105,34 +105,37 @@ function MeetingShare() {
           spacing={'16px'}
           sx={{ marginBlock: '48px', display: 'block' }}
         >
-          <Button
-            classes={{ root: classNames('share-icon', 'kakao') }}
-            sx={{
-              color: '#282F39',
-            }}
+          <button
+            // classes={{ root: classNames('share-icon', 'kakao') }}
+            className={classNames('share-icon', 'kakao')}
+            // sx={{
+            //   color: '#282F39',
+            // }}
             onClick={handleKakaoShareClick}
           >
             <KakaoIcon />
             <div className={'share-text'}>{kakaoShareText}</div>
-          </Button>
-          <Button
-            classes={{ root: 'share-icon' }}
-            sx={{
-              color: '#282F39',
-            }}
+          </button>
+          <button
+            // classes={{ root: 'share-icon' }}
+            className={'share-icon'}
+            // sx={{
+            //   color: '#282F39',
+            // }}
             onClick={handleLinkShareClick}
           >
             <LinkIcon />
             <div className={'share-text'}>{linkShareText}</div>
-          </Button>
-          <Button
-            classes={{ root: 'share-icon' }}
-            sx={{ color: '#282F39' }}
+          </button>
+          <button
+            // classes={{ root: 'share-icon' }}
+            className={'share-icon'}
+            // sx={{ color: '#282F39' }}
             onClick={handleGeneralShareClick}
           >
             <ShareIcon />
             <div className={'share-text'}>{generalShareText}</div>
-          </Button>
+          </button>
         </Stack>
         <img
           src={CelebrateSmileIcon}

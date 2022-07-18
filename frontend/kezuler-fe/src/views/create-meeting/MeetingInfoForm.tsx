@@ -7,6 +7,7 @@ import PathName from 'src/constants/PathName';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
+import isURL from 'src/utils/isURL';
 
 import BottomButton from 'src/components/common/BottomButton';
 
@@ -34,6 +35,7 @@ function MeetingInfoForm() {
     event: ChangeEvent<HTMLInputElement>
   ) => {
     dispatch(setAttachment(event.target.value));
+    console.log(isURL(eventAttachment));
   };
 
   const handleNextClick = () => {
@@ -43,7 +45,6 @@ function MeetingInfoForm() {
 
   const handleEnter = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key.toLowerCase() === 'enter') {
-      console.log('hello there!');
       document.getElementById('description')?.focus();
     }
   };

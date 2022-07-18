@@ -22,6 +22,7 @@ interface Props {
 
 function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
   const {
+    eventId,
     eventTitle,
     eventDescription,
     eventAttachment,
@@ -76,7 +77,7 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
         <div className={'overview-header-title'}>미팅 제목</div>
         <div className={'overview-header-desc'}>{eventTitle}</div>
         {isFixedEvent(event) && !isCanceled && !isPassed && (
-          <OverviewDropdown />
+          <OverviewDropdown eventId={eventId} />
         )}
       </header>
       <div className={'overview-body'}>
