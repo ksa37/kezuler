@@ -2,6 +2,7 @@ import React from 'react';
 
 import RootRoutes from './routes/RootRoutes';
 
+import KezulerAlert from './components/modal/KezulerAlert';
 import KezulerDialog from 'src/components/modal/KezulerDialog';
 import ParticipantsPopup from 'src/components/participants-popup';
 
@@ -13,6 +14,7 @@ function App() {
     <div className="App" id="App">
       <RootRoutes />
       <KezulerDialog />
+      <KezulerAlert />
       <ParticipantsPopup />
     </div>
   );

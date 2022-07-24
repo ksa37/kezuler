@@ -12,6 +12,7 @@ import PathName from 'src/constants/PathName';
 import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
+import { alertAction } from 'src/reducers/alert';
 import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from '../../store';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
@@ -48,7 +49,7 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
   const [startDate, setStartDate] = useState<Date | null>(
     getTimezoneDate(new Date().getTime())
   );
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const navigate = useNavigate();
 

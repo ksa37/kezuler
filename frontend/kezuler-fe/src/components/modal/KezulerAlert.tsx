@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Dialog from '@mui/material/Dialog';
+import classNames from 'classnames';
 
 import { RootState } from 'src/reducers';
 import { alertAction } from 'src/reducers/alert';
@@ -34,10 +35,10 @@ function KezulerAlert() {
       onClose={handleClose}
       classes={{ paper: 'kezuler-dialog' }}
     >
-      <button className={'overview-close-btn'} onClick={closeModal}>
+      <button className={'kezuler-alert-close-btn'} onClick={closeModal}>
         <CloseIcon />
       </button>
-      <div className={'kezuler-dialog-body'}>
+      <div className={classNames('kezuler-dialog-body', 'alert')}>
         <h1>{title}</h1>
         {description && <h2>{description}</h2>}
       </div>
