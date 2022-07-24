@@ -3,7 +3,7 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import classNames from 'classnames';
 
-import { PROFILE_ACCEPTS } from 'src/constants/MyPage';
+import { PROFILE_ACCEPTS, PROFILE_MAX_SIZE } from 'src/constants/MyPage';
 import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
@@ -76,6 +76,7 @@ function MyPageEdit({ goToMain }: Props) {
       return;
     }
 
+    // 형식 검사
     const splitFile = file.name.split('.');
     const extension = splitFile[splitFile.length - 1]?.toLowerCase();
     if (!PROFILE_ACCEPTS.includes(extension)) {
@@ -83,6 +84,14 @@ function MyPageEdit({ goToMain }: Props) {
         title: `${PROFILE_ACCEPTS.join(
           ', '
         )}\n형태의 파일만 업로드 가능합니다.`,
+      });
+      return;
+    }
+
+    // 용량 검사
+    if (file.size > PROFILE_MAX_SIZE) {
+      openDialog({
+        title: `2MB 이하의 파일만 업로드 가능합니다.`,
       });
       return;
     }
