@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
@@ -13,7 +14,6 @@ import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { alertAction } from 'src/reducers/alert';
-import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from '../../store';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
@@ -234,7 +234,11 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
           <b>{'미팅시작 시각'}</b>
           {'을 선택하세요'}
         </div>
-        <Stack direction="row" spacing={'6px'} className={'time-chips-stack'}>
+        <Stack
+          direction="row"
+          spacing={'6px'}
+          className={classNames('time-chips-stack', { 'is-mobile': isMobile })}
+        >
           {getChips}
         </Stack>
         {!nogcalendar && !popupDisable && (

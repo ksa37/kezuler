@@ -69,11 +69,15 @@
   outline: none;
   border: none;
   color: black;
-  height: 24px;
   align-self: flex-end;
   cursor: pointer;
   padding: 8px 8px 0;
   box-sizing: content-box;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .kezuler-dialog-footer {

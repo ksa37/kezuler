@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { REMINDER_OPTIONS } from 'src/constants/Main';
+import { alertAction } from 'src/reducers/alert';
 // import { usePutReminder } from 'src/hooks/useReminder';
-import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from 'src/store';
 import { Reminder } from 'src/types/reminder';
 
@@ -19,7 +19,7 @@ interface Props {
 function OverviewDropdown({ eventId }: Props) {
   const [selectedIdx, setSelectedIdx] = useState(2);
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
   // const putReminder = usePutReminder();
   // 화면 진입 시 선택되어있는 리마인더 찾아옴
   // useEffect(() => {

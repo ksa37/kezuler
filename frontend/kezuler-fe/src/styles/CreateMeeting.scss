@@ -315,10 +315,42 @@
 .time-chips-stack {
   margin-inline: 12px;
   margin-top: 16px;
+  position: relative;
   overflow: auto;
-  -ms-overflow-style: none;
+
+  &.is-mobile {
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  padding-bottom: 16px;
   &::-webkit-scrollbar {
+    height: 10px;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 60px;
+    background-color: #f9d84e;
+    box-shadow: 0px 3px 6px #00000029;
+    border: 2px solid #fdf0b8;
+    border-radius: 100px;
+    opacity: 1;
+  }
+
+  &::-webkit-scrollbar-corner {
     display: none;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #fdf0b8;
+    border-radius: 100px;
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    background-color: #fdf0b8;
+    border-radius: 100px;
   }
 
   @media (max-height: $short-height-size) {
