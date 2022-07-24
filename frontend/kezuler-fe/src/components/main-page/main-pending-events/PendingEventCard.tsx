@@ -1,15 +1,14 @@
 import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import classNames from 'classnames';
 
-// import classNames from 'classnames';
 import { CURRENT_HOST } from 'src/constants/Auth';
 import PathName, { makePendingInfoUrl } from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import { BPendingEvent } from 'src/types/pendingEvent';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
-import { ReactComponent as HostIcon } from 'src/assets/icn_host.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icn_info_yb.svg';
 import { ReactComponent as SendIcon } from 'src/assets/icn_send_yb.svg';
 
@@ -25,7 +24,8 @@ function PendingEventCard({ event }: Props) {
     eventTitle,
     eventHost: { userId: hostId },
     eventPlace,
-    // eventTimeCandidates,
+    eventTimeCandidates,
+    declinedUsers,
   } = event;
 
   const navigate = useNavigate();
@@ -54,16 +54,6 @@ function PendingEventCard({ event }: Props) {
     [hostId]
   );
 
-  // const isParticipating = useMemo(() => {
-  //   if (isHost) {
-  //     return true;
-  //   }
-  //   const curUserId = getCurrentUserInfo()?.userId;
-  //   return eventTimeCandidates.some((c) =>
-  //     c.possibleUsers.some(({ userId }) => userId === curUserId)
-  //   );
-  // }, [isHost, eventTimeCandidates]);
-
   const eventLocation = useMemo(() => {
     if (eventPlace) {
       return '오프라인';
@@ -71,17 +61,36 @@ function PendingEventCard({ event }: Props) {
     return '온라인';
   }, [eventPlace]);
 
+  const participantsNum = useMemo(() => {
+    const participantsSet = new Set();
+    eventTimeCandidates.forEach(({ possibleUsers }) => {
+      possibleUsers.forEach(({ userId }) => {
+        participantsSet.add(userId);
+      });
+    });
+
+    return participantsSet.size;
+  }, [eventTimeCandidates]);
+
   return (
-    <section className={'pending-event-card'}>
+    <section
+      className={classNames('pending-event-card', {
+        'is-host': isHost,
+      })}
+    >
       <div>
         {eventLocation}
-        {/* {isParticipating ? (
-          <div className={'pending-event-participate'}>참여</div>
-        ) : (
-          <div className={classNames('pending-event-participate', 'absent')}>
-            미참여
-          </div>
-        )} */}
+        <span className={'pending-participant-info'}>
+          참여
+          <span className={'pending-participant-info-num'}>
+            {participantsNum}
+          </span>
+          <span className={'pending-participant-info-divider'} />
+          미정
+          <span className={'pending-participant-info-num'}>
+            {declinedUsers.length}
+          </span>
+        </span>
       </div>
       <div>{eventTitle}</div>
       <div>
@@ -114,7 +123,6 @@ function PendingEventCard({ event }: Props) {
           초대링크
         </Button>
       </div>
-      {isHost && <HostIcon className={'pending-event-card-host-badge'} />}
     </section>
   );
 }
