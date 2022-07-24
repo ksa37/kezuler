@@ -49,6 +49,18 @@
     background-color: $color-main;
     color: $color-highlight;
 
+    &.is-canceled,
+    &.is-passed {
+      background-color: #eaeaea;
+
+      .overview-header-title {
+        color: #9f9f9f;
+      }
+      .overview-header-desc {
+        color: #9f9f9f;
+      }
+    }
+
     @media (min-height: $short-height-size) and (min-width: 350px) {
       padding: 24px 24px 20px;
     }
