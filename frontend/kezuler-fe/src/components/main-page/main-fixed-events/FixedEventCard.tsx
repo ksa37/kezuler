@@ -17,7 +17,6 @@ import {
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import getTimezoneDate from 'src/utils/getTimezoneDate';
 
-import { ReactComponent as HostIcon } from 'src/assets/icn_host.svg';
 import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
 import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
 
@@ -185,12 +184,11 @@ function FixedEventCard({ event, hasTodayId }: Props) {
       onClick={handleOverviewClick}
       className={classNames('fixed-event-card', {
         canceled: isCanceled,
-        'is-guest': !isHost,
+        'is-host': isHost,
         passed: tense === 'past',
         today: tense === 'today',
       })}
     >
-      {isHost && <HostIcon className={'fixed-event-card-host-badge'} />}
       <div className={'fixed-event-card-date'}>
         <span>{MMdd}</span> {getKorDay(date)}
       </div>

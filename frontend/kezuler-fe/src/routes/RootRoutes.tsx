@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import { ACCESS_TOKEN_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
@@ -34,6 +34,7 @@ import TermsOfService from 'src/components/my-page/TermsOfService';
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
   const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+  const location = useLocation();
 
   // TODO 리덕스 필요한지 확인 필요
   const { getUserInfo } = useGetUserInfo();
@@ -42,6 +43,27 @@ function RootRoutes() {
       getUserInfo();
     }
   }, [isLoggedIn]);
+
+  // 경로에 맞게 HTML Meta Title 수정
+  useEffect(() => {
+    let title = '케줄러 - 일잘러들을 위한 스마트 스케줄러';
+    const mainRegex = /^\/main\/.+\/.+\/info/;
+    const pathname = location.pathname;
+    if (pathname.startsWith('/mypage')) {
+      title = '마이페이지 - 케줄러';
+    } else if (pathname.startsWith('/create')) {
+      title = '미팅 생성 - 케줄러';
+    } else if (pathname.startsWith('/invite')) {
+      title = '미팅 시간 투표 - 케줄러';
+    } else if (pathname.match(mainRegex)) {
+      title = '미팅 정보 - 케줄러';
+    }
+
+    const htmlTitle = document.querySelector('title');
+    if (htmlTitle) {
+      htmlTitle.innerHTML = title;
+    }
+  }, [location.pathname]);
 
   return (
     <>
