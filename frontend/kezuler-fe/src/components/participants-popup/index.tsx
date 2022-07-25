@@ -106,7 +106,8 @@ function ParticipantsPopup() {
             ) : (
               <ParticipantsGrid
                 isHost={isHost}
-                // emptyText={}
+                isFixed={isFixedEvent(event)}
+                isAttendant={isAttendant}
                 users={targetUsers as FixedUser[] | DeclinedUser[]}
               />
             )}
