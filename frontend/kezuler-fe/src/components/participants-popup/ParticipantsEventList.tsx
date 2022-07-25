@@ -71,7 +71,7 @@ function ParticipantsEventList({ candidates, eventDuration }: Props) {
                           src={userProfileImage}
                           alt={userName}
                         />
-                        {userName}
+                        <span>{userName}</span>
                       </div>
                     )
                   )}

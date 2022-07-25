@@ -119,6 +119,21 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
     }
     return true;
   };
+  
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.code === 'Enter') {
+      const form = document.forms[0];
+      const index = Array.prototype.indexOf.call(form, event.target);
+      //TODO: 원래 제대로 적용되게끔하기
+      const indexList = [0, 2, 3, 5];
+      const nowIndex = indexList.findIndex((i) => i === index);
+      if (nowIndex + 1 < indexList.length) {
+        const focusEl: any = form.elements[indexList[nowIndex + 1]];
+        focusEl.focus();
+      }
+      // event.preventDefault();
+    }
+  };
 
   return (
     <form id={OVERVIEW_FORM_ID} onSubmit={handleSubmit(onValid)}>
@@ -137,7 +152,7 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
           />
         </h1>
         {isFixedEvent(event) && !isCanceled && !isPassed && (
-          <OverviewDropdown />
+          <OverviewDropdown eventId={eventId} />
         )}
       </header>
       <div className={'overview-body'}>
