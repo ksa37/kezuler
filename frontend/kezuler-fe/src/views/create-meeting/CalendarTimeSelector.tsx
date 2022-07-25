@@ -226,9 +226,9 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
           <CalendarIcon className={'calendar-icon'} />
           <div className={'date-string-text'}>{dateStr}</div>
         </div>
-        {!nogcalendar && scheduleConnected && (
+        {/* {!nogcalendar && scheduleConnected && (
           <ScheduleList schedules={mockSceduleData} />
-        )}
+        )} */}
         <div className={'time-chip-text'}>
           <ClockIcon className={'icn-clock-b20'} />
           <b>{'미팅시작 시각'}</b>
@@ -241,12 +241,12 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
         >
           {getChips}
         </Stack>
-        {!nogcalendar && !popupDisable && (
+        {/* {!nogcalendar && !popupDisable && (
           <CalendarPopup
             onYesClick={handleCalendarPopupYes}
             onNoClick={handleCalendarPopupNo}
           />
-        )}
+        )} */}
       </div>
       <BottomButton
         onClick={handleNextClick}

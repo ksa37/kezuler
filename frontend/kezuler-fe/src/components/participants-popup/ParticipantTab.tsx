@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 interface Props {
   isAttendant: boolean;
+  isFixed: boolean;
   setIsAttendant: React.Dispatch<React.SetStateAction<boolean>>;
   attendantsNum: number;
   absentsNum: number;
@@ -11,6 +12,7 @@ interface Props {
 // TODO: number 0 일 때 처리
 function ParticipantTab({
   isAttendant,
+  isFixed,
   setIsAttendant,
   attendantsNum,
   absentsNum,
@@ -42,7 +44,7 @@ function ParticipantTab({
         })}
         onClick={handleAbsentClick}
       >
-        미정
+        {isFixed ? '불참' : '미정'}
         <span className={'participants-popup-tab-num'}>{absentsNum}</span>
       </button>
     </div>

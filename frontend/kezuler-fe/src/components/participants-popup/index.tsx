@@ -65,7 +65,9 @@ function ParticipantsPopup() {
 
   const attendantsAll = (attendants: EventTimeCandidate[]) =>
     attendants.reduce<string[]>((prev, eventTimeCandidate) => {
-      const userIds = eventTimeCandidate.possibleUsers.map((u) => u.userId);
+      const userIds: string[] = eventTimeCandidate.possibleUsers.map(
+        (u) => u.userId
+      );
       return prev.concat(userIds.filter((id) => prev.indexOf(id) < 0));
     }, []);
 
@@ -87,6 +89,7 @@ function ParticipantsPopup() {
           <div className={'participants-popup-main'}>
             <ParticipantTab
               isAttendant={isAttendant}
+              isFixed={isFixedEvent(event)}
               setIsAttendant={setIsAttendant}
               attendantsNum={
                 isFixedEvent(event)
@@ -103,6 +106,7 @@ function ParticipantsPopup() {
             ) : (
               <ParticipantsGrid
                 isHost={isHost}
+                // emptyText={}
                 users={targetUsers as FixedUser[] | DeclinedUser[]}
               />
             )}
