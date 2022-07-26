@@ -12,6 +12,9 @@ $my-page-gap: 20px;
   box-sizing: border-box;
   padding-top: $my-page-gap;
   color: $color-highlight;
+  @media (max-height: $short-height-size) {
+    padding-top: 4px;
+  }
 }
 .my-page-header-content {
   height: 48px;
