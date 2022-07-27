@@ -123,7 +123,7 @@ function RootRoutes() {
               />
               <Route
                 path={PathName.createTimeB}
-                element={<CalendarTimeSelector nogcalendar />}
+                element={<CalendarTimeSelector />}
               />
               <Route
                 path={PathName.createCheck}
@@ -194,6 +194,38 @@ function RootRoutes() {
                 element={<AcceptanceCompletion />}
               />
               <Route path="*" element={<AcceptIndex />} />
+            </Route>
+            <Route path={PathName.create} element={<CreateMeeting />}>
+              <Route
+                index
+                element={<Navigate replace to={PathName.createInfo} />}
+              />
+              <Route path={PathName.createInfo} element={<MeetingInfoForm />} />
+              <Route
+                path={PathName.createTime}
+                element={<CalendarTimeSelector />}
+              />
+              <Route
+                path={PathName.createTimeA}
+                element={<CalendarTimeSelector />}
+              />
+              <Route
+                path={PathName.createTimeB}
+                element={<CalendarTimeSelector />}
+              />
+              <Route
+                path={PathName.createCheck}
+                element={<SelectedOptions />}
+              />
+              <Route path={PathName.createPlace} element={<OnOffSelector />} />
+              <Route
+                path={PathName.createComplete}
+                element={<MeetingShare />}
+              />
+              <Route
+                path="*"
+                element={<Navigate replace to={PathName.createInfo} />}
+              />
             </Route>
             <Route path={PathName.login} element={<Login />} />
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
