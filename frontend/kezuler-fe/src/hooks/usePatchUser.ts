@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { dialogAction } from 'src/reducers/dialog';
+import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
 import { PPatchUser } from 'src/types/user';
 
@@ -9,7 +9,7 @@ import { patchUser, patchUserProfileImage } from 'src/api/user';
 
 const usePatchUser = () => {
   const [loading, setLoading] = useState(false);
-  const { show } = dialogAction;
+  const { show } = alertAction;
   const dispatch = useDispatch<AppDispatch>();
 
   const changeUser = (

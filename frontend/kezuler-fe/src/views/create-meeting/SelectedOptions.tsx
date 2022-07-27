@@ -4,10 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import PathName from 'src/constants/PathName';
-
 import { RootState } from 'src/reducers';
+import { alertAction } from 'src/reducers/alert';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
-import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from 'src/store';
 import { getTimeListDevideByDate, getTimeRange } from 'src/utils/dateParser';
 import getTimezoneDate from 'src/utils/getTimezoneDate';
@@ -24,7 +23,7 @@ function SelectedOptions() {
     (state: RootState) => state.createMeeting
   );
 
-  const { show } = dialogAction;
+  const { show } = alertAction;
   const navigate = useNavigate();
 
   const eventTimeListDevideByDate = useMemo(

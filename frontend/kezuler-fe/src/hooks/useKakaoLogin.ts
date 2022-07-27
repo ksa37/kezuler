@@ -9,7 +9,7 @@ import {
   REFRESH_TOKEN_KEY,
 } from '../constants/Auth';
 import PathName from 'src/constants/PathName';
-import { dialogAction } from 'src/reducers/dialog';
+import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
 import { setCookie } from '../utils/cookie';
 
@@ -19,7 +19,7 @@ import { postUser } from 'src/api/user';
 const useKakaoLogin = () => {
   // const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
   // 리다이렉트 후 토큰 요청
   const getKakaoToken = (code: string, path: PathName) => {
     getKakaoAccessTokenApi(code)

@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { dialogAction } from 'src/reducers/dialog';
+import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
 import { PPutReminder } from 'src/types/reminder';
 
@@ -13,7 +13,7 @@ import {
 
 const useGetReminder = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const getReminder = (eventId: string) => {
     getGuestReminder(eventId)
@@ -35,7 +35,7 @@ const useGetReminder = () => {
 
 const usePostReminder = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const postReminder = (eventId: string, param: PPutReminder) => {
     postGuestReminder(eventId, param)
@@ -57,7 +57,7 @@ const usePostReminder = () => {
 
 const usePutReminder = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const putReminder = (eventId: string, param: PPutReminder) => {
     putGuestReminder(eventId, param)
@@ -79,7 +79,7 @@ const usePutReminder = () => {
 
 const useDeleteReminder = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const deleteReminder = (eventId: string) => {
     deleteGuestReminder(eventId)

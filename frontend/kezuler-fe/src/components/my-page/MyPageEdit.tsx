@@ -1,12 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
 import classNames from 'classnames';
 
-import { PROFILE_ACCEPTS } from 'src/constants/MyPage';
-import useDialog from 'src/hooks/useDialog';
+import { PROFILE_ACCEPTS, PROFILE_MAX_SIZE } from 'src/constants/MyPage';
+// import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
+import { alertAction } from 'src/reducers/alert';
+import { AppDispatch } from 'src/store';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 import BottomButton from '../common/BottomButton';
@@ -24,7 +27,8 @@ interface UserForm {
 }
 
 function MyPageEdit({ goToMain }: Props) {
-  const { openDialog } = useDialog();
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = alertAction;
 
   const { userName, userEmail, userProfileImage } = useMemo(
     () => ({ ...getCurrentUserInfo() }),
@@ -76,14 +80,27 @@ function MyPageEdit({ goToMain }: Props) {
       return;
     }
 
+    // 형식 검사
     const splitFile = file.name.split('.');
     const extension = splitFile[splitFile.length - 1]?.toLowerCase();
     if (!PROFILE_ACCEPTS.includes(extension)) {
-      openDialog({
-        title: `${PROFILE_ACCEPTS.join(
-          ', '
-        )}\n형태의 파일만 업로드 가능합니다.`,
-      });
+      dispatch(
+        show({
+          title: `${PROFILE_ACCEPTS.join(
+            ', '
+          )}\n형태의 파일만 업로드 가능합니다.`,
+        })
+      );
+      return;
+    }
+
+    // 용량 검사
+    if (file.size > PROFILE_MAX_SIZE) {
+      dispatch(
+        show({
+          title: `2MB 이하의 파일만 업로드 가능합니다.`,
+        })
+      );
       return;
     }
 
@@ -149,6 +166,13 @@ function MyPageEdit({ goToMain }: Props) {
               required: true,
             })}
           />
+        </div>
+        <div className={'my-page-edit-notice'}>
+          <div className={'my-page-edit-notice-title'}>유의사항</div>
+          <div className={'my-page-edit-notice-text'}>
+            잘못된 이름 또는 이메일 사용시, 서비스 사용에 불편함이 생길 수
+            있으니 정확한 정보를 기재해주시길 바랍니다.
+          </div>
         </div>
         <BottomButton type={'submit'} text={'저장하기'} />
       </form>

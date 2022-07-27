@@ -1,5 +1,23 @@
 @import './constants';
 
+@mixin main-host-badge {
+  position: absolute;
+  transform: translateY(-50%);
+  content: '호스트';
+  font-size: $font-10;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-highlight;
+  background: #ffffff;
+  height: 20px;
+  width: 48px;
+  border-radius: 8px;
+  border: 2px solid #fad94f;
+  box-sizing: border-box;
+}
+
 .main-tab {
   justify-content: space-between;
   outline: none;
@@ -30,6 +48,12 @@
   display: flex;
   flex-direction: column;
   padding-bottom: 16px;
+  flex: 1;
+}
+
+.main-fixed-empty {
+  display: flex;
+  flex-direction: column;
   flex: 1;
 }
 
@@ -76,11 +100,19 @@
   width: calc(100% - 40px);
   box-sizing: border-box;
   margin: 0 20px 16px;
-  padding: 12px;
+  padding: 16px 12px;
 
   background-color: white;
   border-radius: $common-border-radius;
   box-shadow: 0 15px 35px $color-highlight-light;
+
+  &.is-host {
+    &::before {
+      top: 0;
+      left: 15px; // 12 (padding) + 3
+      @include main-host-badge;
+    }
+  }
 
   &.passed {
     .fixed-event-card-date {
@@ -100,10 +132,6 @@
   }
 
   &.canceled {
-    &.is-guest {
-      pointer-events: none;
-    }
-
     .fixed-event-card-date {
       background-color: #eaeaea;
       box-shadow: 0 0 10px #282f391a;
@@ -136,12 +164,6 @@
       box-shadow: 0 0 10px #0000001a;
     }
   }
-}
-
-.fixed-event-card-host-badge {
-  position: absolute;
-  //left: 0;
-  top: -4px;
 }
 
 .fixed-event-card-date {
@@ -274,7 +296,7 @@
 }
 
 .pending-event-card {
-  margin: 0 20px 16px;
+  margin: 0 20px 20px;
   padding: 16px;
   position: relative;
 
@@ -282,27 +304,26 @@
   border-radius: $common-border-radius;
   box-shadow: 0 15px 35px $color-highlight-light;
 
+  &.is-host {
+    &::before {
+      top: 0;
+      @include main-host-badge;
+    }
+  }
+
   > div {
     &:first-child {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-left: 16px;
+      padding-left: 8px;
 
       color: $color-text;
-
-      .pending-event-participate {
-        font-size: $font-14;
-        color: $color-highlight;
-
-        &.absent {
-          color: #bfbfbf;
-        }
-      }
+      font-size: $font-12;
     }
 
     &:nth-child(2) {
-      padding-left: 16px;
+      padding-left: 8px;
 
       font-weight: bold;
       font-size: $font-16;
@@ -354,10 +375,19 @@
   }
 }
 
-.pending-event-card-host-badge {
-  position: absolute;
-  left: 0;
-  top: -4px;
+.pending-participant-info {
+  color: $color-highlight;
+}
+
+.pending-participant-info-num {
+  padding-left: 4px;
+  color: #808080;
+}
+
+.pending-participant-info-divider {
+  margin: 0 8px;
+  padding-left: 1px;
+  background: #bfbfbf;
 }
 
 .main-floating-button-container {

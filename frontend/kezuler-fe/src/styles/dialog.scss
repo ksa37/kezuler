@@ -15,6 +15,10 @@
   padding: 24px;
   line-height: 1.5;
 
+  &.alert {
+    padding-top: 0;
+  }
+
   .kezuler-dialog-date-wrapper {
     position: relative;
     z-index: 0;
@@ -57,6 +61,22 @@
     color: #808080;
     white-space: pre-line;
     text-align: center;
+  }
+}
+
+.kezuler-alert-close-btn {
+  background: none;
+  outline: none;
+  border: none;
+  color: black;
+  align-self: flex-end;
+  cursor: pointer;
+  padding: 8px 8px 0;
+  box-sizing: content-box;
+
+  svg {
+    width: 16px;
+    height: 16px;
   }
 }
 
