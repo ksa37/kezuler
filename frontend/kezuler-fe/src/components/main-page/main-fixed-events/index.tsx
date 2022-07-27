@@ -88,37 +88,35 @@ function MainFixedEvents() {
     return null;
   }
 
-  // const popupOpened = true;
-
-  // if (!events.length) {
-  return (
-    <div id={FIXED_TODAY_ID} className={'main-fixed-empty'}>
-      {/* <div className={'main-fixed-month-divider'}> */}
-      <div className={'main-fixed-empty'}>
-        <h1 className={'main-fixed-month-divider'}>
-          {getMonthFromTimeStamp()}월
-        </h1>
-        <EmptyFixedEventCard />
-      </div>
-      {/* </div> */}
-      {/* <h2 className={'main-empty-h2'}>
+  if (!events.length) {
+    return (
+      <div id={FIXED_TODAY_ID} className={'main-fixed-empty'}>
+        {/* <div className={'main-fixed-month-divider'}> */}
+        <div className={'main-fixed-empty'}>
+          <h1 className={'main-fixed-month-divider'}>
+            {getMonthFromTimeStamp()}월
+          </h1>
+          <EmptyFixedEventCard />
+        </div>
+        {/* </div> */}
+        {/* <h2 className={'main-empty-h2'}>
           {'다가오는 미팅이 없습니다.\n혹시 잊으신 일정은 없나요?'}
         </h2> */}
-      {popupOpened && !isPendingExist && (
-        <BottomPopper
-          title={'단 하나의 링크로 미팅 확정까지!'}
-          description={'시간 조율하느라 허비되는 시간 NO!'}
-          buttonText={'첫 미팅 만들러가기'}
-          onClick={handleCreateClick}
-          image={BottomCardBg}
-          onDisableClick={handleClosePopper}
-          reverseOrder
-        />
-      )}
-      {(isPendingExist || !popupOpened) && <MainButtonContainer />}
-    </div>
-  );
-  // }
+        {popupOpened && !isPendingExist && (
+          <BottomPopper
+            title={'단 하나의 링크로 미팅 확정까지!'}
+            description={'시간 조율하느라 허비되는 시간 NO!'}
+            buttonText={'첫 미팅 만들러가기'}
+            onClick={handleCreateClick}
+            image={BottomCardBg}
+            onDisableClick={handleClosePopper}
+            reverseOrder
+          />
+        )}
+        {(isPendingExist || !popupOpened) && <MainButtonContainer />}
+      </div>
+    );
+  }
 
   return (
     <>
