@@ -47,14 +47,14 @@ function MainFixedEvents() {
     setPopupOpened(false);
   };
 
-  useEffect(() => {
-    getPendingEvents();
-  }, [events.length === 0]);
+  // useEffect(() => {
+  //   getPendingEvents();
+  // }, [events.length === 0]);
 
-  const isPendingExist = useMemo(() => {
-    if (isPendingFetched) return pendingEvents.length > 0;
-    else false;
-  }, [isPendingFetched]);
+  // const isPendingExist = useMemo(() => {
+  //   if (isPendingFetched) return pendingEvents.length > 0;
+  //   else false;
+  // }, [isPendingFetched]);
 
   const navigate = useNavigate();
 
@@ -102,7 +102,18 @@ function MainFixedEvents() {
         {/* <h2 className={'main-empty-h2'}>
           {'다가오는 미팅이 없습니다.\n혹시 잊으신 일정은 없나요?'}
         </h2> */}
-        {popupOpened && !isPendingExist && (
+        {/* {popupOpened && !isPendingExist && (
+          <BottomPopper
+            title={'단 하나의 링크로 미팅 확정까지!'}
+            description={'시간 조율하느라 허비되는 시간 NO!'}
+            buttonText={'첫 미팅 만들러가기'}
+            onClick={handleCreateClick}
+            image={BottomCardBg}
+            onDisableClick={handleClosePopper}
+            reverseOrder
+          />
+        )} */}
+        {popupOpened && (
           <BottomPopper
             title={'단 하나의 링크로 미팅 확정까지!'}
             description={'시간 조율하느라 허비되는 시간 NO!'}
@@ -113,7 +124,8 @@ function MainFixedEvents() {
             reverseOrder
           />
         )}
-        {(isPendingExist || !popupOpened) && <MainButtonContainer />}
+        {/* {(isPendingExist || !popupOpened) && <MainButtonContainer />} */}
+        {!popupOpened && <MainButtonContainer />}
       </div>
     );
   }

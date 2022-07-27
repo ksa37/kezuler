@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { isMobile } from 'react-device-detect';
+import ScrollContainer from 'react-indiana-drag-scroll';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
@@ -234,13 +235,46 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
           <b>{'미팅시작 시각'}</b>
           {'을 선택하세요'}
         </div>
-        <Stack
-          direction="row"
-          spacing={'6px'}
-          className={classNames('time-chips-stack', { 'is-mobile': isMobile })}
-        >
-          {getChips}
-        </Stack>
+        {location.href.includes('A') ? (
+          <ScrollContainer className="scroll-container">
+            <div className={'time-chips-stack-wrapper'}>
+              <Stack
+                direction="row"
+                spacing={'6px'}
+                className={classNames('time-chips-stack', {
+                  'is-mobile': isMobile,
+                })}
+              >
+                {getChips}
+              </Stack>
+            </div>
+          </ScrollContainer>
+        ) : (
+          // <div className={'time-chips-stack-wrapper'}>
+          <Stack
+            direction="row"
+            spacing={'6px'}
+            className={classNames('time-chips-stack-b', {
+              'is-mobile': isMobile,
+            })}
+          >
+            {getChips}
+          </Stack>
+          // </div>
+        )}
+        {/* <ScrollContainer className="scroll-container">
+          <div className={'time-chips-stack-wrapper'}>
+            <Stack
+              direction="row"
+              spacing={'6px'}
+              className={classNames('time-chips-stack', {
+                'is-mobile': isMobile,
+              })}
+            >
+              {getChips}
+            </Stack>
+          </div>
+        </ScrollContainer> */}
         {/* {!nogcalendar && !popupDisable && (
           <CalendarPopup
             onYesClick={handleCalendarPopupYes}
