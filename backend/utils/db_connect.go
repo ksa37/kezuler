@@ -25,7 +25,7 @@ type S3AuthInfo struct {
 }
 
 type NcpAuthInfo struct {
-	serviceId string `json:"serviceId"`
+	ServiceId string `json:"serviceId"`
 	AccessKey string `json:"accessKey"`
 	SecretKey string `json:"secretKey"`
 }
