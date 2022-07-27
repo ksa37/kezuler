@@ -85,6 +85,7 @@ func s3UploadImage(userId string, url string) (err error) {
 	}
 	uploader := s3manager.NewUploader(sess)
 
+	tmpFile.Seek(0, io.SeekStart)
 	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String("kezuler-images"),
 		Key:    aws.String("profileImage/" + userId + ".png"),

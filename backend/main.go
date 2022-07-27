@@ -33,6 +33,9 @@ func main() {
 	pendingEventRouter.HandleFunc("/{pendingEventId}/candidate", utils.PendingEventCandidateHandler).Methods("PUT", "DELETE")
 	pendingEventRouter.HandleFunc("/{pendingEventId}/invitation", utils.PendingEventInvitationHandler).Methods("GET")
 
+	testRouter := mainRouter.PathPrefix("/test").Subrouter()
+	testRouter.HandleFunc("/alimTalk", utils.AlimTalkTest).Methods("POST")
+
 	logMiddleWare := utils.NewLogMiddleware(logger)
 	mainRouter.Use(logMiddleWare.Func())
 
