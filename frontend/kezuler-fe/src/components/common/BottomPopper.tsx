@@ -94,7 +94,7 @@ function BottomPopper({
         style={{
           position: 'absolute',
           bottom: notFixed ? '56px' : '0',
-          height: '100%',
+          height: notFixed ? 'calc( 100% - 56px)' : '100%',
           width: '100%',
           content: '',
           borderTopLeftRadius: '74px',

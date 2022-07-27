@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';
 import PathName from 'src/constants/PathName';
 import useMainFixed from 'src/hooks/useMainFixed';
+import useMainPending from 'src/hooks/useMainPending';
 import {
   getIntervalFromToday,
   getMonthFromTimeStamp,
@@ -20,8 +21,15 @@ import BottomCardBg from 'src/assets/img_bottom_popper_cards.svg';
 function MainFixedEvents() {
   const { getFixedEvents, events, isFetched } = useMainFixed();
 
+  const {
+    events: pendingEvents,
+    isFetched: isPendingFetched,
+    getPendingEvents,
+  } = useMainPending();
+
   useEffect(() => {
     getFixedEvents();
+    // getPendingEvents();
   }, []);
 
   // 화면 첫 진입 시 오늘로 스크롤 내림
@@ -32,6 +40,21 @@ function MainFixedEvents() {
       element?.scrollIntoView({ block: 'start', behavior: 'auto' });
     }
   }, [isFetched]);
+
+  const [popupOpened, setPopupOpened] = useState(true);
+
+  const handleClosePopper = () => {
+    setPopupOpened(false);
+  };
+
+  useEffect(() => {
+    getPendingEvents();
+  }, [events.length === 0]);
+
+  const isPendingExist = useMemo(() => {
+    if (isPendingFetched) return pendingEvents.length > 0;
+    else false;
+  }, [isPendingFetched]);
 
   const navigate = useNavigate();
 
@@ -65,28 +88,37 @@ function MainFixedEvents() {
     return null;
   }
 
-  if (!events.length) {
-    return (
-      <div id={FIXED_TODAY_ID} className={'main-fixed'}>
+  // const popupOpened = true;
+
+  // if (!events.length) {
+  return (
+    <div id={FIXED_TODAY_ID} className={'main-fixed-empty'}>
+      {/* <div className={'main-fixed-month-divider'}> */}
+      <div className={'main-fixed-empty'}>
         <h1 className={'main-fixed-month-divider'}>
           {getMonthFromTimeStamp()}월
         </h1>
         <EmptyFixedEventCard />
-        {/* <h2 className={'main-empty-h2'}>
+      </div>
+      {/* </div> */}
+      {/* <h2 className={'main-empty-h2'}>
           {'다가오는 미팅이 없습니다.\n혹시 잊으신 일정은 없나요?'}
         </h2> */}
+      {popupOpened && !isPendingExist && (
         <BottomPopper
           title={'단 하나의 링크로 미팅 확정까지!'}
           description={'시간 조율하느라 허비되는 시간 NO!'}
           buttonText={'첫 미팅 만들러가기'}
           onClick={handleCreateClick}
           image={BottomCardBg}
-          disableDelete
+          onDisableClick={handleClosePopper}
           reverseOrder
         />
-      </div>
-    );
-  }
+      )}
+      {(isPendingExist || !popupOpened) && <MainButtonContainer />}
+    </div>
+  );
+  // }
 
   return (
     <>

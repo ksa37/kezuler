@@ -51,6 +51,12 @@
   flex: 1;
 }
 
+.main-fixed-empty {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .main-fixed-month-divider {
   margin: 16px 28px 21px;
   position: relative;
