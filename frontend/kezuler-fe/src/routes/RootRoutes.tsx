@@ -123,7 +123,7 @@ function RootRoutes() {
               />
               <Route
                 path={PathName.createTimeB}
-                element={<CalendarTimeSelector nogcalendar />}
+                element={<CalendarTimeSelector />}
               />
               <Route
                 path={PathName.createCheck}
