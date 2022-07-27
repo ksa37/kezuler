@@ -6,10 +6,16 @@
   content: '호스트';
   font-size: $font-10;
   font-weight: bold;
-  color: $color-main;
-  background: $color-highlight;
-  padding: 4px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-highlight;
+  background: #ffffff;
+  height: 20px;
+  width: 48px;
   border-radius: 8px;
+  border: 2px solid #fad94f;
+  box-sizing: border-box;
 }
 
 .main-tab {
@@ -42,6 +48,12 @@
   display: flex;
   flex-direction: column;
   padding-bottom: 16px;
+  flex: 1;
+}
+
+.main-fixed-empty {
+  display: flex;
+  flex-direction: column;
   flex: 1;
 }
 

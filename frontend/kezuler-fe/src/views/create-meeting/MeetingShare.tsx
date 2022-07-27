@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import PathName from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import { RootState } from 'src/reducers';
-import { dialogAction } from 'src/reducers/dialog';
+import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
@@ -33,7 +33,7 @@ function MeetingShare() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { copyText } = useCopyText();
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const kakaoShareText = '카카오톡';
   const linkShareText = '링크복사';

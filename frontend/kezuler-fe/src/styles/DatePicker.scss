@@ -538,7 +538,7 @@ $datepicker__triangle-size: 8px !default;
       }
 
       &.react-datepicker__day--keyboard-selected {
-        color: #fff;
+        color: unset;
       }
       &.react-datepicker__day--selected {
         color: #fff;
@@ -614,11 +614,11 @@ $datepicker__triangle-size: 8px !default;
           content: '';
         }
       }
-      &.react-datepicker__day--keyboard-selected {
-        &::after {
-          content: '';
-        }
-      }
+      // &.react-datepicker__day--keyboard-selected {
+      //   &::after {
+      //     content: '';
+      //   }
+      // }
     }
 
     &--highlighted {
@@ -652,12 +652,12 @@ $datepicker__triangle-size: 8px !default;
     }
 
     &--keyboard-selected {
-      border-radius: $datepicker__border-radius-small;
-      background-color: lighten($datepicker__selected-color, 5%);
-      color: #fff;
+      border-radius: unset;
+      background-color: unset;
+      color: unset;
 
       &:hover {
-        background-color: darken($datepicker__selected-color, 5%);
+        background-color: unset;
       }
     }
 

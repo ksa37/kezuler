@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
@@ -12,7 +13,7 @@ import PathName from 'src/constants/PathName';
 import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
-import { dialogAction } from 'src/reducers/dialog';
+import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from '../../store';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
@@ -48,7 +49,7 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
   const [startDate, setStartDate] = useState<Date | null>(
     getTimezoneDate(new Date().getTime())
   );
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const navigate = useNavigate();
 
@@ -225,23 +226,27 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
           <CalendarIcon className={'calendar-icon'} />
           <div className={'date-string-text'}>{dateStr}</div>
         </div>
-        {!nogcalendar && scheduleConnected && (
+        {/* {!nogcalendar && scheduleConnected && (
           <ScheduleList schedules={mockSceduleData} />
-        )}
+        )} */}
         <div className={'time-chip-text'}>
           <ClockIcon className={'icn-clock-b20'} />
           <b>{'미팅시작 시각'}</b>
           {'을 선택하세요'}
         </div>
-        <Stack direction="row" spacing={'6px'} className={'time-chips-stack'}>
+        <Stack
+          direction="row"
+          spacing={'6px'}
+          className={classNames('time-chips-stack', { 'is-mobile': isMobile })}
+        >
           {getChips}
         </Stack>
-        {!nogcalendar && !popupDisable && (
+        {/* {!nogcalendar && !popupDisable && (
           <CalendarPopup
             onYesClick={handleCalendarPopupYes}
             onNoClick={handleCalendarPopupNo}
           />
-        )}
+        )} */}
       </div>
       <BottomButton
         onClick={handleNextClick}

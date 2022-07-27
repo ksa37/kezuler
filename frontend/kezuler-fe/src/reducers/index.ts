@@ -1,6 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import AcceptMeeting from './AcceptMeeting';
+import alert from './alert';
 import ConfirmTime from './ConfirmTime';
 import CreateMeeting from './CreateMeeting';
 import dialog from './dialog';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   mainPending: mainPending,
   userInfo: userInfo,
   dialog: dialog,
+  alert: alert,
   participantsPopup: participantsPopup,
   confirmTime: ConfirmTime,
 });

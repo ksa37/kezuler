@@ -16,11 +16,11 @@ function PolicyAppBar({ title }: Props) {
   };
 
   return (
-    <header className={'my-page-header'}>
-      <div className={'my-page-header-content'}>
+    <header className={'policy-header'}>
+      <div className={'policy-header-content'}>
         <b>{title}</b>
         <IconButton
-          classes={{ root: 'my-page-header-back-btn' }}
+          classes={{ root: 'policy-header-back-btn' }}
           onClick={handleCloseClick}
         >
           <CloseIcon />

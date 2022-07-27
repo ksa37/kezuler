@@ -31,6 +31,7 @@ import { ReactComponent as ArrowRightIcon } from 'src/assets/icn_right_outline.s
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
 import 'src/styles/common/TimeLineGrid.scss';
+import 'src/styles/AcceptMeeting.scss';
 
 function TimeConfirmator() {
   const dispatch = useDispatch<AppDispatch>();

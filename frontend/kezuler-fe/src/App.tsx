@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import RootRoutes from './routes/RootRoutes';
 
+import KezulerAlert from './components/modal/KezulerAlert';
 import KezulerDialog from 'src/components/modal/KezulerDialog';
 import ParticipantsPopup from 'src/components/participants-popup';
 
@@ -23,6 +24,7 @@ function App() {
     <div ref={setDiv} className="App" id="App">
       <RootRoutes />
       <KezulerDialog />
+      <KezulerAlert />
       <ParticipantsPopup />
     </div>
   );

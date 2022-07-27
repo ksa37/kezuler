@@ -100,6 +100,7 @@ function MyPageMain({ goToEdit }: Props) {
 
   return (
     <>
+      {/* <div className={'my-page-profile-wrapper'}> */}
       <div className={'my-page-profile'}>
         <Avatar
           className={'my-page-profile-avatar'}
@@ -110,6 +111,7 @@ function MyPageMain({ goToEdit }: Props) {
           <div className={'my-page-profile-name'}>{userName}</div>
           <div className={'my-page-profile-email'}>{userEmail}</div>
         </div>
+
         <Button
           onClick={handleEditClick}
           classes={{
@@ -121,6 +123,7 @@ function MyPageMain({ goToEdit }: Props) {
           편집하기
         </Button>
       </div>
+      {/* </div> */}
       <h1 className={'my-page-h1'}>미팅 정보</h1>
       <MyPageRow title={'캘린더 연동'} startIcon={<CalenderIcon />}>
         구글캘린더

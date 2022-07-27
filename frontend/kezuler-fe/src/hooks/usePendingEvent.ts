@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { CURRENT_HOST } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
+import { alertAction } from 'src/reducers/alert';
 import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
-import { dialogAction } from 'src/reducers/dialog';
 import { AppDispatch } from 'src/store';
 import {
   PDeletePendingEvent,
@@ -27,7 +27,7 @@ import {
 const useGetPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
   const setConfirmPendingEvent = confirmTimeActions.setPendingEvent;
 
   const getPendingEventInfo = (eventId: string) => {
@@ -54,7 +54,7 @@ const useGetPendingEvent = () => {
 const useGetInvitation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
   const setIsLoaded = acceptMeetingActions.setIsLoaded;
   const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
 
@@ -81,7 +81,7 @@ const useGetInvitation = () => {
 
 const useDeletePendingEventById = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const removePendingEvent = (eventId: string) => {
     deletePendingEventById(eventId)
@@ -106,7 +106,7 @@ const usePostPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { increaseStep, setShareUrl, setEventId } = createMeetingActions;
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const getShareUrl = (ppendingEvent: PPostPendingEvent) => {
     postPendingEvent(ppendingEvent)
@@ -137,7 +137,7 @@ const usePostPendingEvent = () => {
 const usePutPendingEventGuest = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const putEventTimeCandidate = (
     eventId: string,
