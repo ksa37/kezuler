@@ -94,6 +94,7 @@ function MeetingInfoForm() {
     event: ChangeEvent<HTMLInputElement>
   ) => {
     dispatch(setAttachment(event.target.value));
+    console.log(isURL(eventAttachment));
   };
 
   const handleNextClick = () => {
@@ -103,7 +104,6 @@ function MeetingInfoForm() {
 
   const handleEnter = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key.toLowerCase() === 'enter') {
-      console.log('hello there!');
       document.getElementById('description')?.focus();
     }
   };

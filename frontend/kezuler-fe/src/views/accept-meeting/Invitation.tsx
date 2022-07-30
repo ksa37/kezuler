@@ -12,7 +12,7 @@ import {
 import PathName from 'src/constants/PathName';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
-import { dialogAction } from 'src/reducers/dialog';
+import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
 import { getCookie } from 'src/utils/cookie';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
@@ -30,7 +30,7 @@ function Invitation() {
   const { pendingEvent } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
-  const { show } = dialogAction;
+  const { show } = alertAction;
   // const dispatch = useDispatch();
   const {
     eventId,

@@ -10,10 +10,12 @@ import { ReactComponent as Comment32Icon } from 'src/assets/img_coments_32.svg';
 
 interface Props {
   isHost: boolean;
+  isFixed: boolean;
+  isAttendant: boolean;
   users: FixedUser[] | DeclinedUser[];
 }
 
-function ParticipantsGrid({ isHost, users }: Props) {
+function ParticipantsGrid({ isHost, isFixed, isAttendant, users }: Props) {
   const makeSectionId = (userId: string) => `user-section-${userId}`;
 
   const handleNameClick = (userId: string) => () => {
@@ -21,11 +23,18 @@ function ParticipantsGrid({ isHost, users }: Props) {
     const element = document.getElementById(targetId);
     element?.scrollIntoView({ inline: 'center', behavior: 'smooth' });
   };
-
+  console.log(isHost, isFixed, isAttendant);
   return (
     <>
       {users.length === 0 && (
-        <div className={'no-decline-users'}>미참여 인원이 없습니다.</div>
+        <div className={'no-decline-users'}>
+          {isFixed && isAttendant
+            ? '참여 '
+            : isFixed && !isAttendant
+            ? '불참 '
+            : '미정 '}
+          인원이 없습니다.
+        </div>
       )}
       <div className={'participants-popup-list'}>
         {users.map((user) => {

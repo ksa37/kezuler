@@ -93,8 +93,8 @@ function BottomPopper({
       <div
         style={{
           position: 'absolute',
-          bottom: '0',
-          height: '100%',
+          bottom: notFixed ? '56px' : '0',
+          height: notFixed ? 'calc( 100% - 56px)' : '100%',
           width: '100%',
           content: '',
           borderTopLeftRadius: '74px',

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
 
@@ -12,10 +12,13 @@ interface Props {
 function OverviewParticipants({ event }: Props) {
   const { eventHost } = event;
   const { participants } = event;
-  // participants = [
+  const acceptParticipants = participants.filter(
+    (participant) => participant.userStatus === 'Accepted'
+  );
+  // acceptParticipants = [
   //   {
   //     userId: 'user0003',
-  //     userName: '태인',
+  //     userName: 'svsvvds태인',
   //     userProfileImage: 'https://example.com',
   //     userStatus: 'Declined',
   //   },
@@ -84,16 +87,45 @@ function OverviewParticipants({ event }: Props) {
     dispatch(show(event));
   };
 
-  const MAX_PREVIEW_NUM = 5;
+  // TODO 작아졌을 때 처리
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  function getWindowSize() {
+    const { innerWidth, innerHeight } = window;
+    return { innerWidth, innerHeight };
+  }
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
+  const MAX_PREVIEW_NUM = useMemo(() => {
+    if (windowSize.innerWidth > 440) {
+      return 5;
+    } else if (windowSize.innerWidth > 400) {
+      return 4;
+    } else if (windowSize.innerWidth > 330) {
+      return 3;
+    } else {
+      return 2;
+    }
+  }, [windowSize]);
 
   const { avatarElements, avatarNames } = useMemo(() => {
     const Elements: JSX.Element[] = [];
     const Names: JSX.Element[] = [];
-
-    participants
+    acceptParticipants
       ?.slice(
         0,
-        participants.length > MAX_PREVIEW_NUM
+        acceptParticipants.length > MAX_PREVIEW_NUM
           ? MAX_PREVIEW_NUM - 1
           : MAX_PREVIEW_NUM
       )
@@ -114,13 +146,12 @@ function OverviewParticipants({ event }: Props) {
       });
 
     return { avatarElements: Elements, avatarNames: Names };
-  }, [participants]);
+  }, [acceptParticipants, MAX_PREVIEW_NUM]);
 
   const etcParticipantsNum = useMemo(() => {
-    return participants.length - MAX_PREVIEW_NUM + 1;
-  }, [participants]);
+    return acceptParticipants.length - MAX_PREVIEW_NUM + 1;
+  }, [acceptParticipants, MAX_PREVIEW_NUM]);
 
-  // TODO 작아졌을 때 처리
   return (
     <table className={'overview-participants-table'}>
       <thead>

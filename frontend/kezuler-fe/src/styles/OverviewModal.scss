@@ -49,6 +49,18 @@
     background-color: $color-main;
     color: $color-highlight;
 
+    &.is-canceled,
+    &.is-passed {
+      background-color: #eaeaea;
+
+      .overview-header-title {
+        color: #9f9f9f;
+      }
+      .overview-header-desc {
+        color: #9f9f9f;
+      }
+    }
+
     @media (min-height: $short-height-size) and (min-width: 350px) {
       padding: 24px 24px 20px;
     }
@@ -133,6 +145,7 @@
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     overflow: hidden;
+    white-space: pre-line;
   }
 
   .overview-section-copy-btn {
@@ -250,6 +263,10 @@
     text-align: center;
     color: #808080;
     font-size: 12px;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
 

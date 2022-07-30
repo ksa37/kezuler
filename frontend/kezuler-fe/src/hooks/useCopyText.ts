@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { dialogAction } from 'src/reducers/dialog';
+import { alertAction } from 'src/reducers/alert';
 
 const useCopyText = () => {
-  const { show, hide } = dialogAction;
+  const { show, hide } = alertAction;
   const dispatch = useDispatch();
 
   const copyText = useCallback(

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 
@@ -38,10 +39,13 @@ function MyPageMain({ goToEdit }: Props) {
     []
   );
 
+  const navigate = useNavigate();
+
   const handleLogoutClick = () => {
     deleteCookie(ACCESS_TOKEN_KEY);
     deleteCookie(REFRESH_TOKEN_KEY);
     localStorage.removeItem(CURRENT_USER_INFO_KEY);
+    // location.reload();
   };
 
   const handleEditClick = () => {
@@ -51,6 +55,15 @@ function MyPageMain({ goToEdit }: Props) {
   const handleCalendarToggle = () => {
     setIsCalendarPaired(!isCalendarPaired);
   };
+
+  const handleTermsClick = () => {
+    navigate(PathName.serviceTerm);
+  };
+
+  const handlePrivacyPolicyClick = () => {
+    navigate(PathName.privacyPolicy);
+  };
+
   //TODO 구글 캘린더 연동
   const [isCalendarPaired, setIsCalendarPaired] = useState(false);
 
@@ -87,6 +100,7 @@ function MyPageMain({ goToEdit }: Props) {
 
   return (
     <>
+      {/* <div className={'my-page-profile-wrapper'}> */}
       <div className={'my-page-profile'}>
         <Avatar
           className={'my-page-profile-avatar'}
@@ -97,6 +111,7 @@ function MyPageMain({ goToEdit }: Props) {
           <div className={'my-page-profile-name'}>{userName}</div>
           <div className={'my-page-profile-email'}>{userEmail}</div>
         </div>
+
         <Button
           onClick={handleEditClick}
           classes={{
@@ -108,6 +123,7 @@ function MyPageMain({ goToEdit }: Props) {
           편집하기
         </Button>
       </div>
+      {/* </div> */}
       <h1 className={'my-page-h1'}>미팅 정보</h1>
       <MyPageRow title={'캘린더 연동'} startIcon={<CalenderIcon />}>
         구글캘린더
@@ -144,12 +160,14 @@ function MyPageMain({ goToEdit }: Props) {
       />
       <MyPageRow
         title={'이용약관'}
-        href={'https://www.notion.so/4856b0c81b4b48629afd6ab3e8e6132a'}
+        onClick={handleTermsClick}
+        // href={'https://www.notion.so/4856b0c81b4b48629afd6ab3e8e6132a'}
         startIcon={<PaperIcon />}
       />
       <MyPageRow
         title={'개인정보 보호 정책'}
-        href={'https://www.notion.so/b11df8e98a51409e9d7113ac3104169f'}
+        onClick={handlePrivacyPolicyClick}
+        // href={'https://www.notion.so/b11df8e98a51409e9d7113ac3104169f'}
         startIcon={<PaperIcon />}
       />
       <MyPageRow

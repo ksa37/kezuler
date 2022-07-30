@@ -19,6 +19,11 @@
   text-align: left;
   padding: 68px 0 0 40px;
 
+  b {
+    width: 100%;
+    word-break: break-all;
+  }
+
   @media (max-width: 340px) {
     padding-right: 40px;
     font-size: $font-20;
@@ -73,6 +78,7 @@
     font-size: $font-18;
     line-height: 21px;
     font-weight: bold;
+    word-break: break-all;
     @media (max-width: 340px) {
       font-size: $font-16;
       margin-top: 4px;
@@ -93,6 +99,7 @@
 
     .invitation-place-text {
       padding-left: 6px;
+      word-break: break-all;
     }
   }
 }
@@ -208,5 +215,41 @@
     height: 150px;
     top: 120px;
     right: 52px;
+  }
+}
+
+.celebrate-smile-icon-confirm {
+  position: fixed;
+  right: 180px;
+  bottom: 200px;
+  width: 85px;
+  height: 85px;
+
+  @media (max-height: $short-height-size), (max-width: 329px) {
+    width: 50px;
+    height: 50px;
+    right: 130px;
+    bottom: 164px;
+  }
+
+  @media (max-height: 530px) {
+    display: none;
+  }
+}
+
+.celebrate-icon-confirm {
+  position: fixed;
+  right: -30px;
+  bottom: 48px;
+  width: 290px;
+  height: 290px;
+
+  @media (max-height: $short-height-size), (max-width: 329px) {
+    width: 220px;
+    height: 220px;
+  }
+
+  @media (max-height: 530px) {
+    display: none;
   }
 }

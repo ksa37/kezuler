@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
-import { dialogAction } from 'src/reducers/dialog';
+import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
 import { PPostFixedEvent } from 'src/types/fixedEvent';
 
@@ -11,7 +11,7 @@ import { deleteFixedEventById, postFixedEvent } from 'src/api/fixedEvent';
 const usePostFixedEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const postFixedEventByConfirm = (
     pfixedEvent: PPostFixedEvent,
@@ -37,7 +37,7 @@ const usePostFixedEvent = () => {
 
 const useDeleteFixedEvent = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const deleteFixedEvent = (eventId: string) => {
     deleteFixedEventById(eventId)

@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { isMobile } from 'react-device-detect';
+import ScrollContainer from 'react-indiana-drag-scroll';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
@@ -12,7 +14,7 @@ import PathName from 'src/constants/PathName';
 import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
-import { dialogAction } from 'src/reducers/dialog';
+import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from '../../store';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
@@ -42,13 +44,13 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
     setStep,
     addTimeList,
     deleteTimeList,
-    seteventTimeDuration,
+    setEventTimeDuration,
   } = createMeetingActions;
 
   const [startDate, setStartDate] = useState<Date | null>(
     getTimezoneDate(new Date().getTime())
   );
-  const { show } = dialogAction;
+  const { show } = alertAction;
 
   const navigate = useNavigate();
 
@@ -149,7 +151,7 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
   // eventTimeDuration state 설정
   useMemo(() => {
     dispatch(
-      seteventTimeDuration(MEETING_LENGTH_LIST[selectedLengthIdx].minutes)
+      setEventTimeDuration(MEETING_LENGTH_LIST[selectedLengthIdx].minutes)
     );
   }, [MEETING_LENGTH_LIST[selectedLengthIdx].minutes]);
 
@@ -225,23 +227,60 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
           <CalendarIcon className={'calendar-icon'} />
           <div className={'date-string-text'}>{dateStr}</div>
         </div>
-        {!nogcalendar && scheduleConnected && (
+        {/* {!nogcalendar && scheduleConnected && (
           <ScheduleList schedules={mockSceduleData} />
-        )}
+        )} */}
         <div className={'time-chip-text'}>
           <ClockIcon className={'icn-clock-b20'} />
           <b>{'미팅시작 시각'}</b>
           {'을 선택하세요'}
         </div>
-        <Stack direction="row" spacing={'6px'} className={'time-chips-stack'}>
-          {getChips}
-        </Stack>
-        {!nogcalendar && !popupDisable && (
+        {location.href.includes('A') ? (
+          <ScrollContainer className="scroll-container">
+            <div className={'time-chips-stack-wrapper'}>
+              <Stack
+                direction="row"
+                spacing={'6px'}
+                className={classNames('time-chips-stack', {
+                  'is-mobile': isMobile,
+                })}
+              >
+                {getChips}
+              </Stack>
+            </div>
+          </ScrollContainer>
+        ) : (
+          // <div className={'time-chips-stack-wrapper'}>
+          <Stack
+            direction="row"
+            spacing={'6px'}
+            className={classNames('time-chips-stack-b', {
+              'is-mobile': isMobile,
+            })}
+          >
+            {getChips}
+          </Stack>
+          // </div>
+        )}
+        {/* <ScrollContainer className="scroll-container">
+          <div className={'time-chips-stack-wrapper'}>
+            <Stack
+              direction="row"
+              spacing={'6px'}
+              className={classNames('time-chips-stack', {
+                'is-mobile': isMobile,
+              })}
+            >
+              {getChips}
+            </Stack>
+          </div>
+        </ScrollContainer> */}
+        {/* {!nogcalendar && !popupDisable && (
           <CalendarPopup
             onYesClick={handleCalendarPopupYes}
             onNoClick={handleCalendarPopupNo}
           />
-        )}
+        )} */}
       </div>
       <BottomButton
         onClick={handleNextClick}

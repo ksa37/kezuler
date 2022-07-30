@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import classNames from 'classnames';
 
 import useCopyText from 'src/hooks/useCopyText';
 import { BFixedEvent } from 'src/types/fixedEvent';
@@ -22,6 +23,7 @@ interface Props {
 
 function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
   const {
+    eventId,
     eventTitle,
     eventDescription,
     eventAttachment,
@@ -72,11 +74,17 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
 
   return (
     <>
-      <header className={'overview-header'}>
+      <header
+        className={classNames(
+          'overview-header',
+          { 'is-canceled': isCanceled },
+          { 'is-passed': isPassed }
+        )}
+      >
         <div className={'overview-header-title'}>미팅 제목</div>
         <div className={'overview-header-desc'}>{eventTitle}</div>
         {isFixedEvent(event) && !isCanceled && !isPassed && (
-          <OverviewDropdown />
+          <OverviewDropdown eventId={eventId} />
         )}
       </header>
       <div className={'overview-body'}>

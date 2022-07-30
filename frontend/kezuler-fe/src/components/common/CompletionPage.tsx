@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
@@ -7,8 +7,9 @@ import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import BottomButton from 'src/components/common/BottomButton';
 import BottomPopper from 'src/components/common/BottomPopper';
 
+import CelebrateIcon from 'src/assets/image/celebrate.png';
+import CelebrateSmileIcon from 'src/assets/image/celebrate-emoji.png';
 import BottomCalendarBg from 'src/assets/img_bottom_popper_calendar.svg';
-
 interface Props {
   boldTextFirst: string;
   boldTextSecond: string;
@@ -36,6 +37,15 @@ function CompletionPage({
     }
   };
 
+  const [popupOpened, setPopupOpened] = useState(true);
+
+  const handleClosePopper = () => {
+    setPopupOpened(false);
+  };
+
+  // TODO 캘린더 연동 체크
+  const isCalenderConnected = false;
+
   return (
     <div className={'acceptance-completion'}>
       <div className={'accept-description-text'}>
@@ -49,17 +59,33 @@ function CompletionPage({
         {regularTextSecond}
       </div>
       <div className={'acceptance-completion-bottom-area'}>
-        <BottomPopper
-          title={'케줄러 100% 활용하기'}
-          description={'캘린더를 연동하여 이중약속을 방지해요!'}
-          buttonText={'구글캘린더 연동하기'}
-          onClick={handleConnectClick}
-          disableDelete
-          image={BottomCalendarBg}
-          notFixed
-        />
+        {!isCalenderConnected && (
+          <BottomPopper
+            title={'케줄러 100% 활용하기'}
+            description={'캘린더를 연동하여 이중약속을 방지해요!'}
+            buttonText={'구글캘린더 연동하기'}
+            onClick={handleConnectClick}
+            onDisableClick={handleClosePopper}
+            image={BottomCalendarBg}
+            notFixed
+          />
+        )}
         <BottomButton onClick={handleHomeClick} text={'홈으로 가기'} notFixed />
       </div>
+      {!popupOpened && (
+        <>
+          <img
+            src={CelebrateSmileIcon}
+            className={'celebrate-smile-icon-confirm'}
+            alt={''}
+          />
+          <img
+            src={CelebrateIcon}
+            className={'celebrate-icon-confirm'}
+            alt={''}
+          />
+        </>
+      )}
     </div>
   );
 }

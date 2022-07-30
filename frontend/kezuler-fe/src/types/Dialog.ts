@@ -7,4 +7,9 @@ interface DialogProps {
   onConfirm?: () => void;
 }
 
-export type { DialogProps };
+interface AlertProps {
+  title: string;
+  description?: string;
+}
+
+export type { DialogProps, AlertProps };
