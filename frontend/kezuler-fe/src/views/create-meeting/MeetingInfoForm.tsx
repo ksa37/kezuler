@@ -1,14 +1,30 @@
-import React, { ChangeEvent, KeyboardEvent } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import PathName from 'src/constants/PathName';
+import {
+  INVALID_URL_ERROR,
+  MAX_ATTACHMENT_LENGTH,
+  MAX_ATTACHMENT_LENGTH_ERROR,
+  MAX_DESCRIPTION_LENGTH,
+  MAX_DESCRIPTION_LENGTH_ERROR,
+  MAX_TITLE_LENGTH,
+  MAX_TITLE_LENGTH_ERROR,
+} from 'src/constants/Validation';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
+import isURL from 'src/utils/isURL';
 
 import BottomButton from 'src/components/common/BottomButton';
+
+interface CreateInfoErrorForm {
+  title: string;
+  description: string;
+  attachment: string;
+}
 
 function MeetingInfoForm() {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,6 +34,50 @@ function MeetingInfoForm() {
   const { eventTitle, eventDescription, eventAttachment } = useSelector(
     (state: RootState) => state.createMeeting
   );
+
+  const [error, setError] = useState<CreateInfoErrorForm>({
+    title: '',
+    description: '',
+    attachment: '',
+  });
+
+  useEffect(() => {
+    const titleError =
+      eventTitle.length > MAX_TITLE_LENGTH ? MAX_TITLE_LENGTH_ERROR : '';
+
+    setError((prev) => ({
+      ...prev,
+      title: titleError,
+    }));
+  }, [eventTitle]);
+
+  useEffect(() => {
+    const descriptionError =
+      eventDescription.length > MAX_DESCRIPTION_LENGTH
+        ? MAX_DESCRIPTION_LENGTH_ERROR
+        : '';
+
+    setError((prev) => ({
+      ...prev,
+      description: descriptionError,
+    }));
+  }, [eventDescription]);
+
+  useEffect(() => {
+    let attachmentError = '';
+    if (eventAttachment) {
+      if (eventAttachment.length > MAX_ATTACHMENT_LENGTH) {
+        attachmentError = MAX_ATTACHMENT_LENGTH_ERROR;
+      } else if (!isURL(eventAttachment)) {
+        attachmentError = INVALID_URL_ERROR;
+      }
+    }
+
+    setError((prev) => ({
+      ...prev,
+      attachment: attachmentError,
+    }));
+  }, [eventAttachment]);
 
   const navigate = useNavigate();
 
@@ -53,6 +113,9 @@ function MeetingInfoForm() {
     '미팅 주제나 내용에 대해 알려주세요.(100자 이내)';
   const eventAttachmentDescription = 'URL주소를 입력해주세요.';
 
+  const nextButtonDisabled =
+    !eventTitle || !!error.title || !!error.attachment || !!error.description;
+
   return (
     <div className={'create-wrapper'}>
       <div className={'padding-wrapper'}>
@@ -74,14 +137,17 @@ function MeetingInfoForm() {
             required
             className={classNames(
               'meeting-field-title-and-reference',
-              'required'
+              'required',
+              { error: error.title }
             )}
             placeholder={eventTitleDescription}
             value={eventTitle}
-            maxLength={15}
             onChange={handleEventTitleChange}
             onKeyPress={handleEnter}
           />
+          {error.title && (
+            <div className={'create-meeting-error-text'}>{error.title}</div>
+          )}
         </div>
         <div className={classNames('meeting-info', 'additional')}>
           <div className={classNames('meeting-additional')}>
@@ -96,13 +162,18 @@ function MeetingInfoForm() {
             id="description"
             className={classNames(
               'meeting-field-title-and-reference',
-              'description'
+              'description',
+              { error: error.description }
             )}
             placeholder={eventDescriptDescription}
             value={eventDescription}
-            maxLength={100}
             onChange={handleEventDescriptionChange}
           />
+          {error.description && (
+            <div className={'create-meeting-error-text'}>
+              {error.description}
+            </div>
+          )}
           <div className={classNames('meeting-additional', 'url')}>
             <span className={classNames('meeting-additional-text')}>
               참고자료
@@ -111,16 +182,22 @@ function MeetingInfoForm() {
           <input
             type="text"
             id="url"
-            className={'meeting-field-title-and-reference'}
+            className={classNames('meeting-field-title-and-reference', {
+              error: error.attachment,
+            })}
             placeholder={eventAttachmentDescription}
             value={eventAttachment}
-            maxLength={25}
             onChange={handleEventAttachmentChange}
           />
+          {error.attachment && (
+            <div className={'create-meeting-error-text'}>
+              {error.attachment}
+            </div>
+          )}
         </div>
       </div>
       <BottomButton
-        disabled={eventTitle ? false : true}
+        disabled={nextButtonDisabled}
         onClick={handleNextClick}
         text="다음"
       />

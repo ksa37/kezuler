@@ -394,7 +394,7 @@
   font-size: $font-14;
 
   &.error {
-    border: 1px solid #e1525b;
+    border: 1px solid $color-alert;
   }
 }
 
@@ -407,13 +407,11 @@
   border: 1px solid #bfbfbf;
 
   &.error {
-    border: 1px solid #e1525b;
+    border: 1px solid $color-alert;
   }
 }
 
 .overview-error-text {
-  margin: 4px;
-  font-size: $font-12;
-  font-weight: normal;
-  color: #e1525b;
+  @include error-text;
+  margin-left: 4px;
 }

@@ -4,6 +4,20 @@ import { useNavigate } from 'react-router-dom';
 
 import { OVERVIEW_FORM_ID, PLACE_OPTIONS } from 'src/constants/Main';
 import { makeFixedInfoUrl, makePendingInfoUrl } from 'src/constants/PathName';
+import {
+  INVALID_URL_ERROR,
+  MAX_ATTACHMENT_LENGTH,
+  MAX_ATTACHMENT_LENGTH_ERROR,
+  MAX_DESCRIPTION_LENGTH,
+  MAX_DESCRIPTION_LENGTH_ERROR,
+  MAX_OFFLINE_LOCATION_LENGTH,
+  MAX_OFFLINE_LOCATION_LENGTH_ERROR,
+  MAX_ONLINE_LOCATION_LENGTH,
+  MAX_ONLINE_LOCATION_LENGTH_ERROR,
+  MAX_TITLE_LENGTH,
+  MAX_TITLE_LENGTH_ERROR,
+  REQUIRED_ERROR,
+} from 'src/constants/Validation';
 import useMainFixed from 'src/hooks/useMainFixed';
 import useMainPending from 'src/hooks/useMainPending';
 import { BFixedEvent } from 'src/types/fixedEvent';
@@ -63,13 +77,6 @@ const usePatchEvent = () => {
   return { loading, patch };
 };
 
-/*
- * 제목 15자
- * 상세정보 100자
- * 온라인 100자
- * 오프라인 30자
- * 참고자료 100자
- * */
 function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
   const {
     eventId,
@@ -114,8 +121,8 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
   const isSelectOnline = selectedPlaceIdx === 0;
 
   const checkURL = (target: string) => {
-    if (!isURL(target)) {
-      return '올바른 URL형식이 아니예요.';
+    if (target && !isURL(target)) {
+      return INVALID_URL_ERROR;
     }
     return true;
   };
@@ -130,8 +137,11 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
             error={errors.eventTitle}
             placeholder={'미팅 제목을 입력하세요.'}
             registered={register('eventTitle', {
-              required: true,
-              maxLength: { value: 15, message: '글자수가 15자를 넘었어요.' },
+              required: REQUIRED_ERROR,
+              maxLength: {
+                value: MAX_TITLE_LENGTH,
+                message: MAX_TITLE_LENGTH_ERROR,
+              },
             })}
             defaultValue={eventTitle}
           />
@@ -173,8 +183,8 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
               placeholder={'링크를 입력하세요. (선택)'}
               registered={register('eventZoomAddress', {
                 maxLength: {
-                  value: 100,
-                  message: '글자수가 100자를 넘었어요.',
+                  value: MAX_ONLINE_LOCATION_LENGTH,
+                  message: MAX_ONLINE_LOCATION_LENGTH_ERROR,
                 },
                 validate: {
                   isURL: checkURL,
@@ -189,9 +199,10 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
               error={errors.eventPlace}
               placeholder={'장소정보나 주소를 입력하세요. (선택)'}
               registered={register('eventPlace', {
+                required: REQUIRED_ERROR,
                 maxLength: {
-                  value: 30,
-                  message: '글자수가 30자를 넘었어요.',
+                  value: MAX_OFFLINE_LOCATION_LENGTH,
+                  message: MAX_OFFLINE_LOCATION_LENGTH_ERROR,
                 },
               })}
               defaultValue={eventPlace}
@@ -205,8 +216,8 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
             placeholder={'미팅 내용을 입력하세요. (선택)'}
             registered={register('eventDescription', {
               maxLength: {
-                value: 100,
-                message: '글자수가 100자를 넘었어요.',
+                value: MAX_DESCRIPTION_LENGTH,
+                message: MAX_DESCRIPTION_LENGTH_ERROR,
               },
             })}
             defaultValue={eventDescription}
@@ -219,8 +230,8 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
             placeholder={'URL주소를 입력해주세요. (선택)'}
             registered={register('eventAttachment', {
               maxLength: {
-                value: 100,
-                message: '글자수가 100자를 넘었어요.',
+                value: MAX_ATTACHMENT_LENGTH,
+                message: MAX_ATTACHMENT_LENGTH_ERROR,
               },
               validate: {
                 isURL: checkURL,

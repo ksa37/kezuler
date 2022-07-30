@@ -2,6 +2,10 @@
 
 $my-page-gap: 20px;
 
+.my-page-edit-error-text {
+  @include error-text;
+}
+
 .my-page-header-back-btn {
   position: absolute;
   padding-left: $my-page-gap;
@@ -190,6 +194,10 @@ $my-page-gap: 20px;
       border: 1px solid #bfbfbf;
       height: 48px;
       border-radius: 8px;
+
+      &.error {
+        border: 1px solid $color-alert;
+      }
     }
 
     &.email {

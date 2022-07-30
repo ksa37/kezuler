@@ -1,9 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import classNames from 'classnames';
 
 import { PROFILE_ACCEPTS, PROFILE_MAX_SIZE } from 'src/constants/MyPage';
+import {
+  INVALID_EMAIL_ERROR,
+  MAX_NAME_LENGTH,
+  MAX_NAME_LENGTH_ERROR,
+  REQUIRED_ERROR,
+} from 'src/constants/Validation';
 import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
@@ -30,8 +36,14 @@ function MyPageEdit({ goToMain }: Props) {
     () => ({ ...getCurrentUserInfo() }),
     []
   );
-  const { register, handleSubmit, setValue, watch } = useForm<UserForm>();
-  const watchProfileImage = watch('userProfileImage');
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<UserForm>({ mode: 'onChange' });
+  const watchForm = watch();
 
   const { changeUser } = usePatchUser();
   const { getUserInfo } = useGetUserInfo();
@@ -54,8 +66,8 @@ function MyPageEdit({ goToMain }: Props) {
   };
 
   useEffect(() => {
-    encodeAndPreview(watchProfileImage);
-  }, [watchProfileImage]);
+    encodeAndPreview(watchForm.userProfileImage);
+  }, [watchForm.userProfileImage]);
 
   const onValid: SubmitHandler<UserForm> = (data) => {
     //TODO
@@ -66,8 +78,12 @@ function MyPageEdit({ goToMain }: Props) {
       },
     });
   };
-  const onInvalid: SubmitErrorHandler<UserForm> = (error) => {
-    console.log(error);
+
+  const checkEmail = (target: string) => {
+    if (target && !target.match(/^.+@.+\..+$/g)) {
+      return INVALID_EMAIL_ERROR;
+    }
+    return true;
   };
 
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,12 +127,18 @@ function MyPageEdit({ goToMain }: Props) {
     }
   };
 
+  const saveButtonDisabled =
+    !!errors.userName ||
+    !!errors.userEmail ||
+    !watchForm.userEmail ||
+    !watchForm.userName;
+
   return (
     <div className={'my-page-edit'}>
       <form
         id={'my-page-edit-form'}
         className={'my-page-edit-form'}
-        onSubmit={handleSubmit(onValid, onInvalid)}
+        onSubmit={handleSubmit(onValid)}
       >
         <div className={'my-page-edit-avatar-wrapper'}>
           <label className={'my-page-profile-label'} htmlFor="profile-upload">
@@ -139,27 +161,52 @@ function MyPageEdit({ goToMain }: Props) {
           <div className={'my-page-edit-textfield-title'}>이름</div>
           <input
             onKeyDown={handleKeyDown}
-            className={'my-page-edit-textfield-box'}
+            className={classNames('my-page-edit-textfield-box', {
+              error: errors.userName,
+            })}
             placeholder={'이름을 입력해주세요.'}
             defaultValue={userName}
             {...register('userName', {
-              required: true,
+              required: REQUIRED_ERROR,
+              maxLength: {
+                value: MAX_NAME_LENGTH,
+                message: MAX_NAME_LENGTH_ERROR,
+              },
             })}
           />
+          {errors.userName && (
+            <div className={'my-page-edit-error-text'}>
+              {errors.userName.message}
+            </div>
+          )}
         </div>
         <div className={classNames('my-page-edit-textfield', 'email')}>
           <div className={'my-page-edit-textfield-title'}>이메일</div>
           <input
             onKeyDown={handleKeyDown}
-            className={'my-page-edit-textfield-box'}
+            className={classNames('my-page-edit-textfield-box', {
+              error: errors.userEmail,
+            })}
             placeholder={'이메일을 입력해주세요.'}
             defaultValue={userEmail}
             {...register('userEmail', {
-              required: true,
+              required: REQUIRED_ERROR,
+              validate: {
+                isEmail: checkEmail,
+              },
             })}
           />
+          {errors.userEmail && (
+            <div className={'my-page-edit-error-text'}>
+              {errors.userEmail.message}
+            </div>
+          )}
         </div>
-        <BottomButton type={'submit'} text={'저장하기'} />
+        <BottomButton
+          disabled={saveButtonDisabled}
+          type={'submit'}
+          text={'저장하기'}
+        />
       </form>
     </div>
   );
