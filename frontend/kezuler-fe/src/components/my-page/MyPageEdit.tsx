@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
 import classNames from 'classnames';
 
@@ -10,7 +11,6 @@ import {
   MAX_NAME_LENGTH_ERROR,
   REQUIRED_ERROR,
 } from 'src/constants/Validation';
-import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
 import { alertAction } from 'src/reducers/alert';
