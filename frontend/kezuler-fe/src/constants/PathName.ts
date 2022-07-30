@@ -16,8 +16,6 @@ const PathName = {
   mainPendingIdInfo: '/main/pending/:eventId/info',
   mainPendingIdInfoEdit: '/main/pending/:eventId/info-edit',
 
-  delete: '/delete',
-
   create: '/create',
   createInfo: '/create/info',
   createTime: '/create/time',
@@ -36,8 +34,49 @@ const PathName = {
   confirm: '/confirm',
 
   kakaoRedirect: '/oauth/kakao/token',
+
+  notFound: '/notfound',
 } as const;
 type PathName = typeof PathName[keyof typeof PathName];
+
+const PathNameList = [
+  '/login',
+  '/main',
+  '/noti',
+
+  '/mypage',
+  '/mypage/privacy-policy',
+  '/mypage/service-term',
+
+  '/pending',
+
+  '/main/fixed',
+  /\/main\/fixed\/.+\/info/,
+  /\/main\/fixed\/.+\/info-edit/,
+  '/main/pending',
+  '/main/pending/.+/info',
+  '/main/pending/.+/info-edit',
+
+  '/delete',
+
+  '/create',
+  '/create/info',
+  '/create/time',
+  '/create/time/A',
+  '/create/time/B',
+  '/create/check',
+  '/create/place',
+  '/create/complete',
+
+  '/invite',
+  '/invite/.+/invitation',
+  '/invite/.+/select',
+  '/invite/.+/complete',
+
+  '/modify/.+',
+  '/confirm',
+  '/oauth/kakao/token',
+];
 
 // TODO util 로?
 const makePendingInfoUrl = (eventId: string, isEdit?: boolean) =>
@@ -46,5 +85,5 @@ const makePendingInfoUrl = (eventId: string, isEdit?: boolean) =>
 const makeFixedInfoUrl = (eventId: string, isEdit?: boolean) =>
   `${PathName.mainFixed}/${eventId}/info${isEdit ? '-edit' : ''}`;
 
-export { makePendingInfoUrl, makeFixedInfoUrl };
+export { PathNameList, makePendingInfoUrl, makeFixedInfoUrl };
 export default PathName;
