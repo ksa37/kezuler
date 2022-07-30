@@ -1,7 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
-
-import { SettingUser } from 'src/types/user';
-import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
+import React, { useState } from 'react';
 
 import MyPageAppBar from 'src/components/common/MyPageAppBar';
 import MyPageEdit from 'src/components/my-page/MyPageEdit';
@@ -17,7 +14,7 @@ function MyPage() {
   const goToMain = () => {
     setIsEdit(false);
   };
-  
+
   return (
     <>
       <MyPageAppBar isEdit={isEdit} goToMain={goToMain} />

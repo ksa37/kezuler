@@ -3,6 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
+import {
+  MAX_DECLINE_REASON_LENGTH,
+  MAX_DECLINE_REASON_LENGTH_ERROR,
+} from 'src/constants/Validation';
 import useDialog from 'src/hooks/useDialog';
 import {
   useDeletePendingEventGuest,
@@ -173,6 +177,17 @@ function TimeListSelector({ isModification }: Props) {
     setCalendarPairOpened(false);
   };
 
+  const [error, setError] = useState('');
+  useEffect(() => {
+    const reasonError =
+      declineReason && declineReason.length > MAX_DECLINE_REASON_LENGTH
+        ? MAX_DECLINE_REASON_LENGTH_ERROR
+        : '';
+    setError(reasonError);
+  }, [declineReason]);
+
+  const nextButtonDisabled = !!error;
+
   type Schedule = {
     timeRange: string;
     scheduleTitle: string;
@@ -286,10 +301,11 @@ function TimeListSelector({ isModification }: Props) {
           </div>
         ))}
       </div>
-      <AvailableOptionSelector />
+      <AvailableOptionSelector errorMessage={error} />
       <BottomButton
         text={isModification ? '수정 완료' : '선택 완료'}
         onClick={handlePutClick}
+        disabled={nextButtonDisabled}
       />
     </div>
   );

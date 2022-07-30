@@ -10,6 +10,8 @@ $color-main: #fad94f;
 $color-main-dark: #fdba41;
 $color-main-light: rgba($color-main, 0.2);
 
+$color-alert: #e1525b;
+
 $common-border-radius: 16px;
 
 $font-24: 24px;
@@ -28,3 +30,10 @@ $app-bar-height: 72px;
 $app-bar-height--short: 56px;
 
 $short-height-size: 600px;
+
+@mixin error-text {
+  margin-top: 4px;
+  font-size: $font-12;
+  font-weight: normal;
+  color: $color-alert;
+}
