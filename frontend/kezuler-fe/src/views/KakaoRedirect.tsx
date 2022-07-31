@@ -7,12 +7,19 @@ import useKakaoLogin from 'src/hooks/useKakaoLogin';
 
 function KakaoRedirect() {
   const { getKakaoToken } = useKakaoLogin();
-  const code = new URL(window.location.href).searchParams.get('code');
+  console.log(window.location.href);
+  const urlParams = new URL(window.location.href).searchParams;
+  const code = urlParams.get('code');
+  const redirectURI = urlParams.get('state');
 
   useEffect(() => {
     if (code) {
-      const path = sessionStorage.getItem(LOGIN_REDIRECT_KEY) as PathName;
+      let path = sessionStorage.getItem(LOGIN_REDIRECT_KEY) as PathName;
       sessionStorage.removeItem(LOGIN_REDIRECT_KEY);
+      if (!path) {
+        path = redirectURI as PathName;
+      }
+      console.log(path);
       getKakaoToken(code, path ? (path as PathName) : PathName.mainFixed);
     }
   }, [code]);

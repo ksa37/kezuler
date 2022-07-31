@@ -72,6 +72,10 @@ function RootRoutes() {
       {isLoggedIn ? (
         <main>
           <Routes>
+            <Route
+              index
+              element={<Navigate replace to={PathName.mainFixed} />}
+            />
             <Route path={PathName.main} element={<MainPage />}>
               <Route
                 index
@@ -229,9 +233,10 @@ function RootRoutes() {
                 element={<Navigate replace to={PathName.createInfo} />}
               />
             </Route>
-            <Route path={PathName.login} element={<Login />} />
+            <Route path={PathName.login} element={<Login />}>
+              <Route path="*" element={<Login />} />
+            </Route>
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
-            <Route path={`/test-page`} element={<TestPage />} />
             <Route path={PathName.notFound} element={<NotFound />} />
             <Route path="*" element={<RedirectView />} />
           </Routes>

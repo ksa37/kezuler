@@ -6,15 +6,17 @@ import PathName, { PathNameList } from 'src/constants/PathName';
 
 function RedirectView() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const checkPath = (currentPath: string) => {
     for (const item in PathNameList) {
-      if (typeof item === 'string') {
-        if (item === currentPath) {
+      const checkPath = PathNameList[item];
+      if (typeof checkPath === 'string') {
+        if (checkPath === currentPath) {
           return true;
         }
       } else {
-        if (currentPath.match(item)) {
+        if (currentPath.match(checkPath)) {
           return true;
         }
       }
@@ -23,12 +25,14 @@ function RedirectView() {
   };
 
   useEffect(() => {
-    const location = useLocation();
     const currentPath = location.pathname;
     const encodedPath = encodeURI(currentPath);
-
+    console.log(location, currentPath, encodedPath);
+    console.log(checkPath(currentPath));
     if (checkPath(currentPath)) {
       navigate(`${PathName.login}/redirect?continue=${encodedPath}`);
+    } else if (currentPath === PathName.login) {
+      navigate(PathName.login);
     } else {
       navigate(`${PathName.notFound}`);
     }
