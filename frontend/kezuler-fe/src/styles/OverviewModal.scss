@@ -1,10 +1,14 @@
 @import './constants';
 
 .overview-modal {
+  margin: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   box-shadow: none;
+  max-width: 400px;
   width: 100%;
-  align-items: center;
 }
 
 .overview {
@@ -12,7 +16,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  max-width: 400px;
   width: 100%;
 }
 

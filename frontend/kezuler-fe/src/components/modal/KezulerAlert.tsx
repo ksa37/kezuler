@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Dialog from '@mui/material/Dialog';
 import classNames from 'classnames';
 
 import { RootState } from 'src/reducers';
 import { alertAction } from 'src/reducers/alert';
+
+import KezulerPaper from 'src/components/common/KezulerPaper';
 
 import { ReactComponent as CloseIcon } from 'src/assets/icn_close_b.svg';
 
@@ -30,19 +31,17 @@ function KezulerAlert() {
   };
 
   return (
-    <Dialog
-      open={!!alertProps}
-      onClose={handleClose}
-      classes={{ paper: 'kezuler-dialog' }}
-    >
-      <button className={'kezuler-alert-close-btn'} onClick={closeModal}>
-        <CloseIcon />
-      </button>
-      <div className={classNames('kezuler-dialog-body', 'alert')}>
-        <h1>{title}</h1>
-        {description && <h2>{description}</h2>}
+    <KezulerPaper open={!!alertProps} onClose={handleClose}>
+      <div className={'kezuler-dialog'}>
+        <button className={'kezuler-alert-close-btn'} onClick={closeModal}>
+          <CloseIcon />
+        </button>
+        <div className={classNames('kezuler-dialog-body', 'alert')}>
+          <h1>{title}</h1>
+          {description && <h2>{description}</h2>}
+        </div>
       </div>
-    </Dialog>
+    </KezulerPaper>
   );
 }
 
