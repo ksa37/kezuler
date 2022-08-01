@@ -1,10 +1,14 @@
 @import './constants';
 
 .overview-modal {
+  margin: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   box-shadow: none;
+  max-width: 400px;
   width: 100%;
-  align-items: center;
 }
 
 .overview {
@@ -12,7 +16,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  max-width: 400px;
   width: 100%;
 }
 
@@ -411,7 +414,7 @@
   font-size: $font-14;
 
   &.error {
-    border: 1px solid #e1525b;
+    border: 1px solid $color-alert;
   }
 }
 
@@ -424,13 +427,11 @@
   border: 1px solid #bfbfbf;
 
   &.error {
-    border: 1px solid #e1525b;
+    border: 1px solid $color-alert;
   }
 }
 
 .overview-error-text {
-  margin: 4px;
-  font-size: $font-12;
-  font-weight: normal;
-  color: #e1525b;
+  @include error-text;
+  margin-left: 4px;
 }
