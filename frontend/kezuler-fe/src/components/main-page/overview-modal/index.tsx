@@ -1,10 +1,10 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Dialog from '@mui/material/Dialog';
 
 import PathName from 'src/constants/PathName';
 
 import Overview from './Overview';
+import KezulerPaper from 'src/components/common/KezulerPaper';
 
 import 'src/styles/OverviewModal.scss';
 
@@ -20,14 +20,11 @@ function OverviewModal() {
   };
 
   return (
-    <Dialog
-      open
-      onClose={handleClose}
-      classes={{ paper: 'overview-modal' }}
-      BackdropProps={{ style: { backgroundColor: '#282F39CC' } }}
-    >
-      <Overview />
-    </Dialog>
+    <KezulerPaper open onClose={handleClose}>
+      <div className={'overview-modal'}>
+        <Overview />
+      </div>
+    </KezulerPaper>
   );
 }
 
