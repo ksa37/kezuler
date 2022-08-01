@@ -22,8 +22,10 @@ import KakaoRedirect from 'src/views/KakaoRedirect';
 import Login from 'src/views/Login';
 import MainPage from 'src/views/MainPage';
 import MyPage from 'src/views/MyPage';
+import NotFound from 'src/views/NotFound';
 import NotiPage from 'src/views/NotiPage';
 import TimeConfirmator from 'src/views/pending-event/TimeConfirmator';
+import RedirectView from 'src/views/RedirectView';
 import TestPage from 'src/views/TestPage';
 import MainFixedEvents from 'src/components/main-page/main-fixed-events';
 import MainPendingEvents from 'src/components/main-page/main-pending-events';
@@ -75,6 +77,10 @@ function RootRoutes() {
       {isLoggedIn ? (
         <main>
           <Routes>
+            <Route
+              index
+              element={<Navigate replace to={PathName.mainFixed} />}
+            />
             <Route path={PathName.main} element={<MainPage />}>
               <Route
                 index
@@ -169,11 +175,11 @@ function RootRoutes() {
               />
               <Route path="*" element={<AcceptIndex />} />
             </Route>
-            <Route path={`/test-page`} element={<TestPage />} />
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
+            <Route path={PathName.notFound} element={<NotFound />} />
             <Route
               path="*"
-              element={<Navigate replace to={PathName.mainFixed} />}
+              element={<Navigate replace to={PathName.notFound} />}
             />
           </Routes>
         </main>
@@ -232,13 +238,12 @@ function RootRoutes() {
                 element={<Navigate replace to={PathName.createInfo} />}
               />
             </Route>
-            <Route path={PathName.login} element={<Login />} />
+            <Route path={PathName.login} element={<Login />}>
+              <Route path="*" element={<Login />} />
+            </Route>
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
-            <Route path={`/test-page`} element={<TestPage />} />
-            <Route
-              path="*"
-              element={<Navigate replace to={PathName.login} />}
-            />
+            <Route path={PathName.notFound} element={<NotFound />} />
+            <Route path="*" element={<RedirectView />} />
           </Routes>
         </main>
       )}

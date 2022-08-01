@@ -59,6 +59,11 @@ function CompletionPage({
         {regularTextSecond}
       </div>
       <div className={'acceptance-completion-bottom-area'}>
+        {/* <a
+          href={
+            'https://www.google.com/calendar/render?action=TEMPLATE&amp;text=수유 랜선투어&amp;dates=20220729T160000%2F20220729T170000&amp;sf=1&amp;output=xml'
+          }
+        /> */}
         {!isCalenderConnected && (
           <BottomPopper
             title={'케줄러 100% 활용하기'}

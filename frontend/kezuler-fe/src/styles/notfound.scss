@@ -1,0 +1,113 @@
+@import 'constants';
+
+.notfound-wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-top: 68px;
+
+  align-items: center;
+
+  @media (max-height: $short-height-size) {
+    margin-top: 52px;
+  }
+}
+
+.notfound-404 {
+  margin-top: 88px;
+  color: $color-highlight;
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 48px;
+
+  @media (max-height: 670px) {
+    margin-top: 60px;
+  }
+}
+
+.notfound-desc {
+  margin-top: 16px;
+  color: $color-highlight;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 24px;
+  @media (max-width: 320px) {
+    font-size: 18px;
+    line-height: 20px;
+  }
+}
+
+.notfound-sub-desc {
+  margin-top: 32px;
+  color: #9f9f9f;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.notfound-btn {
+  margin-top: 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 56px;
+  width: 254px;
+  border-radius: 8px;
+
+  @media (max-width: 320px) {
+    width: 180px;
+  }
+
+  @media (max-height: 670px) {
+    margin-top: 32px;
+  }
+
+  text-align: center;
+  background-color: $color-highlight;
+  box-shadow: 0px 0px 10px #282f391a;
+
+  font-size: $font-16;
+  line-height: 19px;
+  color: $color-main;
+
+  &:hover {
+    background-color: $color-highlight;
+  }
+}
+
+.notfound-bottom-area {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.notfound-warning {
+  position: absolute;
+  right: 27px;
+  bottom: 37px;
+  z-index: 1;
+
+  @media (max-height: 670px) {
+    width: 150px;
+    height: 150px;
+  }
+
+  @media (max-height: 560px) {
+    width: 130px;
+    height: 130px;
+  }
+
+  @media (max-height: 540px) {
+    display: none;
+  }
+}
+
+.notfound-bottom {
+  position: absolute;
+  left: calc((100% - 800px) / 2);
+  bottom: 0;
+
+  @media (max-height: 480px) {
+    display: none;
+  }
+}
