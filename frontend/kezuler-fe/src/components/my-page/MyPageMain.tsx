@@ -45,7 +45,7 @@ function MyPageMain({ goToEdit }: Props) {
     deleteCookie(ACCESS_TOKEN_KEY);
     deleteCookie(REFRESH_TOKEN_KEY);
     localStorage.removeItem(CURRENT_USER_INFO_KEY);
-    // location.reload();
+    location.reload();
   };
 
   const handleEditClick = () => {
