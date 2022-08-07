@@ -4,17 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { Avatar } from '@mui/material';
 import classNames from 'classnames';
 
-import {
-  ACCESS_TOKEN_KEY,
-  KAKAO_AUTH_URL,
-  LOGIN_REDIRECT_KEY,
-} from 'src/constants/Auth';
+import { KAKAO_AUTH_URL, LOGIN_REDIRECT_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
+import useIsLoggedIn from 'src/hooks/useIsLoggedIn';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
-import { getCookie } from 'src/utils/cookie';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import { isModification } from 'src/utils/joinMeeting';
 
@@ -31,7 +27,6 @@ function Invitation() {
     (state: RootState) => state.acceptMeeting
   );
   const { show } = alertAction;
-  // const dispatch = useDispatch();
   const {
     eventId,
     eventHost,
@@ -43,8 +38,7 @@ function Invitation() {
   const { increaseStep } = acceptMeetingActions;
 
   const navigate = useNavigate();
-
-  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+  const isLoggedIn = useIsLoggedIn();
 
   const isHost = useMemo(
     () => eventHost.userId === getCurrentUserInfo()?.userId,
