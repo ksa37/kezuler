@@ -1,11 +1,11 @@
-import { format } from 'date-fns';
+import { format, isAfter } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 import DAY_OF_WEEK from 'src/constants/DayofWeek';
 import { EventTimeCandidate } from 'src/types/pendingEvent';
 import { User } from 'src/types/user';
 
-import getTimezoneDate from './getTimezoneDate';
+import getTimezoneDate, { getUTCDate } from './getTimezoneDate';
 
 // api 의 모든 response (date string) 는 yyyy-MM-dd hh:mm:ss 형태로
 
@@ -165,6 +165,27 @@ const isSameDate = (a: Date, b: Date) =>
   a.getMonth() === b.getMonth() &&
   a.getDate() === b.getDate();
 
+const setMindate = () => {
+  const nowTime = getTimezoneDate(new Date().getTime());
+  // yyyy-mm-dd hh:mm:00 형태로
+  const eleven30 = `${String(nowTime.getFullYear())}-${String(
+    nowTime.getMonth() + 1
+  ).padStart(2, '0')}-${String(nowTime.getDate()).padStart(2, '0')} 23:30:00`;
+
+  const toNextDate = `${String(nowTime.getFullYear())}-${String(
+    nowTime.getMonth() + 1
+  ).padStart(2, '0')}-${String(nowTime.getDate() + 1).padStart(
+    2,
+    '0'
+  )} 00:00:00`;
+
+  if (isAfter(getTimezoneDate(new Date().getTime()), getUTCDate(eleven30))) {
+    return getTimezoneDate(toNextDate);
+  } else {
+    return getTimezoneDate(new Date().getTime());
+  }
+};
+
 export {
   dateStringToKorDate,
   parseDateString,
@@ -181,4 +202,5 @@ export {
   // getEventTimeCandidatesFromDateStrings,
   isoStringToDateString,
   isSameDate,
+  setMindate,
 };
