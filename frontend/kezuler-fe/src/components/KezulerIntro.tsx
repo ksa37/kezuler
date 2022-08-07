@@ -1,13 +1,12 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
-import { ACCESS_TOKEN_KEY } from 'src/constants/Auth';
-import { getCookie } from 'src/utils/cookie';
+import useIsLoggedIn from 'src/hooks/useIsLoggedIn';
 
 import { ReactComponent as PCIntro } from 'src/assets/pc_intro.svg';
 import 'src/styles/index.scss';
 
 function KezulerIntro() {
-  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+  const isLoggedIn = useIsLoggedIn();
   return (
     <>
       {!isLoggedIn && (
