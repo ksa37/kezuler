@@ -331,6 +331,10 @@
     line-height: 22px;
     font-family: Pretendard;
     color: $color-highlight;
+
+    &.error {
+      border: 1px solid $color-alert;
+    }
   }
   textarea::placeholder {
     color: #bfbfbf;

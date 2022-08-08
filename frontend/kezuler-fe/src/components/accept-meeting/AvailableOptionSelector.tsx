@@ -9,7 +9,11 @@ import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
-function AvailableOptionSelector() {
+interface Props {
+  errorMessage: string;
+}
+
+function AvailableOptionSelector({ errorMessage }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const { isDecline, declineReason, availableTimes, pendingEvent } =
     useSelector((state: RootState) => state.acceptMeeting);
@@ -105,12 +109,16 @@ function AvailableOptionSelector() {
         </ButtonGroup>
         {isOpen && (
           <textarea
-            className={'available-option-text-field'}
+            className={classNames('available-option-text-field', {
+              error: errorMessage,
+            })}
             placeholder={notAvailableReasonDescription}
             value={declineReason || ''}
-            maxLength={100}
             onChange={handleDeclineReasonChange}
           />
+        )}
+        {isDecline && errorMessage && (
+          <div className={'create-meeting-error-text'}>{errorMessage}</div>
         )}
       </div>
     </ClickAwayListener>

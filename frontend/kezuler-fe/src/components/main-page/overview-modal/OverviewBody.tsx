@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Button } from '@mui/material';
 import classNames from 'classnames';
 
 import useCopyText from 'src/hooks/useCopyText';
@@ -34,12 +35,22 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
 
   const { copyText } = useCopyText();
 
+  const [showDescAll, setShowDescAll] = useState(false);
+
+  const shortEventDescription = eventDescription
+    .split('\n')[0]
+    .substring(0, 16);
+
   const handleCopyPlaceClick = () => {
     if (eventZoomAddress) {
       copyText(eventZoomAddress, '주소가');
     } else {
       copyText(eventPlace, '장소가');
     }
+  };
+
+  const handleShowAllClick = () => {
+    setShowDescAll(!showDescAll);
   };
 
   const handleAttachmentClick = () => {
@@ -104,7 +115,13 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
         {eventDescription && (
           <OverviewSection title={'미팅 내용'}>
             <div className={'overview-section-description'}>
-              {eventDescription}
+              {showDescAll ? eventDescription : shortEventDescription}
+              <Button
+                classes={{ root: 'show-all-btn' }}
+                onClick={handleShowAllClick}
+              >
+                {showDescAll ? '접기' : '...더보기'}
+              </Button>
             </div>
           </OverviewSection>
         )}

@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
-import { ACCESS_TOKEN_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
-import { getCookie } from 'src/utils/cookie';
+import useIsLoggedIn from 'src/hooks/useIsLoggedIn';
 
 import AcceptMeeting from 'src/views/accept-meeting';
 import AcceptanceCompletion from 'src/views/accept-meeting/AcceptanceCompletion';
@@ -22,9 +21,10 @@ import KakaoRedirect from 'src/views/KakaoRedirect';
 import Login from 'src/views/Login';
 import MainPage from 'src/views/MainPage';
 import MyPage from 'src/views/MyPage';
+import NotFound from 'src/views/NotFound';
 import NotiPage from 'src/views/NotiPage';
 import TimeConfirmator from 'src/views/pending-event/TimeConfirmator';
-import TestPage from 'src/views/TestPage';
+import RedirectView from 'src/views/RedirectView';
 import MainFixedEvents from 'src/components/main-page/main-fixed-events';
 import MainPendingEvents from 'src/components/main-page/main-pending-events';
 import OverviewModal from 'src/components/main-page/overview-modal';
@@ -33,7 +33,7 @@ import TermsOfService from 'src/components/my-page/TermsOfService';
 
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
-  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+  const isLoggedIn = useIsLoggedIn();
   const location = useLocation();
 
   // TODO 리덕스 필요한지 확인 필요
@@ -70,6 +70,10 @@ function RootRoutes() {
       {isLoggedIn ? (
         <main>
           <Routes>
+            <Route
+              index
+              element={<Navigate replace to={PathName.mainFixed} />}
+            />
             <Route path={PathName.main} element={<MainPage />}>
               <Route
                 index
@@ -164,11 +168,11 @@ function RootRoutes() {
               />
               <Route path="*" element={<AcceptIndex />} />
             </Route>
-            <Route path={`/test-page`} element={<TestPage />} />
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
+            <Route path={PathName.notFound} element={<NotFound />} />
             <Route
               path="*"
-              element={<Navigate replace to={PathName.mainFixed} />}
+              element={<Navigate replace to={PathName.notFound} />}
             />
           </Routes>
         </main>
@@ -227,13 +231,12 @@ function RootRoutes() {
                 element={<Navigate replace to={PathName.createInfo} />}
               />
             </Route>
-            <Route path={PathName.login} element={<Login />} />
+            <Route path={PathName.login} element={<Login />}>
+              <Route path="*" element={<Login />} />
+            </Route>
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
-            <Route path={`/test-page`} element={<TestPage />} />
-            <Route
-              path="*"
-              element={<Navigate replace to={PathName.login} />}
-            />
+            <Route path={PathName.notFound} element={<NotFound />} />
+            <Route path="*" element={<RedirectView />} />
           </Routes>
         </main>
       )}

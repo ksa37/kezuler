@@ -1,15 +1,22 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
+import {
+  INVALID_URL_ERROR,
+  MAX_OFFLINE_LOCATION_LENGTH,
+  MAX_OFFLINE_LOCATION_LENGTH_ERROR,
+  MAX_ONLINE_LOCATION_LENGTH,
+  MAX_ONLINE_LOCATION_LENGTH_ERROR,
+} from 'src/constants/Validation';
 import useDialog from 'src/hooks/useDialog';
 import { usePostPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 import { PPostPendingEvent } from 'src/types/pendingEvent';
+import isURL from 'src/utils/isURL';
 
-// import { isoStringToDateString } from 'src/utils/dateParser';
 import BottomButton from 'src/components/common/BottomButton';
 
 import { ReactComponent as OfflineIcon } from 'src/assets/offline_icon.svg';
@@ -42,11 +49,11 @@ function OnOffSelector() {
     dispatch(setZoomAddress(''));
   };
 
-  const handleOnlineChange = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setZoomAddress(event.target.value));
-  };
-
-  const handleOfflineChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (isOnline) {
+      dispatch(setZoomAddress(event.target.value));
+      return;
+    }
     dispatch(setPlace(event.target.value));
   };
 
@@ -73,6 +80,30 @@ function OnOffSelector() {
       onConfirm: PostPendingMeeting,
     });
   };
+
+  const [error, setError] = useState('');
+  useEffect(() => {
+    if (isOnline) {
+      let attachmentError = '';
+      if (eventZoomAddress) {
+        if (eventZoomAddress.length > MAX_ONLINE_LOCATION_LENGTH) {
+          attachmentError = MAX_ONLINE_LOCATION_LENGTH_ERROR;
+        } else if (!isURL(eventZoomAddress)) {
+          attachmentError = INVALID_URL_ERROR;
+        }
+      }
+      setError(attachmentError);
+      return;
+    }
+
+    const placeError =
+      eventPlace.length > MAX_OFFLINE_LOCATION_LENGTH
+        ? MAX_OFFLINE_LOCATION_LENGTH_ERROR
+        : '';
+    setError(placeError);
+  }, [isOnline, eventZoomAddress, eventPlace]);
+
+  const nextButtonDisabled = (!isOnline && eventPlace === '') || !!error;
 
   return (
     <div className={'create-wrapper'}>
@@ -116,19 +147,30 @@ function OnOffSelector() {
         </div>
 
         <div className={'on-off-textfield'}>
-          <div className={'title'}>{isOnline ? '접속링크' : '장소'}</div>
-          <input
-            type="text"
-            className={'field'}
-            value={isOnline ? eventZoomAddress : eventPlace}
-            onChange={isOnline ? handleOnlineChange : handleOfflineChange}
-            maxLength={isOnline ? 100 : 30}
-            placeholder={
-              isOnline
-                ? '링크를 입력하세요.'
-                : '만날 장소 또는 주소를 입력하세요.'
-            }
-          />
+          <div className={'on-off-textfield-title'}>
+            {isOnline ? '접속링크' : '장소'}
+          </div>
+          <div className={'on-off-textfield-field-container'}>
+            <input
+              type="text"
+              className={classNames('on-off-textfield-field', {
+                error: error,
+              })}
+              value={isOnline ? eventZoomAddress : eventPlace}
+              onChange={handleInputChange}
+              placeholder={
+                isOnline
+                  ? '링크를 입력하세요.'
+                  : '만날 장소 또는 주소를 입력하세요.'
+              }
+            />
+            <div className={'on-off-textfield-field-footer'}>
+              <div className={'on-off-textfield-field-footer-error'}>
+                {error}
+              </div>
+              <div>{!isOnline && '* 필수사항'}</div>
+            </div>
+          </div>
           {isOnline && (
             <div className={'skip-text'}>
               {'아직 링크가 없다면 건너뛰기를 눌러주세요.'}
@@ -137,9 +179,9 @@ function OnOffSelector() {
         </div>
       </div>
       <BottomButton
-        onClick={!isOnline && eventPlace === '' ? undefined : handlePostClick}
+        onClick={handlePostClick}
         text={isOnline && eventZoomAddress === '' ? '건너뛰기' : '다음'}
-        disabled={!isOnline && eventPlace === ''}
+        disabled={nextButtonDisabled}
       />
     </div>
   );

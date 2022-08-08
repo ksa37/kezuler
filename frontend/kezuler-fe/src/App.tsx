@@ -22,7 +22,9 @@ function App() {
 
   return (
     <div ref={setDiv} className="App" id="App">
-      <RootRoutes />
+      <div className={'app-inner'}>
+        <RootRoutes />
+      </div>
       <KezulerDialog />
       <KezulerAlert />
       <ParticipantsPopup />

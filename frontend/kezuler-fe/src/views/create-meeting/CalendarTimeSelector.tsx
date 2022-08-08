@@ -16,14 +16,15 @@ import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from '../../store';
+import { setMindate } from 'src/utils/dateParser';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
 import BottomButton from '../../components/common/BottomButton';
 import CalendarView from '../../components/create-meeting/CalendarView';
 import KezulerDropdown from 'src/components/common/KezulerDropdown';
-import CalendarPopup from 'src/components/create-meeting/CalendarPopup';
-import ScheduleList from 'src/components/create-meeting/ScheduleList';
 
+// import CalendarPopup from 'src/components/create-meeting/CalendarPopup';
+// import ScheduleList from 'src/components/create-meeting/ScheduleList';
 import { ReactComponent as CalendarIcon } from 'src/assets/calendar_icon.svg';
 import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
 import { ReactComponent as ClockOrangeIcon } from 'src/assets/icn_clock_o20.svg';
@@ -47,9 +48,7 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
     setEventTimeDuration,
   } = createMeetingActions;
 
-  const [startDate, setStartDate] = useState<Date | null>(
-    getTimezoneDate(new Date().getTime())
-  );
+  const [startDate, setStartDate] = useState<Date | null>(setMindate());
   const { show } = alertAction;
 
   const navigate = useNavigate();
@@ -121,30 +120,30 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
   };
 
   // 캘린더 연동 팝업 관련
-  const [scheduleConnected, setScheduleConnected] = useState(false);
-  const [popupDisable, setPopupDisable] = useState(
-    localStorage.getItem(CREATE_CALENDAR_POPUP_DISABLE_KEY) === 'true'
-  );
+  // const [scheduleConnected, setScheduleConnected] = useState(false);
+  // const [popupDisable, setPopupDisable] = useState(
+  //   localStorage.getItem(CREATE_CALENDAR_POPUP_DISABLE_KEY) === 'true'
+  // );
 
-  const handleCalendarPopupNo = () => {
-    // localStorage.setItem(CREATE_CALENDAR_POPUP_DISABLE_KEY, 'true');
-    setPopupDisable(true);
-    console.log('no');
-  };
+  // const handleCalendarPopupNo = () => {
+  //   // localStorage.setItem(CREATE_CALENDAR_POPUP_DISABLE_KEY, 'true');
+  //   setPopupDisable(true);
+  //   console.log('no');
+  // };
 
-  const handleCalendarPopupYes = () => {
-    setScheduleConnected(true);
-    console.log('yes');
-    //TODO
-    //캘린더 연동
-  };
+  // const handleCalendarPopupYes = () => {
+  //   setScheduleConnected(true);
+  //   console.log('yes');
+  //   //TODO
+  //   //캘린더 연동
+  // };
 
-  const mockSceduleData = [
-    { title: '인공지능개론 팀플', time: '오후 2:00 ~ 오후 3:00' },
-    { title: '수아랑 저녁', time: '오후 6:00 ~ 오후 7:00' },
-    { title: '동아리 정기모임', time: '오후 7:00 ~ 오후 9:00' },
-    { title: '토익 시험 접수', time: '하루종일' },
-  ];
+  // const mockSceduleData = [
+  //   { title: '인공지능개론 팀플', time: '오후 2:00 ~ 오후 3:00' },
+  //   { title: '수아랑 저녁', time: '오후 6:00 ~ 오후 7:00' },
+  //   { title: '동아리 정기모임', time: '오후 7:00 ~ 오후 9:00' },
+  //   { title: '토익 시험 접수', time: '하루종일' },
+  // ];
 
   // eventTimeDuration Index: 30, 60, 120
   const [selectedLengthIdx, setSelectedLengthIdx] = useState(1);

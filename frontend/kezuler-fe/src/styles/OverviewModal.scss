@@ -1,10 +1,14 @@
 @import './constants';
 
 .overview-modal {
+  margin: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   box-shadow: none;
+  max-width: 400px;
   width: 100%;
-  align-items: center;
 }
 
 .overview {
@@ -12,7 +16,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  max-width: 400px;
   width: 100%;
 }
 
@@ -139,13 +142,24 @@
   }
 
   .overview-section-description {
-    display: -webkit-box;
+    // display: -webkit-box;
     word-break: normal;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    // -webkit-line-clamp: 4;
+    // -webkit-box-orient: vertical;
+    // text-overflow: ellipsis;
+    // overflow: hidden;
     white-space: pre-line;
+  }
+
+  .show-all-btn {
+    padding: 0;
+    font-size: unset;
+    line-height: unset;
+    min-width: unset;
+
+    &:hover {
+      background-color: transparent;
+    }
   }
 
   .overview-section-copy-btn {
@@ -411,7 +425,7 @@
   font-size: $font-14;
 
   &.error {
-    border: 1px solid #e1525b;
+    border: 1px solid $color-alert;
   }
 }
 
@@ -424,13 +438,11 @@
   border: 1px solid #bfbfbf;
 
   &.error {
-    border: 1px solid #e1525b;
+    border: 1px solid $color-alert;
   }
 }
 
 .overview-error-text {
-  margin: 4px;
-  font-size: $font-12;
-  font-weight: normal;
-  color: #e1525b;
+  @include error-text;
+  margin-left: 4px;
 }

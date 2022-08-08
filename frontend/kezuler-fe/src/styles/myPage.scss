@@ -2,6 +2,10 @@
 
 $my-page-gap: 20px;
 
+.my-page-edit-error-text {
+  @include error-text;
+}
+
 .my-page-header-back-btn {
   position: absolute;
   padding-left: $my-page-gap;
@@ -45,12 +49,17 @@ $my-page-gap: 20px;
   padding-left: 24px;
   display: flex;
   flex-direction: column;
-  justify-content: end;
-  // flex: 1;
+  justify-content: flex-end;
+
+  width: calc(100% - 96px);
+  //96 = padding-left + my-page-profile-avatar width
 
   @media (max-width: 330px) {
     padding-left: 12px;
+    width: calc(100% - 84px);
+    //84 = padding-left + my-page-profile-avatar width
   }
+
   .my-page-profile-name {
     font: normal normal bold 20px/24px Pretendard;
     color: $color-highlight;
@@ -80,6 +89,7 @@ $my-page-gap: 20px;
   font-size: 14px;
   color: #9f9f9f;
   align-self: flex-start;
+  font-family: Pretendard;
 
   &:hover {
     background-color: transparent;
@@ -214,6 +224,10 @@ $my-page-gap: 20px;
       border: 1px solid #bfbfbf;
       height: 48px;
       border-radius: 8px;
+
+      &.error {
+        border: 1px solid $color-alert;
+      }
     }
   }
 }

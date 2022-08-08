@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Dialog from '@mui/material/Dialog';
 
 import { RootState } from 'src/reducers';
 import { dialogAction } from 'src/reducers/dialog';
+
+import KezulerPaper from 'src/components/common/KezulerPaper';
 
 function KezulerDialog() {
   const { hide } = dialogAction;
@@ -38,29 +39,27 @@ function KezulerDialog() {
   };
 
   return (
-    <Dialog
-      open={!!dialogProps}
-      onClose={handleClose}
-      classes={{ paper: 'kezuler-dialog' }}
-    >
-      <div className={'kezuler-dialog-body'}>
-        <div className={'kezuler-dialog-date-wrapper'}>
-          {date && <h1 className={'date'}>{date}</h1>}
-          {timeRange && <br />}
-          {timeRange && <h1 className={'date'}>{`${timeRange}`}</h1>}
+    <KezulerPaper open={!!dialogProps} onClose={handleClose}>
+      <div className={'kezuler-dialog'}>
+        <div className={'kezuler-dialog-body'}>
+          <div className={'kezuler-dialog-date-wrapper'}>
+            {date && <h1 className={'date'}>{date}</h1>}
+            {timeRange && <br />}
+            {timeRange && <h1 className={'date'}>{`${timeRange}`}</h1>}
+          </div>
+          <h1>{title}</h1>
+          {description && <h2>{description}</h2>}
         </div>
-        <h1>{title}</h1>
-        {description && <h2>{description}</h2>}
+        {onConfirm && (
+          <footer className={'kezuler-dialog-footer'}>
+            <button onClick={handleCancelClick}>아니오</button>
+            <button className={'confirm'} onClick={handleConfirmClick}>
+              예
+            </button>
+          </footer>
+        )}
       </div>
-      {onConfirm && (
-        <footer className={'kezuler-dialog-footer'}>
-          <button onClick={handleCancelClick}>아니오</button>
-          <button className={'confirm'} onClick={handleConfirmClick}>
-            예
-          </button>
-        </footer>
-      )}
-    </Dialog>
+    </KezulerPaper>
   );
 }
 
