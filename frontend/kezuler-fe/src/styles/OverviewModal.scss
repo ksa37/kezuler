@@ -142,13 +142,24 @@
   }
 
   .overview-section-description {
-    display: -webkit-box;
+    // display: -webkit-box;
     word-break: normal;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    // -webkit-line-clamp: 4;
+    // -webkit-box-orient: vertical;
+    // text-overflow: ellipsis;
+    // overflow: hidden;
     white-space: pre-line;
+  }
+
+  .show-all-btn {
+    padding: 0;
+    font-size: unset;
+    line-height: unset;
+    min-width: unset;
+
+    &:hover {
+      background-color: transparent;
+    }
   }
 
   .overview-section-copy-btn {
