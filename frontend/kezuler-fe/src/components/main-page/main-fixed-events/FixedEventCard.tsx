@@ -111,13 +111,14 @@ function FixedEventCard({ event, hasTodayId }: Props) {
     [hostId]
   );
 
+  // today: 현재와 오늘 자정 사이
   const tense: 'today' | 'past' | 'future' = useMemo(() => {
     const now = getTimezoneDate(new Date().getTime());
-    if (isSameDate(now, date)) {
-      return 'today';
-    }
     if (now.getTime() > date.getTime()) {
       return 'past';
+    }
+    if (isSameDate(now, date)) {
+      return 'today';
     }
     return 'future';
   }, [hostId]);
