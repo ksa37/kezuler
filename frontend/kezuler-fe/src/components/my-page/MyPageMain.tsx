@@ -5,11 +5,13 @@ import Button from '@mui/material/Button';
 
 import {
   ACCESS_TOKEN_KEY,
+  CURRENT_HOST,
   CURRENT_USER_INFO_KEY,
   REFRESH_TOKEN_KEY,
 } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
 import { TIME_ZONE_LIST } from 'src/constants/TimeZones';
+import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
 import { deleteCookie } from 'src/utils/cookie';
@@ -29,6 +31,8 @@ import { ReactComponent as ToggleOffIcon } from 'src/assets/toggle_off.svg';
 import { ReactComponent as ToggleOnIcon } from 'src/assets/toggle_on.svg';
 import 'src/styles/myPage.scss';
 
+import { deleteUser } from 'src/api/user';
+
 interface Props {
   goToEdit: () => void;
 }
@@ -40,6 +44,7 @@ function MyPageMain({ goToEdit }: Props) {
   );
 
   const navigate = useNavigate();
+  const { openDialog } = useDialog();
 
   const handleLogoutClick = () => {
     deleteCookie(ACCESS_TOKEN_KEY);
@@ -62,6 +67,21 @@ function MyPageMain({ goToEdit }: Props) {
 
   const handlePrivacyPolicyClick = () => {
     navigate(PathName.privacyPolicy);
+  };
+
+  const handleDeleteAccountClick = () => {
+    openDialog({
+      title: `정말 탈퇴하시겠습니까?`,
+      description: '탈퇴 시, 계정이 즉시 삭제되며 되돌릴 수 없습니다.',
+      onConfirm: () => {
+        deleteUser();
+        deleteCookie(ACCESS_TOKEN_KEY);
+        deleteCookie(REFRESH_TOKEN_KEY);
+        localStorage.removeItem(CURRENT_USER_INFO_KEY);
+        // navigate(PathName.main);
+        location.href = `${CURRENT_HOST}`;
+      },
+    });
   };
 
   //TODO 구글 캘린더 연동
@@ -176,6 +196,9 @@ function MyPageMain({ goToEdit }: Props) {
         title={'로그아웃'}
         startIcon={<LogoutIcon />}
       />
+      <div className={'delete-account-btn'} onClick={handleDeleteAccountClick}>
+        탈퇴하기
+      </div>
     </>
   );
 }
