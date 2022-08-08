@@ -282,3 +282,12 @@ $my-page-gap: 20px;
   font-family: Pretendard;
   font-size: 13px;
 }
+
+.delete-account-btn {
+  color: #9f9f9f;
+  font-size: $font-12;
+  line-height: $font-20;
+  text-align: right;
+  padding: 10px 12px 0 0;
+  cursor: pointer;
+}
