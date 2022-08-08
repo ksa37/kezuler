@@ -1,10 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 
-import { ACCESS_TOKEN_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
-import { getCookie } from 'src/utils/cookie';
+import useIsLoggedIn from 'src/hooks/useIsLoggedIn';
 
 import TextAppBar from 'src/components/common/TextAppBar';
 import ProgressBar from 'src/components/ProgressBar';
@@ -14,7 +13,7 @@ import { ReactComponent as NotFoundBottom } from 'src/assets/notfound_bottom.svg
 import 'src/styles/notfound.scss';
 
 function NotFound() {
-  const isLoggedIn = useMemo(() => !!getCookie(ACCESS_TOKEN_KEY), []);
+  const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
   const handleGoHome = () => {
     if (isLoggedIn) {
