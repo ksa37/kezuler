@@ -7,7 +7,6 @@ import PathName, { PathNameList } from 'src/constants/PathName';
 function RedirectView() {
   const navigate = useNavigate();
   const location = useLocation();
-
   const checkPath = (currentPath: string) => {
     for (const item in PathNameList) {
       const checkPath = PathNameList[item];
@@ -27,8 +26,7 @@ function RedirectView() {
   useEffect(() => {
     const currentPath = location.pathname;
     const encodedPath = encodeURI(currentPath);
-    console.log(location, currentPath, encodedPath);
-    console.log(checkPath(currentPath));
+
     if (checkPath(currentPath)) {
       navigate(`${PathName.login}/redirect?continue=${encodedPath}`);
     } else if (currentPath === PathName.login) {
