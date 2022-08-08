@@ -24,19 +24,6 @@ function MainTab() {
   const handleTodayClick = () => {
     const element = document.getElementById(FIXED_TODAY_ID);
     element?.scrollIntoView({ block: 'start', behavior: 'smooth' });
-
-    // const wrapper = document.getElementById('App');
-    // if (!element || !wrapper) {
-    //   return;
-    // }
-    // console.log(element.getBoundingClientRect());
-    // console.log('scroll');
-    //
-    //
-    // const yOffset = -110;
-    // const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-    // console.log(y);
-    // element.scrollTo({ top: y, behavior: 'smooth' });
   };
 
   return (
