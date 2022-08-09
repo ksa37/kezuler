@@ -25,6 +25,7 @@ $my-page-gap: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .my-page {
@@ -38,6 +39,7 @@ $my-page-gap: 20px;
   display: flex;
   // flex-wrap: wrap;
   padding: 24px $my-page-gap;
+  position: relative;
 }
 
 .my-page-profile-avatar {
@@ -288,6 +290,6 @@ $my-page-gap: 20px;
   font-size: $font-12;
   line-height: $font-20;
   text-align: right;
-  padding: 10px 12px 0 0;
+  padding: 10px 12px 20px 0;
   cursor: pointer;
 }
