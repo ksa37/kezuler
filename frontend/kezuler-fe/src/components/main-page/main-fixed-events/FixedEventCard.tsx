@@ -23,10 +23,9 @@ import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
 interface Props {
   event: BFixedEvent;
   hasTodayId: boolean;
-  testOpt?: boolean;
 }
 
-function FixedEventCard({ event, hasTodayId, testOpt = false }: Props) {
+function FixedEventCard({ event, hasTodayId }: Props) {
   const navigate = useNavigate();
 
   const {
@@ -226,9 +225,7 @@ function FixedEventCard({ event, hasTodayId, testOpt = false }: Props) {
                   alt={hostName}
                   src={hostProfileImage}
                 />
-                {testOpt && (
-                  <div className={'fixed-event-card-host-desc'}>호스트</div>
-                )}
+                <div className={'fixed-event-card-host-desc'}>호스트</div>
               </div>
               {windowSize.innerWidth > 340 ? (
                 <AvatarGroup

@@ -39,7 +39,8 @@ function ParticipantsGrid({ isHost, isFixed, isAttendant, users }: Props) {
       <div className={'participants-popup-list'}>
         {users.map((user) => {
           const { userId, userProfileImage, userName } = user;
-          if (isHost && isDeclinedUser(user)) {
+          // if (isHost && isDeclinedUser(user)) {
+          if (isDeclinedUser(user)) {
             return (
               <button
                 className={classNames(
@@ -55,7 +56,9 @@ function ParticipantsGrid({ isHost, isFixed, isAttendant, users }: Props) {
                   alt={userName}
                 />
                 <span>{userName}</span>
-                <Comment32Icon className={'participant-comment'} />
+                {user.userDeclineReason && user.userDeclineReason !== '' && (
+                  <Comment32Icon className={'participant-comment'} />
+                )}
               </button>
             );
           }
