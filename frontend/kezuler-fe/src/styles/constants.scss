@@ -34,6 +34,7 @@ $short-height-size: 600px;
 @mixin error-text {
   margin-top: 4px;
   font-size: $font-12;
+  line-height: $font-14;
   font-weight: normal;
   color: $color-alert;
 }

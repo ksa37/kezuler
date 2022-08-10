@@ -290,15 +290,21 @@
 .fixed-event-card-avatar-num {
   width: 32px;
   height: 32px;
-  box-sizing: border-box;
+  // box-sizing: border-box;
   background: $color-highlight;
   color: $color-main;
   font-size: $font-12;
   border: 1px solid white !important;
+  margin-top: 3px;
 
   &.host {
+    margin-top: 0;
     border: 3px solid $color-main !important;
     margin-right: 12px;
+
+    @media (max-width: 300px) {
+      margin-right: 6px;
+    }
   }
 }
 
@@ -307,6 +313,9 @@
   margin-top: 2px;
   font-size: 8px;
   margin-right: 12px;
+  @media (max-width: 300px) {
+    margin-right: 6px;
+  }
 }
 
 .fixed-event-card-avatar {
