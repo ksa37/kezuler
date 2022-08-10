@@ -23,9 +23,10 @@ import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
 interface Props {
   event: BFixedEvent;
   hasTodayId: boolean;
+  testOpt?: boolean;
 }
 
-function FixedEventCard({ event, hasTodayId }: Props) {
+function FixedEventCard({ event, hasTodayId, testOpt = false }: Props) {
   const navigate = useNavigate();
 
   const {
@@ -34,7 +35,11 @@ function FixedEventCard({ event, hasTodayId }: Props) {
     eventPlace,
     // participants,
     eventZoomAddress,
-    eventHost: { userId: hostId },
+    eventHost: {
+      userId: hostId,
+      userName: hostName,
+      userProfileImage: hostProfileImage,
+    },
     isDisabled: isCanceled,
   } = event;
 
@@ -210,28 +215,72 @@ function FixedEventCard({ event, hasTodayId }: Props) {
         <div>{event.eventTitle}</div>
         {!isCanceled && (
           <div>
-            <AvatarGroup
-              max={
-                windowSize.innerWidth > 350
-                  ? 4
-                  : windowSize.innerWidth > 320
-                  ? 3
-                  : 2
-              }
-              classes={{ avatar: 'fixed-event-card-avatar-num' }}
-            >
-              {participants?.map(
-                (p) =>
-                  p.userStatus === 'Accepted' && (
-                    <Avatar
-                      className={'fixed-event-card-avatar'}
-                      key={p.userId}
-                      alt={p.userName}
-                      src={p.userProfileImage}
-                    />
-                  )
+            <div className={'fixed-event-card-avatars'}>
+              <div className={'fixed-event-card-host'}>
+                <Avatar
+                  classes={{
+                    root: classNames('fixed-event-card-avatar-num', 'host'),
+                  }}
+                  className={'fixed-event-card-avatar'}
+                  key={hostId}
+                  alt={hostName}
+                  src={hostProfileImage}
+                />
+                {testOpt && (
+                  <div className={'fixed-event-card-host-desc'}>호스트</div>
+                )}
+              </div>
+              {windowSize.innerWidth > 340 ? (
+                <AvatarGroup
+                  max={
+                    windowSize.innerWidth > 390
+                      ? 4
+                      : windowSize.innerWidth > 370
+                      ? 3
+                      : 2
+                  }
+                  classes={{ avatar: 'fixed-event-card-avatar-num' }}
+                >
+                  {participants?.map(
+                    (p) =>
+                      p.userStatus === 'Accepted' && (
+                        <Avatar
+                          className={'fixed-event-card-avatar'}
+                          key={p.userId}
+                          alt={p.userName}
+                          src={p.userProfileImage}
+                        />
+                      )
+                  )}
+                </AvatarGroup>
+              ) : participants.length === 1 ? (
+                participants.map(
+                  (p) =>
+                    p.userStatus === 'Accepted' && (
+                      <Avatar
+                        className={'fixed-event-card-avatar'}
+                        classes={{
+                          root: 'fixed-event-card-avatar-num',
+                        }}
+                        key={p.userId}
+                        alt={p.userName}
+                        src={p.userProfileImage}
+                      />
+                    )
+                )
+              ) : (
+                participants.length > 1 && (
+                  <Avatar
+                    classes={{
+                      root: 'fixed-event-card-avatar-num',
+                    }}
+                    alt={`+${participants.length}`}
+                  >
+                    {`+${participants.length}`}
+                  </Avatar>
+                )
               )}
-            </AvatarGroup>
+            </div>
             <EventLocation />
           </div>
         )}

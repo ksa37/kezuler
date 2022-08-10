@@ -100,11 +100,15 @@
   width: calc(100% - 40px);
   box-sizing: border-box;
   margin: 0 20px 16px;
-  padding: 16px 12px;
+  padding: 14px 12px;
 
   background-color: white;
   border-radius: $common-border-radius;
   box-shadow: 0 15px 35px $color-highlight-light;
+
+  @media (max-width: 300px) {
+    padding: 12px 10px;
+  }
 
   &.is-host {
     &::before {
@@ -183,6 +187,10 @@
   font-size: 16px;
   color: $color-66;
 
+  @media (max-width: 300px) {
+    margin-right: 8px;
+  }
+
   > span {
     color: $color-highlight;
     font-weight: bold;
@@ -225,7 +233,7 @@
     }
 
     &:last-child {
-      margin-top: 16px;
+      margin-top: 12px;
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
@@ -274,13 +282,31 @@
   }
 }
 
+.fixed-event-card-avatars {
+  display: flex;
+  align-items: flex-start;
+}
+
 .fixed-event-card-avatar-num {
   width: 32px;
   height: 32px;
+  box-sizing: border-box;
   background: $color-highlight;
   color: $color-main;
   font-size: $font-12;
   border: 1px solid white !important;
+
+  &.host {
+    border: 3px solid $color-main !important;
+    margin-right: 12px;
+  }
+}
+
+.fixed-event-card-host-desc {
+  text-align: center;
+  margin-top: 2px;
+  font-size: 8px;
+  margin-right: 12px;
 }
 
 .fixed-event-card-avatar {

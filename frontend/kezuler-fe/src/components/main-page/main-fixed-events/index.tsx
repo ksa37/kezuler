@@ -129,6 +129,7 @@ function MainFixedEvents() {
                 key={e.eventId}
                 event={e}
                 hasTodayId={i === todayIdTargetIdx}
+                testOpt={window.location.href.includes('B')}
               />
             </React.Fragment>
           );
