@@ -112,6 +112,7 @@ function ParticipantsPopup() {
               />
             )}
             {isHost && !isAttendant && !isFixedEvent(event) && (
+              // {!isAttendant && !isFixedEvent(event) && (
               <ParticipantsReasons users={targetUsers as DeclinedUser[]} />
             )}
           </div>

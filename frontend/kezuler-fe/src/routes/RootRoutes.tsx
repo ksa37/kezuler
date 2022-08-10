@@ -89,16 +89,6 @@ function RootRoutes() {
                   element={<OverviewModal />}
                 />
               </Route>
-              <Route path={PathName.mainFixedB} element={<MainFixedEvents />}>
-                {/* <Route
-                  path={PathName.mainFixedIdInfo}
-                  element={<OverviewModal />}
-                />
-                <Route
-                  path={PathName.mainFixedIdInfoEdit}
-                  element={<OverviewModal />}
-                /> */}
-              </Route>
               <Route
                 path={PathName.mainPending}
                 element={<MainPendingEvents />}

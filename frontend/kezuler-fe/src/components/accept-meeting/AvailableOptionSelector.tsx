@@ -51,6 +51,12 @@ function AvailableOptionSelector({ errorMessage }: Props) {
     dispatch(setDeclineReason(event.target.value));
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.code === 'Enter') {
+      e.preventDefault();
+    }
+  };
+
   useEffect(() => {
     dispatch(setIsDecline(availableTimes.length === 0));
   }, [availableTimes]);
@@ -114,12 +120,19 @@ function AvailableOptionSelector({ errorMessage }: Props) {
             })}
             placeholder={notAvailableReasonDescription}
             value={declineReason || ''}
+            onKeyDown={handleKeyDown}
             onChange={handleDeclineReasonChange}
           />
         )}
-        {isDecline && errorMessage && (
-          <div className={'create-meeting-error-text'}>{errorMessage}</div>
-        )}
+        {isDecline &&
+          isOpen &&
+          (errorMessage ? (
+            <div className={'create-meeting-error-text'}>{errorMessage}</div>
+          ) : (
+            <div
+              className={classNames('create-meeting-error-text', 'no-error')}
+            />
+          ))}
       </div>
     </ClickAwayListener>
   );

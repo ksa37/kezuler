@@ -334,6 +334,14 @@
 
     &.error {
       border: 1px solid $color-alert;
+      padding: 15px 17px;
+      @media (max-width: 330px) {
+        padding: 9px 13px;
+      }
+    }
+
+    @media (max-width: 330px) {
+      padding: 10px 14px;
     }
   }
   textarea::placeholder {

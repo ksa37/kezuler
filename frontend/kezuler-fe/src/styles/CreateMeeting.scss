@@ -2,6 +2,10 @@
 
 .create-meeting-error-text {
   @include error-text;
+
+  &.no-error {
+    height: 14px;
+  }
 }
 
 .create-meeting-page {
@@ -614,7 +618,7 @@
   box-sizing: border-box;
   height: 48px;
   text-align: left;
-  font: normal normal normal 14px/22px Arial;
+  font: normal normal normal 14px/22px;
   color: $color-highlight;
   border: none;
   background-color: #ffffff;

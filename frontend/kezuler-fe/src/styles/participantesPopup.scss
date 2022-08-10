@@ -241,6 +241,8 @@
   color: $color-highlight;
   padding-bottom: 16px;
   flex: 1;
+
+  word-break: break-all;
 }
 
 .participants-popup-reason-info {
