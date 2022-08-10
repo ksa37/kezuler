@@ -152,6 +152,7 @@
   }
 
   .show-all-btn {
+    font-family: Pretendard;
     padding: 0;
     font-size: unset;
     line-height: unset;
@@ -267,6 +268,11 @@
     &.number {
       background: $color-highlight;
       color: $color-main;
+    }
+
+    &.is-host {
+      box-sizing: border-box;
+      border: 3px solid $color-main !important;
     }
   }
 

@@ -10,6 +10,7 @@ const PathName = {
   pending: '/pending',
 
   mainFixed: '/main/fixed',
+  mainFixedB: '/main/fixed/B',
   mainFixedIdInfo: '/main/fixed/:eventId/info',
   mainFixedIdInfoEdit: '/main/fixed/:eventId/info-edit',
   mainPending: '/main/pending',
@@ -51,6 +52,7 @@ const PathNameList = [
   '/pending',
 
   '/main/fixed',
+  '/main/fixed/B',
   /\/main\/fixed\/.+\/info/,
   /\/main\/fixed\/.+\/info-edit/,
   '/main/pending',

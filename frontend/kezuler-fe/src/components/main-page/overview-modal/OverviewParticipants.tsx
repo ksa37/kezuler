@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
+import classNames from 'classnames';
 
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { BFixedEvent } from 'src/types/fixedEvent';
@@ -169,7 +170,7 @@ function OverviewParticipants({ event }: Props) {
         <tr>
           <td>
             <Avatar
-              className={'participant-avatar'}
+              className={classNames('participant-avatar', 'is-host')}
               alt={hostName}
               src={hostProfileImage}
             />
