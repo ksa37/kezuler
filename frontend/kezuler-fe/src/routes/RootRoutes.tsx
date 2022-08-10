@@ -89,6 +89,16 @@ function RootRoutes() {
                   element={<OverviewModal />}
                 />
               </Route>
+              <Route path={PathName.mainFixedB} element={<MainFixedEvents />}>
+                {/* <Route
+                  path={PathName.mainFixedIdInfo}
+                  element={<OverviewModal />}
+                />
+                <Route
+                  path={PathName.mainFixedIdInfoEdit}
+                  element={<OverviewModal />}
+                /> */}
+              </Route>
               <Route
                 path={PathName.mainPending}
                 element={<MainPendingEvents />}
@@ -188,14 +198,6 @@ function RootRoutes() {
               <Route
                 path={PathName.inviteInvitation}
                 element={<Invitation />}
-              />
-              <Route
-                path={PathName.inviteSelect}
-                element={<TimeListSelector />}
-              />
-              <Route
-                path={PathName.inviteComplete}
-                element={<AcceptanceCompletion />}
               />
               <Route path="*" element={<AcceptIndex />} />
             </Route>

@@ -116,12 +116,14 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
           <OverviewSection title={'미팅 내용'}>
             <div className={'overview-section-description'}>
               {showDescAll ? eventDescription : shortEventDescription}
-              <Button
-                classes={{ root: 'show-all-btn' }}
-                onClick={handleShowAllClick}
-              >
-                {showDescAll ? '접기' : '...더보기'}
-              </Button>
+              {shortEventDescription !== eventDescription && (
+                <Button
+                  classes={{ root: 'show-all-btn' }}
+                  onClick={handleShowAllClick}
+                >
+                  {showDescAll ? '...접기' : '...더보기'}
+                </Button>
+              )}
             </div>
           </OverviewSection>
         )}
