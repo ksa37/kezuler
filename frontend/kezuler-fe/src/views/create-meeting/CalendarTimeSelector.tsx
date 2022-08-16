@@ -11,7 +11,7 @@ import { ko } from 'date-fns/locale';
 import TimeOptions from '../../constants/TimeOptions';
 import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
 import PathName from 'src/constants/PathName';
-import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
+// import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { alertAction } from 'src/reducers/alert';
@@ -30,11 +30,7 @@ import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
 import { ReactComponent as ClockOrangeIcon } from 'src/assets/icn_clock_o20.svg';
 import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 
-interface Props {
-  nogcalendar?: boolean;
-}
-
-function CalendarTimeSelector({ nogcalendar }: Props) {
+function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { eventTimeList } = useSelector(
     (state: RootState) => state.createMeeting
@@ -198,14 +194,6 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
       }),
     [startDate, eventTimeList]
   );
-
-  useEffect(() => {
-    dispatch(setStep(1));
-    const link = location.href;
-    if (link.includes('A') || link.includes('B')) {
-      dispatch(setTitle('어떤 생성 방식이 좋나요'));
-    }
-  }, []);
 
   return (
     <div className={'create-wrapper'}>
