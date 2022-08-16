@@ -78,8 +78,8 @@
     @media (max-height: $short-height-size) {
       background: linear-gradient(
         to bottom,
-        $color-background calc(204px - 20px),
-        $color-main calc(204px - 20px) 100%
+        $color-background calc(204px - 32px),
+        $color-main calc(204px - 32px) 100%
       );
     }
   }
