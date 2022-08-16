@@ -176,7 +176,7 @@ function MeetingInfoForm() {
           )}
           <div className={classNames('meeting-additional', 'url')}>
             <span className={classNames('meeting-additional-text')}>
-              참고자료
+              참조링크
             </span>
           </div>
           <input

@@ -3,7 +3,7 @@
  * 상세정보 100자
  * 온라인 100자
  * 오프라인 30자
- * 참고자료 100자
+ * 참조링크 100자
  * */
 const MAX_TITLE_LENGTH = 15;
 const MAX_TITLE_LENGTH_ERROR = `글자수가 ${MAX_TITLE_LENGTH}자를 넘었어요.`;
