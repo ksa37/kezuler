@@ -155,8 +155,8 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
   }, [MEETING_LENGTH_LIST[selectedLengthIdx].minutes]);
 
   // Time Option Chip Focus 설정
-  const setChipFocus = () => {
-    const focusChip = document.getElementById('08:00');
+  const setChipFocus = (startTimeStr: string) => {
+    const focusChip = document.getElementById(startTimeStr);
 
     focusChip?.scrollIntoView({
       behavior: 'auto',
@@ -166,7 +166,15 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
   };
 
   useEffect(() => {
-    setChipFocus();
+    let startTimeStr = '08:00';
+    if (
+      startDate &&
+      TimeOptions(startDate).length > 0 &&
+      Number(TimeOptions(startDate)[0].split(':')[0]) > 8
+    ) {
+      startTimeStr = TimeOptions(startDate)[0];
+    }
+    setChipFocus(startTimeStr);
   }, [startDate]);
 
   const getChips = useMemo(
