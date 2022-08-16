@@ -9,7 +9,7 @@ import { alertAction } from 'src/reducers/alert';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 import { getTimeListDevideByDate, getTimeRange } from 'src/utils/dateParser';
-import getTimezoneDate from 'src/utils/getTimezoneDate';
+import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
 import BottomButton from 'src/components/common/BottomButton';
 
@@ -29,9 +29,7 @@ function SelectedOptions() {
   const eventTimeListDevideByDate = useMemo(
     () =>
       getTimeListDevideByDate(
-        eventTimeList.map((dateStr) =>
-          getTimezoneDate(new Date(dateStr).getTime())
-        )
+        eventTimeList.map((utcTime) => getTimezoneDate(utcTime))
       ),
     [eventTimeList]
   );
@@ -46,7 +44,7 @@ function SelectedOptions() {
         })
       );
     } else {
-      dispatch(deleteTimeList(time.getTime()));
+      dispatch(deleteTimeList(getUTCDate(time.getTime()).getTime()));
     }
   };
 

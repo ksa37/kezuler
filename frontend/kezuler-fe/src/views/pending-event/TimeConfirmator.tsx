@@ -17,7 +17,7 @@ import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
 } from 'src/utils/dateParser';
-import getTimezoneDate from 'src/utils/getTimezoneDate';
+import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
 import CompletionPage from '../../components/common/CompletionPage';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
@@ -63,7 +63,7 @@ function TimeConfirmator() {
   }, [eventConfirmId]);
 
   const handleEventTimeClick = (eventStartsAt: Date) => {
-    dispatch(setSelctedTime(eventStartsAt.getTime()));
+    dispatch(setSelctedTime(getUTCDate(eventStartsAt.getTime()).getTime()));
   };
 
   const postFixedEventByConfirm = usePostFixedEvent();
@@ -223,9 +223,11 @@ function TimeConfirmator() {
                           isEmpty={false}
                           isSelected={
                             selectedTime ===
-                            eventTimeListDevideByDate[dateKey][
-                              index
-                            ].eventStartsAt.getTime()
+                            getUTCDate(
+                              eventTimeListDevideByDate[dateKey][
+                                index
+                              ].eventStartsAt.getTime()
+                            ).getTime()
                           }
                           onClick={() =>
                             handleEventTimeClick(
@@ -262,36 +264,6 @@ function TimeConfirmator() {
                   ))}
               </div>
             ))}
-            {/* {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
-              <div key={dateKey} className={'time-select-date'}>
-                <div className={'time-select-date-grid'}>
-                  <div className={'time-select-date-part'}>
-                    <div className={'time-line-circle'} />
-                    {dateKey}
-                  </div>
-                </div>
-                {eventTimeListDevideByDate[dateKey].map(
-                  ({ eventStartsAt, possibleNum }) => (
-                    <div
-                      key={dateKey + eventStartsAt.toISOString()}
-                      className={'time-select-card-grid'}
-                    >
-                      <TimeCard
-                        isEmpty={false}
-                        isSelected={selectedTime === eventStartsAt.getTime()}
-                        onClick={() => handleEventTimeClick(eventStartsAt)}
-                        timeRange={getTimeRange(
-                          eventStartsAt,
-                          eventTimeDuration
-                        )}
-                        possibleNum={possibleNum}
-                      />
-                      <ScheduleCard isEmpty={true} />
-                    </div>
-                  )
-                )}
-              </div>
-            ))} */}
           </div>
           <BottomButton
             text={'미팅시간 확정'}
