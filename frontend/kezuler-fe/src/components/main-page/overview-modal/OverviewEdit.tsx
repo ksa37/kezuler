@@ -238,7 +238,7 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
             defaultValue={eventDescription}
           />
         </OverviewSection>
-        <OverviewSection title={'참조링크'}>
+        <OverviewSection title={'참조 링크'}>
           <OverviewTextarea
             textareaClassName={'overview-body-input'}
             error={errors.eventAttachment}

@@ -54,7 +54,7 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
   };
 
   const handleAttachmentClick = () => {
-    copyText(eventAttachment, '참조링크가');
+    copyText(eventAttachment, '참조 링크가');
   };
 
   const place = useMemo(
@@ -128,7 +128,7 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
           </OverviewSection>
         )}
         {eventAttachment && (
-          <OverviewSection title={'참조링크'}>
+          <OverviewSection title={'참조 링크'}>
             <div className={'overview-section-attachment'}>
               <a
                 href={eventAttachment}

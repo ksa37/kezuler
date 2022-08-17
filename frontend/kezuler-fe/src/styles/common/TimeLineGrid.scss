@@ -303,7 +303,7 @@
     }
 
     &:hover {
-      background-color: rgba(white, 0.7);
+      // background-color: rgba(white, 0.7);
     }
 
     &.blurred {
@@ -313,7 +313,7 @@
     &.selected {
       background-color: $color-main;
       &:hover {
-        background-color: rgba($color-main, 0.7);
+        // background-color: rgba($color-main, 0.7);
       }
     }
   }

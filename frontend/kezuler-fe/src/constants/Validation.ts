@@ -3,7 +3,7 @@
  * 상세정보 100자
  * 온라인 100자
  * 오프라인 30자
- * 참조링크 100자
+ * 참조 링크 100자
  * */
 const MAX_TITLE_LENGTH = 15;
 const MAX_TITLE_LENGTH_ERROR = `글자수가 ${MAX_TITLE_LENGTH}자를 넘었어요.`;
@@ -20,7 +20,7 @@ const MAX_ONLINE_LOCATION_LENGTH_ERROR = `글자수가 ${MAX_ONLINE_LOCATION_LEN
 const MAX_OFFLINE_LOCATION_LENGTH = 30;
 const MAX_OFFLINE_LOCATION_LENGTH_ERROR = `글자수가 ${MAX_OFFLINE_LOCATION_LENGTH}자를 넘었어요.`;
 
-const INVALID_URL_ERROR = '올바른 URL 형식이 아니예요.';
+const INVALID_URL_ERROR = 'http(s):// 로 시작해야 해요.';
 
 const MAX_DECLINE_REASON_LENGTH = 100;
 const MAX_DECLINE_REASON_LENGTH_ERROR = `글자수가 ${MAX_DECLINE_REASON_LENGTH}자를 넘었어요.`;
