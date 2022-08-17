@@ -233,7 +233,6 @@
   position: absolute;
   top: 59px;
   max-width: calc((100% - 24px) / 3);
-  z-index: 3;
   .calendar-pair-ask-txt {
     text-align: left;
     font: normal normal normal 14px/22px Pretendard;
@@ -302,19 +301,12 @@
       line-height: $font-18;
     }
 
-    &:hover {
-      // background-color: rgba(white, 0.7);
-    }
-
     &.blurred {
       color: #bfbfbf;
     }
 
     &.selected {
       background-color: $color-main;
-      &:hover {
-        // background-color: rgba($color-main, 0.7);
-      }
     }
   }
 
