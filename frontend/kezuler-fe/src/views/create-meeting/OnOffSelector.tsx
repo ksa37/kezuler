@@ -150,6 +150,11 @@ function OnOffSelector() {
           <div className={'on-off-textfield-title'}>
             {isOnline ? '접속링크' : '장소'}
           </div>
+          {isOnline && (
+            <div className={'skip-text'}>
+              {'아직 링크가 없다면 건너뛰기를 눌러주세요.'}
+            </div>
+          )}
           <div className={'on-off-textfield-field-container'}>
             <input
               type="text"
@@ -171,11 +176,6 @@ function OnOffSelector() {
               <div>{!isOnline && '* 필수사항'}</div>
             </div>
           </div>
-          {isOnline && (
-            <div className={'skip-text'}>
-              {'아직 링크가 없다면 건너뛰기를 눌러주세요.'}
-            </div>
-          )}
         </div>
       </div>
       <BottomButton

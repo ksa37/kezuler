@@ -228,7 +228,7 @@ function CalendarTimeSelector() {
         <div className={'time-chip-text'}>
           <ClockIcon className={'icn-clock-b20'} />
           <b>{'미팅시작 시각'}</b>
-          {'을 선택하세요'}
+          {'을 모두 선택하세요'}
         </div>
         {location.href.includes('A') ? (
           <ScrollContainer className="scroll-container">

@@ -124,7 +124,11 @@ function MeetingInfoForm() {
           <br />
           {'알려주세요'}
         </div>
-        <div className={classNames('meeting-info', 'required')}>
+        <div
+          className={classNames('meeting-info', 'required', {
+            'is-error': !!error.title,
+          })}
+        >
           <div className={classNames('meeting-title')}>
             <span className={classNames('meeting-title-text')}>미팅제목</span>
             <span className={classNames('meeting-title-required')}>
@@ -149,7 +153,11 @@ function MeetingInfoForm() {
             <div className={'create-meeting-error-text'}>{error.title}</div>
           )}
         </div>
-        <div className={classNames('meeting-info', 'additional')}>
+        <div
+          className={classNames('meeting-info', 'additional', {
+            'is-error': !!error.attachment,
+          })}
+        >
           <div className={classNames('meeting-additional')}>
             <span className={classNames('meeting-additional-text')}>
               추가정보
@@ -174,7 +182,11 @@ function MeetingInfoForm() {
               {error.description}
             </div>
           )}
-          <div className={classNames('meeting-additional', 'url')}>
+          <div
+            className={classNames('meeting-additional', 'url', {
+              'is-error': !!error.description,
+            })}
+          >
             <span className={classNames('meeting-additional-text')}>
               참조 링크
             </span>

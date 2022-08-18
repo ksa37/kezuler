@@ -131,7 +131,11 @@
 
   &.required {
     margin: 40px 24px 0 24px;
-    padding: 13px 24px 16px 24px;
+    padding: 13px 24px 26px 24px;
+
+    &.is-error {
+      padding-bottom: 8px;
+    }
 
     @media (max-height: $short-height-size) {
       margin-top: 16px;
@@ -144,7 +148,10 @@
 
   &.additional {
     margin: 16px 24px 0 24px;
-    padding: 16px 24px 24px 24px;
+    padding: 16px 24px 26px 24px;
+    &.is-error {
+      padding-bottom: 8px;
+    }
     @media (max-width: 340px) {
       padding-inline: 18px;
     }
@@ -221,7 +228,10 @@
 
   .meeting-additional {
     &.url {
-      margin-top: 16px;
+      margin-top: 26px;
+      &.is-error {
+        margin-top: 8px;
+      }
     }
     .meeting-additional-text {
       color: #8d8d8d;
@@ -353,6 +363,8 @@
   margin-left: 33.67px;
   margin-top: 12px;
   display: flex;
+  // white-space: pre;
+
   .string {
     position: relative;
   }
@@ -635,16 +647,19 @@
   }
 
   .skip-text {
-    margin-top: 16px;
-    font: normal normal normal 14px/17px Pretendard;
-    color: #282f39;
+    margin-top: 8px;
+    font-size: $font-14;
+    line-height: 17px;
+    color: #808080;
     text-align: center;
   }
 }
 
 .on-off-textfield-title {
   text-align: center;
-  font: normal normal bold 18px/30px Arial;
+  font-weight: bold;
+  font-size: $font-18;
+  line-height: $font-24;
   color: $color-highlight;
 }
 
