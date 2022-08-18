@@ -205,13 +205,20 @@ $my-page-gap: 20px;
   }
 
   .my-page-edit-textfield {
-    margin-top: 24px;
+    margin-block: 24px;
     padding-inline: 48px;
     input:focus {
       outline: none;
       border-color: $color-highlight;
     }
 
+    &.email {
+      margin-top: 0;
+    }
+
+    &.is-error {
+      margin-bottom: 6px;
+    }
     .my-page-edit-textfield-title {
       padding-left: 8px;
       color: $color-highlight;
@@ -265,7 +272,7 @@ $my-page-gap: 20px;
   // overflow: hidden;
 }
 .my-page-edit-notice {
-  margin: 24px 56px 40px;
+  margin: 0 56px 40px;
   color: #9f9f9f;
   flex: 1;
   .my-page-edit-notice-title {

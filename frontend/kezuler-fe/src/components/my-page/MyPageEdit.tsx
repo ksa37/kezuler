@@ -164,7 +164,11 @@ function MyPageEdit({ goToMain }: Props) {
             <PlusIconYellow className={'my-page-edit-avatar-plus-icn'} />
           </label>
         </div>
-        <div className={'my-page-edit-textfield'}>
+        <div
+          className={classNames('my-page-edit-textfield', {
+            'is-error': errors.userName,
+          })}
+        >
           <div className={'my-page-edit-textfield-title'}>이름</div>
           <input
             onKeyDown={handleKeyDown}
@@ -187,7 +191,11 @@ function MyPageEdit({ goToMain }: Props) {
             </div>
           )}
         </div>
-        <div className={classNames('my-page-edit-textfield', 'email')}>
+        <div
+          className={classNames('my-page-edit-textfield', 'email', {
+            'is-error': errors.userEmail,
+          })}
+        >
           <div className={'my-page-edit-textfield-title'}>이메일</div>
           <input
             onKeyDown={handleKeyDown}
