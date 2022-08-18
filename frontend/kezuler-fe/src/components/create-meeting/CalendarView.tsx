@@ -1,6 +1,6 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
-import { addMonths } from 'date-fns';
+import { addMonths, isSameDay } from 'date-fns';
 import { ko } from 'date-fns/esm/locale';
 
 import { setMindate } from 'src/utils/dateParser';
@@ -22,6 +22,11 @@ function CalendarView({ startDate, setStartDate, highlightDates }: Props) {
         selected={startDate}
         onChange={setStartDate}
         // renderCustomHeader
+        dayClassName={(date) =>
+          isSameDay(date, setMindate())
+            ? 'react-datepicker__day--today-highlight'
+            : null
+        }
         highlightDates={highlightDates}
         minDate={setMindate()}
         maxDate={addMonths(new Date(), 6)}

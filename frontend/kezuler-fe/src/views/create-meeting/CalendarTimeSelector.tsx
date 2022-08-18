@@ -11,7 +11,7 @@ import { ko } from 'date-fns/locale';
 import TimeOptions from '../../constants/TimeOptions';
 import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
 import PathName from 'src/constants/PathName';
-import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
+// import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { alertAction } from 'src/reducers/alert';
@@ -30,11 +30,7 @@ import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
 import { ReactComponent as ClockOrangeIcon } from 'src/assets/icn_clock_o20.svg';
 import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 
-interface Props {
-  nogcalendar?: boolean;
-}
-
-function CalendarTimeSelector({ nogcalendar }: Props) {
+function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
   const { eventTimeList } = useSelector(
     (state: RootState) => state.createMeeting
@@ -155,8 +151,8 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
   }, [MEETING_LENGTH_LIST[selectedLengthIdx].minutes]);
 
   // Time Option Chip Focus 설정
-  const setChipFocus = () => {
-    const focusChip = document.getElementById('08:00');
+  const setChipFocus = (startTimeStr: string) => {
+    const focusChip = document.getElementById(startTimeStr);
 
     focusChip?.scrollIntoView({
       behavior: 'auto',
@@ -166,7 +162,15 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
   };
 
   useEffect(() => {
-    setChipFocus();
+    let startTimeStr = '08:00';
+    if (
+      startDate &&
+      TimeOptions(startDate).length > 0 &&
+      Number(TimeOptions(startDate)[0].split(':')[0]) > 8
+    ) {
+      startTimeStr = TimeOptions(startDate)[0];
+    }
+    setChipFocus(startTimeStr);
   }, [startDate]);
 
   const getChips = useMemo(
@@ -190,14 +194,6 @@ function CalendarTimeSelector({ nogcalendar }: Props) {
       }),
     [startDate, eventTimeList]
   );
-
-  useEffect(() => {
-    dispatch(setStep(1));
-    const link = location.href;
-    if (link.includes('A') || link.includes('B')) {
-      dispatch(setTitle('어떤 생성 방식이 좋나요'));
-    }
-  }, []);
 
   return (
     <div className={'create-wrapper'}>

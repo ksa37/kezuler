@@ -126,7 +126,7 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
     }
     return true;
   };
-  
+
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.code === 'Enter') {
       const form = document.forms[0];
@@ -238,7 +238,7 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
             defaultValue={eventDescription}
           />
         </OverviewSection>
-        <OverviewSection title={'참고 자료'}>
+        <OverviewSection title={'참조 링크'}>
           <OverviewTextarea
             textareaClassName={'overview-body-input'}
             error={errors.eventAttachment}

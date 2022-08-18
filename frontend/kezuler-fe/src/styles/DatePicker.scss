@@ -537,9 +537,9 @@ $datepicker__triangle-size: 8px !default;
         }
       }
 
-      &.react-datepicker__day--keyboard-selected {
-        color: unset;
-      }
+      // &.react-datepicker__day--keyboard-selected {
+      //   color: unset;
+      // }
       &.react-datepicker__day--selected {
         color: #fff;
       }
@@ -594,8 +594,12 @@ $datepicker__triangle-size: 8px !default;
     }
 
     &--today {
+      font-weight: normal;
+    }
+
+    &--today-highlight {
       position: relative;
-      // font-weight: bold;
+      font-weight: bold;
       color: $color-main-dark;
       &::after {
         position: absolute;

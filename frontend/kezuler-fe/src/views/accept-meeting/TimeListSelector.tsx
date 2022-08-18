@@ -21,7 +21,7 @@ import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
 } from 'src/utils/dateParser';
-import getTimezoneDate from 'src/utils/getTimezoneDate';
+import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 import { getDeclineReason, getSelectedOptions } from 'src/utils/joinMeeting';
 import { isModification as isModificationfunc } from 'src/utils/joinMeeting';
 
@@ -128,7 +128,7 @@ function TimeListSelector({ isModification }: Props) {
 
   // selectedOptions availableTimes
   const handleEventTimeClick = (eventStartsAt: Date) => {
-    const dateToAdd = eventStartsAt.getTime();
+    const dateToAdd = getUTCDate(eventStartsAt.getTime()).getTime();
     if (availableTimes.includes(dateToAdd)) {
       dispatch(deleteAvailableTimes(dateToAdd));
     } else {
@@ -257,9 +257,11 @@ function TimeListSelector({ isModification }: Props) {
                     <TimeCard
                       isEmpty={false}
                       isSelected={availableTimes.includes(
-                        eventTimeListDevideByDate[dateKey][
-                          index
-                        ].eventStartsAt.getTime()
+                        getUTCDate(
+                          eventTimeListDevideByDate[dateKey][
+                            index
+                          ].eventStartsAt.getTime()
+                        ).getTime()
                       )}
                       onClick={() =>
                         handleEventTimeClick(
