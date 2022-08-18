@@ -25,6 +25,7 @@ import NotFound from 'src/views/NotFound';
 import NotiPage from 'src/views/NotiPage';
 import TimeConfirmator from 'src/views/pending-event/TimeConfirmator';
 import RedirectView from 'src/views/RedirectView';
+import CompletionPage from 'src/components/common/CompletionPage';
 import MainFixedEvents from 'src/components/main-page/main-fixed-events';
 import MainPendingEvents from 'src/components/main-page/main-pending-events';
 import OverviewModal from 'src/components/main-page/overview-modal';
@@ -169,6 +170,19 @@ function RootRoutes() {
               <Route path="*" element={<AcceptIndex />} />
             </Route>
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
+            <Route
+              path={'test'}
+              element={
+                // <MeetingShare />
+                <AcceptanceCompletion />
+                // <CompletionPage
+                //   boldTextFirst="미팅 시간이"
+                //   boldTextSecond="확정되었습니다."
+                //   regularTextFirst="미팅 참여자들에게"
+                //   regularTextSecond="확정된 일정이 전송되었습니다."
+                // />
+              }
+            />
             <Route path={PathName.notFound} element={<NotFound />} />
             <Route
               path="*"
