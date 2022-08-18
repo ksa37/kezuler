@@ -57,7 +57,7 @@
   background-color: $color-background;
   height: calc(#{$app-bar-height} - 4px);
   z-index: 2;
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   width: 100%;
@@ -87,7 +87,7 @@
     }
     .text-app-bar-content-bbtn {
       cursor: pointer;
-      position: fixed;
+      position: absolute;
       left: 28px;
       padding-block: 17px;
     }
@@ -96,7 +96,7 @@
 
 .progress-bar {
   width: 100%;
-  position: fixed;
+  position: absolute;
   top: calc(#{$app-bar-height} - 4px);
   z-index: 2;
   background-color: #ffffff;
