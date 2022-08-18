@@ -66,6 +66,14 @@
       }
     }
 
+    &.is-edit {
+      padding-bottom: 26px;
+    }
+
+    &.is-error {
+      padding-bottom: 8px;
+    }
+
     @media (min-height: $short-height-size) and (min-width: 350px) {
       padding: 24px 24px 20px;
     }
@@ -117,6 +125,12 @@
   position: relative;
   margin-bottom: 20px;
 
+  &.is-edit {
+    margin-bottom: 26px;
+  }
+  &.is-error {
+    margin-bottom: 8px;
+  }
   @media (max-height: $short-height-size) {
     margin-bottom: 10px;
   }
@@ -321,11 +335,11 @@
     font-size: 11px;
   }
 
-  &.edit {
-    .overview-btn-icon {
-      background: white;
-    }
-  }
+  // &.edit {
+  //   .overview-btn-icon {
+  //     background: white;
+  //   }
+  // }
 
   .overview-btn-icon {
     width: 100%;

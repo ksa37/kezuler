@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 
 import { OVERVIEW_FORM_ID, PLACE_OPTIONS } from 'src/constants/Main';
 import { makeFixedInfoUrl, makePendingInfoUrl } from 'src/constants/PathName';
@@ -144,7 +145,15 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
 
   return (
     <form id={OVERVIEW_FORM_ID} onSubmit={handleSubmit(onValid)}>
-      <header className={'overview-header'}>
+      <header
+        className={classNames(
+          'overview-header',
+          { 'is-edit': errors.eventTitle ? false : true },
+          {
+            'is-error': !!errors.eventTitle,
+          }
+        )}
+      >
         <div className={'overview-header-title'}>미팅 제목</div>
         <h1 className={'overview-header-desc'}>
           <OverviewTextarea
@@ -178,7 +187,11 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
         {eventDate && (
           <OverviewSection title={'일시'}>{eventDate}</OverviewSection>
         )}
-        <OverviewSection title={'장소'}>
+        <OverviewSection
+          title={'장소'}
+          isEdit
+          isError={!!errors.eventZoomAddress || !!errors.eventPlace}
+        >
           <KezulerDropdown
             startIcon={isSelectOnline ? <PCIcon /> : <LocIcon />}
             endIcon={<ArrowDownIcon />}
@@ -224,7 +237,11 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
             />
           )}
         </OverviewSection>
-        <OverviewSection title={'미팅 내용'}>
+        <OverviewSection
+          title={'미팅 내용'}
+          isEdit
+          isError={!!errors.eventDescription}
+        >
           <OverviewTextarea
             textareaClassName={'overview-body-input'}
             error={errors.eventDescription}
@@ -238,7 +255,11 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
             defaultValue={eventDescription}
           />
         </OverviewSection>
-        <OverviewSection title={'참조 링크'}>
+        <OverviewSection
+          title={'참조 링크'}
+          isEdit
+          isError={!!errors.eventAttachment}
+        >
           <OverviewTextarea
             textareaClassName={'overview-body-input'}
             error={errors.eventAttachment}
@@ -255,9 +276,9 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
             defaultValue={eventAttachment}
           />
         </OverviewSection>
-        {isFixedEvent(event) && !isCanceled && (
+        {/* {isFixedEvent(event) && !isCanceled && (
           <OverviewParticipants event={event} />
-        )}
+        )} */}
       </div>
     </form>
   );

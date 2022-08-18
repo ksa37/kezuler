@@ -4,6 +4,7 @@ import { addMonths, isSameDay } from 'date-fns';
 import { ko } from 'date-fns/esm/locale';
 
 import { setMindate } from 'src/utils/dateParser';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 
 import 'src/styles/DatePicker.scss';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -23,7 +24,7 @@ function CalendarView({ startDate, setStartDate, highlightDates }: Props) {
         onChange={setStartDate}
         // renderCustomHeader
         dayClassName={(date) =>
-          isSameDay(date, setMindate())
+          isSameDay(date, getTimezoneDate(new Date()))
             ? 'react-datepicker__day--today-highlight'
             : null
         }

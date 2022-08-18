@@ -129,7 +129,8 @@
 }
 
 .acceptance-complete-imgs {
-  position: fixed;
+  position: absolute;
+  overflow: hidden;
   width: 100%;
   height: 407px;
   bottom: 79px;
@@ -219,7 +220,8 @@
 }
 
 .celebrate-smile-icon-confirm {
-  position: fixed;
+  position: absolute;
+  overflow: hidden;
   right: 180px;
   bottom: 200px;
   width: 85px;
@@ -238,7 +240,8 @@
 }
 
 .celebrate-icon-confirm {
-  position: fixed;
+  position: absolute;
+  overflow: hidden;
   right: -30px;
   bottom: 48px;
   width: 290px;
