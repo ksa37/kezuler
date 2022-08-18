@@ -28,13 +28,45 @@
       $color-main 193px,
       $color-background 193px 100%
     );
+
+    @media (max-height: $short-height-size) {
+      background: linear-gradient(
+        to bottom,
+        $color-main calc(193px - 44px),
+        $color-background calc(193px - 44px) 100%
+      );
+    }
   }
   &.calendar-selector {
     background: linear-gradient(
       to bottom,
-      $color-background 295px,
-      $color-main 295px 100%
+      $color-background 280px,
+      $color-main 280px 100%
     );
+
+    @media (max-height: 780px) and (min-height: 620px) {
+      background: linear-gradient(
+        to bottom,
+        $color-background calc(280px - 36px),
+        $color-main calc(280px - 36px) 100%
+      );
+    }
+
+    @media (max-height: 620px) and (min-height: $short-height-size) {
+      background: linear-gradient(
+        to bottom,
+        $color-background calc(280px - 61px),
+        $color-main calc(280px - 61px) 100%
+      );
+    }
+
+    @media (max-height: $short-height-size) {
+      background: linear-gradient(
+        to bottom,
+        $color-background calc(280px - 77px),
+        $color-main calc(280px - 77px) 100%
+      );
+    }
   }
   &.place-info {
     background: linear-gradient(
@@ -42,6 +74,14 @@
       $color-background 204px,
       $color-main 204px 100%
     );
+
+    @media (max-height: $short-height-size) {
+      background: linear-gradient(
+        to bottom,
+        $color-background calc(204px - 32px),
+        $color-main calc(204px - 32px) 100%
+      );
+    }
   }
 }
 
