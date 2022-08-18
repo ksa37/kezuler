@@ -111,8 +111,8 @@ function ParticipantsPopup() {
                 users={targetUsers as FixedUser[] | DeclinedUser[]}
               />
             )}
-            {/* {isHost && !isAttendant && !isFixedEvent(event) && ( */}
-            {!isAttendant && !isFixedEvent(event) && (
+            {isHost && !isAttendant && !isFixedEvent(event) && (
+              // {!isAttendant && !isFixedEvent(event) && (
               <ParticipantsReasons users={targetUsers as DeclinedUser[]} />
             )}
           </div>

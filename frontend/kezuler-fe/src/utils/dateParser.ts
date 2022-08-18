@@ -1,4 +1,4 @@
-import { format, isAfter } from 'date-fns';
+import { addDays, format, isAfter } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 import DAY_OF_WEEK from 'src/constants/DayofWeek';
@@ -178,15 +178,13 @@ const setMindate = () => {
     nowTime.getMonth() + 1
   ).padStart(2, '0')}-${String(nowTime.getDate()).padStart(2, '0')} 23:30:00`;
 
-  const toNextDate = `${String(nowTime.getFullYear())}-${String(
-    nowTime.getMonth() + 1
-  ).padStart(2, '0')}-${String(nowTime.getDate() + 1).padStart(
-    2,
-    '0'
-  )} 00:00:00`;
+  const nextDay = addDays(nowTime, 1);
+  const toNextDate = `${String(nextDay.getFullYear())}-${String(
+    nextDay.getMonth() + 1
+  ).padStart(2, '0')}-${String(nextDay.getDate()).padStart(2, '0')} 00:00:00`;
 
-  if (isAfter(getTimezoneDate(new Date().getTime()), getUTCDate(eleven30))) {
-    return getTimezoneDate(toNextDate);
+  if (isAfter(new Date(), getUTCDate(eleven30))) {
+    return getTimezoneDate(getUTCDate(toNextDate));
   } else {
     return getTimezoneDate(new Date().getTime());
   }
