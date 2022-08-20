@@ -11,6 +11,7 @@ interface Props {
   placeholder?: string;
   registered: UseFormRegisterReturn<FieldPath<OverviewEventForm>>;
   defaultValue?: string;
+  allowNewLine?: boolean;
 }
 
 function OverviewTextarea({
@@ -19,9 +20,10 @@ function OverviewTextarea({
   placeholder,
   registered,
   defaultValue,
+  allowNewLine,
 }: Props) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.code === 'Enter') {
+    if (!allowNewLine && e.code === 'Enter') {
       e.preventDefault();
     }
   };
