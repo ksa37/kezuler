@@ -253,6 +253,7 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
               },
             })}
             defaultValue={eventDescription}
+            allowNewLine
           />
         </OverviewSection>
         <OverviewSection
