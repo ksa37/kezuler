@@ -28,7 +28,6 @@ import isURL from 'src/utils/isURL';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
 import OverviewDropdown from './OverviewDropdown';
-import OverviewParticipants from './OverviewParticipants';
 import OverviewSection from './OverviewSection';
 import KezulerDropdown from 'src/components/common/KezulerDropdown';
 import OverviewTextarea from 'src/components/main-page/overview-modal/OverviewTextarea';
@@ -99,6 +98,10 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
     clearErrors,
   } = useForm<OverviewEventForm>({ mode: 'onChange' });
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
   const onValid: SubmitHandler<OverviewEventForm> = (data) => {
     patch(isFixedEvent(event), eventId, data, () => {
       navigate(
@@ -128,27 +131,27 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
     return true;
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.code === 'Enter') {
-      const form = document.forms[0];
-      const index = Array.prototype.indexOf.call(form, event.target);
-      //TODO: 원래 제대로 적용되게끔하기
-      const indexList = [0, 2, 3, 5];
-      const nowIndex = indexList.findIndex((i) => i === index);
-      if (nowIndex + 1 < indexList.length) {
-        const focusEl: any = form.elements[indexList[nowIndex + 1]];
-        focusEl.focus();
-      }
-      // event.preventDefault();
-    }
-  };
+  // const handleKeyDown = (event: React.KeyboardEvent) => {
+  //   if (event.code === 'Enter') {
+  //     const form = document.forms[0];
+  //     const index = Array.prototype.indexOf.call(form, event.target);
+  //     //TODO: 원래 제대로 적용되게끔하기
+  //     const indexList = [0, 2, 3, 5];
+  //     const nowIndex = indexList.findIndex((i) => i === index);
+  //     if (nowIndex + 1 < indexList.length) {
+  //       const focusEl: any = form.elements[indexList[nowIndex + 1]];
+  //       focusEl.focus();
+  //     }
+  //     // event.preventDefault();
+  //   }
+  // };
 
   return (
     <form id={OVERVIEW_FORM_ID} onSubmit={handleSubmit(onValid)}>
       <header
         className={classNames(
           'overview-header',
-          { 'is-edit': errors.eventTitle ? false : true },
+          { 'is-edit': !errors.eventTitle },
           {
             'is-error': !!errors.eventTitle,
           }
@@ -276,9 +279,6 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
             defaultValue={eventAttachment}
           />
         </OverviewSection>
-        {/* {isFixedEvent(event) && !isCanceled && (
-          <OverviewParticipants event={event} />
-        )} */}
       </div>
     </form>
   );

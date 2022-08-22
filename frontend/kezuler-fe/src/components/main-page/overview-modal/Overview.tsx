@@ -220,6 +220,7 @@ function Overview() {
           {isEdit ? (
             <>
               <OverviewButton
+                // disabled={}
                 className={'edit'}
                 icon={<CheckIcon />}
                 text={'변경 저장'}
