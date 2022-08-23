@@ -45,7 +45,7 @@ const getDeclineReason = (declinedUsers: DeclinedUser[]) => {
   );
 
   if (currentUser.length === 0) {
-    return '';
+    return null;
   } else {
     return currentUser[0].userDeclineReason;
   }

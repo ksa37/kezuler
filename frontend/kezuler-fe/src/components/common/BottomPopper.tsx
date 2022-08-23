@@ -11,7 +11,7 @@ interface Props {
   buttonText: string;
   onClick: () => void;
   onDisableClick?: () => void;
-  image: string;
+  image?: string;
   isSmallTitle?: boolean;
   disableDelete?: boolean;
   reverseOrder?: boolean;

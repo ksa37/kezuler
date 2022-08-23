@@ -170,7 +170,7 @@ function RootRoutes() {
               <Route path="*" element={<AcceptIndex />} />
             </Route>
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
-            <Route
+            {/* <Route
               path={'test'}
               element={
                 // <MeetingShare />
@@ -182,7 +182,7 @@ function RootRoutes() {
                 //   regularTextSecond="확정된 일정이 전송되었습니다."
                 // />
               }
-            />
+            /> */}
             <Route path={PathName.notFound} element={<NotFound />} />
             <Route
               path="*"

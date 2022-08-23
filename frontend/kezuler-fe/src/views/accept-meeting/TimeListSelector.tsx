@@ -40,14 +40,14 @@ interface Props {
 }
 function TimeListSelector({ isModification }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { pendingEvent, availableTimes, declineReason } = useSelector(
-    (state: RootState) => state.acceptMeeting
-  );
+  const { pendingEvent, availableTimes, declineReason, isDecline } =
+    useSelector((state: RootState) => state.acceptMeeting);
   const {
     addAvailableTimes,
     deleteAvailableTimes,
     increaseStep,
     setDeclineReason,
+    setIsDecline,
   } = acceptMeetingActions;
 
   const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
@@ -63,7 +63,11 @@ function TimeListSelector({ isModification }: Props) {
   // isModification(eventTimeCandidates, declinedUsers)
   // 가능한 시간 없는 이유 가져옴
   useEffect(() => {
-    dispatch(setDeclineReason(getDeclineReason(declinedUsers)));
+    const declineReasontext = getDeclineReason(declinedUsers);
+    if (declineReasontext !== null) {
+      dispatch(setDeclineReason(declineReasontext));
+      dispatch(setIsDecline(true));
+    }
   }, [pendingEvent]);
 
   useEffect(() => {
@@ -307,7 +311,9 @@ function TimeListSelector({ isModification }: Props) {
       <BottomButton
         text={isModification ? '수정 완료' : '선택 완료'}
         onClick={handlePutClick}
-        disabled={nextButtonDisabled}
+        disabled={
+          (availableTimes.length === 0 && !isDecline) || nextButtonDisabled
+        }
       />
     </div>
   );

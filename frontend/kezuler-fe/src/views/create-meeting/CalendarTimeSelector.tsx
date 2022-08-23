@@ -227,8 +227,18 @@ function CalendarTimeSelector() {
         )} */}
         <div className={'time-chip-text'}>
           <ClockIcon className={'icn-clock-b20'} />
-          <b>{'미팅시작 시각'}</b>
-          {'을 모두 선택하세요'}
+          {eventTimeList.length === 0 ? (
+            <>
+              {'미팅 시작을'}
+              <b>{' 여러 개'}</b>
+              {' 선택할 수 있어요.'}
+            </>
+          ) : (
+            <>
+              {'미팅 시작 선택중'}
+              <b>{` ${eventTimeList.length}/5`}</b>
+            </>
+          )}
         </div>
         {location.href.includes('A') ? (
           <ScrollContainer className="scroll-container">

@@ -362,7 +362,7 @@
   margin-left: 33.67px;
   margin-top: 12px;
   display: flex;
-  // white-space: pre;
+  white-space: pre-wrap;
 
   .string {
     position: relative;
@@ -575,7 +575,8 @@
     .on-off-title {
       margin-top: 16px;
       text-align: center;
-      font: normal normal bold 13px Arial;
+      font-size: 13px;
+      font-weight: bold;
       letter-spacing: 0px;
       color: $color-highlight;
       opacity: 1;
@@ -584,7 +585,7 @@
     .on-off-subtitle {
       margin-top: 4px;
       text-align: center;
-      font: normal normal normal 13px Arial;
+      font-size: 13px;
       letter-spacing: 0px;
       color: #9f9f9f;
       opacity: 1;
