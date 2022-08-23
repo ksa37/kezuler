@@ -58,15 +58,22 @@ function AvailableOptionSelector({ errorMessage }: Props) {
   };
 
   useEffect(() => {
-    dispatch(setIsDecline(availableTimes.length === 0));
+    if (availableTimes.length > 0) {
+      dispatch(setIsDecline(false));
+    }
+    setAllAvailable(availableTimes.length === eventTimeCandidates.length);
   }, [availableTimes]);
+
+  useEffect(() => {
+    if (isDecline) setIsOpen(true);
+  }, [isDecline]);
 
   const [allAvailable, setAllAvailable] = useState(false);
 
-  useMemo(
-    () => setAllAvailable(availableTimes.length === eventTimeCandidates.length),
-    [availableTimes]
-  );
+  // useMemo(
+  //   () => setAllAvailable(availableTimes.length === eventTimeCandidates.length),
+  //   [availableTimes]
+  // );
 
   const notAvailableDescription = '가능한 시간이 없어요';
   const allAvailableDescription = '모든 시간 가능해요';

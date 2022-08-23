@@ -31,7 +31,7 @@ function BottomButton({
         },
         { 'not-fixed': notFixed }
       )}
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
     >
       <div className={'btn-text-area'}>
         {subtext && <div className={'btn-subtext'}>{subtext}</div>}
