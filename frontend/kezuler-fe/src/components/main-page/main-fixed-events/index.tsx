@@ -97,12 +97,21 @@ function MainFixedEvents() {
           <EmptyFixedEventCard />
         </div>
         {popupOpened && !isPendingExist && (
+          // <BottomPopper
+          //   title={'단 하나의 링크로 미팅 확정까지!'}
+          //   description={'시간 조율하느라 허비되는 시간 NO!'}
+          //   buttonText={'첫 미팅 만들러가기'}
+          //   onClick={handleCreateClick}
+          //   // image={BottomCardBg}
+          //   onDisableClick={handleClosePopper}
+          //   reverseOrder
+          // />
           <BottomPopper
-            title={'단 하나의 링크로 미팅 확정까지!'}
-            description={'시간 조율하느라 허비되는 시간 NO!'}
+            title={'케:줄러로 미팅 잡자!'}
+            description={'시간 조율하느라 받는 스트레스 이제 그만!'}
             buttonText={'첫 미팅 만들러가기'}
             onClick={handleCreateClick}
-            image={BottomCardBg}
+            // image={BottomCardBg}
             onDisableClick={handleClosePopper}
             reverseOrder
           />

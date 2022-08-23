@@ -7,7 +7,11 @@ import { useGetInvitation } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
-import { getSelectedOptions, isModification } from 'src/utils/joinMeeting';
+import {
+  getDeclineReason,
+  getSelectedOptions,
+  isModification,
+} from 'src/utils/joinMeeting';
 
 import TimeListSelector from './TimeListSelector';
 import TextAppBar from 'src/components/common/TextAppBar';
@@ -16,7 +20,8 @@ import 'src/styles/common/TimeLineGrid.scss';
 
 function SelectionModifier() {
   const dispatch = useDispatch<AppDispatch>();
-  const { setAvailableTimes, destroy } = acceptMeetingActions;
+  const { setAvailableTimes, setDeclineReason, setIsDecline, destroy } =
+    acceptMeetingActions;
   const { pendingEvent, isLoaded } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
@@ -46,6 +51,11 @@ function SelectionModifier() {
       navigate(`${PathName.invite}/${eventId}/invitation`);
     } else if (isLoaded && isModification(eventTimeCandidates, declinedUsers)) {
       dispatch(setAvailableTimes(getSelectedOptions(eventTimeCandidates)));
+      const declineReasontext = getDeclineReason(declinedUsers);
+      if (declineReasontext !== null) {
+        dispatch(setDeclineReason(declineReasontext));
+        dispatch(setIsDecline(true));
+      }
     }
   }, [isLoaded]);
 

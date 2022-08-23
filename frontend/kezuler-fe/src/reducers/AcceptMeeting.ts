@@ -67,7 +67,7 @@ const initialState: AcceptMeetingState = {
   eventId: '',
   userId: '',
   userName: '',
-  isDecline: true,
+  isDecline: false,
 
   declineReason: null,
   availableTimes: [],

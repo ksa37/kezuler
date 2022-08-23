@@ -222,7 +222,9 @@ $my-page-gap: 20px;
     .my-page-edit-textfield-title {
       padding-left: 8px;
       color: $color-highlight;
-      font: normal normal bold 14px/30px Arial;
+      font-size: $font-14;
+      line-height: 30px;
+      font-weight: bold;
     }
     .my-page-edit-textfield-box {
       box-sizing: border-box;
