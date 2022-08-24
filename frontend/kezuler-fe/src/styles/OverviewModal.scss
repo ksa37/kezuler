@@ -337,11 +337,13 @@
     font-size: 11px;
   }
 
-  // &.edit {
-  //   .overview-btn-icon {
-  //     background: white;
-  //   }
-  // }
+  &.disabled {
+    color: #9f9f9f;
+
+    .overview-btn-icon {
+      background: #9f9f9f;
+    }
+  }
 
   .overview-btn-icon {
     width: 100%;
