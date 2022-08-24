@@ -31,6 +31,7 @@ import MainPendingEvents from 'src/components/main-page/main-pending-events';
 import OverviewModal from 'src/components/main-page/overview-modal';
 import PrivacyPolicy from 'src/components/my-page/PrivacyPolicy';
 import TermsOfService from 'src/components/my-page/TermsOfService';
+import ParticipantsPopup from 'src/components/participants-popup';
 
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
@@ -75,6 +76,10 @@ function RootRoutes() {
               index
               element={<Navigate replace to={PathName.mainFixed} />}
             />
+            <Route
+              path={PathName.mainFixedIdInfoParticipants}
+              element={<ParticipantsPopup />}
+            />
             <Route path={PathName.main} element={<MainPage />}>
               <Route
                 index
@@ -90,6 +95,7 @@ function RootRoutes() {
                   element={<OverviewModal />}
                 />
               </Route>
+
               <Route
                 path={PathName.mainPending}
                 element={<MainPendingEvents />}
@@ -108,7 +114,7 @@ function RootRoutes() {
                 element={<Navigate replace to={PathName.mainFixed} />}
               />
             </Route>
-            <Route path={PathName.notification} element={<NotiPage />} />
+            {/* <Route path={PathName.notification} element={<NotiPage />} /> */}
             <Route path={PathName.myPage} element={<MyPage />} />
             <Route path={PathName.privacyPolicy} element={<PrivacyPolicy />} />
             <Route path={PathName.serviceTerm} element={<TermsOfService />} />
@@ -120,14 +126,6 @@ function RootRoutes() {
               <Route path={PathName.createInfo} element={<MeetingInfoForm />} />
               <Route
                 path={PathName.createTime}
-                element={<CalendarTimeSelector />}
-              />
-              <Route
-                path={PathName.createTimeA}
-                element={<CalendarTimeSelector />}
-              />
-              <Route
-                path={PathName.createTimeB}
                 element={<CalendarTimeSelector />}
               />
               <Route
@@ -146,10 +144,17 @@ function RootRoutes() {
             </Route>
             <Route path={PathName.modify} element={<SelectionModifier />} />
             <Route
+              path={PathName.modifyParticipants}
+              element={<ParticipantsPopup />}
+            />
+            <Route
               path={`${PathName.confirm}/:eventConfirmId`}
               element={<TimeConfirmator />}
             />
-
+            <Route
+              path={`${PathName.confirm}/:eventConfirmId/participants`}
+              element={<ParticipantsPopup />}
+            />
             <Route
               path={`${PathName.invite}/:eventId`}
               element={<AcceptMeeting />}
@@ -162,6 +167,10 @@ function RootRoutes() {
               <Route
                 path={PathName.inviteSelect}
                 element={<TimeListSelector />}
+              />
+              <Route
+                path={PathName.inviteSelectParticipants}
+                element={<ParticipantsPopup />}
               />
               <Route
                 path={PathName.inviteComplete}

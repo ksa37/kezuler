@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import classNames from 'classnames';
 
@@ -11,7 +12,7 @@ interface Props {
 }
 
 function OverviewParticipants({ event }: Props) {
-  const { eventHost } = event;
+  const { eventHost, eventId } = event;
   const { participants } = event;
   const acceptParticipants = participants.filter(
     (participant) => participant.userStatus === 'Accepted'
@@ -83,9 +84,11 @@ function OverviewParticipants({ event }: Props) {
   const { show } = participantsPopupAction;
   const dispatch = useDispatch();
   const { userName: hostName, userProfileImage: hostProfileImage } = eventHost;
+  const navigate = useNavigate();
 
   const handleAllShowClick = () => {
     dispatch(show(event));
+    navigate(`/main/fixed/${eventId}/info/participants`);
   };
 
   // TODO 작아졌을 때 처리

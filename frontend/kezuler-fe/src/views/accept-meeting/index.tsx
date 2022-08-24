@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
+import classNames from 'classnames';
 
 import { AcceptMeetingSteps } from 'src/constants/Steps';
 import { useGetInvitation } from 'src/hooks/usePendingEvent';
@@ -81,17 +82,31 @@ function AcceptMeeting() {
     dispatch(decreaseStep());
   };
 
+  const location = useLocation();
+  const isInParticipants = location.pathname.endsWith('/participants');
+
   return (
-    <div className={'accept-wrapper'}>
+    <div
+      className={classNames('accept-wrapper', {
+        'in-participants': isInParticipants,
+      })}
+    >
       {isLoaded ? (
         <>
-          <TextAppBar
-            onClick={
-              step === AcceptMeetingSteps.Second ? handlePrevClick : undefined
-            }
-            text={getAppBarText(step)}
-          />
-          <ProgressBar progress={progressPerStep * step} yellowBar={true} />
+          {!isInParticipants && (
+            <>
+              <TextAppBar
+                onClick={
+                  step === AcceptMeetingSteps.Second
+                    ? handlePrevClick
+                    : undefined
+                }
+                text={getAppBarText(step)}
+              />
+              <ProgressBar progress={progressPerStep * step} yellowBar={true} />
+            </>
+          )}
+
           <Outlet />
         </>
       ) : (

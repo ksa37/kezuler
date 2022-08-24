@@ -12,6 +12,7 @@ const PathName = {
   mainFixed: '/main/fixed',
   mainFixedB: '/main/fixed/B',
   mainFixedIdInfo: '/main/fixed/:eventId/info',
+  mainFixedIdInfoParticipants: '/main/fixed/:eventId/info/participants',
   mainFixedIdInfoEdit: '/main/fixed/:eventId/info-edit',
   mainPending: '/main/pending',
   mainPendingIdInfo: '/main/pending/:eventId/info',
@@ -29,10 +30,13 @@ const PathName = {
   invite: '/invite',
   inviteInvitation: '/invite/:eventId/invitation',
   inviteSelect: '/invite/:eventId/select',
+  inviteSelectParticipants: '/invite/:eventId/select/participants',
   inviteComplete: '/invite/:eventId/complete',
 
   modify: '/modify/:eventId',
+  modifyParticipants: '/modify/:eventId/participants',
   confirm: '/confirm',
+  confirmParticipants: '/confirm/participants',
 
   kakaoRedirect: '/oauth/kakao/token',
 
