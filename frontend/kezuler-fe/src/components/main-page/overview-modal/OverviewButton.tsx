@@ -8,6 +8,7 @@ interface Props {
   className?: string;
   type?: 'button' | 'submit';
   formId?: string;
+  disabled?: boolean;
 }
 
 function OverviewButton({
@@ -17,12 +18,15 @@ function OverviewButton({
   className,
   type = 'button',
   formId,
+  disabled,
 }: Props) {
   return (
     <button
       type={type}
       form={formId}
-      className={classNames('overview-btn', className)}
+      className={classNames('overview-btn', className, {
+        disabled: disabled,
+      })}
       onClick={onClick}
     >
       <div className={'overview-btn-icon'}>{icon}</div>

@@ -24,10 +24,10 @@ function App() {
     <div ref={setDiv} className="App" id="App">
       <div className={'app-inner'}>
         <RootRoutes />
+        {/* <ParticipantsPopup /> */}
       </div>
       <KezulerDialog />
       <KezulerAlert />
-      <ParticipantsPopup />
     </div>
   );
 }

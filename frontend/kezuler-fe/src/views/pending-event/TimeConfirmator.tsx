@@ -101,6 +101,7 @@ function TimeConfirmator() {
 
   const handleAllShowClick = () => {
     dispatch(show(pendingEvent));
+    navigate(`${PathName.confirm}/${eventConfirmId}/participants`);
   };
 
   const possibleUsersAll = eventTimeCandidates.reduce<string[]>(
