@@ -142,6 +142,11 @@ function TimeListSelector({ isModification }: Props) {
 
   const handleAllShowClick = () => {
     dispatch(show(pendingEvent));
+    navigate(
+      `${isModification ? '/modify' : PathName.invite}/${eventId}/${
+        isModification ? 'participants' : 'select/participants'
+      }`
+    );
   };
 
   const possibleUsersAll = eventTimeCandidates.reduce<string[]>(

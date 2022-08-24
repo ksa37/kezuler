@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 
 import { RootState } from 'src/reducers';
@@ -27,6 +28,7 @@ function ParticipantsPopup() {
     (state: RootState) => state.participantsPopup
   );
   const [isAttendant, setIsAttendant] = useState(true);
+  const navigate = useNavigate();
 
   const { attendants, absents } = useMemo<{
     attendants: FixedUser[] | EventTimeCandidate[];
@@ -61,6 +63,7 @@ function ParticipantsPopup() {
   const handleClose = () => {
     setIsAttendant(true);
     dispatch(hide());
+    navigate(-1);
   };
 
   const attendantsAll = (attendants: EventTimeCandidate[]) =>
@@ -71,55 +74,56 @@ function ParticipantsPopup() {
       return prev.concat(userIds.filter((id) => prev.indexOf(id) < 0));
     }, []);
 
-  return !!event && isOpen
-    ? ReactDOM.createPortal(
-        <div className={'participants-popup'}>
-          <CommonAppBar>
-            <div className={'participants-popup-header'}>
-              참여자 리스트
-              <IconButton
-                className={'participants-popup-header-close'}
-                onClick={handleClose}
-                size={'small'}
-              >
-                <CloseIcon />
-              </IconButton>
-            </div>
-          </CommonAppBar>
-          <div className={'participants-popup-main'}>
-            <ParticipantTab
-              isAttendant={isAttendant}
-              isFixed={isFixedEvent(event)}
-              setIsAttendant={setIsAttendant}
-              attendantsNum={
-                isFixedEvent(event)
-                  ? attendants.length
-                  : attendantsAll(attendants as EventTimeCandidate[]).length
-              }
-              absentsNum={absents.length}
-            />
-            {!isFixedEvent(event) && isAttendant ? (
-              <ParticipantsEventList
-                candidates={targetUsers as EventTimeCandidate[]}
-                eventDuration={event.eventTimeDuration}
-              />
-            ) : (
-              <ParticipantsGrid
-                isHost={isHost}
-                isFixed={isFixedEvent(event)}
-                isAttendant={isAttendant}
-                users={targetUsers as FixedUser[] | DeclinedUser[]}
-              />
-            )}
-            {isHost && !isAttendant && !isFixedEvent(event) && (
-              // {!isAttendant && !isFixedEvent(event) && (
-              <ParticipantsReasons users={targetUsers as DeclinedUser[]} />
-            )}
-          </div>
-        </div>,
-        document.getElementById('App') || document.body
-      )
-    : null;
+  return !!event && isOpen ? (
+    // ? ReactDOM.createPortal(
+    <div className={'participants-popup'}>
+      <CommonAppBar>
+        <div className={'participants-popup-header'}>
+          참여자 리스트
+          <IconButton
+            className={'participants-popup-header-close'}
+            onClick={handleClose}
+            size={'small'}
+          >
+            <CloseIcon />
+          </IconButton>
+        </div>
+      </CommonAppBar>
+      <div className={'participants-popup-main'}>
+        <ParticipantTab
+          isAttendant={isAttendant}
+          isFixed={isFixedEvent(event)}
+          setIsAttendant={setIsAttendant}
+          attendantsNum={
+            isFixedEvent(event)
+              ? attendants.length
+              : attendantsAll(attendants as EventTimeCandidate[]).length
+          }
+          absentsNum={absents.length}
+        />
+        {!isFixedEvent(event) && isAttendant ? (
+          <ParticipantsEventList
+            candidates={targetUsers as EventTimeCandidate[]}
+            eventDuration={event.eventTimeDuration}
+          />
+        ) : (
+          <ParticipantsGrid
+            isHost={isHost}
+            isFixed={isFixedEvent(event)}
+            isAttendant={isAttendant}
+            users={targetUsers as FixedUser[] | DeclinedUser[]}
+          />
+        )}
+        {isHost && !isAttendant && !isFixedEvent(event) && (
+          // {!isAttendant && !isFixedEvent(event) && (
+          <ParticipantsReasons users={targetUsers as DeclinedUser[]} />
+        )}
+      </div>
+    </div>
+  ) : // ,
+  // document.getElementById('App') || document.body
+  // )
+  null;
 }
 
 export default ParticipantsPopup;

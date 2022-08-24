@@ -6,6 +6,10 @@
   flex: 1;
   flex-direction: column;
 
+  &.in-participants {
+    margin-top: 0;
+  }
+
   @media (max-height: $short-height-size) {
     margin-top: $app-bar-height--short;
   }
@@ -234,7 +238,7 @@
     bottom: 164px;
   }
 
-  @media (max-height: 530px) {
+  @media (max-height: 490px) {
     display: none;
   }
 }
@@ -252,7 +256,7 @@
     height: 220px;
   }
 
-  @media (max-height: 530px) {
+  @media (max-height: 490px) {
     display: none;
   }
 }
