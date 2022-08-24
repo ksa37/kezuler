@@ -44,6 +44,7 @@ interface Props {
   event: BFixedEvent | BPendingEvent;
   isCanceled?: boolean;
   isPassed?: boolean;
+  setIsSaveAvailable: (newVal: boolean) => void;
 }
 
 const usePatchEvent = () => {
@@ -77,7 +78,13 @@ const usePatchEvent = () => {
   return { loading, patch };
 };
 
-function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
+function OverviewEdit({
+  eventDate,
+  event,
+  isCanceled,
+  isPassed,
+  setIsSaveAvailable,
+}: Props) {
   const {
     eventId,
     eventTitle,
@@ -98,9 +105,11 @@ function OverviewEdit({ eventDate, event, isCanceled, isPassed }: Props) {
     clearErrors,
   } = useForm<OverviewEventForm>({ mode: 'onChange' });
 
+  const keys = Object.keys(errors);
+
   useEffect(() => {
-    console.log(errors);
-  }, [errors]);
+    setIsSaveAvailable(keys.length == 0);
+  }, [keys]);
 
   const onValid: SubmitHandler<OverviewEventForm> = (data) => {
     patch(isFixedEvent(event), eventId, data, () => {

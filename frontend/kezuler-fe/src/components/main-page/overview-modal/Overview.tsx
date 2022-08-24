@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -39,9 +39,10 @@ import {
 } from 'src/api/fixedEvent';
 
 function Overview() {
-  // const location = useLocation();
   const { eventId } = useParams();
   const navigate = useNavigate();
+
+  const [isSaveAvailable, setIsSaveAvailable] = useState(true);
 
   const isFixedMeeting = location.pathname.startsWith(PathName.mainFixed);
 
@@ -205,6 +206,7 @@ function Overview() {
             event={event}
             isCanceled={isCanceled}
             isPassed={isPassed}
+            setIsSaveAvailable={setIsSaveAvailable}
           />
         ) : (
           <OverviewBody
@@ -220,7 +222,7 @@ function Overview() {
           {isEdit ? (
             <>
               <OverviewButton
-                // disabled={}
+                disabled={!isSaveAvailable}
                 className={'edit'}
                 icon={<CheckIcon />}
                 text={'변경 저장'}
