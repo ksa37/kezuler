@@ -8,6 +8,7 @@ import { BPendingEvent } from 'src/types/pendingEvent';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
 import OverviewDropdown from './OverviewDropdown';
+import OverviewHost from './OverviewHost';
 import OverviewParticipants from './OverviewParticipants';
 import OverviewSection from './OverviewSection';
 
@@ -100,13 +101,11 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
       </header>
       <div className={'overview-body'}>
         {!isFixedEvent(event) && (
-          <OverviewSection
-            title={'주최자'}
+          <OverviewHost
+            hostName={hostName}
             profileImageUrl={hostProfileImage}
             profileImageAlt={hostName}
-          >
-            <div>{hostName}</div>
-          </OverviewSection>
+          />
         )}
         {eventDate && (
           <OverviewSection title={'일시'}>{eventDate}</OverviewSection>
