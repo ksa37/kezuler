@@ -19,11 +19,13 @@ function KezulerPaper({ open, children, onClose }: Props) {
   return open ? (
     <Portal container={document.getElementById('App') || document.body}>
       <div className={'kezuler-paper-screen'}>
-        <div
-          onMouseDown={handleClickAway}
-          className={'kezuler-paper-outer-wrapper'}
-        >
-          <div className={'kezuler-paper-inner-wrapper'}>{children}</div>
+        <div className={'kezuler-paper-outer-wrapper'}>
+          <div
+            onMouseDown={handleClickAway}
+            className={'kezuler-paper-inner-wrapper'}
+          >
+            {children}
+          </div>
         </div>
       </div>
     </Portal>
