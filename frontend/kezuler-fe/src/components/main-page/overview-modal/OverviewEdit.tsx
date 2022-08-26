@@ -28,6 +28,7 @@ import isURL from 'src/utils/isURL';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
 import OverviewDropdown from './OverviewDropdown';
+import OverviewHost from './OverviewHost';
 import OverviewSection from './OverviewSection';
 import KezulerDropdown from 'src/components/common/KezulerDropdown';
 import OverviewTextarea from 'src/components/main-page/overview-modal/OverviewTextarea';
@@ -188,13 +189,11 @@ function OverviewEdit({
       </header>
       <div className={'overview-body'}>
         {!isFixedEvent(event) && (
-          <OverviewSection
-            title={'주최자'}
+          <OverviewHost
+            hostName={hostName}
             profileImageUrl={hostProfileImage}
             profileImageAlt={hostName}
-          >
-            {hostName}
-          </OverviewSection>
+          />
         )}
         {eventDate && (
           <OverviewSection title={'일시'}>{eventDate}</OverviewSection>
