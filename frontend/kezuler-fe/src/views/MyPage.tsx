@@ -6,7 +6,7 @@ import MyPageMain from 'src/components/my-page/MyPageMain';
 
 import 'src/styles/myPage.scss';
 
-import { getError, getTest } from 'src/api/mockApi';
+// import { getError, getTest } from 'src/api/mockApi';
 
 function MyPage() {
   const [isEdit, setIsEdit] = useState(false);
@@ -17,8 +17,8 @@ function MyPage() {
     setIsEdit(false);
   };
 
-  getTest();
-  getError();
+  // getTest();
+  // getError();
 
   return (
     <>
