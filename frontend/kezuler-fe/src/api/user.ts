@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-import KezulerInstance, { HOST_ADDRESS } from 'src/constants/api';
+import KezulerInstance, {
+  HOST_ADDRESS,
+  HOST_TEST_ADDRESS,
+} from 'src/constants/api';
 import {
   PPatchUser,
   PPatchUserExceptProfileImage,
@@ -23,6 +26,21 @@ const postUser = (accessToken: string) =>
       },
     }
   );
+
+const postAuth = (accessToken: string) =>
+  axios.post<RPostUser>(
+    `${HOST_TEST_ADDRESS}/auth/token`,
+    {
+      registerWith: 'kakao',
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+const getAuth = () => axios.get<RPostUser>(`${HOST_TEST_ADDRESS}/auth/test`);
 
 // 현재 유저 정보 가져오기
 const getUser = () => KezulerInstance.get<SettingUser>('user');
@@ -47,4 +65,12 @@ const patchUserProfileImage = (profileImage: File) => {
 // 현재 유저 정보 삭제
 const deleteUser = () => KezulerInstance.delete('user');
 
-export { postUser, getUser, patchUser, patchUserProfileImage, deleteUser };
+export {
+  postUser,
+  getUser,
+  patchUser,
+  patchUserProfileImage,
+  deleteUser,
+  postAuth,
+  getAuth,
+};

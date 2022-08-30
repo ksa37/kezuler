@@ -4,8 +4,8 @@ import { useLocation } from 'react-router-dom';
 import RootRoutes from './routes/RootRoutes';
 
 import KezulerAlert from './components/modal/KezulerAlert';
+import KezulerNoti from './components/modal/KezulerNoti';
 import KezulerDialog from 'src/components/modal/KezulerDialog';
-import ParticipantsPopup from 'src/components/participants-popup';
 
 import 'src/styles/index.scss';
 import 'src/styles/dialog.scss';
@@ -24,10 +24,10 @@ function App() {
     <div ref={setDiv} className="App" id="App">
       <div className={'app-inner'}>
         <RootRoutes />
-        {/* <ParticipantsPopup /> */}
       </div>
       <KezulerDialog />
       <KezulerAlert />
+      <KezulerNoti />
     </div>
   );
 }
