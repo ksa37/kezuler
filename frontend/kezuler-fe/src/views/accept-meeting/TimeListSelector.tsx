@@ -45,7 +45,6 @@ function TimeListSelector({ isModification }: Props) {
   const {
     addAvailableTimes,
     deleteAvailableTimes,
-    increaseStep,
     setDeclineReason,
     setIsDecline,
   } = acceptMeetingActions;
@@ -107,7 +106,6 @@ function TimeListSelector({ isModification }: Props) {
         confirmMeeting = () => {
           putEventTimeCandidate(eventId, putData);
           navigate(`${PathName.invite}/${eventId}/complete`);
-          dispatch(increaseStep());
         };
       }
     } else {
@@ -120,7 +118,6 @@ function TimeListSelector({ isModification }: Props) {
         confirmMeeting = () => {
           deleteEventTimeCandidate(eventId, DeleteData);
           navigate(`${PathName.invite}/${eventId}/complete`);
-          dispatch(increaseStep());
         };
       }
     }

@@ -84,6 +84,12 @@ const PathNameList = [
   '/oauth/kakao/token',
 ];
 
+const PathInviteName = {
+  inviteInvitation: '/invite/.+/invitation',
+  inviteSelect: '/invite/.+/select',
+  inviteComplete: '/invite/.+/complete',
+};
+
 // TODO util 로?
 const makePendingInfoUrl = (eventId: string, isEdit?: boolean) =>
   `${PathName.mainPending}/${eventId}/info${isEdit ? '-edit' : ''}`;
@@ -91,5 +97,5 @@ const makePendingInfoUrl = (eventId: string, isEdit?: boolean) =>
 const makeFixedInfoUrl = (eventId: string, isEdit?: boolean) =>
   `${PathName.mainFixed}/${eventId}/info${isEdit ? '-edit' : ''}`;
 
-export { PathNameList, makePendingInfoUrl, makeFixedInfoUrl };
+export { PathNameList, makePendingInfoUrl, makeFixedInfoUrl, PathInviteName };
 export default PathName;
