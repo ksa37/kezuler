@@ -11,6 +11,8 @@ import { ko } from 'date-fns/locale';
 import TimeOptions from '../../constants/TimeOptions';
 import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
 import PathName from 'src/constants/PathName';
+import { CREATE_MEETING_NOTI_DISABLE_KEY } from 'src/constants/Popup';
+import { useNoti } from 'src/hooks/useDialog';
 // import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
@@ -87,6 +89,18 @@ function CalendarTimeSelector() {
     }
   };
 
+  const { openNoti } = useNoti();
+
+  const handleCloseNoti = () => {
+    localStorage.setItem(CREATE_MEETING_NOTI_DISABLE_KEY, 'true');
+  };
+
+  const checkNotiDisable = () => {
+    return localStorage.getItem(CREATE_MEETING_NOTI_DISABLE_KEY) === 'true';
+  };
+
+  const [notiPopped, setNotiPopped] = useState(checkNotiDisable());
+
   const handleChipClick = (timeOption: string) => {
     if (startDate) {
       const dateToAdd = createDate(timeOption);
@@ -94,7 +108,16 @@ function CalendarTimeSelector() {
         dispatch(deleteTimeList(dateToAdd));
         // console.log('Deleted Date !', dateToAdd);
       } else {
-        if (eventTimeList.length === 5) {
+        if (eventTimeList.length === 0 && !notiPopped) {
+          setNotiPopped(true);
+          openNoti({
+            title: `미팅 생성 안내`,
+            onConfirm: () => {
+              dispatch(addTimeList(dateToAdd));
+            },
+            onCancel: handleCloseNoti,
+          });
+        } else if (eventTimeList.length === 5) {
           dispatch(
             show({
               title: '5개 옵션까지만 선택이 가능합니다.',
