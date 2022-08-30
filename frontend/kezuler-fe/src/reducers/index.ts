@@ -7,6 +7,7 @@ import CreateMeeting from './CreateMeeting';
 import dialog from './dialog';
 import mainFixed from './mainFixed';
 import mainPending from './mainPending';
+import noti from './noti';
 import participantsPopup from './ParticipantsPopup';
 import userInfo from './UserInfo';
 
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   userInfo: userInfo,
   dialog: dialog,
   alert: alert,
+  noti: noti,
   participantsPopup: participantsPopup,
   confirmTime: ConfirmTime,
 });
