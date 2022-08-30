@@ -33,6 +33,7 @@ function KezulerNoti() {
 
   const handleCancelClick = () => {
     onCancel?.();
+    onConfirm?.();
     closeModal();
   };
 
