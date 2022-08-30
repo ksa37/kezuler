@@ -18,7 +18,7 @@ import 'src/styles/common/TimeLineGrid.scss';
 
 function SelectedOptions() {
   const dispatch = useDispatch<AppDispatch>();
-  const { increaseStep, deleteTimeList } = createMeetingActions;
+  const { deleteTimeList } = createMeetingActions;
   const { eventTimeList, eventTimeDuration } = useSelector(
     (state: RootState) => state.createMeeting
   );
@@ -50,7 +50,6 @@ function SelectedOptions() {
 
   const handleNextClick = () => {
     navigate(PathName.createPlace);
-    dispatch(increaseStep());
   };
 
   return (

@@ -6,9 +6,6 @@ import classNames from 'classnames';
 
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { BFixedEvent } from 'src/types/fixedEvent';
-import { BPendingEvent } from 'src/types/pendingEvent';
-import { getTimeListDivideByDateWithPossibleUsers } from 'src/utils/dateParser';
-import { isFixedEvent } from 'src/utils/typeGuard';
 
 interface Props {
   event: BFixedEvent;

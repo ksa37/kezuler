@@ -105,7 +105,7 @@ const useDeletePendingEventById = () => {
 const usePostPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { increaseStep, setShareUrl, setEventId } = createMeetingActions;
+  const { setShareUrl, setEventId } = createMeetingActions;
   const { show } = alertAction;
 
   const getShareUrl = (ppendingEvent: PPostPendingEvent) => {
@@ -118,7 +118,6 @@ const usePostPendingEvent = () => {
         );
         dispatch(setEventId(res.data.eventId));
         navigate(PathName.createComplete);
-        dispatch(increaseStep());
       })
       .catch((err) => {
         console.log('미팅 생성 에러', err);

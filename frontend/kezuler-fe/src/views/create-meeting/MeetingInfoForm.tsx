@@ -28,8 +28,7 @@ interface CreateInfoErrorForm {
 
 function MeetingInfoForm() {
   const dispatch = useDispatch<AppDispatch>();
-  const { setTitle, setDescription, increaseStep, setAttachment } =
-    createMeetingActions;
+  const { setTitle, setDescription, setAttachment } = createMeetingActions;
 
   const { eventTitle, eventDescription, eventAttachment } = useSelector(
     (state: RootState) => state.createMeeting
@@ -99,7 +98,6 @@ function MeetingInfoForm() {
 
   const handleNextClick = () => {
     navigate(PathName.createTime);
-    dispatch(increaseStep());
   };
 
   const handleEnter = (event: KeyboardEvent<HTMLInputElement>) => {
