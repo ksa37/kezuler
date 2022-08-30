@@ -6,81 +6,19 @@ import classNames from 'classnames';
 
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { BFixedEvent } from 'src/types/fixedEvent';
+import { BPendingEvent } from 'src/types/pendingEvent';
+import { getTimeListDivideByDateWithPossibleUsers } from 'src/utils/dateParser';
+import { isFixedEvent } from 'src/utils/typeGuard';
 
 interface Props {
   event: BFixedEvent;
 }
 
 function OverviewParticipants({ event }: Props) {
-  const { eventHost, eventId } = event;
-  const { participants } = event;
+  const { eventHost, eventId, participants } = event;
   const acceptParticipants = participants.filter(
     (participant) => participant.userStatus === 'Accepted'
   );
-  // acceptParticipants = [
-  //   {
-  //     userId: 'user0003',
-  //     userName: 'svsvvds태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  // ];
-
-  // const { participants, eventHost } = event;
   const { show } = participantsPopupAction;
   const dispatch = useDispatch();
   const { userName: hostName, userProfileImage: hostProfileImage } = eventHost;
