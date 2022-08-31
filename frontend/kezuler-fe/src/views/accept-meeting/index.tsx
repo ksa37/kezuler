@@ -4,15 +4,13 @@ import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import classNames from 'classnames';
 
+import PathName from 'src/constants/PathName';
 import { AcceptMeetingSteps } from 'src/constants/Steps';
 import { useGetInvitation } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
 
-// import AcceptanceCompletion from './AcceptanceCompletion';
-// import Invitation from './Invitation';
-// import TimeListSelector from './TimeListSelector';
 import TextAppBar from 'src/components/common/TextAppBar';
 import ProgressBar from 'src/components/ProgressBar';
 
@@ -21,12 +19,13 @@ import 'src/styles/common/TimeLineGrid.scss';
 
 function AcceptMeeting() {
   const dispatch = useDispatch<AppDispatch>();
-  const { step, pendingEvent } = useSelector(
+  const { pendingEvent } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
-  const { decreaseStep, destroy } = acceptMeetingActions;
+  const { destroy } = acceptMeetingActions;
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const totalStepsNum = Object.keys(AcceptMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
@@ -37,31 +36,6 @@ function AcceptMeeting() {
     };
   }, []);
 
-  // const getComponent = (step: AcceptMeetingSteps) => {
-  //   switch (step) {
-  //     case AcceptMeetingSteps.First:
-  //       return <Invitation />;
-  //     case AcceptMeetingSteps.Second:
-  //       return <TimeListSelector />;
-  //     case AcceptMeetingSteps.Third:
-  //       return <AcceptanceCompletion />;
-  //     default:
-  //       return <></>;
-  //   }
-  // };
-
-  const getAppBarText = (step: AcceptMeetingSteps) => {
-    switch (step) {
-      case AcceptMeetingSteps.First:
-        return '새로운 미팅 초대';
-      case AcceptMeetingSteps.Second:
-        return '미팅일정 선택';
-      case AcceptMeetingSteps.Third:
-        return '';
-      default:
-        return '';
-    }
-  };
   const { eventId } = useParams();
 
   const getPendingEventInfo = useGetInvitation();
@@ -77,12 +51,31 @@ function AcceptMeeting() {
     [pendingEvent.eventTitle]
   );
 
-  const handlePrevClick = () => {
-    navigate(-1);
-    dispatch(decreaseStep());
+  const getAppBarText = () => {
+    console.log(
+      location.pathname,
+      PathName.inviteInvitation,
+      PathName.inviteSelect,
+      PathName.inviteComplete
+    );
+
+    if (location.pathname.endsWith('/invitation')) return '새로운 미팅 초대';
+    else if (location.pathname.endsWith('/select')) return '미팅일정 선택';
+    else if (location.pathname.endsWith('/complete'))
+      return '미팅일정 선택 완료';
+    else return '';
+  };
+  const getProgressStep = () => {
+    if (location.pathname.endsWith('/invitation')) return 0;
+    else if (location.pathname.endsWith('/select')) return 1;
+    else if (location.pathname.endsWith('/complete')) return 2;
+    else return 0;
   };
 
-  const location = useLocation();
+  const handlePrevClick = () => {
+    navigate(-1);
+  };
+
   const isInParticipants = location.pathname.endsWith('/participants');
 
   return (
@@ -97,16 +90,18 @@ function AcceptMeeting() {
             <>
               <TextAppBar
                 onClick={
-                  step === AcceptMeetingSteps.Second
+                  location.pathname.endsWith('/select')
                     ? handlePrevClick
                     : undefined
                 }
-                text={getAppBarText(step)}
+                text={getAppBarText()}
               />
-              <ProgressBar progress={progressPerStep * step} yellowBar={true} />
+              <ProgressBar
+                progress={progressPerStep * getProgressStep()}
+                yellowBar={true}
+              />
             </>
           )}
-
           <Outlet />
         </>
       ) : (

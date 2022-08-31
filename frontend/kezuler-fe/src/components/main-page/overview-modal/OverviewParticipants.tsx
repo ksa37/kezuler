@@ -12,75 +12,10 @@ interface Props {
 }
 
 function OverviewParticipants({ event }: Props) {
-  const { eventHost, eventId } = event;
-  const { participants } = event;
+  const { eventHost, eventId, participants } = event;
   const acceptParticipants = participants.filter(
     (participant) => participant.userStatus === 'Accepted'
   );
-  // acceptParticipants = [
-  //   {
-  //     userId: 'user0003',
-  //     userName: 'svsvvds태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  //   {
-  //     userId: 'user0003',
-  //     userName: '태인',
-  //     userProfileImage: 'https://example.com',
-  //     userStatus: 'Declined',
-  //   },
-  // ];
-
-  // const { participants, eventHost } = event;
   const { show } = participantsPopupAction;
   const dispatch = useDispatch();
   const { userName: hostName, userProfileImage: hostProfileImage } = eventHost;

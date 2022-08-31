@@ -37,14 +37,8 @@ function CalendarTimeSelector() {
   const { eventTimeList } = useSelector(
     (state: RootState) => state.createMeeting
   );
-  const {
-    increaseStep,
-    setTitle,
-    setStep,
-    addTimeList,
-    deleteTimeList,
-    setEventTimeDuration,
-  } = createMeetingActions;
+  const { addTimeList, deleteTimeList, setEventTimeDuration } =
+    createMeetingActions;
 
   const [startDate, setStartDate] = useState<Date | null>(setMindate());
   const { show } = alertAction;
@@ -106,12 +100,11 @@ function CalendarTimeSelector() {
       const dateToAdd = createDate(timeOption);
       if (eventTimeList.includes(dateToAdd)) {
         dispatch(deleteTimeList(dateToAdd));
-        // console.log('Deleted Date !', dateToAdd);
       } else {
         if (eventTimeList.length === 0 && !notiPopped) {
           setNotiPopped(true);
           openNoti({
-            title: `미팅 생성 안내`,
+            title: `미팅 중복 선택 가능`,
             onConfirm: () => {
               dispatch(addTimeList(dateToAdd));
             },
@@ -125,17 +118,15 @@ function CalendarTimeSelector() {
           );
         } else {
           dispatch(addTimeList(dateToAdd));
-          // console.log('Added Date !', dateToAdd);
         }
       }
     } else {
-      console.log('Warning: date is null!');
+      console.log('Warning: date is null');
     }
   };
 
   const handleNextClick = () => {
     navigate(PathName.createCheck);
-    dispatch(increaseStep());
   };
 
   // 캘린더 연동 팝업 관련
@@ -290,19 +281,6 @@ function CalendarTimeSelector() {
           </Stack>
           // </div>
         )}
-        {/* <ScrollContainer className="scroll-container">
-          <div className={'time-chips-stack-wrapper'}>
-            <Stack
-              direction="row"
-              spacing={'6px'}
-              className={classNames('time-chips-stack', {
-                'is-mobile': isMobile,
-              })}
-            >
-              {getChips}
-            </Stack>
-          </div>
-        </ScrollContainer> */}
         {/* {!nogcalendar && !popupDisable && (
           <CalendarPopup
             onYesClick={handleCalendarPopupYes}

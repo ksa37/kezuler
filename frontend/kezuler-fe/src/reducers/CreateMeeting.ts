@@ -1,11 +1,11 @@
 // import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CreateMeetingSteps } from 'src/constants/Steps';
+// import { CreateMeetingSteps } from 'src/constants/Steps';
 import { PPostPendingEvent } from 'src/types/pendingEvent';
 
 interface CreateMeetingState extends PPostPendingEvent {
-  step: CreateMeetingSteps;
+  // step: CreateMeetingSteps;
   eventId: string;
   shareUrl: string;
   isOnline: null | boolean;
@@ -13,7 +13,7 @@ interface CreateMeetingState extends PPostPendingEvent {
 }
 
 const initialState: CreateMeetingState = {
-  step: CreateMeetingSteps.First,
+  // step: CreateMeetingSteps.First,
   eventId: '',
   shareUrl: '',
   isOnline: null,
@@ -39,15 +39,15 @@ export const createMeetingSlice = createSlice({
     setEventId: (state, action: PayloadAction<string>) => {
       state.eventId = action.payload;
     },
-    setStep: (state, action: PayloadAction<number>) => {
-      state.step = action.payload;
-    },
-    increaseStep: (state) => {
-      state.step += 1;
-    },
-    decreaseStep: (state) => {
-      state.step -= 1;
-    },
+    // setStep: (state, action: PayloadAction<number>) => {
+    //   state.step = action.payload;
+    // },
+    // increaseStep: (state) => {
+    //   state.step += 1;
+    // },
+    // decreaseStep: (state) => {
+    //   state.step -= 1;
+    // },
     setIsOnline: (state, action: PayloadAction<boolean>) => {
       state.isOnline = action.payload;
     },
