@@ -8,7 +8,6 @@ import { KAKAO_AUTH_URL, LOGIN_REDIRECT_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
 import useIsLoggedIn from 'src/hooks/useIsLoggedIn';
 import { RootState } from 'src/reducers';
-import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
@@ -35,7 +34,6 @@ function Invitation() {
     eventTimeCandidates,
     declinedUsers,
   } = pendingEvent;
-  const { increaseStep } = acceptMeetingActions;
 
   const navigate = useNavigate();
   const isLoggedIn = useIsLoggedIn();
@@ -58,7 +56,6 @@ function Invitation() {
       navigate(`/modify/${eventId}`);
     } else {
       navigate(`${PathName.invite}/${eventId}/select`);
-      dispatch(increaseStep());
     }
   };
 

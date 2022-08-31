@@ -3,30 +3,33 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import { store } from './store';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import KezulerIntro from './components/KezulerIntro';
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+const persistor = persistStore(store);
 root.render(
   // <React.StrictMode>
   <div id={'app-wrapper'} className={'app-wrapper'}>
     <StyledEngineProvider injectFirst>
       <Provider store={store}>
-        <BrowserRouter>
-          <KezulerIntro />
-          <App />
-        </BrowserRouter>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
+            <KezulerIntro />
+            <App />
+          </BrowserRouter>
+        </PersistGate>
       </Provider>
     </StyledEngineProvider>
   </div>
   // </React.StrictMode>
-
 );
 
 // If you want to start measuring performance in your app, pass a function

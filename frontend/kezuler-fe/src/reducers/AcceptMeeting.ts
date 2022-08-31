@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AcceptMeetingSteps } from 'src/constants/Steps';
+// import { AcceptMeetingSteps } from 'src/constants/Steps';
 import { TError } from '../types/axios';
 import { PendingEvent } from 'src/types/pendingEvent';
 
@@ -28,7 +28,7 @@ interface AcceptMeetingState {
   errorMessage: string;
 
   isLoaded: boolean;
-  step: AcceptMeetingSteps;
+  // step: AcceptMeetingSteps;
 
   pendingEvent: PendingEvent;
 
@@ -60,7 +60,7 @@ const initialState: AcceptMeetingState = {
   errorMessage: '',
 
   isLoaded: false,
-  step: AcceptMeetingSteps.First,
+  // step: AcceptMeetingSteps.First,
 
   pendingEvent: initialPendingEvent,
 
@@ -82,15 +82,15 @@ export const acceptMeetingSlice = createSlice({
     setIsLoaded: (state, action: PayloadAction<boolean>) => {
       state.isLoaded = action.payload;
     },
-    setStep: (state, action: PayloadAction<number>) => {
-      state.step = action.payload;
-    },
-    increaseStep: (state) => {
-      state.step += 1;
-    },
-    decreaseStep: (state) => {
-      state.step -= 1;
-    },
+    // setStep: (state, action: PayloadAction<number>) => {
+    //   state.step = action.payload;
+    // },
+    // increaseStep: (state) => {
+    //   state.step += 1;
+    // },
+    // decreaseStep: (state) => {
+    //   state.step -= 1;
+    // },
     setPendingEvent: (state, action: PayloadAction<PendingEvent>) => {
       state.pendingEvent = action.payload;
     },
