@@ -1,4 +1,5 @@
 import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { isIOS, isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
@@ -16,6 +17,7 @@ import {
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
+import { focusDisable, focusEnable } from 'src/utils/iosScrollDisable';
 import isURL from 'src/utils/isURL';
 
 import BottomButton from 'src/components/common/BottomButton';
@@ -39,6 +41,10 @@ function MeetingInfoForm() {
     description: '',
     attachment: '',
   });
+
+  const [focused, setFocused] = useState(false);
+  const onFocus = () => setFocused(true);
+  const onBlur = () => setFocused(false);
 
   useEffect(() => {
     const titleError =
@@ -77,6 +83,16 @@ function MeetingInfoForm() {
       attachment: attachmentError,
     }));
   }, [eventAttachment]);
+
+  useEffect(() => {
+    if (isMobile && isIOS) {
+      if (focused) {
+        focusDisable();
+      } else {
+        focusEnable();
+      }
+    }
+  }, [focused]);
 
   const navigate = useNavigate();
 
@@ -146,6 +162,8 @@ function MeetingInfoForm() {
             value={eventTitle}
             onChange={handleEventTitleChange}
             onKeyPress={handleEnter}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />
           {error.title && (
             <div className={'create-meeting-error-text'}>{error.title}</div>
@@ -174,6 +192,8 @@ function MeetingInfoForm() {
             placeholder={eventDescriptDescription}
             value={eventDescription}
             onChange={handleEventDescriptionChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />
           {error.description && (
             <div className={'create-meeting-error-text'}>
@@ -198,6 +218,8 @@ function MeetingInfoForm() {
             placeholder={eventAttachmentDescription}
             value={eventAttachment}
             onChange={handleEventAttachmentChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />
           {error.attachment && (
             <div className={'create-meeting-error-text'}>

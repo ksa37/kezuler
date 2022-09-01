@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { isIOS, isMobile } from 'react-device-detect';
 import { FieldError, FieldPath, UseFormRegisterReturn } from 'react-hook-form';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import classNames from 'classnames';
 
 import { OverviewEventForm } from 'src/types/Overview';
+import { focusDisable, focusEnable } from 'src/utils/iosScrollDisable';
 
 interface Props {
   textareaClassName: string;
@@ -22,6 +24,20 @@ function OverviewTextarea({
   defaultValue,
   allowNewLine,
 }: Props) {
+  const [focused, setFocused] = useState(false);
+  const onFocus = () => setFocused(true);
+  const onBlur = () => setFocused(false);
+
+  useEffect(() => {
+    if (isMobile && isIOS) {
+      if (focused) {
+        focusDisable();
+      } else {
+        focusEnable();
+      }
+    }
+  }, [focused]);
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!allowNewLine && e.code === 'Enter') {
       e.preventDefault();
@@ -38,6 +54,8 @@ function OverviewTextarea({
         defaultValue={defaultValue}
         {...registered}
         placeholder={placeholder}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
       {error && <div className={'overview-error-text'}>{error.message}</div>}
     </div>
