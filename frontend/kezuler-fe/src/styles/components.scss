@@ -20,6 +20,10 @@
   bottom: 0;
   width: 100%;
 
+  &.ios-keyboard-focus {
+    position: fixed;
+  }
+
   &.not-fixed {
     position: unset;
   }
