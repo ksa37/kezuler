@@ -22,10 +22,8 @@ import Login from 'src/views/Login';
 import MainPage from 'src/views/MainPage';
 import MyPage from 'src/views/MyPage';
 import NotFound from 'src/views/NotFound';
-import NotiPage from 'src/views/NotiPage';
 import TimeConfirmator from 'src/views/pending-event/TimeConfirmator';
 import RedirectView from 'src/views/RedirectView';
-import CompletionPage from 'src/components/common/CompletionPage';
 import MainFixedEvents from 'src/components/main-page/main-fixed-events';
 import MainPendingEvents from 'src/components/main-page/main-pending-events';
 import OverviewModal from 'src/components/main-page/overview-modal';
@@ -214,32 +212,6 @@ function RootRoutes() {
               />
               <Route path="*" element={<AcceptIndex />} />
             </Route>
-            <Route path={PathName.create} element={<CreateMeeting />}>
-              <Route
-                index
-                element={<Navigate replace to={PathName.createInfo} />}
-              />
-              <Route path={PathName.createInfo} element={<MeetingInfoForm />} />
-              <Route
-                path={PathName.createTime}
-                element={<CalendarTimeSelector />}
-              />
-              <Route
-                path={PathName.createCheck}
-                element={<SelectedOptions />}
-              />
-              <Route path={PathName.createPlace} element={<OnOffSelector />} />
-              <Route
-                path={PathName.createComplete}
-                element={<MeetingShare />}
-              />
-              <Route
-                path="*"
-                element={<Navigate replace to={PathName.createInfo} />}
-              />
-            </Route>
-            <Route path={'test'} element={<TimeListSelector />} />
-            <Route path={PathName.myPage} element={<MyPage />} />
             <Route path={PathName.login} element={<Login />}>
               <Route path="*" element={<Login />} />
             </Route>
