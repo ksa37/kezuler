@@ -8,10 +8,20 @@
   background: none;
   box-shadow: none;
 
-  max-width: 400px;
+  margin: auto;
+
   width: 100%;
 
-  margin: auto;
+  // 464 = 400 + 32*2
+  @media (max-width: 464px) {
+    max-width: calc(100vw - 64px);
+  }
+  @media (min-width: 464px) and (max-width: $pc-view-width) {
+    max-width: 400px;
+  }
+  @media (min-width: $pc-view-width) {
+    max-width: $pc-view-main-width - 64px; //414-64
+  }
 }
 
 .overview {
@@ -168,12 +178,7 @@
   }
 
   .overview-section-description {
-    // display: -webkit-box;
-    word-break: normal;
-    // -webkit-line-clamp: 4;
-    // -webkit-box-orient: vertical;
-    // text-overflow: ellipsis;
-    // overflow: hidden;
+    word-break: break-word;
     white-space: pre-line;
   }
 
@@ -181,7 +186,7 @@
     font-family: Pretendard;
     padding: 0;
     font-size: unset;
-    line-height: unset;
+    line-height: 100%;
     min-width: unset;
 
     &:hover {
@@ -233,7 +238,6 @@
     width: 100%;
     display: flex;
     align-items: center;
-    // justify-content: center;
 
     span {
       text-overflow: ellipsis;
@@ -247,6 +251,7 @@
       width: 16px;
       height: 16px;
     }
+
     .overview-section-copy-btn {
       svg {
         margin-right: 1px;
