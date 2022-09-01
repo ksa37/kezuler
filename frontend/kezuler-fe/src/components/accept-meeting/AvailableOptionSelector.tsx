@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { isIOS, isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -26,6 +27,38 @@ function AvailableOptionSelector({ errorMessage }: Props) {
   } = acceptMeetingActions;
 
   const [isOpen, setIsOpen] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const onFocus = () => setFocused(true);
+  const onBlur = () => setFocused(false);
+
+  function preventIOSScroll() {
+    const focusedInput = document.activeElement as
+      | HTMLInputElement
+      | HTMLTextAreaElement;
+    focusedInput?.blur();
+  }
+
+  function disable() {
+    document
+      .querySelector('.App')
+      ?.addEventListener('touchmove', preventIOSScroll);
+  }
+
+  function enable() {
+    document
+      .querySelector('.App')
+      ?.removeEventListener('touchmove', preventIOSScroll);
+  }
+
+  useEffect(() => {
+    if (isMobile && isIOS) {
+      if (focused) {
+        disable();
+      } else {
+        enable();
+      }
+    }
+  }, [focused]);
 
   const handleOutsideClick = () => {
     setIsOpen(false);
@@ -129,6 +162,8 @@ function AvailableOptionSelector({ errorMessage }: Props) {
             value={declineReason || ''}
             onKeyDown={handleKeyDown}
             onChange={handleDeclineReasonChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />
         )}
         {isDecline &&

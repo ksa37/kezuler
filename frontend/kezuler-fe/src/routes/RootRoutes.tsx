@@ -238,6 +238,8 @@ function RootRoutes() {
                 element={<Navigate replace to={PathName.createInfo} />}
               />
             </Route>
+            <Route path={'test'} element={<TimeListSelector />} />
+            <Route path={PathName.myPage} element={<MyPage />} />
             <Route path={PathName.login} element={<Login />}>
               <Route path="*" element={<Login />} />
             </Route>

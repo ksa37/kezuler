@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { isIOS, isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -38,6 +39,39 @@ function OnOffSelector() {
   } = useSelector((state: RootState) => state.createMeeting);
 
   const { openDialog } = useDialog();
+
+  const [focused, setFocused] = useState(false);
+  const onFocus = () => setFocused(true);
+  const onBlur = () => setFocused(false);
+
+  function preventIOSScroll() {
+    const focusedInput = document.activeElement as
+      | HTMLInputElement
+      | HTMLTextAreaElement;
+    focusedInput?.blur();
+  }
+
+  function disable() {
+    document
+      .querySelector('.App')
+      ?.addEventListener('touchmove', preventIOSScroll);
+  }
+
+  function enable() {
+    document
+      .querySelector('.App')
+      ?.removeEventListener('touchmove', preventIOSScroll);
+  }
+
+  useEffect(() => {
+    if (isMobile && isIOS) {
+      if (focused) {
+        disable();
+      } else {
+        enable();
+      }
+    }
+  }, [focused]);
 
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
@@ -168,6 +202,8 @@ function OnOffSelector() {
                   ? '링크를 입력하세요.'
                   : '만날 장소 또는 주소를 입력하세요.'
               }
+              onFocus={onFocus}
+              onBlur={onBlur}
             />
             <div className={'on-off-textfield-field-footer'}>
               <div className={'on-off-textfield-field-footer-error'}>

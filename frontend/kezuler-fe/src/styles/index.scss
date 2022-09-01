@@ -162,12 +162,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
+  // min-height: -webkit-fill-available;
   background-color: $color-background;
 }
 
 main {
   // height: calc(100% - #{$app-bar-height});
   height: 100%;
+  // min-height: -webkit-fill-available;
   // padding-top: $app-bar-height;
   background: $color-background;
   display: flex;

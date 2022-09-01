@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { isIOS, isMobile } from 'react-device-detect';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
@@ -52,6 +53,39 @@ function MyPageEdit({ goToMain }: Props) {
   const { getUserInfo } = useGetUserInfo();
 
   const [previewImage, setPreviewImage] = useState(userProfileImage);
+
+  const [focused, setFocused] = useState(false);
+  const onFocus = () => setFocused(true);
+  const onBlur = () => setFocused(false);
+
+  function preventIOSScroll() {
+    const focusedInput = document.activeElement as
+      | HTMLInputElement
+      | HTMLTextAreaElement;
+    focusedInput?.blur();
+  }
+
+  function disable() {
+    document
+      .querySelector('.App')
+      ?.addEventListener('touchmove', preventIOSScroll);
+  }
+
+  function enable() {
+    document
+      .querySelector('.App')
+      ?.removeEventListener('touchmove', preventIOSScroll);
+  }
+
+  useEffect(() => {
+    if (isMobile && isIOS) {
+      if (focused) {
+        disable();
+      } else {
+        enable();
+      }
+    }
+  }, [focused]);
 
   const encodeAndPreview = (file: File) => {
     const reader = new FileReader();
@@ -177,6 +211,7 @@ function MyPageEdit({ goToMain }: Props) {
             })}
             placeholder={'이름을 입력해주세요.'}
             defaultValue={userName}
+            onFocus={onFocus}
             {...register('userName', {
               required: REQUIRED_ERROR,
               maxLength: {
@@ -184,6 +219,7 @@ function MyPageEdit({ goToMain }: Props) {
                 message: MAX_NAME_LENGTH_ERROR,
               },
             })}
+            onBlur={onBlur}
           />
           {errors.userName && (
             <div className={'my-page-edit-error-text'}>
@@ -199,6 +235,7 @@ function MyPageEdit({ goToMain }: Props) {
           <div className={'my-page-edit-textfield-title'}>이메일</div>
           <input
             onKeyDown={handleKeyDown}
+            onFocus={onFocus}
             className={classNames('my-page-edit-textfield-box', {
               error: errors.userEmail,
             })}
@@ -210,6 +247,7 @@ function MyPageEdit({ goToMain }: Props) {
                 isEmail: checkEmail,
               },
             })}
+            onBlur={onBlur}
           />
           {errors.userEmail && (
             <div className={'my-page-edit-error-text'}>
