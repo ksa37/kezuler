@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
-
+import { focusDisable, focusEnable } from 'src/utils/iosScrollDisable';
 interface Props {
   errorMessage: string;
 }
@@ -31,31 +31,12 @@ function AvailableOptionSelector({ errorMessage }: Props) {
   const onFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
 
-  function preventIOSScroll() {
-    const focusedInput = document.activeElement as
-      | HTMLInputElement
-      | HTMLTextAreaElement;
-    focusedInput?.blur();
-  }
-
-  function disable() {
-    document
-      .querySelector('.App')
-      ?.addEventListener('touchmove', preventIOSScroll);
-  }
-
-  function enable() {
-    document
-      .querySelector('.App')
-      ?.removeEventListener('touchmove', preventIOSScroll);
-  }
-
   useEffect(() => {
     if (isMobile && isIOS) {
       if (focused) {
-        disable();
+        focusDisable();
       } else {
-        enable();
+        focusEnable();
       }
     }
   }, [focused]);

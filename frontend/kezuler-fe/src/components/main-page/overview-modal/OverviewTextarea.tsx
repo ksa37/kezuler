@@ -5,6 +5,7 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import classNames from 'classnames';
 
 import { OverviewEventForm } from 'src/types/Overview';
+import { focusDisable, focusEnable } from 'src/utils/iosScrollDisable';
 
 interface Props {
   textareaClassName: string;
@@ -27,31 +28,12 @@ function OverviewTextarea({
   const onFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
 
-  function preventIOSScroll() {
-    const focusedInput = document.activeElement as
-      | HTMLInputElement
-      | HTMLTextAreaElement;
-    focusedInput?.blur();
-  }
-
-  function disable() {
-    document
-      .querySelector('.App')
-      ?.addEventListener('touchmove', preventIOSScroll);
-  }
-
-  function enable() {
-    document
-      .querySelector('.App')
-      ?.removeEventListener('touchmove', preventIOSScroll);
-  }
-
   useEffect(() => {
     if (isMobile && isIOS) {
       if (focused) {
-        disable();
+        focusDisable();
       } else {
-        enable();
+        focusEnable();
       }
     }
   }, [focused]);

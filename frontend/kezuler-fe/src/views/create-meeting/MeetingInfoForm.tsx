@@ -17,6 +17,7 @@ import {
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
+import { focusDisable, focusEnable } from 'src/utils/iosScrollDisable';
 import isURL from 'src/utils/isURL';
 
 import BottomButton from 'src/components/common/BottomButton';
@@ -83,30 +84,12 @@ function MeetingInfoForm() {
     }));
   }, [eventAttachment]);
 
-  function preventIOSScroll() {
-    const focusedInput = document.activeElement as
-      | HTMLInputElement
-      | HTMLTextAreaElement;
-    focusedInput?.blur();
-  }
-  function disable() {
-    document
-      .querySelector('.App')
-      ?.addEventListener('touchmove', preventIOSScroll);
-  }
-
-  function enable() {
-    document
-      .querySelector('.App')
-      ?.removeEventListener('touchmove', preventIOSScroll);
-  }
-
   useEffect(() => {
     if (isMobile && isIOS) {
       if (focused) {
-        disable();
+        focusDisable();
       } else {
-        enable();
+        focusEnable();
       }
     }
   }, [focused]);
