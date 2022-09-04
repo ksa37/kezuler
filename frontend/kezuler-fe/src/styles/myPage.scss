@@ -110,19 +110,6 @@ $my-page-gap: 20px;
   margin-left: 8px;
 }
 
-.timezone-dropdown {
-  text-decoration: none;
-  color: $color-highlight;
-  font-size: 14px;
-  font-family: Pretendard;
-}
-
-.timezone-dropdown-paper {
-  max-height: 20vh;
-  max-height: calc(var(--vh, 1vh) * 20);
-  overflow: auto;
-}
-
 .my-page-h1 {
   font-size: 14px;
   font-weight: bold;
@@ -288,11 +275,6 @@ $my-page-gap: 20px;
     font-size: 12px;
     line-height: 18px;
   }
-}
-
-.timezone-dropdown-item {
-  font-family: Pretendard;
-  font-size: 13px;
 }
 
 .delete-account-btn {

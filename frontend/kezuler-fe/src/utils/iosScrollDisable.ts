@@ -3,6 +3,7 @@ function preventIOSScroll() {
     | HTMLInputElement
     | HTMLTextAreaElement;
   focusedInput?.blur();
+  // location.reload();
 }
 
 const onloadHeight = window.innerHeight;
@@ -17,15 +18,17 @@ function focusDisable() {
   const focusedInput = document.activeElement as
     | HTMLInputElement
     | HTMLTextAreaElement;
-  focusedInput.scrollIntoView();
+  // focusedInput.scrollIntoView();
+  // document.querySelector('.App')?.appendChild(focusedInput);
+  // focusedInput?.focus();
 
   document
     .querySelector('.App')
     ?.addEventListener('touchmove', preventIOSScroll);
 
-  // document
-  //   .querySelector('.App')
-  //   ?.addEventListener('touchstart', preventIOSScroll);
+  document
+    .querySelector('.App')
+    ?.addEventListener('touchstart', preventIOSScroll);
 }
 
 function focusEnable() {
@@ -35,9 +38,9 @@ function focusEnable() {
   document
     .querySelector('.App')
     ?.removeEventListener('touchmove', preventIOSScroll);
-  // document
-  //   .querySelector('.App')
-  //   ?.removeEventListener('touchstart', preventIOSScroll);
+  document
+    .querySelector('.App')
+    ?.removeEventListener('touchstart', preventIOSScroll);
 }
 
 export { focusDisable, focusEnable };
