@@ -143,7 +143,14 @@ function TimezoneDropdown({
                 {TIME_ZONE_GROUPS.reduce<ReactJSXElement[]>(
                   (prev, group_item) => {
                     prev.push(
-                      <MenuItem className={'timezone-dropdown-group'}>
+                      <MenuItem
+                        className={classNames(
+                          'timezone-dropdown-group',
+                          filteredMenuClassName && {
+                            [filteredMenuClassName]: searchValue !== '',
+                          }
+                        )}
+                      >
                         {group_item.group}
                       </MenuItem>
                     );
