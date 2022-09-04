@@ -78,6 +78,10 @@ function RootRoutes() {
               path={PathName.mainFixedIdInfoParticipants}
               element={<ParticipantsPopup />}
             />
+            <Route
+              path={PathName.mainPendingIdParticipants}
+              element={<ParticipantsPopup />}
+            />
             <Route path={PathName.main} element={<MainPage />}>
               <Route
                 index
@@ -107,6 +111,7 @@ function RootRoutes() {
                   element={<OverviewModal />}
                 />
               </Route>
+
               <Route
                 path="*"
                 element={<Navigate replace to={PathName.mainFixed} />}

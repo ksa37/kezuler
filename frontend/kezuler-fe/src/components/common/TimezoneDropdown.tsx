@@ -1,30 +1,17 @@
-import React, {
-  ChangeEvent,
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { ChangeEvent, RefObject, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { ExtendButtonBase } from '@mui/material';
 import Button from '@mui/material/Button';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import MenuItem, { MenuItemTypeMap } from '@mui/material/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 
-import {
-  getTimezoneGroupIdx,
-  TIME_ZONE_GROUPS,
-  TIME_ZONE_LIST,
-} from 'src/constants/TimeZones';
+import { getTimezoneGroupIdx, TIME_ZONE_GROUPS } from 'src/constants/TimeZones';
 import { useInterval } from 'src/hooks/useInterval';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-import getTimezoneDate from 'src/utils/getTimezoneDate';
 
 import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 import 'src/styles/dropdown.scss';

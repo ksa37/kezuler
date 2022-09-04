@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import classNames from 'classnames';
@@ -6,6 +7,8 @@ import classNames from 'classnames';
 import { CURRENT_HOST } from 'src/constants/Auth';
 import PathName, { makePendingInfoUrl } from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
+import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
+import { AppDispatch } from 'src/store';
 import { BPendingEvent } from 'src/types/pendingEvent';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
@@ -28,6 +31,9 @@ function PendingEventCard({ event }: Props) {
     declinedUsers,
   } = event;
 
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = participantsPopupAction;
+
   const navigate = useNavigate();
 
   const handleChangeTime = () => {
@@ -47,6 +53,11 @@ function PendingEventCard({ event }: Props) {
       `${CURRENT_HOST}${PathName.invite}/${eventId}/invitation`,
       '케줄러 링크가'
     );
+  };
+
+  const handleParticipantsShow = () => {
+    dispatch(show(event));
+    navigate(`${PathName.mainPending}/${eventId}/participants`);
   };
 
   const isHost = useMemo(
@@ -80,7 +91,10 @@ function PendingEventCard({ event }: Props) {
     >
       <div>
         {eventLocation}
-        <span className={'pending-participant-info'}>
+        <span
+          className={'pending-participant-info'}
+          onClick={handleParticipantsShow}
+        >
           참여
           <span className={'pending-participant-info-num'}>
             {participantsNum}
