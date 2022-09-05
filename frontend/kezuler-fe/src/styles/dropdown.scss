@@ -90,6 +90,10 @@
   &.selected {
     background-color: #eaeaea;
     font-weight: bold;
+    &:focus-visible {
+      background-color: #eaeaea;
+      font-weight: bold;
+    }
   }
 
   &.filtered {

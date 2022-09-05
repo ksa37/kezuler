@@ -35,9 +35,11 @@ function focusEnable() {
   // const bottomBtn = document.querySelector('.bottom-button') as HTMLElement;
   // bottomBtn?.classList.remove('ios-keyboard-focus');
   // bottomBtn!.style.bottom = `0px`;
+
   document
     .querySelector('.App')
     ?.removeEventListener('touchmove', preventIOSScroll);
+
   document
     .querySelector('.App')
     ?.removeEventListener('touchstart', preventIOSScroll);
