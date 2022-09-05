@@ -29,6 +29,7 @@ interface Props<T extends BMenu> {
   selectedMenuClassName?: string;
   buttonClassName?: string;
   paperClassName?: string;
+  popperClassName?: string;
   fitToButtonWidth?: boolean;
 }
 
@@ -47,6 +48,7 @@ function KezulerDropdown<T extends BMenu>({
   selectedMenuClassName,
   buttonClassName,
   paperClassName,
+  popperClassName,
   fitToButtonWidth,
 }: Props<T>): React.ReactElement {
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -82,7 +84,7 @@ function KezulerDropdown<T extends BMenu>({
         {menuData[selectedIdx][displayKey]}
       </Button>
       <Popper
-        className={'kezuler-dropdown-popper'}
+        className={classNames('kezuler-dropdown-popper', popperClassName)}
         open={menuOpen}
         anchorEl={buttonRef.current}
         placement="bottom-end"

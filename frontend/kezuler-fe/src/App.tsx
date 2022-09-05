@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div ref={setDiv} className="App" id="App">
-      <div className={'app-inner'}>
+      <div className={'app-inner'} id={'app-inner'}>
         <RootRoutes />
       </div>
       <KezulerDialog />

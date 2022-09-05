@@ -10,19 +10,24 @@ import {
   REFRESH_TOKEN_KEY,
 } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
-import { TIME_ZONE_LIST } from 'src/constants/TimeZones';
+import {
+  getTimezoneGroupIdx,
+  TIME_ZONE_GROUPS,
+  // TIME_ZONE_LIST,
+} from 'src/constants/TimeZones';
 import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
 import { deleteCookie } from 'src/utils/cookie';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
+import TimezoneButton from '../common/TimezoneDropdown';
 import MyPageRow from './MyPageRow';
-import KezulerDropdown from 'src/components/common/KezulerDropdown';
 
+// import KezulerDropdown from 'src/components/common/KezulerDropdown';
 import { ReactComponent as CalenderIcon } from 'src/assets/icn_calender_yb.svg';
 import { ReactComponent as ClockIcon } from 'src/assets/icn_clock_yb.svg';
-import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
+// import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icn_edit.svg';
 import { ReactComponent as LogoutIcon } from 'src/assets/icn_logout_yb.svg';
 import { ReactComponent as PaperIcon } from 'src/assets/icn_paper_yb.svg';
@@ -88,25 +93,30 @@ function MyPageMain({ goToEdit }: Props) {
   const [isCalendarPaired, setIsCalendarPaired] = useState(false);
 
   const [selectedIdx, setSelectedIdx] = useState(0);
+  const [selectedGroup, setSelectedGroup] = useState('Asia');
   // 화면 진입 시 선택되어있는 타임존 찾아옴
   useEffect(() => {
-    const targetIdx = TIME_ZONE_LIST.findIndex(
-      (t) =>
-        t.value ===
-        (userTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone)
-    );
+    const currentTimezone =
+      userTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const currentTimezoneGroup = currentTimezone.split('/')[0];
+    const targetIdx = TIME_ZONE_GROUPS[
+      getTimezoneGroupIdx(currentTimezoneGroup)
+    ].zones.findIndex((t) => t.value === currentTimezone);
     if (targetIdx !== -1) {
+      setSelectedGroup(currentTimezoneGroup);
       setSelectedIdx(targetIdx);
     }
   }, [userTimezone]);
 
   const { changeUser, loading } = usePatchUser();
   const { getUserInfo } = useGetUserInfo();
-  const patchTimeZone = (newIdx: number) => {
+  const patchTimeZone = (newGroup: string, newIdx: number) => {
     const before = selectedIdx;
+    setSelectedGroup(newGroup);
     setSelectedIdx(newIdx);
+    const groupIdx = getTimezoneGroupIdx(newGroup);
     changeUser(
-      { userTimezone: TIME_ZONE_LIST[newIdx].value },
+      { userTimezone: TIME_ZONE_GROUPS[groupIdx].zones[newIdx].value },
       {
         onSuccess: () => {
           getUserInfo();
@@ -160,7 +170,13 @@ function MyPageMain({ goToEdit }: Props) {
         )}
       </MyPageRow>
       <MyPageRow title={'타임존 설정'} startIcon={<ClockIcon />}>
-        <KezulerDropdown
+        <TimezoneButton
+          disabled={loading}
+          selectedIdx={selectedIdx}
+          selectedGroup={selectedGroup}
+          setSelectedZone={patchTimeZone}
+        />
+        {/* <KezulerDropdown
           disabled={loading}
           buttonClassName={'timezone-dropdown'}
           menuData={TIME_ZONE_LIST}
@@ -170,7 +186,8 @@ function MyPageMain({ goToEdit }: Props) {
           endIcon={<ArrowDownIcon />}
           menuClassName={'timezone-dropdown-item'}
           paperClassName={'timezone-dropdown-paper'}
-        />
+          popperClassName={'timezone-popper'}
+        /> */}
       </MyPageRow>
       <h1 className={'my-page-h1'}>서비스 이용</h1>
       <MyPageRow

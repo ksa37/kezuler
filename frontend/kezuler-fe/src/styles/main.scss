@@ -23,6 +23,12 @@
   outline: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: transparent;
+
+  height: 62px;
+
+  @media (max-height: $short-height-size) {
+    height: 54px;
+  }
 }
 
 .main-tab-today {
@@ -420,6 +426,7 @@
 
 .pending-participant-info {
   color: $color-highlight;
+  cursor: pointer;
 }
 
 .pending-participant-info-num {

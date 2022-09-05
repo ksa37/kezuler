@@ -227,12 +227,12 @@ function MeetingInfoForm() {
             </div>
           )}
         </div>
+        <BottomButton
+          disabled={nextButtonDisabled}
+          onClick={handleNextClick}
+          text="다음"
+        />
       </div>
-      <BottomButton
-        disabled={nextButtonDisabled}
-        onClick={handleNextClick}
-        text="다음"
-      />
     </div>
   );
 }

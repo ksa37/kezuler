@@ -536,4 +536,9 @@ const TIME_ZONE_LIST = TIME_ZONE_GROUPS.reduce<
   { value: string; name: string }[]
 >((prev, el) => [...prev, ...el.zones], []);
 
-export { TIME_ZONE_GROUPS, TIME_ZONE_LIST };
+const getTimezoneGroupIdx = (group: string) => {
+  const groupNames = TIME_ZONE_GROUPS.map((groupItem) => groupItem.group);
+  return groupNames.findIndex((groupName) => groupName === group);
+};
+
+export { TIME_ZONE_GROUPS, TIME_ZONE_LIST, getTimezoneGroupIdx };

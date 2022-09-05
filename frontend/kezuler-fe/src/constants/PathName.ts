@@ -17,6 +17,7 @@ const PathName = {
   mainPending: '/main/pending',
   mainPendingIdInfo: '/main/pending/:eventId/info',
   mainPendingIdInfoEdit: '/main/pending/:eventId/info-edit',
+  mainPendingIdParticipants: '/main/pending/:eventId/participants',
 
   create: '/create',
   createInfo: '/create/info',
