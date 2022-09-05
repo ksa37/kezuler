@@ -14,11 +14,15 @@
   font-size: 16px;
   text-align: center;
   z-index: 1;
-  // position: sticky;
-  position: absolute;
+  position: fixed;
+  // position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
+
+  &.ios-keyboard-focus {
+    position: fixed;
+  }
 
   &.not-fixed {
     position: unset;
