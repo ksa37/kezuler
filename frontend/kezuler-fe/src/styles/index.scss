@@ -16,11 +16,11 @@
   position: relative;
   background: $color-background;
   @media (min-width: $pc-view-width) {
-    @media (min-width: 415px) {
-      width: 414px;
+    @media (min-width: $pc-view-main-width + 1px) {
+      width: $pc-view-main-width;
     }
-    @media (min-height: 768px) {
-      height: 767px;
+    @media (min-height: $pc-view-main-height + 1px) {
+      height: $pc-view-main-height;
     }
     box-shadow: 0 2px 50px rgba($color-highlight, 0.3);
     border-radius: 40px;
