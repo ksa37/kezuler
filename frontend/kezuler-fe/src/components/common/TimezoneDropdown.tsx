@@ -171,7 +171,7 @@ function TimezoneDropdown({
                             <span>
                               {format(
                                 utcToZonedTime(nowTime, el[displayKey]),
-                                'HH:mm'
+                                'MM/dd HH:mm'
                               )}
                             </span>
                           </div>
