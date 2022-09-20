@@ -13,10 +13,10 @@ export const getUserInfoThunk = createAsyncThunk(
       const response = await getUser();
       localStorage.setItem(
         CURRENT_USER_INFO_KEY,
-        JSON.stringify(response.data)
+        JSON.stringify(response.data.result)
       );
       onFinally?.();
-      return response.data;
+      return response.data.result;
     } catch (error) {
       const err = error as TError;
       onFinally?.();

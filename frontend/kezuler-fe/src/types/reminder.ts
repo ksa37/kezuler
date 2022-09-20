@@ -1,12 +1,9 @@
 interface Reminder {
-  fixedEventId: string;
-  userId: string;
-  Date: number;
-  timeDelta: number;
+  result: number;
 }
 
-interface PPutReminder {
-  timeDelta: number;
+interface PPatchReminder {
+  remindDate: number;
 }
 
-export type { Reminder, PPutReminder };
+export type { Reminder, PPatchReminder };

@@ -10,8 +10,17 @@ import PathName, {
 } from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import useDialog from 'src/hooks/useDialog';
-import { useDeleteFixedEvent } from 'src/hooks/useFixedEvent';
-import { useDeletePendingEventById } from 'src/hooks/usePendingEvent';
+import {
+  useCancelFixedEvent,
+  useCancelFixedEventGuest,
+  useDeleteFixedEvent,
+  useDeleteFixedEventGuest,
+} from 'src/hooks/useFixedEvent';
+import {
+  useCancelPendingEventByGuest,
+  useCancelPendingEventById,
+  useDeletePendingEventById,
+} from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
@@ -33,10 +42,7 @@ import { ReactComponent as EditIcon } from 'src/assets/icn_edit_big.svg';
 import { ReactComponent as JoinIcon } from 'src/assets/icn_join.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icn_link.svg';
 
-import {
-  deleteFixedEventGuestById,
-  putFixedEventGuestById,
-} from 'src/api/fixedEvent';
+import { putFixedEventGuestById } from 'src/api/fixedEvent';
 
 function Overview() {
   const { eventId } = useParams();
@@ -78,7 +84,7 @@ function Overview() {
     eventHost: { userId: hostId },
   } = event;
 
-  const isCanceled = isFixedEvent(event) && event.isDisabled;
+  const isCanceled = event.disable;
 
   const checkPassed = () => {
     if (!isFixedEvent(event)) {
@@ -109,8 +115,14 @@ function Overview() {
 
   const { openDialog } = useDialog();
 
-  const removePendingEvent = useDeletePendingEventById();
-  const removeFixedEvent = useDeleteFixedEvent();
+  const deletePendingEventHost = useDeletePendingEventById();
+  const deleteFixedEventHost = useDeleteFixedEvent();
+  const cancelPendingEventHost = useCancelPendingEventById();
+  const cancelFixedEventHost = useCancelFixedEvent();
+
+  const cancelPendingEventGuest = useCancelPendingEventByGuest();
+  const deleteFixedEventGuest = useDeleteFixedEventGuest();
+  const cancelFixedEventGuest = useCancelFixedEventGuest();
 
   const closeModal = () => {
     navigate(isFixedMeeting ? PathName.mainFixed : PathName.mainPending);
@@ -128,18 +140,14 @@ function Overview() {
     navigate((isFixedMeeting ? makeFixedInfoUrl : makePendingInfoUrl)(eventId));
   };
 
-  const handleDeleteClick = () => {
-    const deleteFixedMeeting = () => {
-      removeFixedEvent(eventId);
-      closeModal();
-      navigate(PathName.mainFixed);
+  const handleCancelHostClick = () => {
+    const cancelFixedMeeting = () => {
+      cancelFixedEventHost(eventId);
       location.reload();
     };
 
-    const deletePendingMeeting = () => {
-      removePendingEvent(eventId);
-      closeModal();
-      navigate(PathName.mainPending);
+    const cancelPendingMeeting = () => {
+      cancelPendingEventHost(eventId);
       location.reload();
     };
 
@@ -148,21 +156,74 @@ function Overview() {
       description:
         '취소 시, 되돌리기 어려우며\n참여자들에게 카카오톡 메세지가 전송됩니다.',
       onConfirm: isFixedEvent(event)
+        ? cancelFixedMeeting
+        : cancelPendingMeeting,
+    });
+  };
+
+  const handleDeleteHostClick = () => {
+    const deleteFixedMeeting = () => {
+      deleteFixedEventHost(eventId);
+      closeModal();
+      navigate(PathName.mainFixed);
+      location.reload();
+    };
+
+    const deletePendingMeeting = () => {
+      deletePendingEventHost(eventId);
+      closeModal();
+      navigate(PathName.mainPending);
+      location.reload();
+    };
+
+    openDialog({
+      title: `'${eventTitle}'\n미팅카드를 삭제 하시겠어요?`,
+      description:
+        '삭제 시, 되돌리기 어려우며\n다가오는 미팅 목록에서 사라집니다.',
+      onConfirm: isFixedEvent(event)
         ? deleteFixedMeeting
         : deletePendingMeeting,
     });
   };
 
-  const handleCancelClick = () => {
+  const handleCancelGuestFixedClick = () => {
     const cancel = () => {
-      //TODO pendingEvent Delete candidate 연결
-      // isFixedMeeting
-      deleteFixedEventGuestById(eventId);
+      cancelFixedEventGuest(eventId);
       location.reload();
     };
 
     openDialog({
       title: `'${eventTitle}'\n미팅 참여를 취소 하시겠어요?`,
+      onConfirm: cancel,
+    });
+  };
+
+  const handleCancelGuestPendingClick = () => {
+    const cancel = () => {
+      cancelPendingEventGuest(eventId);
+      closeModal();
+      navigate(PathName.mainPending);
+      location.reload();
+    };
+
+    openDialog({
+      title: `'${eventTitle}'\n미팅 카드를 삭제 하시겠어요?`,
+      description:
+        '삭제 시, 되돌리기 어려우며\n호스트에게 카카오톡 메세지가 전송됩니다.',
+      onConfirm: cancel,
+    });
+  };
+
+  const handleDeleteGuestClick = () => {
+    const cancel = () => {
+      deleteFixedEventGuest(eventId);
+      location.reload();
+    };
+
+    openDialog({
+      title: `'${eventTitle}'\n미팅카드를 삭제 하시겠어요?`,
+      description:
+        '삭제 시, 되돌리기 어려우며\n다가오는 미팅 목록에서 사라집니다.',
       onConfirm: cancel,
     });
   };
@@ -185,6 +246,14 @@ function Overview() {
       '케줄러 링크가'
     );
   };
+
+  let canceledFixedGuest = false;
+  if (isFixedEvent(event) && hostId !== getCurrentUserInfo()?.userId) {
+    canceledFixedGuest =
+      event.participants.filter(
+        (guest) => guest.userId === getCurrentUserInfo()?.userId
+      )[0].userStatus === 'Declined';
+  }
 
   const eventDate = useMemo(() => {
     if (isFixedEvent(event)) {
@@ -217,62 +286,79 @@ function Overview() {
           />
         )}
       </div>
-      {!isCanceled && !isPassed && (
+      {!isPassed && (
         <footer className={'overview-footer'}>
-          {isEdit ? (
-            <>
-              <OverviewButton
-                disabled={!isSaveAvailable}
-                className={'edit'}
-                icon={<CheckIcon />}
-                text={'변경 저장'}
-                type={'submit'}
-                formId={OVERVIEW_FORM_ID}
-              />
-              <OverviewButton
-                className={'edit'}
-                icon={<CloseThinIcon />}
-                onClick={handleModifyCancelClick}
-                text={'변경 취소'}
-              />
-            </>
-          ) : (
-            <>
-              {isHost ? (
-                <>
-                  <OverviewButton
-                    icon={<EditIcon />}
-                    onClick={handleModifyStartClick}
-                    text={'미팅정보수정'}
-                  />
-                  <OverviewButton
-                    icon={<DeleteIcon />}
-                    onClick={handleDeleteClick}
-                    text={'미팅삭제'}
-                  />
-                </>
-              ) : (
-                isFixedEvent(event) &&
-                (isAccepted ? (
-                  <OverviewButton
-                    icon={<CancelIcon />}
-                    onClick={handleCancelClick}
-                    text={'참여취소'}
-                  />
+          {!isCanceled &&
+            (isEdit ? (
+              <>
+                <OverviewButton
+                  disabled={!isSaveAvailable}
+                  className={'edit'}
+                  icon={<CheckIcon />}
+                  text={'변경 저장'}
+                  type={'submit'}
+                  formId={OVERVIEW_FORM_ID}
+                />
+                <OverviewButton
+                  className={'edit'}
+                  icon={<CloseThinIcon />}
+                  onClick={handleModifyCancelClick}
+                  text={'변경 취소'}
+                />
+              </>
+            ) : (
+              <>
+                {isHost ? (
+                  <>
+                    <OverviewButton
+                      icon={<EditIcon />}
+                      onClick={handleModifyStartClick}
+                      text={'미팅정보수정'}
+                    />
+                    <OverviewButton
+                      icon={<CloseThinIcon />}
+                      onClick={handleCancelHostClick}
+                      text={'미팅취소'}
+                    />
+                  </>
+                ) : isFixedEvent(event) ? (
+                  isAccepted ? (
+                    <OverviewButton
+                      icon={<CancelIcon />}
+                      onClick={handleCancelGuestFixedClick}
+                      text={'참여취소'}
+                    />
+                  ) : (
+                    <OverviewButton
+                      className={'canceled'}
+                      icon={<JoinIcon />}
+                      onClick={handleJoinClick}
+                      text={'참여하기'}
+                    />
+                  )
                 ) : (
                   <OverviewButton
-                    icon={<JoinIcon />}
-                    onClick={handleJoinClick}
-                    text={'참여하기'}
+                    icon={<CancelIcon />}
+                    onClick={handleCancelGuestPendingClick}
+                    text={'참여취소'}
                   />
-                ))
-              )}
-              <OverviewButton
-                icon={<LinkIcon />}
-                onClick={handleCopyLinkClick}
-                text={'케줄러링크 복사'}
-              />
-            </>
+                )}
+                {!canceledFixedGuest && (
+                  <OverviewButton
+                    icon={<LinkIcon />}
+                    onClick={handleCopyLinkClick}
+                    text={'케줄러링크 복사'}
+                  />
+                )}
+              </>
+            ))}
+          {(isCanceled || canceledFixedGuest) && (
+            <OverviewButton
+              className={'canceled'}
+              icon={<DeleteIcon />}
+              onClick={isHost ? handleDeleteHostClick : handleDeleteGuestClick}
+              text={'미팅 삭제'}
+            />
           )}
         </footer>
       )}

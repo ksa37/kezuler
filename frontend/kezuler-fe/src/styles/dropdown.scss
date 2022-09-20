@@ -38,7 +38,7 @@
   transform: translate3d(0, 397.5px, 0px);
   // box-shadow: 0px 0px 30px 0px #181d230d;
   box-shadow: none;
-  border: 1px solid #282f390d;
+  border: 1px solid #ffffff0d;
   // max-height: 20vh;
   // max-height: calc(var(--vh, 1vh) * 20);
   overflow: auto;
@@ -63,13 +63,14 @@
 
 .timezone-search-bar {
   width: 100%;
+  box-sizing: border-box;
   padding: 0 16px;
   border: none;
   height: 32px;
   font-size: 14px;
   position: absolute;
   top: 365.5px;
-  border: 1px solid #282f390d;
+  border: 1px solid #282f393f;
   box-shadow: 0px 0px 30px 0px #181d230d;
 
   &:focus-visible {

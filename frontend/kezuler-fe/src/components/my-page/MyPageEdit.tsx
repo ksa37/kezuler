@@ -23,6 +23,8 @@ import BottomButton from '../common/BottomButton';
 
 import { ReactComponent as PlusIconYellow } from 'src/assets/btn_plus_y.svg';
 
+import { patchUserProfile } from 'src/api/user';
+
 interface Props {
   goToMain: () => void;
 }
@@ -30,7 +32,7 @@ interface Props {
 interface UserForm {
   userName: string;
   userEmail: string;
-  userProfileImage: File;
+  profile: File | null;
 }
 
 function MyPageEdit({ goToMain }: Props) {
@@ -85,13 +87,11 @@ function MyPageEdit({ goToMain }: Props) {
   };
 
   useEffect(() => {
-    encodeAndPreview(watchForm.userProfileImage);
-  }, [watchForm.userProfileImage]);
+    if (watchForm.profile) encodeAndPreview(watchForm.profile);
+  }, [watchForm.profile]);
 
   const onValid: SubmitHandler<UserForm> = (data) => {
-    //TODO
-    //email 반영
-    changeUser(data, {
+    changeUser(patchUserProfile(data), {
       onSuccess: () => {
         getUserInfo({ onFinally: goToMain });
       },
@@ -135,7 +135,7 @@ function MyPageEdit({ goToMain }: Props) {
       return;
     }
 
-    setValue('userProfileImage', file);
+    setValue('profile', file);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -172,6 +172,7 @@ function MyPageEdit({ goToMain }: Props) {
               type={'file'}
               accept={PROFILE_ACCEPTS.map((e) => `.${e}`).join(',')}
             />
+
             <Avatar
               className={'my-page-edit-avatar-img'}
               src={previewImage}
@@ -180,6 +181,7 @@ function MyPageEdit({ goToMain }: Props) {
             <PlusIconYellow className={'my-page-edit-avatar-plus-icn'} />
           </label>
         </div>
+        {/* <div>삭제</div> */}
         <div
           className={classNames('my-page-edit-textfield', {
             'is-error': errors.userName,

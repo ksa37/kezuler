@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { TError } from '../types/axios';
-import { BFixedEvent, PGetFixedEvents } from 'src/types/fixedEvent';
+import { BFixedEvent } from 'src/types/fixedEvent';
 
 import { getFixedEvents } from 'src/api/fixedEvent';
 
@@ -9,18 +9,19 @@ const getFixedEventsThunk = createAsyncThunk(
   'getFixedEvents',
   async (
     {
-      params,
       onFinally,
     }: {
-      params: PGetFixedEvents;
       onFinally?: () => void;
     },
     { rejectWithValue }
   ) => {
+    // console.log('here');
+
     try {
-      const response = await getFixedEvents(params);
+      const response = await getFixedEvents();
       onFinally?.();
-      return response.data;
+
+      return response.data.result;
     } catch (error) {
       const err = error as TError;
       onFinally?.();
@@ -59,9 +60,9 @@ export const mainFixed = createSlice({
       .addCase(getFixedEventsThunk.fulfilled, (state, action) => {
         state.isFetched = true;
         state.loading = false;
-        const { fixedEvents, userId } = action.payload;
+        const fixedEvents = action.payload;
         state.events = fixedEvents;
-        state.curUserId = userId;
+        // state.curUserId = userId;
       })
       .addCase(getFixedEventsThunk.rejected, (state, action) => {
         state.loading = false;

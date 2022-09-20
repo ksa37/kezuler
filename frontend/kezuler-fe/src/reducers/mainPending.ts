@@ -11,7 +11,8 @@ const getPendingEventsThunk = createAsyncThunk(
     try {
       const response = await getPendingEvents();
       onFinally?.();
-      return response.data;
+
+      return response.data.result;
       // return {
       //   pendingEvents: [
       //     {
@@ -65,11 +66,12 @@ export const mainPending = createSlice({
       .addCase(getPendingEventsThunk.fulfilled, (state, action) => {
         state.isFetched = true;
         state.loading = false;
-        const { pendingEvents } = action.payload;
+        const pendingEvents = action.payload;
         state.events = pendingEvents;
       })
       .addCase(getPendingEventsThunk.rejected, (state, action) => {
         state.loading = false;
+
         // state.errorMessage = (action.payload as { message: string }).message;
       });
   },

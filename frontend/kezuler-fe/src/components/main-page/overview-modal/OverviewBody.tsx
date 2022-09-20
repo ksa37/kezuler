@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Button } from '@mui/material';
 import classNames from 'classnames';
 
 import useCopyText from 'src/hooks/useCopyText';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
 import OverviewDropdown from './OverviewDropdown';
@@ -29,24 +30,36 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
     eventTitle,
     eventDescription,
     eventAttachment,
-    eventZoomAddress,
-    eventPlace,
-    eventHost: { userName: hostName, userProfileImage: hostProfileImage },
+    addressType,
+    addressDetail,
+    eventHost: {
+      userName: hostName,
+      userProfileImage: hostProfileImage,
+      userId: hostId,
+    },
   } = event;
 
   const { copyText } = useCopyText();
 
   const [showDescAll, setShowDescAll] = useState(false);
 
+  let canceledFixedGuest = false;
+  if (isFixedEvent(event) && hostId !== getCurrentUserInfo()?.userId) {
+    canceledFixedGuest =
+      event.participants.filter(
+        (guest) => guest.userId === getCurrentUserInfo()?.userId
+      )[0].userStatus === 'Declined';
+  }
+
   const shortEventDescription = eventDescription
     .split('\n')[0]
     .substring(0, 16);
 
   const handleCopyPlaceClick = () => {
-    if (eventZoomAddress) {
-      copyText(eventZoomAddress, '주소가');
+    if (addressType === 'ON') {
+      copyText(addressDetail, '주소가');
     } else {
-      copyText(eventPlace, '장소가');
+      copyText(addressDetail, '장소가');
     }
   };
 
@@ -61,15 +74,15 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
   const place = useMemo(
     () => (
       <div className={'overview-section-place'}>
-        {eventPlace ? (
+        {addressType === 'OFF' ? (
           <>
             <LocIcon />
-            <span>{eventPlace}</span>
+            <span>{addressDetail}</span>
           </>
         ) : (
           <>
             <PCIcon />
-            <span>{eventZoomAddress ? eventZoomAddress : '온라인'}</span>
+            <span>{addressDetail ? addressDetail : '온라인'}</span>
           </>
         )}
         <button
@@ -81,7 +94,7 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
         </button>
       </div>
     ),
-    [eventZoomAddress, eventPlace]
+    [addressType, addressDetail]
   );
 
   return (
@@ -89,15 +102,16 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
       <header
         className={classNames(
           'overview-header',
-          { 'is-canceled': isCanceled },
+          { 'is-canceled': isCanceled || canceledFixedGuest },
           { 'is-passed': isPassed }
         )}
       >
         <div className={'overview-header-title'}>미팅 제목</div>
         <div className={'overview-header-desc'}>{eventTitle}</div>
-        {isFixedEvent(event) && !isCanceled && !isPassed && (
-          <OverviewDropdown eventId={eventId} />
-        )}
+        {isFixedEvent(event) &&
+          !isCanceled &&
+          !isPassed &&
+          !canceledFixedGuest && <OverviewDropdown eventId={eventId} />}
       </header>
       <div className={'overview-body'}>
         {!isFixedEvent(event) && (
@@ -114,7 +128,9 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
         {eventDescription && (
           <OverviewSection title={'미팅 내용'}>
             <div className={'overview-section-description'}>
-              {showDescAll ? eventDescription : shortEventDescription}
+              {showDescAll
+                ? eventDescription.replaceAll('\\n', '\n')
+                : shortEventDescription.replaceAll('\\n', '\n')}
               {shortEventDescription !== eventDescription && (
                 <Button
                   classes={{ root: 'show-all-btn' }}

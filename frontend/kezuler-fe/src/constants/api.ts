@@ -14,7 +14,7 @@ const KezulerInstance = (() => {
   const accessToken = getCookie(ACCESS_TOKEN_KEY);
 
   return axios.create({
-    baseURL: HOST_ADDRESS,
+    baseURL: HOST_TEST_ADDRESS,
     ...(accessToken
       ? {
           headers: {
@@ -38,5 +38,38 @@ KezulerInstance.interceptors.response.use(
   }
 );
 
-export { HOST_ADDRESS, HOST_TEST_ADDRESS, UNAUTHORIZED_STATUS_CODE };
+const KezulerTestInstance2 = (() => {
+  const accessToken = getCookie(ACCESS_TOKEN_KEY);
+
+  return axios.create({
+    baseURL: HOST_TEST_ADDRESS,
+    ...(accessToken
+      ? {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            // 'Content-Type': 'application/json',
+          },
+        }
+      : {}),
+  });
+})();
+
+KezulerTestInstance2.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response?.status === UNAUTHORIZED_STATUS_CODE) {
+      localStorage.clear();
+      window.location.reload();
+      return Promise.reject(err);
+    }
+    return Promise.reject(err);
+  }
+);
+
+export {
+  HOST_ADDRESS,
+  HOST_TEST_ADDRESS,
+  UNAUTHORIZED_STATUS_CODE,
+  KezulerTestInstance2,
+};
 export default KezulerInstance;

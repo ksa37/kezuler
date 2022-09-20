@@ -117,7 +117,7 @@ function TimezoneDropdown({
             <input
               className={'timezone-search-bar'}
               value={searchValue}
-              placeholder={'검색'}
+              placeholder={'도시명 검색'}
               onChange={handleSearch}
             />
 
@@ -171,7 +171,7 @@ function TimezoneDropdown({
                             <span>
                               {format(
                                 utcToZonedTime(nowTime, el[displayKey]),
-                                'HH:mm'
+                                'MM/dd HH:mm'
                               )}
                             </span>
                           </div>

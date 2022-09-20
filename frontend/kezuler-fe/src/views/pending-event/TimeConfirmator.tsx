@@ -187,7 +187,7 @@ function TimeConfirmator() {
               >
                 <CircleIcon className={'icon-circle'} />
                 <ProfilesIcon className={'icon-profiles'} />
-                {`${possibleUsersAll.length + declineNum}명 참여중`}
+                {`참여자 보기(${possibleUsersAll.length + declineNum}명)`}
                 <ArrowRightIcon />
               </div>
             </div>

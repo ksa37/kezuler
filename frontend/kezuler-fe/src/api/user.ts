@@ -5,28 +5,15 @@ import KezulerInstance, {
   HOST_TEST_ADDRESS,
 } from 'src/constants/api';
 import {
-  PPatchUser,
-  PPatchUserExceptProfileImage,
+  PPatchUserGoogleToggle,
+  PPatchUserProfile,
+  PPatchUserTimezone,
   RPostUser,
-  SettingUser,
-  User,
+  RSettingUser,
 } from 'src/types/user';
 
 // 로그인 / 회원 가입
 // accessToken: Kakao Access Token
-const postUser = (accessToken: string) =>
-  axios.post<RPostUser>(
-    `${HOST_ADDRESS}/user`,
-    {
-      registerWith: 'kakao',
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-
 const postAuth = (accessToken: string) =>
   axios.post<RPostUser>(
     `${HOST_TEST_ADDRESS}/auth/token`,
@@ -40,37 +27,44 @@ const postAuth = (accessToken: string) =>
     }
   );
 
-const getAuth = () => axios.get<RPostUser>(`${HOST_TEST_ADDRESS}/auth/test`);
-
 // 현재 유저 정보 가져오기
-const getUser = () => KezulerInstance.get<SettingUser>('user');
+const getUser = () => KezulerInstance.get<RSettingUser>('user');
 
-// 현재 유저 정부 수정 (프로필 이미지 제외)
-const patchUser = (params: PPatchUserExceptProfileImage) =>
-  KezulerInstance.patch<User>('user', {
-    ...params,
-  });
-
-// 현재 유저 프로필 이미지 변경
-const patchUserProfileImage = (profileImage: File) => {
+const patchUserProfile = (params: PPatchUserProfile) => {
   const form = new FormData();
-  form.append('userProfileImage', profileImage);
-  return KezulerInstance.patch<User>('user', form, {
+  form.append('userName', params.userName);
+  form.append('userEmail', params.userEmail);
+  if (params.profile) {
+    form.append('profile', params.profile as File);
+  } else {
+    form.append('profile', new File([], ''));
+  }
+
+  return KezulerInstance.patch<RSettingUser>('user', form, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   });
 };
 
+const patchUserGoogle = (params: PPatchUserGoogleToggle) =>
+  KezulerInstance.patch<RSettingUser>('user/google', {
+    ...params,
+  });
+
+const patchUserTimeZone = (params: PPatchUserTimezone) =>
+  KezulerInstance.patch<RSettingUser>('user/timezone', {
+    ...params,
+  });
+
 // 현재 유저 정보 삭제
 const deleteUser = () => KezulerInstance.delete('user');
 
 export {
-  postUser,
   getUser,
-  patchUser,
-  patchUserProfileImage,
   deleteUser,
   postAuth,
-  getAuth,
+  patchUserGoogle,
+  patchUserTimeZone,
+  patchUserProfile,
 };

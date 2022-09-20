@@ -18,9 +18,10 @@ const currentPendingEvent: PendingEvent = {
   eventTimeDuration: 60,
   declinedUsers: [],
   eventTimeCandidates: [],
-  eventZoomAddress: '',
-  eventPlace: '',
+  addressType: '',
+  addressDetail: '',
   eventAttachment: '',
+  disable: false,
 };
 
 const initialState: ConfirmTimeState = {

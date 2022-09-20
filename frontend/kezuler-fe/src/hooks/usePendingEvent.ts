@@ -16,7 +16,9 @@ import {
 
 import { getInvitationById } from 'src/api/invitation';
 import {
-  deletePendingEventById,
+  cancelMeetingByGuest,
+  cancelMeetingByHost,
+  deleteMeetingByHost,
   deletePendingEventGuestById,
   getPendingEventById,
   postPendingEvent,
@@ -33,7 +35,7 @@ const useGetPendingEvent = () => {
   const getPendingEventInfo = (eventId: string) => {
     getPendingEventById(eventId)
       .then((res) => {
-        dispatch(setConfirmPendingEvent(res.data));
+        dispatch(setConfirmPendingEvent(res.data.result));
       })
       .catch((err) => {
         console.log('미팅 정보 불러오기 에러', err);
@@ -61,7 +63,7 @@ const useGetInvitation = () => {
   const getPendingEventInfo = (eventId: string) => {
     getInvitationById(eventId)
       .then((res) => {
-        dispatch(setAcceptPendingEvent(res.data));
+        dispatch(setAcceptPendingEvent(res.data.result));
         dispatch(setIsLoaded(true));
       })
       .catch((err) => {
@@ -83,8 +85,8 @@ const useDeletePendingEventById = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { show } = alertAction;
 
-  const removePendingEvent = (eventId: string) => {
-    deletePendingEventById(eventId)
+  const deletePendingEventHost = (eventId: string) => {
+    deleteMeetingByHost(eventId)
       .then((res) => {
         console.log(res);
       })
@@ -99,7 +101,53 @@ const useDeletePendingEventById = () => {
       });
   };
 
-  return removePendingEvent;
+  return deletePendingEventHost;
+};
+
+const useCancelPendingEventById = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = alertAction;
+
+  const cancelPendingEventHost = (eventId: string) => {
+    cancelMeetingByHost(eventId)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log('미팅 삭제 에러', err);
+        dispatch(
+          show({
+            title: '미팅 삭제 오류',
+            description: '미팅 삭제 과정 중 오류가 생겼습니다.',
+          })
+        );
+      });
+  };
+
+  return cancelPendingEventHost;
+};
+
+const useCancelPendingEventByGuest = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = alertAction;
+
+  const cancelPendingEventGuest = (eventId: string) => {
+    cancelMeetingByGuest(eventId)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log('미팅 취소 에러', err);
+        dispatch(
+          show({
+            title: '미팅 취소 오류',
+            description: '미팅 취소 과정 중 오류가 생겼습니다.',
+          })
+        );
+      });
+  };
+
+  return cancelPendingEventGuest;
 };
 
 const usePostPendingEvent = () => {
@@ -113,10 +161,10 @@ const usePostPendingEvent = () => {
       .then((res) => {
         dispatch(
           setShareUrl(
-            `${CURRENT_HOST}${PathName.invite}/${res.data.eventId}/invitation`
+            `${CURRENT_HOST}${PathName.invite}/${res.data.result.eventId}/invitation`
           )
         );
-        dispatch(setEventId(res.data.eventId));
+        dispatch(setEventId(res.data.result.eventId));
         navigate(PathName.createComplete);
       })
       .catch((err) => {
@@ -180,7 +228,10 @@ export {
   useGetPendingEvent,
   usePostPendingEvent,
   useDeletePendingEventById,
+  useCancelPendingEventById,
   usePutPendingEventGuest,
   useDeletePendingEventGuest,
   useGetInvitation,
+  useCancelPendingEventByGuest,
+  // usePostPendingEvent2,
 };
