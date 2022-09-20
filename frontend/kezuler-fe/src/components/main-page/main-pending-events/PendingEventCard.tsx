@@ -12,7 +12,9 @@ import { AppDispatch } from 'src/store';
 import { BPendingEvent } from 'src/types/pendingEvent';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
+import { ReactComponent as InfoIconGrey } from 'src/assets/icn_info_gr.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icn_info_yb.svg';
+import { ReactComponent as SendIconGrey } from 'src/assets/icn_send_gr.svg';
 import { ReactComponent as SendIcon } from 'src/assets/icn_send_yb.svg';
 
 interface Props {
@@ -26,9 +28,10 @@ function PendingEventCard({ event }: Props) {
     eventId,
     eventTitle,
     eventHost: { userId: hostId },
-    eventPlace,
+    addressType,
     eventTimeCandidates,
     declinedUsers,
+    disable,
   } = event;
 
   const dispatch = useDispatch<AppDispatch>();
@@ -66,11 +69,11 @@ function PendingEventCard({ event }: Props) {
   );
 
   const eventLocation = useMemo(() => {
-    if (eventPlace) {
+    if (addressType === 'OFF') {
       return '오프라인';
     }
     return '온라인';
-  }, [eventPlace]);
+  }, [addressType]);
 
   const participantsNum = useMemo(() => {
     const participantsSet = new Set();
@@ -87,51 +90,67 @@ function PendingEventCard({ event }: Props) {
     <section
       className={classNames('pending-event-card', {
         'is-host': isHost,
+        canceled: disable,
       })}
+      onClick={disable ? handleInfoClick : undefined}
     >
-      <div>
+      <div className={classNames({ canceled: disable })}>
         {eventLocation}
-        <span
-          className={'pending-participant-info'}
-          onClick={handleParticipantsShow}
-        >
-          참여
-          <span className={'pending-participant-info-num'}>
-            {participantsNum}
+        {!disable && (
+          <span
+            className={'pending-participant-info'}
+            onClick={handleParticipantsShow}
+          >
+            참여
+            <span className={'pending-participant-info-num'}>
+              {participantsNum}
+            </span>
+            <span className={'pending-participant-info-divider'} />
+            미정
+            <span className={'pending-participant-info-num'}>
+              {declinedUsers.length}
+            </span>
           </span>
-          <span className={'pending-participant-info-divider'} />
-          미정
-          <span className={'pending-participant-info-num'}>
-            {declinedUsers.length}
-          </span>
-        </span>
+        )}
+        {disable && <span>취소된 미팅</span>}
       </div>
-      <div>{eventTitle}</div>
+      <div className={classNames({ canceled: disable })}>{eventTitle}</div>
       <div>
         {isHost ? (
           <Button
-            className={'pending-event-confirm'}
+            className={classNames('pending-event-confirm', {
+              canceled: disable,
+            })}
             onClick={handleConfirmClick}
+            disabled={disable}
           >
             시간 확정하기
           </Button>
         ) : (
-          <Button className={'pending-event-change'} onClick={handleChangeTime}>
+          <Button
+            className={classNames('pending-event-change', {
+              canceled: disable,
+            })}
+            onClick={handleChangeTime}
+            disabled={disable}
+          >
             투표 수정하기
           </Button>
         )}
         <Button
-          startIcon={<InfoIcon />}
-          className={'pending-event-info'}
+          startIcon={disable ? <InfoIconGrey /> : <InfoIcon />}
+          className={classNames('pending-event-info', { canceled: disable })}
           onClick={handleInfoClick}
+          disabled={disable}
           classes={{ startIcon: 'pending-event-icon' }}
         >
           미팅정보
         </Button>
         <Button
-          startIcon={<SendIcon />}
-          className={'pending-event-info'}
+          startIcon={disable ? <SendIconGrey /> : <SendIcon />}
+          className={classNames('pending-event-info', { canceled: disable })}
           onClick={handleInviteClick}
+          disabled={disable}
           classes={{ startIcon: 'pending-event-icon' }}
         >
           초대링크

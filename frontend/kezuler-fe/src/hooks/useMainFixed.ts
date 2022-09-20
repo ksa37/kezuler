@@ -16,10 +16,6 @@ const useMainFixed = () => {
       //TODO index 설정
       return dispatch(
         getFixedEventsThunk({
-          params: {
-            startIndex: '0',
-            endIndex: '10000',
-          },
           onFinally,
         })
       );

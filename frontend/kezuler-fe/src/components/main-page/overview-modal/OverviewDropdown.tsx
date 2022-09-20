@@ -11,7 +11,7 @@ import KezulerDropdown from 'src/components/common/KezulerDropdown';
 
 import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
 
-import { getGuestReminder, putGuestReminder } from 'src/api/fixedEvent';
+import { getGuestReminder, patchGuestReminder } from 'src/api/fixedEvent';
 
 interface Props {
   eventId: string;
@@ -20,35 +20,35 @@ function OverviewDropdown({ eventId }: Props) {
   const [selectedIdx, setSelectedIdx] = useState(2);
   const dispatch = useDispatch<AppDispatch>();
   const { show } = alertAction;
-  // const putReminder = usePutReminder();
-  // 화면 진입 시 선택되어있는 리마인더 찾아옴
-  // useEffect(() => {
-  //   let reminder: Reminder;
-  //   getGuestReminder(eventId)
-  //     .then((res) => {
-  //       reminder = res.data;
-  //     })
-  //     .catch((err) => {
-  //       console.log('리마인더 에러', err);
-  //       dispatch(
-  //         show({
-  //           title: '리마인더 오류',
-  //           description: '리마인더를 가져올 수 없습니다.',
-  //         })
-  //       );
-  //     });
-  //   const targetIdx = REMINDER_OPTIONS.findIndex(
-  //     (t) => t.minutes === reminder.timeDelta
-  //   );
-  //   if (targetIdx !== -1) {
-  //     setSelectedIdx(targetIdx);
-  //   }
-  // }, [eventId]);
+
+  // const getReminder = useGetReminder();
+  useEffect(() => {
+    let reminder: Reminder;
+    getGuestReminder(eventId)
+      .then((res) => {
+        reminder = res.data;
+        const targetIdx = REMINDER_OPTIONS.findIndex(
+          (t) => t.hours === reminder.result
+        );
+        if (targetIdx !== -1) {
+          setSelectedIdx(targetIdx);
+        }
+      })
+      .catch((err) => {
+        console.log('리마인더 에러', err);
+        dispatch(
+          show({
+            title: '리마인더 오류',
+            description: '리마인더를 가져올 수 없습니다.',
+          })
+        );
+      });
+  }, [eventId]);
 
   const handleChangeReminder = (newIdx: number) => {
-    const seletedMinutes = REMINDER_OPTIONS[newIdx].minutes;
+    const seletedMinutes = REMINDER_OPTIONS[newIdx].hours;
 
-    putGuestReminder(eventId, { timeDelta: seletedMinutes })
+    patchGuestReminder(eventId, { remindDate: seletedMinutes })
       .then((res) => {
         setSelectedIdx(newIdx);
         console.log(res.data);

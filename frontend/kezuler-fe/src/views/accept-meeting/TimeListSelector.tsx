@@ -90,7 +90,7 @@ function TimeListSelector({ isModification }: Props) {
     const DeleteData: PDeletePendingEvent =
       declineReason && declineReason !== ''
         ? {
-            UserDeclineReason: declineReason,
+            userDeclineReason: declineReason,
           }
         : {};
 

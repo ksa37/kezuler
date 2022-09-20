@@ -1,7 +1,7 @@
 import KezulerInstance from 'src/constants/api';
-import { PendingEvent } from 'src/types/pendingEvent';
+import { RPendingEvent } from 'src/types/pendingEvent';
 
 const getInvitationById = (eventId: string) =>
-  KezulerInstance.get<PendingEvent>(`/pendingEvents/${eventId}/invitation`);
+  KezulerInstance.get<RPendingEvent>(`/pendingEvents/invitation/${eventId}`);
 
 export { getInvitationById };

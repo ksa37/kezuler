@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 interface Props {
   hostName: string;
-  profileImageUrl: string;
+  profileImageUrl?: string;
   profileImageAlt: string;
 }
 

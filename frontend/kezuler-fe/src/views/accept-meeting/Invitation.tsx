@@ -30,7 +30,8 @@ function Invitation() {
     eventId,
     eventHost,
     eventTitle,
-    eventPlace,
+    addressType,
+    addressDetail,
     eventTimeCandidates,
     declinedUsers,
   } = pendingEvent;
@@ -96,9 +97,9 @@ function Invitation() {
             {meetingPlaceDescription}
           </div>
           <div className={'invitation-place'}>
-            {eventPlace ? <LocIcon /> : <PCIcon />}
+            {addressType === 'OFF' ? <LocIcon /> : <PCIcon />}
             <div className={'invitation-place-text'}>
-              {eventPlace || '온라인'}
+              {addressType === 'OFF' ? addressDetail : '온라인'}
             </div>
           </div>
         </div>

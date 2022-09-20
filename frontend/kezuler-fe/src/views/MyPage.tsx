@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
+// import { usePostPendingEvent2 } from 'src/hooks/usePendingEvent';
 import MyPageAppBar from 'src/components/common/MyPageAppBar';
 import MyPageEdit from 'src/components/my-page/MyPageEdit';
 import MyPageMain from 'src/components/my-page/MyPageMain';
 
 import 'src/styles/myPage.scss';
-
-// import { getError, getTest } from 'src/api/mockApi';
 
 function MyPage() {
   const [isEdit, setIsEdit] = useState(false);
@@ -16,9 +15,6 @@ function MyPage() {
   const goToMain = () => {
     setIsEdit(false);
   };
-
-  // getTest();
-  // getError();
 
   return (
     <>

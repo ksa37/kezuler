@@ -6,7 +6,13 @@ import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
 import { PPostFixedEvent } from 'src/types/fixedEvent';
 
-import { deleteFixedEventById, postFixedEvent } from 'src/api/fixedEvent';
+import {
+  cancelFixedEventGuestById,
+  cancelFixedEventHostById,
+  deleteFixedEventGuestById,
+  deleteFixedEventHostById,
+  postFixedEvent,
+} from 'src/api/fixedEvent';
 
 const usePostFixedEvent = () => {
   const navigate = useNavigate();
@@ -40,7 +46,7 @@ const useDeleteFixedEvent = () => {
   const { show } = alertAction;
 
   const deleteFixedEvent = (eventId: string) => {
-    deleteFixedEventById(eventId)
+    deleteFixedEventHostById(eventId)
       .then((res) => {
         console.log(res);
       })
@@ -58,4 +64,79 @@ const useDeleteFixedEvent = () => {
   return deleteFixedEvent;
 };
 
-export { usePostFixedEvent, useDeleteFixedEvent };
+const useCancelFixedEvent = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = alertAction;
+
+  const cancelFixedEvent = (eventId: string) => {
+    cancelFixedEventHostById(eventId)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log('미팅 취소 에러', err);
+        dispatch(
+          show({
+            title: '미팅 취소 오류',
+            description: '미팅 취소 과정 중 오류가 생겼습니다.',
+          })
+        );
+      });
+  };
+
+  return cancelFixedEvent;
+};
+
+const useDeleteFixedEventGuest = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = alertAction;
+
+  const deleteFixedEvent = (eventId: string) => {
+    deleteFixedEventGuestById(eventId)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log('미팅 삭제 에러', err);
+        dispatch(
+          show({
+            title: '미팅 삭제 오류',
+            description: '미팅 삭제 과정 중 오류가 생겼습니다.',
+          })
+        );
+      });
+  };
+
+  return deleteFixedEvent;
+};
+
+const useCancelFixedEventGuest = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = alertAction;
+
+  const cancelFixedEvent = (eventId: string) => {
+    cancelFixedEventGuestById(eventId)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log('미팅 취소 에러', err);
+        dispatch(
+          show({
+            title: '미팅 취소 오류',
+            description: '미팅 취소 과정 중 오류가 생겼습니다.',
+          })
+        );
+      });
+  };
+
+  return cancelFixedEvent;
+};
+
+export {
+  usePostFixedEvent,
+  useDeleteFixedEvent,
+  useCancelFixedEvent,
+  useCancelFixedEventGuest,
+  useDeleteFixedEventGuest,
+};

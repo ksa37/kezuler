@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { AxiosResponse } from 'axios';
 
 import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
-import { PPatchUser } from 'src/types/user';
+import { RSettingUser } from 'src/types/user';
 
-import { patchUser, patchUserProfileImage } from 'src/api/user';
+import {} from 'src/api/user';
 
 const usePatchUser = () => {
   const [loading, setLoading] = useState(false);
@@ -13,25 +14,14 @@ const usePatchUser = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const changeUser = (
-    pPatchUser: PPatchUser,
+    changeProfileFunc: Promise<AxiosResponse<RSettingUser, any>>,
     callbacks?: {
       onSuccess?: () => void;
       onError?: () => void;
     }
   ) => {
     setLoading(true);
-
-    const { userProfileImage, ...patchParams } = pPatchUser;
-
-    const apiList = [];
-    if (Object.keys(patchParams).length > 0) {
-      apiList.push(patchUser(patchParams));
-    }
-    if (userProfileImage) {
-      apiList.push(patchUserProfileImage(userProfileImage));
-    }
-
-    Promise.all(apiList)
+    changeProfileFunc
       .then(() => {
         callbacks?.onSuccess?.();
       })
