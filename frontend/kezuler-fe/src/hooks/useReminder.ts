@@ -2,14 +2,9 @@ import { useDispatch } from 'react-redux';
 
 import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
-import { PPutReminder } from 'src/types/reminder';
+import { PPatchReminder } from 'src/types/reminder';
 
-import {
-  deleteGuestReminder,
-  getGuestReminder,
-  postGuestReminder,
-  putGuestReminder,
-} from 'src/api/fixedEvent';
+import { getGuestReminder, patchGuestReminder } from 'src/api/fixedEvent';
 
 const useGetReminder = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,7 +13,7 @@ const useGetReminder = () => {
   const getReminder = (eventId: string) => {
     getGuestReminder(eventId)
       .then((res) => {
-        return res.data;
+        return res.data.result;
       })
       .catch((err) => {
         console.log('리마인더 에러', err);
@@ -33,36 +28,14 @@ const useGetReminder = () => {
   return getReminder;
 };
 
-const usePostReminder = () => {
+const usePatchReminder = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { show } = alertAction;
 
-  const postReminder = (eventId: string, param: PPutReminder) => {
-    postGuestReminder(eventId, param)
+  const putReminder = (eventId: string, param: PPatchReminder) => {
+    patchGuestReminder(eventId, param)
       .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        console.log('리마인더 에러', err);
-        dispatch(
-          show({
-            title: '리마인더 오류',
-            description: '리마인더를 설정할수 없습니다.',
-          })
-        );
-      });
-  };
-  return postReminder;
-};
-
-const usePutReminder = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { show } = alertAction;
-
-  const putReminder = (eventId: string, param: PPutReminder) => {
-    putGuestReminder(eventId, param)
-      .then((res) => {
-        return res.data;
+        return res.data.result;
       })
       .catch((err) => {
         console.log('리마인더 에러', err);
@@ -77,26 +50,26 @@ const usePutReminder = () => {
   return putReminder;
 };
 
-const useDeleteReminder = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { show } = alertAction;
+// const useDeleteReminder = () => {
+//   const dispatch = useDispatch<AppDispatch>();
+//   const { show } = alertAction;
 
-  const deleteReminder = (eventId: string) => {
-    deleteGuestReminder(eventId)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log('리마인더 에러', err);
-        dispatch(
-          show({
-            title: '리마인더 오류',
-            description: '리마인더를 삭제할수 없습니다.',
-          })
-        );
-      });
-  };
-  return deleteReminder;
-};
+//   const deleteReminder = (eventId: string) => {
+//     deleteGuestReminder(eventId)
+//       .then((res) => {
+//         console.log(res.data);
+//       })
+//       .catch((err) => {
+//         console.log('리마인더 에러', err);
+//         dispatch(
+//           show({
+//             title: '리마인더 오류',
+//             description: '리마인더를 삭제할수 없습니다.',
+//           })
+//         );
+//       });
+//   };
+//   return deleteReminder;
+// };
 
-export { useGetReminder, usePostReminder, usePutReminder, useDeleteReminder };
+export { useGetReminder, usePatchReminder };

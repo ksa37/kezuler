@@ -36,20 +36,61 @@ import { ReactComponent as ToggleOffIcon } from 'src/assets/toggle_off.svg';
 import { ReactComponent as ToggleOnIcon } from 'src/assets/toggle_on.svg';
 import 'src/styles/myPage.scss';
 
-import { deleteUser } from 'src/api/user';
+import { deleteUser, patchUserGoogle, patchUserTimeZone } from 'src/api/user';
 
 interface Props {
   goToEdit: () => void;
 }
 
 function MyPageMain({ goToEdit }: Props) {
-  const { userTimezone, userProfileImage, userEmail, userName } = useMemo(
-    () => ({ ...getCurrentUserInfo() }),
-    []
-  );
+  const { userTimezone, userProfileImage, userEmail, userName, googleToggle } =
+    useMemo(() => ({ ...getCurrentUserInfo() }), []);
 
   const navigate = useNavigate();
   const { openDialog } = useDialog();
+
+  //TODO 구글 캘린더 연동
+  const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
+
+  const [selectedIdx, setSelectedIdx] = useState(0);
+  const [selectedGroup, setSelectedGroup] = useState('Asia');
+
+  // 화면 진입 시 선택되어있는 타임존 찾아옴
+  useEffect(() => {
+    const currentTimezone =
+      userTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const currentTimezoneGroup = currentTimezone.split('/')[0];
+    const targetIdx = TIME_ZONE_GROUPS[
+      getTimezoneGroupIdx(currentTimezoneGroup)
+    ].zones.findIndex((t) => t.value === currentTimezone);
+    if (targetIdx !== -1) {
+      setSelectedGroup(currentTimezoneGroup);
+      setSelectedIdx(targetIdx);
+    }
+  }, [userTimezone]);
+
+  const { changeUser, loading } = usePatchUser();
+  const { getUserInfo } = useGetUserInfo();
+
+  const patchTimeZone = (newGroup: string, newIdx: number) => {
+    const before = selectedIdx;
+    setSelectedGroup(newGroup);
+    setSelectedIdx(newIdx);
+    const groupIdx = getTimezoneGroupIdx(newGroup);
+    changeUser(
+      patchUserTimeZone({
+        timeZone: TIME_ZONE_GROUPS[groupIdx].zones[newIdx].value,
+      }),
+      {
+        onSuccess: () => {
+          getUserInfo();
+        },
+        onError: () => {
+          setSelectedIdx(before);
+        },
+      }
+    );
+  };
 
   const handleLogoutClick = () => {
     deleteCookie(ACCESS_TOKEN_KEY);
@@ -63,7 +104,15 @@ function MyPageMain({ goToEdit }: Props) {
   };
 
   const handleCalendarToggle = () => {
-    setIsCalendarPaired(!isCalendarPaired);
+    if (isCalendarPaired !== null || undefined) {
+      patchUserGoogle({ googleToggle: !isCalendarPaired });
+      changeUser(patchUserGoogle({ googleToggle: !isCalendarPaired }), {
+        onSuccess: () => {
+          getUserInfo();
+          setIsCalendarPaired(!isCalendarPaired);
+        },
+      });
+    }
   };
 
   const handleTermsClick = () => {
@@ -87,45 +136,6 @@ function MyPageMain({ goToEdit }: Props) {
         location.href = `${CURRENT_HOST}`;
       },
     });
-  };
-
-  //TODO 구글 캘린더 연동
-  const [isCalendarPaired, setIsCalendarPaired] = useState(false);
-
-  const [selectedIdx, setSelectedIdx] = useState(0);
-  const [selectedGroup, setSelectedGroup] = useState('Asia');
-  // 화면 진입 시 선택되어있는 타임존 찾아옴
-  useEffect(() => {
-    const currentTimezone =
-      userTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const currentTimezoneGroup = currentTimezone.split('/')[0];
-    const targetIdx = TIME_ZONE_GROUPS[
-      getTimezoneGroupIdx(currentTimezoneGroup)
-    ].zones.findIndex((t) => t.value === currentTimezone);
-    if (targetIdx !== -1) {
-      setSelectedGroup(currentTimezoneGroup);
-      setSelectedIdx(targetIdx);
-    }
-  }, [userTimezone]);
-
-  const { changeUser, loading } = usePatchUser();
-  const { getUserInfo } = useGetUserInfo();
-  const patchTimeZone = (newGroup: string, newIdx: number) => {
-    const before = selectedIdx;
-    setSelectedGroup(newGroup);
-    setSelectedIdx(newIdx);
-    const groupIdx = getTimezoneGroupIdx(newGroup);
-    changeUser(
-      { userTimezone: TIME_ZONE_GROUPS[groupIdx].zones[newIdx].value },
-      {
-        onSuccess: () => {
-          getUserInfo();
-        },
-        onError: () => {
-          setSelectedIdx(before);
-        },
-      }
-    );
   };
 
   return (

@@ -91,13 +91,13 @@ function OverviewEdit({
     eventTitle,
     eventDescription,
     eventAttachment,
-    eventZoomAddress,
-    eventPlace,
+    addressType,
+    addressDetail,
     eventHost: { userName: hostName, userProfileImage: hostProfileImage },
   } = event;
   const navigate = useNavigate();
 
-  const { loading, patch } = usePatchEvent();
+  const { patch } = usePatchEvent();
   const {
     register,
     handleSubmit,
@@ -120,15 +120,19 @@ function OverviewEdit({
     });
   };
 
-  const [selectedPlaceIdx, setSelectedPlaceIdx] = useState(eventPlace ? 1 : 0);
+  const [selectedPlaceIdx, setSelectedPlaceIdx] = useState(
+    addressType === 'OFF' ? 1 : 0
+  );
 
   useEffect(() => {
     if (selectedPlaceIdx === 0) {
-      setValue('eventPlace', '');
-      clearErrors('eventPlace');
+      clearErrors('addressDetail');
+      setValue('addressDetail', '');
+      setValue('addressType', 'ON');
     } else {
-      setValue('eventZoomAddress', '');
-      clearErrors('eventZoomAddress');
+      clearErrors('addressDetail');
+      setValue('addressDetail', '');
+      setValue('addressType', 'OFF');
     }
   }, [selectedPlaceIdx]);
 
@@ -198,11 +202,7 @@ function OverviewEdit({
         {eventDate && (
           <OverviewSection title={'일시'}>{eventDate}</OverviewSection>
         )}
-        <OverviewSection
-          title={'장소'}
-          isEdit
-          isError={!!errors.eventZoomAddress || !!errors.eventPlace}
-        >
+        <OverviewSection title={'장소'} isEdit isError={!!errors.addressDetail}>
           <KezulerDropdown
             startIcon={isSelectOnline ? <PCIcon /> : <LocIcon />}
             endIcon={<ArrowDownIcon />}
@@ -218,9 +218,9 @@ function OverviewEdit({
             <OverviewTextarea
               key={'online'}
               textareaClassName={'overview-body-input'}
-              error={errors.eventZoomAddress}
+              error={errors.addressDetail}
               placeholder={'링크를 입력하세요. (선택)'}
-              registered={register('eventZoomAddress', {
+              registered={register('addressDetail', {
                 maxLength: {
                   value: MAX_ONLINE_LOCATION_LENGTH,
                   message: MAX_ONLINE_LOCATION_LENGTH_ERROR,
@@ -229,22 +229,23 @@ function OverviewEdit({
                   isURL: checkURL,
                 },
               })}
-              defaultValue={eventZoomAddress}
+              defaultValue={addressDetail}
             />
           ) : (
             <OverviewTextarea
               key={'offline'}
               textareaClassName={'overview-body-input'}
-              error={errors.eventPlace}
-              placeholder={'장소정보나 주소를 입력하세요. (선택)'}
-              registered={register('eventPlace', {
+              error={errors.addressDetail}
+              placeholder={'장소정보나 주소를 입력하세요. (필수)'}
+              registered={register('addressDetail', {
                 required: REQUIRED_ERROR,
                 maxLength: {
                   value: MAX_OFFLINE_LOCATION_LENGTH,
                   message: MAX_OFFLINE_LOCATION_LENGTH_ERROR,
                 },
+                validate: undefined,
               })}
-              defaultValue={eventPlace}
+              defaultValue={addressDetail}
             />
           )}
         </OverviewSection>
@@ -263,7 +264,7 @@ function OverviewEdit({
                 message: MAX_DESCRIPTION_LENGTH_ERROR,
               },
             })}
-            defaultValue={eventDescription}
+            defaultValue={eventDescription.replaceAll('\\n', '\n')}
             allowNewLine
           />
         </OverviewSection>

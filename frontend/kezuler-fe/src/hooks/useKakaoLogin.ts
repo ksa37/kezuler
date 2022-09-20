@@ -14,7 +14,67 @@ import { AppDispatch } from 'src/store';
 import { setCookie } from '../utils/cookie';
 
 import { getKakaoAccessTokenApi } from 'src/api/Login';
-import { postAuth, postUser } from 'src/api/user';
+import { postAuth } from 'src/api/user';
+
+// const useKakaoLogin = () => {
+//   // const navigate = useNavigate();
+//   const dispatch = useDispatch<AppDispatch>();
+//   const { show } = alertAction;
+//   // 리다이렉트 후 토큰 요청
+//   const getKakaoToken = (code: string, path: PathName) => {
+//     getKakaoAccessTokenApi(code)
+//       .then((getRes) => {
+//         const accessToken = getRes.data.access_token;
+//         postUser(accessToken)
+//           .then((res) => {
+//             const {
+//               userToken: {
+//                 accessToken,
+//                 accessTokenExpiresIn,
+//                 refreshToken,
+//                 refreshTokenExpiresIn,
+//               },
+//               ...userInfo
+//             } = res.data;
+//             localStorage.setItem(
+//               CURRENT_USER_INFO_KEY,
+//               JSON.stringify(userInfo)
+//             );
+//             setCookie(ACCESS_TOKEN_KEY, accessToken, accessTokenExpiresIn);
+//             setCookie(REFRESH_TOKEN_KEY, refreshToken, refreshTokenExpiresIn);
+//             // axios 인스턴스 헤더에 토큰 삽입
+//             KezulerInstance.defaults.headers.common['Authorization'] =
+//               accessToken;
+
+//             location.replace(`${CURRENT_HOST}${path}`);
+
+//             // navigate(`http://localhost:3000${path}`, { replace: true });
+//           })
+//           .catch((e) => {
+//             console.log('소셜로그인 에러', e);
+//             dispatch(
+//               show({
+//                 title: '카카오 로그인 오류',
+//                 description: '로그인 과정 중 오류가 생겼습니다.',
+//               })
+//             );
+//             // navigate(PathName.login, { replace: true });
+//           });
+//       })
+//       .catch((err) => {
+//         console.log('소셜로그인 에러', err);
+//         dispatch(
+//           show({
+//             title: '카카오 로그인 오류',
+//             description: '로그인 과정 중 오류가 생겼습니다.',
+//           })
+//         );
+//         // navigate(PathName.login, { replace: true });
+//       });
+//   };
+
+//   return { getKakaoToken };
+// };
 
 const useKakaoLogin = () => {
   // const navigate = useNavigate();
@@ -25,68 +85,9 @@ const useKakaoLogin = () => {
     getKakaoAccessTokenApi(code)
       .then((getRes) => {
         const accessToken = getRes.data.access_token;
-        postUser(accessToken)
-          .then((res) => {
-            const {
-              userToken: {
-                accessToken,
-                accessTokenExpiresIn,
-                refreshToken,
-                refreshTokenExpiresIn,
-              },
-              ...userInfo
-            } = res.data;
-            localStorage.setItem(
-              CURRENT_USER_INFO_KEY,
-              JSON.stringify(userInfo)
-            );
-            setCookie(ACCESS_TOKEN_KEY, accessToken, accessTokenExpiresIn);
-            setCookie(REFRESH_TOKEN_KEY, refreshToken, refreshTokenExpiresIn);
-            // axios 인스턴스 헤더에 토큰 삽입
-            KezulerInstance.defaults.headers.common['Authorization'] =
-              accessToken;
-
-            location.replace(`${CURRENT_HOST}${path}`);
-
-            // navigate(`http://localhost:3000${path}`, { replace: true });
-          })
-          .catch((e) => {
-            console.log('소셜로그인 에러', e);
-            dispatch(
-              show({
-                title: '카카오 로그인 오류',
-                description: '로그인 과정 중 오류가 생겼습니다.',
-              })
-            );
-            // navigate(PathName.login, { replace: true });
-          });
-      })
-      .catch((err) => {
-        console.log('소셜로그인 에러', err);
-        dispatch(
-          show({
-            title: '카카오 로그인 오류',
-            description: '로그인 과정 중 오류가 생겼습니다.',
-          })
-        );
-        // navigate(PathName.login, { replace: true });
-      });
-  };
-
-  return { getKakaoToken };
-};
-
-const useKakaoLogin2 = () => {
-  // const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const { show } = alertAction;
-  // 리다이렉트 후 토큰 요청
-  const getKakaoToken = (code: string, path: PathName) => {
-    getKakaoAccessTokenApi(code)
-      .then((getRes) => {
-        const accessToken = getRes.data.access_token;
         postAuth(accessToken)
           .then((res) => {
+            console.log(res.data.result);
             const {
               userToken: {
                 accessToken,
@@ -95,7 +96,7 @@ const useKakaoLogin2 = () => {
                 refreshTokenExpiresIn,
               },
               ...userInfo
-            } = res.data;
+            } = res.data.result;
             localStorage.setItem(
               CURRENT_USER_INFO_KEY,
               JSON.stringify(userInfo)
@@ -137,4 +138,4 @@ const useKakaoLogin2 = () => {
 };
 
 export default useKakaoLogin;
-export { useKakaoLogin2 };
+// export { useKakaoLogin2 };

@@ -17,19 +17,22 @@ interface BPendingEvent {
   eventTimeDuration: number;
   declinedUsers: DeclinedUser[];
   eventTimeCandidates: EventTimeCandidate[];
-  eventZoomAddress: string;
-  eventPlace: string;
+  addressType: string;
+  addressDetail: string;
   eventAttachment: string;
+  disable: boolean;
 }
 
 interface RGetPendingEvents {
-  userId: string;
-  pendingEvents: BPendingEvent[];
+  result: BPendingEvent[];
 }
 
 // TODO
 interface PendingEvent extends BPendingEvent {
   userId?: string;
+}
+interface RPendingEvent {
+  result: PendingEvent;
 }
 
 interface PPostPendingEvent {
@@ -37,8 +40,8 @@ interface PPostPendingEvent {
   eventDescription: string;
   eventTimeDuration: number;
   eventTimeCandidates: number[];
-  eventZoomAddress: string;
-  eventPlace: string;
+  addressType: string;
+  addressDetail: string;
   eventAttachment: string;
 }
 
@@ -48,7 +51,7 @@ interface PPutPendingEvent {
 }
 
 interface PDeletePendingEvent {
-  UserDeclineReason?: string;
+  userDeclineReason?: string;
 }
 
 type PPatchPendingEvent = Partial<BPendingEvent>;
@@ -63,4 +66,5 @@ export type {
   PPutPendingEvent,
   PDeletePendingEvent,
   EventTimeCandidate,
+  RPendingEvent,
 };

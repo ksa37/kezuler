@@ -357,6 +357,11 @@
       background: #9f9f9f;
     }
   }
+  &.canceled {
+    .overview-btn-icon {
+      background-color: #eaeaea;
+    }
+  }
 
   .overview-btn-icon {
     width: 100%;

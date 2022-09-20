@@ -7,36 +7,41 @@ interface FixedUser extends User {
 }
 
 interface BFixedEvent {
-  eventId: string;
-  eventHost: FixedUser;
-  eventTitle: string;
-  eventDescription: string;
-  eventTimeDuration: number;
-  eventZoomAddress: string;
-  eventPlace: string;
+  addressDetail: string;
+  addressType: string;
+  disable: boolean;
   eventAttachment: string;
+  eventDescription: string;
+  eventHost: FixedUser;
+  eventId: string;
+  eventTimeDuration: number;
   eventTimeStartsAt: number;
+  eventTitle: string;
   participants: FixedUser[];
-  isDisabled: boolean; // 취소 여부
+  state: string;
 }
 
 interface FixedEvent extends BFixedEvent {
   userId: string;
 }
 
-type PPatchFixedEvent = Partial<BFixedEvent>;
+// type PPatchFixedEvent = Partial<BFixedEvent>;
 
-interface PGetFixedEvents {
-  startIndex: string;
-  endIndex: string;
+interface PPatchFixedEvent {
+  eventTitle: string;
+  eventDescription: string;
+  addressType: string;
+  addressDetail: string;
+  eventAttachment: string;
 }
 
+// interface PGetFixedEvents {
+//   startIndex: string;
+//   endIndex: string;
+// }
+
 interface RGetFixedEvents {
-  userId: string;
-  startIndex: number;
-  endIndex: number;
-  totalAmount: string;
-  fixedEvents: BFixedEvent[];
+  result: BFixedEvent[];
 }
 
 //TODO: BE에 맞게 수정
@@ -53,10 +58,11 @@ interface PPutFixedEvent {
 export type {
   FixedUser,
   BFixedEvent,
-  PGetFixedEvents,
+  // PGetFixedEvents,
   RGetFixedEvents,
   FixedEvent,
   PPatchFixedEvent,
   PPostFixedEvent,
   PPutFixedEvent,
+  // PPatchFixedEvent2,
 };

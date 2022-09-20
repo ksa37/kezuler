@@ -1,51 +1,79 @@
-interface BUser {
-  userName: string;
-  userProfileImage: string;
-}
-
-interface User extends BUser {
+interface User {
   userId: string;
+  userName: string;
+  userProfileImage?: string;
 }
 
 // TODO Optional 하지 않게 변경해도 되는지 체크 필요
 interface SettingUser extends User {
-  userEmail?: string;
-  userTimezone?: string;
-  userKakaoId?: string;
+  googleToggle: boolean;
+  userEmail: string;
+  userKakaoId: string;
+  userPhoneNumber?: string;
+  userTimezone: string;
   userGoogleCalendarId?: string;
 }
 
-type ChangeTypeOfKeys<T extends object, Keys extends keyof T, NewType> = {
-  [key in keyof T]: key extends Keys ? NewType : T[key];
-};
+interface RSettingUser {
+  result: SettingUser;
+}
 
-type PPatchUser = ChangeTypeOfKeys<
-  Partial<SettingUser>,
-  'userProfileImage',
-  File
->;
+// type ChangeTypeOfKeys<T extends object, Keys extends keyof T, NewType> = {
+//   [key in keyof T]: key extends Keys ? NewType : T[key];
+// };
 
-type PPatchUserExceptProfileImage = Pick<
-  Partial<SettingUser>,
-  Exclude<keyof SettingUser, 'userProfileImage'>
->;
+// type PPatchUser = ChangeTypeOfKeys<
+//   Partial<SettingUser>,
+//   'userProfileImage',
+//   File
+// >;
+
+// type PPatchUserExceptProfileImage = Pick<
+//   Partial<SettingUser>,
+//   Exclude<keyof SettingUser, 'userProfileImage'>
+// >;
+
+interface PPatchUserProfile {
+  userName: string;
+  userEmail: string;
+  profile: File | null;
+}
+
+interface PPatchUserTimezone {
+  timeZone: string;
+}
+
+interface PPatchUserGoogleToggle {
+  googleToggle: boolean;
+}
 
 interface UserToken {
-  tokenType: string;
   accessToken: string;
   accessTokenExpiresIn: number;
   refreshToken: string;
   refreshTokenExpiresIn: number;
+  tokenType: string;
 }
 
-interface RPostUser extends SettingUser {
+interface RRPostUser extends SettingUser {
   userToken: UserToken;
+}
+
+// interface RPostUser extends SettingUser {
+//   userToken: UserToken;
+// }
+
+interface RPostUser {
+  result: RRPostUser;
 }
 
 export type {
   SettingUser,
+  RSettingUser,
   User,
-  PPatchUser,
-  PPatchUserExceptProfileImage,
   RPostUser,
+  // RPostUser2,
+  PPatchUserTimezone,
+  PPatchUserGoogleToggle,
+  PPatchUserProfile,
 };

@@ -15,7 +15,6 @@ function MainPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { destroy: fixedDestroy } = mainFixedActions;
   const { destroy: pendingDestroy } = mainPendingActions;
-
   // 페이지 나갈 때 redux 스토어 초기화
   useEffect(() => {
     return () => {

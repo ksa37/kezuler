@@ -16,6 +16,7 @@ import {
 } from 'src/utils/dateParser';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import getTimezoneDate from 'src/utils/getTimezoneDate';
+import { isFixedEvent } from 'src/utils/typeGuard';
 
 import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
 import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
@@ -31,15 +32,14 @@ function FixedEventCard({ event, hasTodayId }: Props) {
   const {
     eventId,
     eventTimeStartsAt,
-    eventPlace,
-    // participants,
-    eventZoomAddress,
+    addressType,
+    addressDetail,
     eventHost: {
       userId: hostId,
       userName: hostName,
       userProfileImage: hostProfileImage,
     },
-    isDisabled: isCanceled,
+    disable: isCanceled,
   } = event;
 
   const { participants } = event;
@@ -131,11 +131,22 @@ function FixedEventCard({ event, hasTodayId }: Props) {
     navigate(makeFixedInfoUrl(eventId));
   };
 
+  let canceledFixedGuest = false;
+  if (isFixedEvent(event) && hostId !== getCurrentUserInfo()?.userId) {
+    canceledFixedGuest =
+      event.participants.filter(
+        (guest) => guest.userId === getCurrentUserInfo()?.userId
+      )[0].userStatus === 'Declined';
+  }
+
   const MMdd = useMemo(() => dateToMMdd(date), [date]);
   const dailyTime = useMemo(() => dateToDailyTime(date), [date]);
   const dDay = useMemo(() => {
     if (isCanceled) {
       return '취소된 미팅';
+    }
+    if (canceledFixedGuest) {
+      return '참여 취소한 미팅';
     }
     switch (tense) {
       case 'past':
@@ -148,11 +159,11 @@ function FixedEventCard({ event, hasTodayId }: Props) {
   }, [date]);
 
   const EventLocation = useCallback(() => {
-    if (eventPlace) {
+    if (addressType === 'OFF') {
       return (
         <div className={'fixed-event-card-place'}>
           <LocIcon />
-          <span>{eventPlace}</span>
+          <span>{addressDetail}</span>
         </div>
       );
     }
@@ -162,7 +173,7 @@ function FixedEventCard({ event, hasTodayId }: Props) {
         <span>온라인</span>
       </div>
     );
-  }, [eventPlace, eventZoomAddress]);
+  }, [addressType, addressDetail]);
 
   const [windowSize, setWindowSize] = useState(getWindowSize());
 
@@ -189,6 +200,7 @@ function FixedEventCard({ event, hasTodayId }: Props) {
       onClick={handleOverviewClick}
       className={classNames('fixed-event-card', {
         canceled: isCanceled,
+        'canceled-guest': canceledFixedGuest,
         'is-host': isHost,
         passed: tense === 'past',
         today: tense === 'today',
@@ -213,7 +225,7 @@ function FixedEventCard({ event, hasTodayId }: Props) {
           {dDay}
         </div>
         <div>{event.eventTitle}</div>
-        {!isCanceled && (
+        {!isCanceled && !canceledFixedGuest && (
           <div>
             <div className={'fixed-event-card-avatars'}>
               <div className={'fixed-event-card-host'}>

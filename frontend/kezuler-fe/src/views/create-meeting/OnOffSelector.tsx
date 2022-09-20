@@ -26,14 +26,15 @@ import { ReactComponent as OnlineIcon } from 'src/assets/online_icon.svg';
 
 function OnOffSelector() {
   const dispatch = useDispatch<AppDispatch>();
-  const { setIsOnline, setZoomAddress, setPlace } = createMeetingActions;
+  const { setIsOnline, setAddressType, setAddressDetail } =
+    createMeetingActions;
 
   const {
     eventTitle,
     eventDescription,
     eventTimeDuration,
-    eventZoomAddress,
-    eventPlace,
+    addressType,
+    addressDetail,
     eventAttachment,
     isOnline,
     eventTimeList,
@@ -57,20 +58,23 @@ function OnOffSelector() {
 
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
-    dispatch(setPlace(''));
+    dispatch(setAddressType('ON'));
+    dispatch(setAddressDetail(''));
   };
 
   const handleOfflineClick = () => {
     dispatch(setIsOnline(false));
-    dispatch(setZoomAddress(''));
+    dispatch(setAddressType('OFF'));
+    dispatch(setAddressDetail(''));
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (isOnline) {
-      dispatch(setZoomAddress(event.target.value));
-      return;
-    }
-    dispatch(setPlace(event.target.value));
+    // if (isOnline) {
+    //   dispatch(setZoomAddress(event.target.value));
+    //   return;
+    // }
+    // dispatch(setPlace(event.target.value));
+    dispatch(setAddressDetail(event.target.value));
   };
 
   const postPendingEventAndGetShareUrl = usePostPendingEvent();
@@ -82,8 +86,8 @@ function OnOffSelector() {
         eventDescription,
         eventTimeDuration,
         eventTimeCandidates: eventTimeList,
-        eventZoomAddress,
-        eventPlace,
+        addressType,
+        addressDetail,
         eventAttachment,
       };
 
@@ -101,10 +105,10 @@ function OnOffSelector() {
   useEffect(() => {
     if (isOnline) {
       let attachmentError = '';
-      if (eventZoomAddress) {
-        if (eventZoomAddress.length > MAX_ONLINE_LOCATION_LENGTH) {
+      if (addressType === 'ON' && addressDetail) {
+        if (addressDetail.length > MAX_ONLINE_LOCATION_LENGTH) {
           attachmentError = MAX_ONLINE_LOCATION_LENGTH_ERROR;
-        } else if (!isURL(eventZoomAddress)) {
+        } else if (!isURL(addressDetail)) {
           attachmentError = INVALID_URL_ERROR;
         }
       }
@@ -113,13 +117,13 @@ function OnOffSelector() {
     }
 
     const placeError =
-      eventPlace.length > MAX_OFFLINE_LOCATION_LENGTH
+      addressDetail.length > MAX_OFFLINE_LOCATION_LENGTH
         ? MAX_OFFLINE_LOCATION_LENGTH_ERROR
         : '';
     setError(placeError);
-  }, [isOnline, eventZoomAddress, eventPlace]);
+  }, [isOnline, addressType, addressDetail]);
 
-  const nextButtonDisabled = (!isOnline && eventPlace === '') || !!error;
+  const nextButtonDisabled = (!isOnline && addressDetail === '') || !!error;
 
   return (
     <div className={'create-wrapper'}>
@@ -177,7 +181,8 @@ function OnOffSelector() {
               className={classNames('on-off-textfield-field', {
                 error: error,
               })}
-              value={isOnline ? eventZoomAddress : eventPlace}
+              // value={isOnline ? eventZoomAddress : eventPlace}
+              value={addressDetail}
               onChange={handleInputChange}
               placeholder={
                 isOnline
@@ -198,7 +203,7 @@ function OnOffSelector() {
       </div>
       <BottomButton
         onClick={handlePostClick}
-        text={isOnline && eventZoomAddress === '' ? '건너뛰기' : '다음'}
+        text={nextButtonDisabled ? '건너뛰기' : '다음'}
         disabled={nextButtonDisabled}
       />
     </div>

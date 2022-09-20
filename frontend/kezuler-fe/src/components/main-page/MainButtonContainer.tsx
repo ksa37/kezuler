@@ -12,7 +12,7 @@ function MainButtonContainer() {
         <div className={'main-floating-button-icon'}>
           <PlusIcon />
         </div>
-        <div className={'main-floating-button-text'}>{'미팅잡기'}</div>
+        <div className={'main-floating-button-text'}>{'미팅생성'}</div>
       </NavLink>
     </div>
   );

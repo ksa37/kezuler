@@ -22,8 +22,8 @@ const initialState: CreateMeetingState = {
   eventDescription: '',
   eventTimeDuration: 60,
   eventTimeCandidates: [],
-  eventZoomAddress: '',
-  eventPlace: '',
+  addressType: 'OFF',
+  addressDetail: '',
   eventAttachment: '',
 };
 
@@ -74,11 +74,11 @@ export const createMeetingSlice = createSlice({
     setDescription: (state, action: PayloadAction<string>) => {
       state.eventDescription = action.payload;
     },
-    setZoomAddress: (state, action: PayloadAction<string>) => {
-      state.eventZoomAddress = action.payload;
+    setAddressType: (state, action: PayloadAction<string>) => {
+      state.addressType = action.payload;
     },
-    setPlace: (state, action: PayloadAction<string>) => {
-      state.eventPlace = action.payload;
+    setAddressDetail: (state, action: PayloadAction<string>) => {
+      state.addressDetail = action.payload;
     },
     setAttachment: (state, action: PayloadAction<string>) => {
       state.eventAttachment = action.payload;

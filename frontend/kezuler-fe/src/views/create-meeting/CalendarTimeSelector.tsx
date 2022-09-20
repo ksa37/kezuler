@@ -104,7 +104,7 @@ function CalendarTimeSelector() {
         if (eventTimeList.length === 0 && !notiPopped) {
           setNotiPopped(true);
           openNoti({
-            title: `미팅 중복 선택 가능`,
+            title: `미팅 투표 생성 기능`,
             onConfirm: () => {
               dispatch(addTimeList(dateToAdd));
             },

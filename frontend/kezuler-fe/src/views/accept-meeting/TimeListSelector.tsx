@@ -90,7 +90,7 @@ function TimeListSelector({ isModification }: Props) {
     const DeleteData: PDeletePendingEvent =
       declineReason && declineReason !== ''
         ? {
-            UserDeclineReason: declineReason,
+            userDeclineReason: declineReason,
           }
         : {};
 
@@ -232,7 +232,9 @@ function TimeListSelector({ isModification }: Props) {
           >
             <CircleIcon className={'icon-circle'} />
             <ProfilesIcon className={'icon-profiles'} />
-            {`${possibleUsersAll.length + declinedUsersAll.length}명 참여중`}
+            {`참여자 보기(${
+              possibleUsersAll.length + declinedUsersAll.length
+            }명)`}
             <ArrowRightIcon />
           </div>
         </div>
