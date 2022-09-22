@@ -24,7 +24,6 @@ import {
 import { RootState } from 'src/reducers';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
-import { dateStringToKorDate } from 'src/utils/dateParser';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import getTimezoneDate from 'src/utils/getTimezoneDate';
 import { isFixedEvent } from 'src/utils/typeGuard';
@@ -177,7 +176,7 @@ function Overview() {
     };
 
     openDialog({
-      title: `'${eventTitle}'\n미팅카드를 삭제 하시겠어요?`,
+      title: `'${eventTitle}'\n미팅 카드를 삭제 하시겠어요?`,
       description:
         '삭제 시, 되돌리기 어려우며\n다가오는 미팅 목록에서 사라집니다.',
       onConfirm: isFixedEvent(event)
@@ -209,7 +208,7 @@ function Overview() {
     openDialog({
       title: `'${eventTitle}'\n미팅 카드를 삭제 하시겠어요?`,
       description:
-        '삭제 시, 되돌리기 어려우며\n호스트에게 카카오톡 메세지가 전송됩니다.',
+        '삭제 시, 되돌리기 어려우며\n투표중인 미팅 목록에서 사라집니다.',
       onConfirm: cancel,
     });
   };
@@ -217,11 +216,13 @@ function Overview() {
   const handleDeleteGuestClick = () => {
     const cancel = () => {
       deleteFixedEventGuest(eventId);
+      closeModal();
+      navigate(PathName.mainFixed);
       location.reload();
     };
 
     openDialog({
-      title: `'${eventTitle}'\n미팅카드를 삭제 하시겠어요?`,
+      title: `'${eventTitle}'\n미팅 카드를 삭제 하시겠어요?`,
       description:
         '삭제 시, 되돌리기 어려우며\n다가오는 미팅 목록에서 사라집니다.',
       onConfirm: cancel,
@@ -257,9 +258,9 @@ function Overview() {
 
   const eventDate = useMemo(() => {
     if (isFixedEvent(event)) {
-      return dateStringToKorDate(event.eventTimeStartsAt);
+      return event.eventTimeStartsAt;
     }
-    return '';
+    return undefined;
   }, [event]);
 
   return (
@@ -286,9 +287,10 @@ function Overview() {
           />
         )}
       </div>
-      {!isPassed && (
+      {
         <footer className={'overview-footer'}>
-          {!isCanceled &&
+          {!isPassed &&
+            !isCanceled &&
             (isEdit ? (
               <>
                 <OverviewButton
@@ -352,16 +354,22 @@ function Overview() {
                 )}
               </>
             ))}
-          {(isCanceled || canceledFixedGuest) && (
+          {(isPassed || isCanceled || canceledFixedGuest) && (
             <OverviewButton
               className={'canceled'}
               icon={<DeleteIcon />}
-              onClick={isHost ? handleDeleteHostClick : handleDeleteGuestClick}
+              onClick={
+                isHost
+                  ? handleDeleteHostClick
+                  : isFixedEvent(event)
+                  ? handleDeleteGuestClick
+                  : handleCancelGuestPendingClick
+              }
               text={'미팅 삭제'}
             />
           )}
         </footer>
-      )}
+      }
     </div>
   );
 }

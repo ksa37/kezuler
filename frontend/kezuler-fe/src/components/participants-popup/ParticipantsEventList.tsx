@@ -61,9 +61,14 @@ function ParticipantsEventList({ candidates, eventDuration }: Props) {
                   className={classNames('participants-popup-list', 'timeline')}
                 >
                   {possibleUsers.map(
-                    ({ userId, userName, userProfileImage }) => (
+                    ({ userId, userName, userProfileImage, canceled }) => (
                       <div
-                        className={'participants-popup-participant'}
+                        className={classNames(
+                          'participants-popup-participant',
+                          {
+                            deleted: canceled,
+                          }
+                        )}
                         key={userId}
                       >
                         <Avatar

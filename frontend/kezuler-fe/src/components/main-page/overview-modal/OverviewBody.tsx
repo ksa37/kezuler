@@ -1,11 +1,14 @@
 import React, { useMemo, useState } from 'react';
 import { Button } from '@mui/material';
 import classNames from 'classnames';
+import { format } from 'date-fns/esm';
 
 import useCopyText from 'src/hooks/useCopyText';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
+import { getTimeRange } from 'src/utils/dateParser';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
 import OverviewDropdown from './OverviewDropdown';
@@ -18,7 +21,7 @@ import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
 import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
 
 interface Props {
-  eventDate: string;
+  eventDate?: number;
   event: BFixedEvent | BPendingEvent;
   isCanceled?: boolean;
   isPassed?: boolean;
@@ -30,6 +33,7 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
     eventTitle,
     eventDescription,
     eventAttachment,
+    eventTimeDuration,
     addressType,
     addressDetail,
     eventHost: {
@@ -82,7 +86,13 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
         ) : (
           <>
             <PCIcon />
-            <span>{addressDetail ? addressDetail : '온라인'}</span>
+            {addressDetail ? (
+              <a href={addressDetail} target="_blank" rel="noreferrer">
+                {addressDetail}
+              </a>
+            ) : (
+              <span>{'온라인'}</span>
+            )}
           </>
         )}
         <button
@@ -122,7 +132,11 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
           />
         )}
         {eventDate && (
-          <OverviewSection title={'일시'}>{eventDate}</OverviewSection>
+          <OverviewSection title={'일시'}>
+            {/* {eventDate} */}
+            {format(eventDate, 'yyyy년 M월 d일 ') +
+              getTimeRange(getTimezoneDate(eventDate), eventTimeDuration)}
+          </OverviewSection>
         )}
         <OverviewSection title={'장소'}>{place}</OverviewSection>
         {eventDescription && (

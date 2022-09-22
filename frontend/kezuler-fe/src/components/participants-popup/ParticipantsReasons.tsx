@@ -1,5 +1,6 @@
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
+import classNames from 'classnames';
 
 import { DeclinedUser } from 'src/types/pendingEvent';
 
@@ -21,26 +22,36 @@ function ParticipantsReasons({ users }: Props) {
       <div className={'participants-popup-reason-container'}>
         {users
           .filter(({ userDeclineReason }) => !!userDeclineReason)
-          .map(({ userId, userProfileImage, userName, userDeclineReason }) => (
-            <section
-              className={'participants-popup-reason'}
-              id={makeSectionId(userId)}
-              key={userId}
-            >
-              {/*TODO*/}
-              <div className={'participants-popup-reason-text'}>
-                {userDeclineReason}
-              </div>
-              <div className={'participants-popup-reason-info'}>
-                <Avatar
-                  className={'participants-popup-reason-avatar'}
-                  src={userProfileImage}
-                  alt={userName}
-                />
-                {userName}
-              </div>
-            </section>
-          ))}
+          .map(
+            ({
+              userId,
+              userProfileImage,
+              userName,
+              userDeclineReason,
+              canceled,
+            }) => (
+              <section
+                className={'participants-popup-reason'}
+                id={makeSectionId(userId)}
+                key={userId}
+              >
+                {/*TODO*/}
+                <div className={'participants-popup-reason-text'}>
+                  {userDeclineReason}
+                </div>
+                <div className={'participants-popup-reason-info'}>
+                  <Avatar
+                    className={classNames('participants-popup-reason-avatar', {
+                      deleted: canceled,
+                    })}
+                    src={userProfileImage}
+                    alt={userName}
+                  />
+                  {userName}
+                </div>
+              </section>
+            )
+          )}
       </div>
     </>
   );
