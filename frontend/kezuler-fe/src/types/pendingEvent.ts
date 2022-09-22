@@ -47,7 +47,7 @@ interface PPostPendingEvent {
 
 interface PPutPendingEvent {
   addTimeCandidates?: number[];
-  removeTimeCandidates?: number[];
+  // removeTimeCandidates?: number[];
 }
 
 interface PDeletePendingEvent {

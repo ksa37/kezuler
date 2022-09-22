@@ -167,13 +167,6 @@ const isSameDate = (a: Date, b: Date) =>
 
 const setMindate = () => {
   const nowTime = getTimezoneDate(new Date().getTime());
-  // yyyy-mm-dd hh:mm:00 형태로
-  // console.log(
-  //   getTimezoneDate(new Date().getTime()).getTime(),
-  //   new Date().getTime()
-  // );
-  // console.log(getTimezoneDate(new Date().getTime()), new Date());
-
   const eleven30 = `${String(nowTime.getFullYear())}-${String(
     nowTime.getMonth() + 1
   ).padStart(2, '0')}-${String(nowTime.getDate()).padStart(2, '0')} 23:30:00`;

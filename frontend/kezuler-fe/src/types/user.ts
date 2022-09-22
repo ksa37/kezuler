@@ -2,6 +2,7 @@ interface User {
   userId: string;
   userName: string;
   userProfileImage?: string;
+  canceled?: boolean;
 }
 
 // TODO Optional 하지 않게 변경해도 되는지 체크 필요

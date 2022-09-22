@@ -38,14 +38,17 @@ function ParticipantsGrid({ isHost, isFixed, isAttendant, users }: Props) {
       )}
       <div className={'participants-popup-list'}>
         {users.map((user) => {
-          const { userId, userProfileImage, userName } = user;
+          const { userId, userProfileImage, userName, canceled } = user;
           if (isHost && isDeclinedUser(user)) {
             // if (isDeclinedUser(user)) {
             return (
               <button
                 className={classNames(
                   'participants-popup-participant',
-                  'declined'
+                  'declined',
+                  {
+                    deleted: canceled,
+                  }
                 )}
                 key={userId}
                 onClick={handleNameClick(userId)}
@@ -63,7 +66,14 @@ function ParticipantsGrid({ isHost, isFixed, isAttendant, users }: Props) {
             );
           }
           return (
-            <div className={'participants-popup-participant'} key={userId}>
+            <div
+              className={classNames('participants-popup-participant', {
+                deleted: isDeclinedUser(user)
+                  ? canceled
+                  : user.userStatus === 'Deleted',
+              })}
+              key={userId}
+            >
               <Avatar
                 className={'participant-avatar'}
                 src={userProfileImage}

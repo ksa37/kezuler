@@ -24,7 +24,6 @@ import {
 import { RootState } from 'src/reducers';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
-import { dateStringToKorDate } from 'src/utils/dateParser';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import getTimezoneDate from 'src/utils/getTimezoneDate';
 import { isFixedEvent } from 'src/utils/typeGuard';
@@ -257,9 +256,9 @@ function Overview() {
 
   const eventDate = useMemo(() => {
     if (isFixedEvent(event)) {
-      return dateStringToKorDate(event.eventTimeStartsAt);
+      return event.eventTimeStartsAt;
     }
-    return '';
+    return undefined;
   }, [event]);
 
   return (
@@ -286,9 +285,10 @@ function Overview() {
           />
         )}
       </div>
-      {!isPassed && (
+      {
         <footer className={'overview-footer'}>
-          {!isCanceled &&
+          {!isPassed &&
+            !isCanceled &&
             (isEdit ? (
               <>
                 <OverviewButton
@@ -352,16 +352,22 @@ function Overview() {
                 )}
               </>
             ))}
-          {(isCanceled || canceledFixedGuest) && (
+          {(isPassed || isCanceled || canceledFixedGuest) && (
             <OverviewButton
               className={'canceled'}
               icon={<DeleteIcon />}
-              onClick={isHost ? handleDeleteHostClick : handleDeleteGuestClick}
+              onClick={
+                isHost
+                  ? handleDeleteHostClick
+                  : isFixedEvent(event)
+                  ? handleDeleteGuestClick
+                  : handleCancelGuestPendingClick
+              }
               text={'미팅 삭제'}
             />
           )}
         </footer>
-      )}
+      }
     </div>
   );
 }
