@@ -1,6 +1,6 @@
 import { User } from 'src/types/user';
 
-type TUserStatus = 'Accepted' | 'Declined';
+type TUserStatus = 'Accepted' | 'Declined' | 'Deleted';
 
 interface FixedUser extends User {
   userStatus: TUserStatus;

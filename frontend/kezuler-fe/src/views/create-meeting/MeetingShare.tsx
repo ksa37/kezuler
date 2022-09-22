@@ -127,15 +127,17 @@ function MeetingShare() {
             <LinkIcon />
             <div className={'share-text'}>{linkShareText}</div>
           </button>
-          <button
-            // classes={{ root: 'share-icon' }}
-            className={'share-icon'}
-            // sx={{ color: '#282F39' }}
-            onClick={handleGeneralShareClick}
-          >
-            <ShareIcon />
-            <div className={'share-text'}>{generalShareText}</div>
-          </button>
+          {typeof navigator.share !== 'undefined' && (
+            <button
+              // classes={{ root: 'share-icon' }}
+              className={'share-icon'}
+              // sx={{ color: '#282F39' }}
+              onClick={handleGeneralShareClick}
+            >
+              <ShareIcon />
+              <div className={'share-text'}>{generalShareText}</div>
+            </button>
+          )}
         </Stack>
         <img
           src={CelebrateSmileIcon}

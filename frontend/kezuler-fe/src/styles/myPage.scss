@@ -145,6 +145,10 @@ $my-page-gap: 20px;
     font-size: 14px;
     color: $color-highlight;
 
+    &[type='button'] {
+      cursor: pointer;
+    }
+
     &:visited {
       color: $color-highlight;
     }

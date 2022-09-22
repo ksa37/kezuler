@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
+import { format } from 'date-fns';
 
 import { OVERVIEW_FORM_ID, PLACE_OPTIONS } from 'src/constants/Main';
 import { makeFixedInfoUrl, makePendingInfoUrl } from 'src/constants/PathName';
@@ -24,6 +25,8 @@ import useMainPending from 'src/hooks/useMainPending';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { OverviewEventForm } from 'src/types/Overview';
 import { BPendingEvent } from 'src/types/pendingEvent';
+import { getTimeRange } from 'src/utils/dateParser';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 import isURL from 'src/utils/isURL';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
@@ -41,7 +44,7 @@ import { patchFixedEventById } from 'src/api/fixedEvent';
 import { patchPendingEventsById } from 'src/api/pendingEvent';
 
 interface Props {
-  eventDate: string;
+  eventDate?: number;
   event: BFixedEvent | BPendingEvent;
   isCanceled?: boolean;
   isPassed?: boolean;
@@ -91,6 +94,7 @@ function OverviewEdit({
     eventTitle,
     eventDescription,
     eventAttachment,
+    eventTimeDuration,
     addressType,
     addressDetail,
     eventHost: { userName: hostName, userProfileImage: hostProfileImage },
@@ -127,11 +131,19 @@ function OverviewEdit({
   useEffect(() => {
     if (selectedPlaceIdx === 0) {
       clearErrors('addressDetail');
-      setValue('addressDetail', '');
+      if (addressType == 'ON') {
+        setValue('addressDetail', addressDetail);
+      } else {
+        setValue('addressDetail', '');
+      }
       setValue('addressType', 'ON');
     } else {
       clearErrors('addressDetail');
-      setValue('addressDetail', '');
+      if (addressType == 'OFF') {
+        setValue('addressDetail', addressDetail);
+      } else {
+        setValue('addressDetail', '');
+      }
       setValue('addressType', 'OFF');
     }
   }, [selectedPlaceIdx]);
@@ -200,7 +212,10 @@ function OverviewEdit({
           />
         )}
         {eventDate && (
-          <OverviewSection title={'일시'}>{eventDate}</OverviewSection>
+          <OverviewSection title={'일시'}>
+            {format(eventDate, 'yyyy년 M월 d일 ') +
+              getTimeRange(getTimezoneDate(eventDate), eventTimeDuration)}
+          </OverviewSection>
         )}
         <OverviewSection title={'장소'} isEdit isError={!!errors.addressDetail}>
           <KezulerDropdown

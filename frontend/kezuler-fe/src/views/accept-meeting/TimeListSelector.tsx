@@ -78,12 +78,7 @@ function TimeListSelector({ isModification }: Props) {
   const handlePutClick = () => {
     // 가능한 시간 있을때 활용
     const putData: PPutPendingEvent = {
-      addTimeCandidates: availableTimes.filter(
-        (time) => !selectedOptions.includes(time)
-      ),
-      removeTimeCandidates: selectedOptions.filter(
-        (time) => !availableTimes.includes(time)
-      ),
+      addTimeCandidates: availableTimes,
     };
 
     // 가능한 시간 없을때 활용
@@ -157,7 +152,7 @@ function TimeListSelector({ isModification }: Props) {
     (declinedUser) => declinedUser.userId
   );
 
-  const selectedOptions = getSelectedOptions(eventTimeCandidates);
+  // const selectedOptions = getSelectedOptions(eventTimeCandidates);
 
   type EventTimeListWithPossibleNum = {
     eventStartsAt: Date;
