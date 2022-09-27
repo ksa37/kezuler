@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { isBefore, isSameSecond } from 'date-fns';
 
 import { REMINDER_OPTIONS } from 'src/constants/Main';
 import { alertAction } from 'src/reducers/alert';
@@ -9,14 +10,16 @@ import { Reminder } from 'src/types/reminder';
 
 import KezulerDropdown from 'src/components/common/KezulerDropdown';
 
-import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
+// import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
+import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 
 import { getGuestReminder, patchGuestReminder } from 'src/api/fixedEvent';
 
 interface Props {
   eventId: string;
+  eventStartsAt: number;
 }
-function OverviewDropdown({ eventId }: Props) {
+function OverviewDropdown({ eventId, eventStartsAt }: Props) {
   const [selectedIdx, setSelectedIdx] = useState(2);
   const dispatch = useDispatch<AppDispatch>();
   const { show } = alertAction;
@@ -64,9 +67,21 @@ function OverviewDropdown({ eventId }: Props) {
       });
   };
 
+  const checkReminderTime = (hours: number) => {
+    return !isBefore(
+      eventStartsAt - hours * 60 * 60 * 1000,
+      new Date().getTime()
+    );
+  };
+
+  const disabledIdxs = REMINDER_OPTIONS.reduce((acc, cur, idx) => {
+    if (!checkReminderTime(cur.hours)) return acc.concat(idx);
+    else return acc;
+  }, [] as number[]);
+
   return (
     <KezulerDropdown
-      title={'리마인더 설정'}
+      // title={'리마인더 설정'}
       paperClassName={'overview-dropdown-paper'}
       titleClassName={'overview-dropdown-title'}
       buttonClassName={'overview-dropdown-button'}
@@ -77,7 +92,10 @@ function OverviewDropdown({ eventId }: Props) {
       displayKey={'display'}
       selectedIdx={selectedIdx}
       setSelectedIdx={handleChangeReminder}
-      endIcon={<ClockIcon className={'overview-dropdown-icon'} />}
+      disabledIdxs={disabledIdxs}
+      // endIcon={<ClockIcon className={'overview-dropdown-icon'} />}
+      popperBottomStart
+      endIcon={<ArrowDownIcon className={'overview-dropdown-icon'} />}
     />
   );
 }

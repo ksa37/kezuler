@@ -6,9 +6,16 @@ interface Props {
   children: React.ReactNode;
   isEdit?: boolean;
   isError?: boolean;
+  alignWith?: boolean;
 }
 
-function OverviewSection({ title, children, isEdit, isError }: Props) {
+function OverviewSection({
+  title,
+  children,
+  isEdit,
+  isError,
+  alignWith,
+}: Props) {
   return (
     <section
       className={classNames(
@@ -17,8 +24,11 @@ function OverviewSection({ title, children, isEdit, isError }: Props) {
         { 'is-error': isError }
       )}
     >
-      <div className={'overview-section-title'}>{title}</div>
-      <div className={'overview-section-desc'}>{children}</div>
+      <div className={'overview-section-title'}>
+        {title}
+        {alignWith && children}
+      </div>
+      {!alignWith && <div className={'overview-section-desc'}>{children}</div>}
     </section>
   );
 }

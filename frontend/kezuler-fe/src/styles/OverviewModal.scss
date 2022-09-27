@@ -398,13 +398,18 @@
 }
 
 .overview-dropdown-button {
-  position: absolute;
-  right: 16px;
-  top: 16px;
+  // position: absolute;
+  // right: 16px;
+  // top: 16px;
+  min-width: unset;
   padding: 0;
   color: $color-highlight;
-  font-weight: bold;
+  font-weight: 500;
   font-size: $font-14;
+  padding: 0px 6px 0px 6px;
+  margin-left: 10px;
+  border-radius: 8px;
+  border: 1px solid #bfbfbf;
 }
 
 .overview-dropdown-menu-list {

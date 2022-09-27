@@ -199,9 +199,9 @@ function OverviewEdit({
             defaultValue={eventTitle}
           />
         </h1>
-        {isFixedEvent(event) && !isCanceled && !isPassed && (
+        {/* {isFixedEvent(event) && !isCanceled && !isPassed && (
           <OverviewDropdown eventId={eventId} />
-        )}
+        )} */}
       </header>
       <div className={'overview-body'}>
         {!isFixedEvent(event) && (
