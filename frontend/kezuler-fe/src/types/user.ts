@@ -68,12 +68,16 @@ interface RPostUser {
   result: RRPostUser;
 }
 
+interface RPostRefresh {
+  result: UserToken;
+}
+
 export type {
   SettingUser,
   RSettingUser,
   User,
   RPostUser,
-  // RPostUser2,
+  RPostRefresh,
   PPatchUserTimezone,
   PPatchUserGoogleToggle,
   PPatchUserProfile,

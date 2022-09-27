@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 
-import { ACCESS_TOKEN_KEY, CURRENT_USER_INFO_KEY } from 'src/constants/Auth';
+import { CURRENT_USER_INFO_KEY, REFRESH_TOKEN_KEY } from 'src/constants/Auth';
 import { getCookie } from 'src/utils/cookie';
 
 const useIsLoggedIn = () => {
   return useMemo(
     () =>
-      !!getCookie(ACCESS_TOKEN_KEY) &&
+      !!getCookie(REFRESH_TOKEN_KEY) &&
       !!localStorage.getItem(CURRENT_USER_INFO_KEY),
     []
   );
