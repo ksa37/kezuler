@@ -16,7 +16,7 @@ import {
 // accessToken: Kakao Access Token
 const postAuth = (accessToken: string) =>
   axios.post<RPostUser>(
-    `${HOST_TEST_ADDRESS}/auth/token`,
+    `${HOST_ADDRESS}/auth/token`,
     {
       registerWith: 'kakao',
     },

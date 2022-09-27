@@ -118,10 +118,6 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
       >
         <div className={'overview-header-title'}>미팅 제목</div>
         <div className={'overview-header-desc'}>{eventTitle}</div>
-        {isFixedEvent(event) &&
-          !isCanceled &&
-          !isPassed &&
-          !canceledFixedGuest && <OverviewDropdown eventId={eventId} />}
       </header>
       <div className={'overview-body'}>
         {!isFixedEvent(event) && (
@@ -177,6 +173,15 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
             </div>
           </OverviewSection>
         )}
+        {isFixedEvent(event) &&
+          !isCanceled &&
+          !isPassed &&
+          !canceledFixedGuest &&
+          eventDate && (
+            <OverviewSection title="리마인더" alignWith>
+              <OverviewDropdown eventId={eventId} eventStartsAt={eventDate} />
+            </OverviewSection>
+          )}
         {isFixedEvent(event) && !isCanceled && (
           <OverviewParticipants event={event} />
         )}

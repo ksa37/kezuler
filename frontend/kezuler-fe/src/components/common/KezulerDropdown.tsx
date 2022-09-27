@@ -17,7 +17,7 @@ interface BMenu {
 interface Props<T extends BMenu> {
   disabled?: boolean;
   startIcon?: React.ReactNode;
-  endIcon: React.ReactNode;
+  endIcon?: React.ReactNode;
   menuData: T[];
   displayKey: keyof T;
   selectedIdx: number;
@@ -31,6 +31,8 @@ interface Props<T extends BMenu> {
   paperClassName?: string;
   popperClassName?: string;
   fitToButtonWidth?: boolean;
+  popperBottomStart?: boolean;
+  disabledIdxs?: number[];
 }
 
 function KezulerDropdown<T extends BMenu>({
@@ -50,6 +52,8 @@ function KezulerDropdown<T extends BMenu>({
   paperClassName,
   popperClassName,
   fitToButtonWidth,
+  popperBottomStart,
+  disabledIdxs,
 }: Props<T>): React.ReactElement {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -87,7 +91,7 @@ function KezulerDropdown<T extends BMenu>({
         className={classNames('kezuler-dropdown-popper', popperClassName)}
         open={menuOpen}
         anchorEl={buttonRef.current}
-        placement="bottom-end"
+        placement={popperBottomStart ? 'bottom-start' : 'bottom-end'}
         transition
       >
         {({ TransitionProps, placement }) => (
@@ -121,6 +125,8 @@ function KezulerDropdown<T extends BMenu>({
                           [selectedMenuClassName]: selectedIdx === i,
                         }
                       )}
+                      disabled={disabledIdxs && disabledIdxs.includes(i)}
+                      // disabled={i === 0}
                       onClick={() => handleMenuItemClick(i)}
                     >
                       {el[displayKey]}
