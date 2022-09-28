@@ -244,7 +244,7 @@ function Overview() {
   const handleCopyLinkClick = () => {
     copyText(
       `${CURRENT_HOST}${PathName.invite}/${eventId}/invitation`,
-      '케줄러 링크가'
+      '케줄러링크가'
     );
   };
 

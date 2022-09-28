@@ -105,7 +105,7 @@ function MyPageMain({ goToEdit }: Props) {
 
   const handleCalendarToggle = () => {
     if (isCalendarPaired !== null || undefined) {
-      patchUserGoogle({ googleToggle: !isCalendarPaired });
+      // patchUserGoogle({ googleToggle: !isCalendarPaired });
       changeUser(patchUserGoogle({ googleToggle: !isCalendarPaired }), {
         onSuccess: () => {
           getUserInfo();
@@ -223,8 +223,13 @@ function MyPageMain({ goToEdit }: Props) {
         title={'로그아웃'}
         startIcon={<LogoutIcon />}
       />
-      <div className={'delete-account-btn'} onClick={handleDeleteAccountClick}>
-        탈퇴하기
+      <div className={'delete-account-btn-wrapper'}>
+        <span
+          className={'delete-account-btn'}
+          onClick={handleDeleteAccountClick}
+        >
+          탈퇴하기
+        </span>
       </div>
     </>
   );

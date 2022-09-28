@@ -9,6 +9,7 @@ import mainFixed from './mainFixed';
 import mainPending from './mainPending';
 import noti from './noti';
 import participantsPopup from './ParticipantsPopup';
+import share from './share';
 import userInfo from './UserInfo';
 
 const rootReducer = combineReducers({
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   dialog: dialog,
   alert: alert,
   noti: noti,
+  share: share,
   participantsPopup: participantsPopup,
   confirmTime: ConfirmTime,
 });

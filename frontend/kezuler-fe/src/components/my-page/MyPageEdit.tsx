@@ -12,6 +12,7 @@ import {
   MAX_NAME_LENGTH_ERROR,
   REQUIRED_ERROR,
 } from 'src/constants/Validation';
+import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
 import { alertAction } from 'src/reducers/alert';
@@ -23,7 +24,7 @@ import BottomButton from '../common/BottomButton';
 
 import { ReactComponent as PlusIconYellow } from 'src/assets/btn_plus_y.svg';
 
-import { patchUserProfile } from 'src/api/user';
+import { deleteProfileImg, patchUserProfile } from 'src/api/user';
 
 interface Props {
   goToMain: () => void;
@@ -38,6 +39,7 @@ interface UserForm {
 function MyPageEdit({ goToMain }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const { show } = alertAction;
+  const { openDialog } = useDialog();
 
   const { userName, userEmail, userProfileImage } = useMemo(
     () => ({ ...getCurrentUserInfo() }),
@@ -150,6 +152,19 @@ function MyPageEdit({ goToMain }: Props) {
     }
   };
 
+  const handleProfileImgDelete = () => {
+    console.log('delete');
+    openDialog({
+      title: `프로필 사진을 삭제하시겠습니까?`,
+      onConfirm: () => {
+        deleteProfileImg().then((res) => {
+          setPreviewImage(undefined);
+          getUserInfo();
+        });
+      },
+    });
+  };
+
   const saveButtonDisabled =
     !!errors.userName ||
     !!errors.userEmail ||
@@ -181,7 +196,12 @@ function MyPageEdit({ goToMain }: Props) {
             <PlusIconYellow className={'my-page-edit-avatar-plus-icn'} />
           </label>
         </div>
-        {/* <div>삭제</div> */}
+        <div
+          className={'my-page-avatar-delete'}
+          onClick={handleProfileImgDelete}
+        >
+          삭제하기
+        </div>
         <div
           className={classNames('my-page-edit-textfield', {
             'is-error': errors.userName,

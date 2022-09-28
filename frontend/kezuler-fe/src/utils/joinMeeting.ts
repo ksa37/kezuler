@@ -1,6 +1,17 @@
 import { DeclinedUser, EventTimeCandidate } from 'src/types/pendingEvent';
+import { User } from 'src/types/user';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
+const getAllPossibleUsers = (eventTimeCandidates: EventTimeCandidate[]) => {
+  const possibleUsersAll = eventTimeCandidates.reduce<User[]>(
+    (prev, eventTimeCandidate) => {
+      const userIds = eventTimeCandidate.possibleUsers.map((u) => u);
+      return prev.concat(userIds.filter((id) => prev.indexOf(id) < 0));
+    },
+    []
+  );
+  return possibleUsersAll;
+};
 //선택 이력이 있는지 확인
 const isModification = (
   eventTimeCandidates: EventTimeCandidate[],
@@ -50,4 +61,9 @@ const getDeclineReason = (declinedUsers: DeclinedUser[]) => {
     return currentUser[0].userDeclineReason;
   }
 };
-export { isModification, getSelectedOptions, getDeclineReason };
+export {
+  isModification,
+  getSelectedOptions,
+  getDeclineReason,
+  getAllPossibleUsers,
+};
