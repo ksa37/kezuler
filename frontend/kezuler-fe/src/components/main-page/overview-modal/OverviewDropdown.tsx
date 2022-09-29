@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { isBefore, isSameSecond } from 'date-fns';
+import { isBefore } from 'date-fns';
 
 import { REMINDER_OPTIONS } from 'src/constants/Main';
 import { alertAction } from 'src/reducers/alert';

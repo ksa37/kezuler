@@ -47,6 +47,8 @@ const patchUserProfile = (params: PPatchUserProfile) => {
   });
 };
 
+const deleteProfileImg = () => KezulerInstance.delete('user/profile');
+
 const patchUserGoogle = (params: PPatchUserGoogleToggle) =>
   KezulerInstance.patch<RSettingUser>('user/google', {
     ...params,
@@ -67,4 +69,5 @@ export {
   patchUserGoogle,
   patchUserTimeZone,
   patchUserProfile,
+  deleteProfileImg,
 };

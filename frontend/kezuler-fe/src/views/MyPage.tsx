@@ -7,6 +7,8 @@ import MyPageMain from 'src/components/my-page/MyPageMain';
 
 import 'src/styles/myPage.scss';
 
+import { getCalendarLink } from 'src/api/calendar';
+
 function MyPage() {
   const [isEdit, setIsEdit] = useState(false);
   const goToEdit = () => {
@@ -15,6 +17,11 @@ function MyPage() {
   const goToMain = () => {
     setIsEdit(false);
   };
+
+  getCalendarLink().then((res) => {
+    console.log(res.data.result);
+    // location.href = res.data.result;
+  });
 
   return (
     <>

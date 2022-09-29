@@ -5,6 +5,7 @@ import RootRoutes from './routes/RootRoutes';
 
 import KezulerAlert from './components/modal/KezulerAlert';
 import KezulerNoti from './components/modal/KezulerNoti';
+import KezulerShare from './components/modal/KezulerShare';
 import KezulerDialog from 'src/components/modal/KezulerDialog';
 
 import 'src/styles/index.scss';
@@ -27,6 +28,7 @@ function App() {
       </div>
       <KezulerDialog />
       <KezulerAlert />
+      <KezulerShare />
       <KezulerNoti />
     </div>
   );

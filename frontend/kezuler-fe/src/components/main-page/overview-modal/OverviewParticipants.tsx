@@ -5,17 +5,31 @@ import Avatar from '@mui/material/Avatar';
 import classNames from 'classnames';
 
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
-import { BFixedEvent } from 'src/types/fixedEvent';
+import { BFixedEvent, FixedUser } from 'src/types/fixedEvent';
+import { BPendingEvent } from 'src/types/pendingEvent';
+import { User } from 'src/types/user';
+import { getAllPossibleUsers } from 'src/utils/joinMeeting';
+import { isFixedEvent } from 'src/utils/typeGuard';
 
 interface Props {
-  event: BFixedEvent;
+  event: BFixedEvent | BPendingEvent;
 }
 
 function OverviewParticipants({ event }: Props) {
-  const { eventHost, eventId, participants } = event;
-  const acceptParticipants = participants.filter(
-    (participant) => participant.userStatus === 'Accepted'
-  );
+  const { eventHost, eventId } = event;
+
+  let acceptParticipants: FixedUser[] | User[];
+
+  if (isFixedEvent(event)) {
+    acceptParticipants = event.participants.filter(
+      (participant) => participant.userStatus === 'Accepted'
+    );
+  } else {
+    acceptParticipants = getAllPossibleUsers(event.eventTimeCandidates);
+  }
+  // const acceptParticipants = participants.filter(
+  //   (participant) =>participant.userStatus === 'Accepted'
+  // );
   const { show } = participantsPopupAction;
   const dispatch = useDispatch();
   const { userName: hostName, userProfileImage: hostProfileImage } = eventHost;
