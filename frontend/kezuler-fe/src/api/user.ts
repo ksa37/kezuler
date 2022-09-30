@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-import KezulerInstance, {
-  HOST_ADDRESS,
-  HOST_TEST_ADDRESS,
-} from 'src/constants/api';
+import KezulerInstance, { HOST_ADDRESS } from 'src/constants/api';
 import {
   PPatchUserGoogleToggle,
   PPatchUserProfile,
