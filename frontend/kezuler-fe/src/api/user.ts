@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-import KezulerInstance, {
-  HOST_ADDRESS,
-  HOST_TEST_ADDRESS,
-} from 'src/constants/api';
+import KezulerInstance, { HOST_ADDRESS } from 'src/constants/api';
 import {
   PPatchUserGoogleToggle,
   PPatchUserProfile,
@@ -16,7 +13,7 @@ import {
 // accessToken: Kakao Access Token
 const postAuth = (accessToken: string) =>
   axios.post<RPostUser>(
-    `${HOST_TEST_ADDRESS}/auth/token`,
+    `${HOST_ADDRESS}/auth/token`,
     {
       registerWith: 'kakao',
     },
@@ -47,6 +44,8 @@ const patchUserProfile = (params: PPatchUserProfile) => {
   });
 };
 
+const deleteProfileImg = () => KezulerInstance.delete('user/profile');
+
 const patchUserGoogle = (params: PPatchUserGoogleToggle) =>
   KezulerInstance.patch<RSettingUser>('user/google', {
     ...params,
@@ -67,4 +66,5 @@ export {
   patchUserGoogle,
   patchUserTimeZone,
   patchUserProfile,
+  deleteProfileImg,
 };

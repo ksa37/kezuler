@@ -47,6 +47,15 @@ $my-page-gap: 20px;
   height: 72px;
 }
 
+.my-page-avatar-delete {
+  font-size: $font-12;
+  font-weight: 500;
+  color: #e1525b;
+  text-align: center;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .my-page-profile-main {
   padding-left: 24px;
   display: flex;
@@ -279,6 +288,10 @@ $my-page-gap: 20px;
     font-size: 12px;
     line-height: 18px;
   }
+}
+
+.delete-account-btn-wrapper {
+  text-align: right;
 }
 
 .delete-account-btn {

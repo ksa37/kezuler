@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import classNames from 'classnames';
 
-import { CURRENT_HOST } from 'src/constants/Auth';
 import PathName, { makePendingInfoUrl } from 'src/constants/PathName';
-import useCopyText from 'src/hooks/useCopyText';
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
+import { shareAction } from 'src/reducers/share';
 import { AppDispatch } from 'src/store';
 import { BPendingEvent } from 'src/types/pendingEvent';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
+
+import ShareIcons from 'src/components/common/ShareIcons';
 
 import { ReactComponent as InfoIconGrey } from 'src/assets/icn_info_gr.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icn_info_yb.svg';
@@ -22,8 +23,6 @@ interface Props {
 }
 
 function PendingEventCard({ event }: Props) {
-  const { copyText } = useCopyText();
-
   const {
     eventId,
     eventTitle,
@@ -36,6 +35,7 @@ function PendingEventCard({ event }: Props) {
 
   const dispatch = useDispatch<AppDispatch>();
   const { show } = participantsPopupAction;
+  const { show: showShare } = shareAction;
 
   const navigate = useNavigate();
 
@@ -52,9 +52,13 @@ function PendingEventCard({ event }: Props) {
   };
 
   const handleInviteClick = () => {
-    copyText(
-      `${CURRENT_HOST}${PathName.invite}/${eventId}/invitation`,
-      '케줄러 링크가'
+    dispatch(
+      showShare({
+        title: '케줄러링크 공유하기',
+        element: (
+          <ShareIcons eventTitle={eventTitle} eventId={eventId} forPopup />
+        ),
+      })
     );
   };
 
@@ -153,7 +157,7 @@ function PendingEventCard({ event }: Props) {
           disabled={disable}
           classes={{ startIcon: 'pending-event-icon' }}
         >
-          초대링크
+          공유하기
         </Button>
       </div>
     </section>

@@ -96,7 +96,7 @@ function OnOffSelector() {
 
     openDialog({
       title: `'${eventTitle}'\n미팅을 생성하시겠어요?`,
-      description: `생성시, 다른 사람들을 미팅에 초대할 수 있는 케줄러 링크가 생성됩니다.`,
+      description: `생성시, 다른 사람들을 미팅에 초대할 수 있는 케줄러링크가 생성됩니다.`,
       onConfirm: PostPendingMeeting,
     });
   };

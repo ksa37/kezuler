@@ -12,4 +12,10 @@ interface AlertProps {
   description?: string;
 }
 
-export type { DialogProps, AlertProps };
+interface ShareProps {
+  title: string;
+  description?: string;
+  element: JSX.Element;
+}
+
+export type { DialogProps, AlertProps, ShareProps };

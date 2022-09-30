@@ -62,7 +62,7 @@ function PrivacyPolicy() {
             케:줄러에서 제공되는 제품, 서비스, 기능(이하 통칭하여 ‘서비스’)을
             사용해 주셔서 감사합니다. 본 약관은 주식회사 올렌다(이하 ‘올렌다’)가
             운영하는 케:줄러(
-            <a href="http://www.kezuler.com">www.kezuler.com</a>)을 통해
+            <a href="https://www.kezuler.com">www.kezuler.com</a>)을 통해
             제공되는 서비스를 이용하기 위하여 회원으로 가입한 자와 올렌다간의
             권리∙의무 및 제반 절차를 확정하고 이를 이행함으로써 상호 발전을
             도모하는 것을 그 목적으로 합니다.
