@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-import KezulerInstance, {
-  HOST_ADDRESS,
-  HOST_TEST_ADDRESS,
-} from 'src/constants/api';
+import KezulerInstance, { HOST_ADDRESS } from 'src/constants/api';
 import {
   PPatchUserGoogleToggle,
   PPatchUserProfile,
@@ -29,7 +26,7 @@ const postAuth = (accessToken: string) =>
   );
 
 const postRefresh = (refreshToken: string) =>
-  axios.post<RPostRefresh>(`${HOST_ADDRESS}/auth/re`, {
+  axios.post<RPostRefresh>(`${HOST_ADDRESS}/auth/re`, undefined, {
     headers: {
       REFRESHTOKEN: refreshToken,
     },

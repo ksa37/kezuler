@@ -5,24 +5,23 @@ import { deleteCookie, getCookie, setCookie } from '../utils/cookie';
 import { postRefresh } from '../api/user';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from './Auth';
 
-const HOST_ADDRESS = 'http://54.180.134.149:8082';
+const HOST_ADDRESS = 'https://nftmonster.kr';
 const HOST_TEST_ADDRESS = 'http://54.180.134.149:8082';
 
 const UNAUTHORIZED_STATUS_CODE = 401;
+const FORBIDDEN_STATUS_CODE = 403;
 
 const KezulerInstance = (() => {
-  const accessToken = getCookie(ACCESS_TOKEN_KEY);
-
-  return axios.create({
+  const instance = axios.create({
     baseURL: HOST_ADDRESS,
-    ...(accessToken
-      ? {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      : {}),
   });
+
+  const accessToken = getCookie(ACCESS_TOKEN_KEY);
+  if (accessToken) {
+    instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  }
+
+  return instance;
 })();
 
 // refresh token 을 통해 access token 재발급
@@ -64,12 +63,16 @@ KezulerInstance.interceptors.response.use(
   (res) => res,
   (err: AxiosError) => {
     const { config, response } = err;
-    if (response?.status === UNAUTHORIZED_STATUS_CODE) {
+    const status = response?.status;
+    if (
+      status &&
+      [UNAUTHORIZED_STATUS_CODE, FORBIDDEN_STATUS_CODE].includes(status)
+    ) {
       renew(config);
     }
     return Promise.reject(err);
   }
 );
 
-export { HOST_ADDRESS, HOST_TEST_ADDRESS, UNAUTHORIZED_STATUS_CODE };
+export { HOST_ADDRESS, HOST_TEST_ADDRESS };
 export default KezulerInstance;
