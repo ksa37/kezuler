@@ -41,14 +41,12 @@ const getPendingEventsThunk = createAsyncThunk(
 interface MainPendingState {
   isFetched: boolean;
   loading: boolean;
-  errorMessage: string;
   events: BPendingEvent[];
 }
 
 const initialState: MainPendingState = {
   isFetched: false,
   loading: false,
-  errorMessage: '',
   events: [],
 };
 
@@ -71,8 +69,6 @@ export const mainPending = createSlice({
       })
       .addCase(getPendingEventsThunk.rejected, (state, action) => {
         state.loading = false;
-
-        // state.errorMessage = (action.payload as { message: string }).message;
       });
   },
 });
