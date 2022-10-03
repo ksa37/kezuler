@@ -155,7 +155,7 @@ function TimezoneDropdown({
                             filteredMenuClassName && {
                               [filteredMenuClassName]: !String(el[displayKey])
                                 .toLowerCase()
-                                .includes(searchValue),
+                                .includes(searchValue.toLowerCase()),
                             }
                           )}
                           selected={
