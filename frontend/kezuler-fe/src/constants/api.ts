@@ -6,7 +6,6 @@ import { postRefresh } from '../api/user';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from './Auth';
 
 const HOST_ADDRESS = 'https://nftmonster.kr';
-const HOST_TEST_ADDRESS = 'http://54.180.134.149:8082';
 
 const UNAUTHORIZED_STATUS_CODE = 401;
 const FORBIDDEN_STATUS_CODE = 403;
@@ -74,5 +73,5 @@ KezulerInstance.interceptors.response.use(
   }
 );
 
-export { HOST_ADDRESS, HOST_TEST_ADDRESS };
+export { HOST_ADDRESS };
 export default KezulerInstance;

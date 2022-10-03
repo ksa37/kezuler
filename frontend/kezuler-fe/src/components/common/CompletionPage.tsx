@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
@@ -10,6 +10,8 @@ import BottomPopper from 'src/components/common/BottomPopper';
 import CelebrateIcon from 'src/assets/image/celebrate.png';
 import CelebrateSmileIcon from 'src/assets/image/celebrate-emoji.png';
 import BottomCalendarBg from 'src/assets/img_bottom_popper_calendar.svg';
+
+import { getCalendarLink } from 'src/api/calendar';
 interface Props {
   boldTextFirst: string;
   boldTextSecond: string;
@@ -24,16 +26,21 @@ function CompletionPage({
   regularTextSecond,
 }: Props) {
   const navigate = useNavigate();
+  let googleToggle: boolean | undefined = getCurrentUserInfo()?.googleToggle;
+
+  useEffect(() => {
+    googleToggle = getCurrentUserInfo()?.googleToggle;
+  }, []);
 
   const handleHomeClick = () => {
     navigate(PathName.mainFixed);
   };
 
   const handleConnectClick = () => {
-    //TODO 캘린더 연동
-    if (getCurrentUserInfo()?.userGoogleCalendarId !== '') {
-      console.log('calendar pair connect needed!');
-      //TODO 캘린더 연동
+    if (!googleToggle) {
+      getCalendarLink().then((res) => {
+        location.href = res.data.result;
+      });
     }
   };
 
@@ -42,9 +49,6 @@ function CompletionPage({
   const handleClosePopper = () => {
     setPopupOpened(false);
   };
-
-  // TODO 캘린더 연동 체크
-  const isCalenderConnected = false;
 
   return (
     <div className={'acceptance-completion'}>
@@ -59,16 +63,11 @@ function CompletionPage({
         {regularTextSecond}
       </div>
       <div className={'acceptance-completion-bottom-area'}>
-        {/* <a
-          href={
-            'https://www.google.com/calendar/render?action=TEMPLATE&amp;text=수유 랜선투어&amp;dates=20220729T160000%2F20220729T170000&amp;sf=1&amp;output=xml'
-          }
-        /> */}
-        {!isCalenderConnected && (
+        {!googleToggle && (
           <BottomPopper
             title={'케줄러 100% 활용하기'}
             description={'캘린더를 연동하여 이중약속을 방지해요!'}
-            buttonText={'구글캘린더 연동하기'}
+            buttonText={'구글 계정 연동하기'}
             onClick={handleConnectClick}
             onDisableClick={handleClosePopper}
             image={BottomCalendarBg}
@@ -77,7 +76,7 @@ function CompletionPage({
         )}
         <BottomButton onClick={handleHomeClick} text={'홈으로 가기'} notFixed />
       </div>
-      {!popupOpened && (
+      {(!popupOpened || googleToggle) && (
         <>
           <img
             src={CelebrateSmileIcon}

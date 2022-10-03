@@ -36,6 +36,7 @@ import { ReactComponent as ToggleOffIcon } from 'src/assets/toggle_off.svg';
 import { ReactComponent as ToggleOnIcon } from 'src/assets/toggle_on.svg';
 import 'src/styles/myPage.scss';
 
+import { getCalendarLink } from 'src/api/calendar';
 import { deleteUser, patchUserGoogle, patchUserTimeZone } from 'src/api/user';
 
 interface Props {
@@ -105,13 +106,24 @@ function MyPageMain({ goToEdit }: Props) {
 
   const handleCalendarToggle = () => {
     if (isCalendarPaired !== null || undefined) {
-      patchUserGoogle({ googleToggle: !isCalendarPaired });
-      changeUser(patchUserGoogle({ googleToggle: !isCalendarPaired }), {
-        onSuccess: () => {
-          getUserInfo();
-          setIsCalendarPaired(!isCalendarPaired);
-        },
-      });
+      if (!isCalendarPaired) {
+        getCalendarLink().then((res) => {
+          location.href = res.data.result;
+          changeUser(patchUserGoogle({ googleToggle: !isCalendarPaired }), {
+            onSuccess: () => {
+              getUserInfo();
+              setIsCalendarPaired(!isCalendarPaired);
+            },
+          });
+        });
+      } else {
+        changeUser(patchUserGoogle({ googleToggle: !isCalendarPaired }), {
+          onSuccess: () => {
+            getUserInfo();
+            setIsCalendarPaired(!isCalendarPaired);
+          },
+        });
+      }
     }
   };
 
@@ -166,7 +178,7 @@ function MyPageMain({ goToEdit }: Props) {
       {/* </div> */}
       <h1 className={'my-page-h1'}>미팅 정보</h1>
       <MyPageRow title={'캘린더 연동'} startIcon={<CalenderIcon />}>
-        구글캘린더
+        구글 캘린더
         {isCalendarPaired ? (
           <ToggleOnIcon
             className={'calendar-toggle'}
@@ -223,8 +235,13 @@ function MyPageMain({ goToEdit }: Props) {
         title={'로그아웃'}
         startIcon={<LogoutIcon />}
       />
-      <div className={'delete-account-btn'} onClick={handleDeleteAccountClick}>
-        탈퇴하기
+      <div className={'delete-account-btn-wrapper'}>
+        <span
+          className={'delete-account-btn'}
+          onClick={handleDeleteAccountClick}
+        >
+          탈퇴하기
+        </span>
       </div>
     </>
   );

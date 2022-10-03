@@ -182,9 +182,8 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
               <OverviewDropdown eventId={eventId} eventStartsAt={eventDate} />
             </OverviewSection>
           )}
-        {isFixedEvent(event) && !isCanceled && (
-          <OverviewParticipants event={event} />
-        )}
+        {/* {isFixedEvent(event) && !isCanceled && ( */}
+        {!isCanceled && <OverviewParticipants event={event} />}
       </div>
     </>
   );
