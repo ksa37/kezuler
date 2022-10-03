@@ -4,10 +4,7 @@ import { getCookie } from '../utils/cookie';
 
 import { ACCESS_TOKEN_KEY } from './Auth';
 
-// const HOST_ADDRESS = 'http://3.36.122.93:8082';
-// const HOST_ADDRESS = 'https://api.kezuler.com';
 const HOST_ADDRESS = 'https://nftmonster.kr';
-// const HOST_TEST_ADDRESS = 'http://54.180.134.149:8082';
 
 const UNAUTHORIZED_STATUS_CODE = 401;
 
@@ -39,10 +36,5 @@ KezulerInstance.interceptors.response.use(
   }
 );
 
-export {
-  HOST_ADDRESS,
-  // HOST_TEST_ADDRESS,
-  UNAUTHORIZED_STATUS_CODE,
-  // KezulerTestInstance2,
-};
+export { HOST_ADDRESS, UNAUTHORIZED_STATUS_CODE };
 export default KezulerInstance;

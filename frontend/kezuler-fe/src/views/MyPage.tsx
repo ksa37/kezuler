@@ -7,7 +7,7 @@ import MyPageMain from 'src/components/my-page/MyPageMain';
 
 import 'src/styles/myPage.scss';
 
-import { getCalendarLink } from 'src/api/calendar';
+import { getCalendars } from 'src/api/calendar';
 
 function MyPage() {
   const [isEdit, setIsEdit] = useState(false);
@@ -18,10 +18,9 @@ function MyPage() {
     setIsEdit(false);
   };
 
-  getCalendarLink().then((res) => {
-    console.log(res.data.result);
-    // location.href = res.data.result;
-  });
+  // getCalendars().then((res) => {
+  //   console.log(res.data.result);
+  // });
 
   return (
     <>
