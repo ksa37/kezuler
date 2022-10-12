@@ -1,11 +1,19 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';
 import PathName from 'src/constants/PathName';
 import useMainFixed from 'src/hooks/useMainFixed';
 import useMainPending from 'src/hooks/useMainPending';
+import { RootState } from 'src/reducers';
 import { mainFixedActions } from 'src/reducers/mainFixed';
 import { mainPendingActions } from 'src/reducers/mainPending';
 import { AppDispatch } from 'src/store';
@@ -28,25 +36,73 @@ function MainFixedEvents() {
   const { destroy: pendingDestroy } = mainPendingActions;
   const { destroy: fixedDestroy } = mainFixedActions;
 
+  const { nextPage, isBtmEnd, prePage, isTopEnd } = useSelector(
+    (state: RootState) => state.mainFixed
+  );
+
+  const [refTop, inViewTop] = useInView();
+  const [refBtm, inViewBtm] = useInView();
+
   const {
     events: pendingEvents,
     isFetched: isPendingFetched,
     getPendingEvents,
   } = useMainPending();
 
+  const pageBtm = useRef(0);
+  const pageTop = useRef(0);
+
   useEffect(() => {
-    getFixedEvents(0);
+    dispatch(fixedDestroy());
+    if (pageBtm.current === 0) {
+      // console.log('here');
+      getFixedEvents(pageBtm.current);
+      pageBtm.current += 1;
+      pageTop.current -= 1;
+    }
     return () => {
-      console.log('fixed detroying');
       dispatch(pendingDestroy());
       dispatch(fixedDestroy());
     };
   }, []);
 
+  useEffect(() => {
+    if (events.length === 0) {
+      getPendingEvents(0);
+    }
+  }, [events.length === 0]);
+
+  const fetchBtmCards = useCallback(async () => {
+    // console.log(pageBtm.current, nextPage, !isBtmEnd);
+    if (pageBtm.current == nextPage && !isBtmEnd) {
+      getFixedEvents(pageBtm.current);
+      pageBtm.current += 1;
+    }
+  }, []);
+
+  const fetchTopCards = useCallback(async () => {
+    if (pageTop.current == prePage && !isTopEnd) {
+      getFixedEvents(pageTop.current);
+      pageTop.current -= 1;
+    }
+  }, []);
+
+  useEffect(() => {
+    // console.log(pageBtm.current, nextPage, isBtmEnd, inViewBtm);
+    if (inViewBtm && !isBtmEnd) {
+      fetchBtmCards();
+    }
+  }, [fetchBtmCards, nextPage, isBtmEnd, inViewBtm]);
+
+  useEffect(() => {
+    // console.log(pageTop.current, prePage, isTopEnd, inViewTop);
+    if (inViewTop && !isTopEnd) {
+      fetchTopCards();
+    }
+  }, [fetchTopCards, prePage, isTopEnd, inViewTop]);
   // 화면 첫 진입 시 오늘로 스크롤 내림
   useEffect(() => {
     if (isFetched) {
-      // console.log('fetched');
       const element = document.getElementById(FIXED_TODAY_ID);
       element?.scrollIntoView({ block: 'start', behavior: 'auto' });
     }
@@ -57,10 +113,6 @@ function MainFixedEvents() {
   const handleClosePopper = () => {
     setPopupOpened(false);
   };
-
-  useEffect(() => {
-    getPendingEvents(0);
-  }, [events.length === 0]);
 
   const isPendingExist = useMemo(() => {
     if (isPendingFetched) return pendingEvents.length > 0;
@@ -109,21 +161,11 @@ function MainFixedEvents() {
           <EmptyFixedEventCard />
         </div>
         {popupOpened && !isPendingExist && (
-          // <BottomPopper
-          //   title={'단 하나의 링크로 미팅 확정까지!'}
-          //   description={'시간 조율하느라 허비되는 시간 NO!'}
-          //   buttonText={'첫 미팅 만들러가기'}
-          //   onClick={handleCreateClick}
-          //   // image={BottomCardBg}
-          //   onDisableClick={handleClosePopper}
-          //   reverseOrder
-          // />
           <BottomPopper
             title={'케:줄러로 미팅 잡자!'}
             description={'시간 조율하느라 받는 스트레스 이제 그만!'}
             buttonText={'첫 미팅 만들러가기'}
             onClick={handleCreateClick}
-            // image={BottomCardBg}
             onDisableClick={handleClosePopper}
             reverseOrder
           />
@@ -136,6 +178,7 @@ function MainFixedEvents() {
   return (
     <>
       <div className={'main-fixed'}>
+        <div ref={refTop}></div>
         {events.map((e, i) => {
           const curMonth = getMonthFromTimeStamp(e.eventTimeStartsAt);
           return (
@@ -154,6 +197,7 @@ function MainFixedEvents() {
             </React.Fragment>
           );
         })}
+        <div ref={refBtm}></div>
         <Outlet />
       </div>
       <MainButtonContainer />

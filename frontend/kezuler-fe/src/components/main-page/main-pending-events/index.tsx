@@ -61,30 +61,24 @@ function MainPendingEvents() {
   const page = useRef(0); //현재 페이지
 
   useEffect(() => {
+    dispatch(destroy());
     if (page.current === 0) {
       getPendingEvents(page.current);
       page.current += 1;
     }
-    // const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
-    // if (obsRef.current) observer.observe(obsRef.current);
 
     return () => {
-      // observer.disconnect();
       dispatch(destroy());
     };
   }, []);
 
   const fetchCards = useCallback(async () => {
-    if (
-      events.length === 0 ||
-      page.current === 0 ||
-      (page.current == nextPage && !isEnd)
-    )
-      getPendingEvents(page.current);
+    if (page.current == nextPage && !isEnd) getPendingEvents(page.current);
     page.current += 1;
   }, []);
 
   useEffect(() => {
+    console.log(page.current, nextPage, isEnd, inView);
     if (inView && !isEnd) {
       fetchCards();
     }
