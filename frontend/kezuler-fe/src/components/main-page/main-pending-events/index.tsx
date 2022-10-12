@@ -78,7 +78,7 @@ function MainPendingEvents() {
   }, []);
 
   useEffect(() => {
-    console.log(page.current, nextPage, isEnd, inView);
+    // console.log(page.current, nextPage, isEnd, inView);
     if (inView && !isEnd) {
       fetchCards();
     }
