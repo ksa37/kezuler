@@ -2,11 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import { useGoogleLogin } from '@react-oauth/google';
 
 import {
   ACCESS_TOKEN_KEY,
   CURRENT_HOST,
   CURRENT_USER_INFO_KEY,
+  GOOGLE_LOGIN_SCOPE,
   REFRESH_TOKEN_KEY,
 } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
@@ -24,10 +26,8 @@ import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import TimezoneButton from '../common/TimezoneDropdown';
 import MyPageRow from './MyPageRow';
 
-// import KezulerDropdown from 'src/components/common/KezulerDropdown';
 import { ReactComponent as CalenderIcon } from 'src/assets/icn_calender_yb.svg';
 import { ReactComponent as ClockIcon } from 'src/assets/icn_clock_yb.svg';
-// import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icn_edit.svg';
 import { ReactComponent as LogoutIcon } from 'src/assets/icn_logout_yb.svg';
 import { ReactComponent as PaperIcon } from 'src/assets/icn_paper_yb.svg';
@@ -36,8 +36,8 @@ import { ReactComponent as ToggleOffIcon } from 'src/assets/toggle_off.svg';
 import { ReactComponent as ToggleOnIcon } from 'src/assets/toggle_on.svg';
 import 'src/styles/myPage.scss';
 
-import { getCalendarLink } from 'src/api/calendar';
-import { deleteUser, patchUserGoogle, patchUserTimeZone } from 'src/api/user';
+import { deleteCalendarConnect, getGoogleAccount } from 'src/api/calendar';
+import { deleteUser, patchUserTimeZone } from 'src/api/user';
 
 interface Props {
   goToEdit: () => void;
@@ -56,6 +56,9 @@ function MyPageMain({ goToEdit }: Props) {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [selectedGroup, setSelectedGroup] = useState('Asia');
 
+  const { changeUser, loading } = usePatchUser();
+  const { getUserInfo } = useGetUserInfo();
+
   // 화면 진입 시 선택되어있는 타임존 찾아옴
   useEffect(() => {
     const currentTimezone =
@@ -69,9 +72,6 @@ function MyPageMain({ goToEdit }: Props) {
       setSelectedIdx(targetIdx);
     }
   }, [userTimezone]);
-
-  const { changeUser, loading } = usePatchUser();
-  const { getUserInfo } = useGetUserInfo();
 
   const patchTimeZone = (newGroup: string, newIdx: number) => {
     const before = selectedIdx;
@@ -106,18 +106,8 @@ function MyPageMain({ goToEdit }: Props) {
 
   const handleCalendarToggle = () => {
     if (isCalendarPaired !== null || undefined) {
-      if (!isCalendarPaired) {
-        getCalendarLink().then((res) => {
-          location.href = res.data.result;
-          changeUser(patchUserGoogle({ googleToggle: !isCalendarPaired }), {
-            onSuccess: () => {
-              getUserInfo();
-              setIsCalendarPaired(!isCalendarPaired);
-            },
-          });
-        });
-      } else {
-        changeUser(patchUserGoogle({ googleToggle: !isCalendarPaired }), {
+      if (isCalendarPaired) {
+        changeUser(deleteCalendarConnect(), {
           onSuccess: () => {
             getUserInfo();
             setIsCalendarPaired(!isCalendarPaired);
@@ -126,6 +116,21 @@ function MyPageMain({ goToEdit }: Props) {
       }
     }
   };
+
+  const handleGoogleSuccess = (res: any) => {
+    changeUser(getGoogleAccount(res.code), {
+      onSuccess: () => {
+        getUserInfo();
+        setIsCalendarPaired(!isCalendarPaired);
+      },
+    });
+  };
+
+  const handleGooglelogin = useGoogleLogin({
+    onSuccess: handleGoogleSuccess,
+    flow: 'auth-code',
+    scope: GOOGLE_LOGIN_SCOPE,
+  });
 
   const handleTermsClick = () => {
     navigate(PathName.serviceTerm);
@@ -163,7 +168,6 @@ function MyPageMain({ goToEdit }: Props) {
           <div className={'my-page-profile-name'}>{userName}</div>
           <div className={'my-page-profile-email'}>{userEmail}</div>
         </div>
-
         <Button
           onClick={handleEditClick}
           classes={{
@@ -175,7 +179,6 @@ function MyPageMain({ goToEdit }: Props) {
           편집하기
         </Button>
       </div>
-      {/* </div> */}
       <h1 className={'my-page-h1'}>미팅 정보</h1>
       <MyPageRow title={'캘린더 연동'} startIcon={<CalenderIcon />}>
         구글 캘린더
@@ -187,7 +190,7 @@ function MyPageMain({ goToEdit }: Props) {
         ) : (
           <ToggleOffIcon
             className={'calendar-toggle'}
-            onClick={handleCalendarToggle}
+            onClick={handleGooglelogin}
           />
         )}
       </MyPageRow>
@@ -198,18 +201,6 @@ function MyPageMain({ goToEdit }: Props) {
           selectedGroup={selectedGroup}
           setSelectedZone={patchTimeZone}
         />
-        {/* <KezulerDropdown
-          disabled={loading}
-          buttonClassName={'timezone-dropdown'}
-          menuData={TIME_ZONE_LIST}
-          displayKey={'value'}
-          selectedIdx={selectedIdx}
-          setSelectedIdx={patchTimeZone}
-          endIcon={<ArrowDownIcon />}
-          menuClassName={'timezone-dropdown-item'}
-          paperClassName={'timezone-dropdown-paper'}
-          popperClassName={'timezone-popper'}
-        /> */}
       </MyPageRow>
       <h1 className={'my-page-h1'}>서비스 이용</h1>
       <MyPageRow
@@ -220,13 +211,11 @@ function MyPageMain({ goToEdit }: Props) {
       <MyPageRow
         title={'이용약관'}
         onClick={handleTermsClick}
-        // href={'https://www.notion.so/4856b0c81b4b48629afd6ab3e8e6132a'}
         startIcon={<PaperIcon />}
       />
       <MyPageRow
         title={'개인정보 보호 정책'}
         onClick={handlePrivacyPolicyClick}
-        // href={'https://www.notion.so/b11df8e98a51409e9d7113ac3104169f'}
         startIcon={<PaperIcon />}
       />
       <MyPageRow

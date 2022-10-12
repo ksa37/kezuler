@@ -12,8 +12,8 @@ const useMainPending = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const getPendingEvents = useCallback(
-    (onFinally?: () => void) =>
-      dispatch(getPendingEventsThunk({ onFinally: onFinally })),
+    (page: number, onFinally?: () => void) =>
+      dispatch(getPendingEventsThunk({ onFinally: onFinally, page: page })),
     [dispatch]
   );
 

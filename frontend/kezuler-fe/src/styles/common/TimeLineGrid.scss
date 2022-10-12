@@ -233,6 +233,7 @@
   position: absolute;
   top: 59px;
   max-width: calc((100% - 24px) / 3);
+  z-index: 2;
   .calendar-pair-ask-txt {
     text-align: left;
     font: normal normal normal 14px/22px Pretendard;

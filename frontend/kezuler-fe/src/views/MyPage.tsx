@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 
-// import { usePostPendingEvent2 } from 'src/hooks/usePendingEvent';
 import MyPageAppBar from 'src/components/common/MyPageAppBar';
 import MyPageEdit from 'src/components/my-page/MyPageEdit';
 import MyPageMain from 'src/components/my-page/MyPageMain';
 
 import 'src/styles/myPage.scss';
-
-import { getCalendars } from 'src/api/calendar';
 
 function MyPage() {
   const [isEdit, setIsEdit] = useState(false);
@@ -17,10 +14,6 @@ function MyPage() {
   const goToMain = () => {
     setIsEdit(false);
   };
-
-  // getCalendars().then((res) => {
-  //   console.log(res.data.result);
-  // });
 
   return (
     <>

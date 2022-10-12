@@ -130,7 +130,7 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
         {eventDate && (
           <OverviewSection title={'일시'}>
             {/* {eventDate} */}
-            {format(eventDate, 'yyyy년 M월 d일 ') +
+            {format(getTimezoneDate(eventDate), 'yyyy년 M월 d일 ') +
               getTimeRange(getTimezoneDate(eventDate), eventTimeDuration)}
           </OverviewSection>
         )}

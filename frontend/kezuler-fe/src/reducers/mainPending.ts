@@ -7,29 +7,14 @@ import { getPendingEvents } from 'src/api/pendingEvent';
 
 const getPendingEventsThunk = createAsyncThunk(
   'getPendingEvents',
-  async ({ onFinally }: { onFinally?: () => void }, { rejectWithValue }) => {
+  async (
+    { onFinally, page }: { onFinally?: () => void; page: number },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await getPendingEvents();
+      const response = await getPendingEvents(page);
       onFinally?.();
-
-      return response.data.result;
-      // return {
-      //   pendingEvents: [
-      //     {
-      //       eventHostId: '001',
-      //       eventId: '001',
-      //       eventTitle: '이벤트 제목',
-      //       eventDescription: '이벤트 설명입니다.',
-      //       eventTimeDuration: 60,
-      //       declinedUsers: [],
-      //       eventTimeCandidates: [],
-      //       eventZoomAddress: '',
-      //       eventPlace: '우리 집',
-      //       eventAttachment: '이게 뭐지',
-      //     },
-      //   ],
-      //   userId: '001',
-      // };
+      return { page: page, events: response.data.result };
     } catch (error) {
       const err = error as TError;
       onFinally?.();
@@ -43,6 +28,8 @@ interface MainPendingState {
   loading: boolean;
   errorMessage: string;
   events: BPendingEvent[];
+  nextPage: number;
+  isEnd: boolean;
 }
 
 const initialState: MainPendingState = {
@@ -50,6 +37,8 @@ const initialState: MainPendingState = {
   loading: false,
   errorMessage: '',
   events: [],
+  nextPage: 0,
+  isEnd: false,
 };
 
 export const mainPending = createSlice({
@@ -66,10 +55,12 @@ export const mainPending = createSlice({
       .addCase(getPendingEventsThunk.fulfilled, (state, action) => {
         state.isFetched = true;
         state.loading = false;
-        const pendingEvents = action.payload;
-        state.events = pendingEvents;
+        const { page, events: pendingEvents } = action.payload;
+        state.nextPage = page + 1;
+        if (pendingEvents.length < 15) state.isEnd = true;
+        state.events = [...state.events, ...pendingEvents];
       })
-      .addCase(getPendingEventsThunk.rejected, (state, action) => {
+      .addCase(getPendingEventsThunk.rejected, (state) => {
         state.loading = false;
 
         // state.errorMessage = (action.payload as { message: string }).message;

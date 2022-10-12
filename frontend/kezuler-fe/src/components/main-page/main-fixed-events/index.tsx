@@ -1,10 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { FIXED_TODAY_ID } from 'src/constants/Main';
 import PathName from 'src/constants/PathName';
 import useMainFixed from 'src/hooks/useMainFixed';
 import useMainPending from 'src/hooks/useMainPending';
+import { mainFixedActions } from 'src/reducers/mainFixed';
+import { mainPendingActions } from 'src/reducers/mainPending';
+import { AppDispatch } from 'src/store';
 import {
   getIntervalFromToday,
   getMonthFromTimeStamp,
@@ -19,7 +23,10 @@ import EmptyFixedEventCard from 'src/components/main-page/main-fixed-events/Empt
 import BottomCardBg from 'src/assets/img_bottom_popper_cards.svg';
 
 function MainFixedEvents() {
+  const dispatch = useDispatch<AppDispatch>();
   const { getFixedEvents, events, isFetched } = useMainFixed();
+  const { destroy: pendingDestroy } = mainPendingActions;
+  const { destroy: fixedDestroy } = mainFixedActions;
 
   const {
     events: pendingEvents,
@@ -28,7 +35,12 @@ function MainFixedEvents() {
   } = useMainPending();
 
   useEffect(() => {
-    getFixedEvents();
+    getFixedEvents(0);
+    return () => {
+      console.log('fixed detroying');
+      dispatch(pendingDestroy());
+      dispatch(fixedDestroy());
+    };
   }, []);
 
   // 화면 첫 진입 시 오늘로 스크롤 내림
@@ -47,7 +59,7 @@ function MainFixedEvents() {
   };
 
   useEffect(() => {
-    getPendingEvents();
+    getPendingEvents(0);
   }, [events.length === 0]);
 
   const isPendingExist = useMemo(() => {

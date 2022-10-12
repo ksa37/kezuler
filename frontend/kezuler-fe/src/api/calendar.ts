@@ -1,10 +1,18 @@
 import KezulerInstance from 'src/constants/api';
+import { PGetCalendarByDay } from 'src/types/calendar';
 
 const getCalendarLink = () => KezulerInstance.get('calendars/link');
 
-const getCalendars = () => KezulerInstance.get('calendars');
+const getGoogleAccount = (code: string) =>
+  KezulerInstance.get(`/calendars/google?code=${code}`);
 
-const deleteCalendar = (eventId: string) =>
+const getCalendars = (params: PGetCalendarByDay) => {
+  return KezulerInstance.get(
+    `calendars?year=${params.year}&month=${params.month}&day=${params.day}`
+  );
+};
+
+const deleteCalendarEvent = (eventId: string) =>
   KezulerInstance.delete(`calendars/${eventId}`);
 
 const postCalendarHost = (eventId: string) =>
@@ -15,11 +23,15 @@ const deleteCalendarHost = (eventId: string) =>
 
 const getReCalendarLink = () => KezulerInstance.get('calendars/renewal');
 
+const deleteCalendarConnect = () => KezulerInstance.delete('calendars');
+
 export {
   getCalendarLink,
+  getGoogleAccount,
   getCalendars,
-  deleteCalendar,
+  deleteCalendarEvent,
   postCalendarHost,
   deleteCalendarHost,
   getReCalendarLink,
+  deleteCalendarConnect,
 };

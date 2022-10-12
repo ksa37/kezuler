@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 
+import { GOOGLE_LOGIN_SCOPE } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
+import useGetUserInfo from 'src/hooks/useGetUserInfo';
+import { usePatchUser } from 'src/hooks/usePatchUser';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 import BottomButton from 'src/components/common/BottomButton';
@@ -11,7 +15,7 @@ import CelebrateIcon from 'src/assets/image/celebrate.png';
 import CelebrateSmileIcon from 'src/assets/image/celebrate-emoji.png';
 import BottomCalendarBg from 'src/assets/img_bottom_popper_calendar.svg';
 
-import { getCalendarLink } from 'src/api/calendar';
+import { getGoogleAccount } from 'src/api/calendar';
 interface Props {
   boldTextFirst: string;
   boldTextSecond: string;
@@ -26,22 +30,35 @@ function CompletionPage({
   regularTextSecond,
 }: Props) {
   const navigate = useNavigate();
-  let googleToggle: boolean | undefined = getCurrentUserInfo()?.googleToggle;
+  const { googleToggle } = useMemo(() => ({ ...getCurrentUserInfo() }), []);
+  const { changeUser } = usePatchUser();
+  const { getUserInfo } = useGetUserInfo();
 
-  useEffect(() => {
-    googleToggle = getCurrentUserInfo()?.googleToggle;
-  }, []);
+  const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
 
-  const handleHomeClick = () => {
-    navigate(PathName.mainFixed);
+  const handleGoogleSuccess = (res: any) => {
+    changeUser(getGoogleAccount(res.code), {
+      onSuccess: () => {
+        getUserInfo();
+        setIsCalendarPaired(!isCalendarPaired);
+      },
+    });
   };
+
+  const handleGooglelogin = useGoogleLogin({
+    onSuccess: handleGoogleSuccess,
+    flow: 'auth-code',
+    scope: GOOGLE_LOGIN_SCOPE,
+  });
 
   const handleConnectClick = () => {
     if (!googleToggle) {
-      getCalendarLink().then((res) => {
-        location.href = res.data.result;
-      });
+      handleGooglelogin();
     }
+  };
+
+  const handleHomeClick = () => {
+    navigate(PathName.mainFixed);
   };
 
   const [popupOpened, setPopupOpened] = useState(true);
@@ -63,7 +80,7 @@ function CompletionPage({
         {regularTextSecond}
       </div>
       <div className={'acceptance-completion-bottom-area'}>
-        {!googleToggle && (
+        {!isCalendarPaired && (
           <BottomPopper
             title={'케줄러 100% 활용하기'}
             description={'캘린더를 연동하여 이중약속을 방지해요!'}
@@ -76,7 +93,7 @@ function CompletionPage({
         )}
         <BottomButton onClick={handleHomeClick} text={'홈으로 가기'} notFixed />
       </div>
-      {(!popupOpened || googleToggle) && (
+      {(!popupOpened || isCalendarPaired) && (
         <>
           <img
             src={CelebrateSmileIcon}

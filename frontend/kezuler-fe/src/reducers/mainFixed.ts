@@ -10,15 +10,17 @@ const getFixedEventsThunk = createAsyncThunk(
   async (
     {
       onFinally,
+      page,
     }: {
       onFinally?: () => void;
+      page: number;
     },
     { rejectWithValue }
   ) => {
     // console.log('here');
 
     try {
-      const response = await getFixedEvents();
+      const response = await getFixedEvents(page);
       onFinally?.();
 
       return response.data.result;

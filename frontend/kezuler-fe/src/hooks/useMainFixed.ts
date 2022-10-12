@@ -12,11 +12,12 @@ const useMainFixed = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const getFixedEvents = useCallback(
-    (onFinally?: () => void) => {
+    (page: number, onFinally?: () => void) => {
       //TODO index 설정
       return dispatch(
         getFixedEventsThunk({
           onFinally,
+          page,
         })
       );
     },
