@@ -61,8 +61,8 @@ const PathNameList = [
   /\/main\/fixed\/.+\/info/,
   /\/main\/fixed\/.+\/info-edit/,
   '/main/pending',
-  '/main/pending/.+/info',
-  '/main/pending/.+/info-edit',
+  /\/main\/pending\/.+\/info/,
+  /\/main\/pending\/.+\/info-edit/,
 
   '/delete',
 
@@ -76,11 +76,11 @@ const PathNameList = [
   '/create/complete',
 
   '/invite',
-  '/invite/.+/invitation',
-  '/invite/.+/select',
-  '/invite/.+/complete',
+  /\/invite\/.+\/invitation/,
+  /\/invite\/.+\/select/,
+  /\/invite\/.+\/complete/,
 
-  '/modify/.+',
+  /\/modify\/.+/,
   '/confirm',
   '/oauth/kakao/token',
 ];

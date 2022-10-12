@@ -86,7 +86,10 @@ function OverviewParticipants({ event }: Props) {
         Elements.push(
           <Avatar
             key={p.userId}
-            className={'participant-avatar'}
+            classes={{
+              root: 'participant-avatar',
+              fallback: 'participant-avatar-fallback',
+            }}
             alt={p.userName}
             src={p.userProfileImage}
           />
@@ -122,7 +125,10 @@ function OverviewParticipants({ event }: Props) {
         <tr>
           <td>
             <Avatar
-              className={classNames('participant-avatar', 'is-host')}
+              classes={{
+                root: classNames('participant-avatar', 'is-host'),
+                fallback: 'participant-avatar-fallback',
+              }}
               alt={hostName}
               src={hostProfileImage}
             />
@@ -131,7 +137,10 @@ function OverviewParticipants({ event }: Props) {
           <td>
             {etcParticipantsNum > 0 && (
               <Avatar
-                className={'participant-avatar number'}
+                classes={{
+                  root: classNames('participant-avatar', 'number'),
+                  fallback: 'participant-avatar-fallback',
+                }}
                 alt={`+${etcParticipantsNum}`}
               >
                 {`+${etcParticipantsNum}`}

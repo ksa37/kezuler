@@ -69,7 +69,7 @@ const usePatchEvent = () => {
       params
     )
       .then(() => {
-        (isFixedEvent ? getFixedEvents : getPendingEvents)(onFinally);
+        (isFixedEvent ? getFixedEvents : getPendingEvents)(0, onFinally);
       })
       .catch((e) => {
         console.log(e);

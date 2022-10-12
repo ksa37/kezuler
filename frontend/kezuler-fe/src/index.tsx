@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
+import { GOOGLE_CLIENT_ID } from './constants/Auth';
 import { store } from './store';
 
 import App from './App';
@@ -21,10 +23,12 @@ root.render(
     <StyledEngineProvider injectFirst>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <BrowserRouter>
-            <KezulerIntro />
-            <App />
-          </BrowserRouter>
+          <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+            <BrowserRouter>
+              <KezulerIntro />
+              <App />
+            </BrowserRouter>
+          </GoogleOAuthProvider>
         </PersistGate>
       </Provider>
     </StyledEngineProvider>

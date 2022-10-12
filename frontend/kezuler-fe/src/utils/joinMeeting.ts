@@ -5,8 +5,13 @@ import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 const getAllPossibleUsers = (eventTimeCandidates: EventTimeCandidate[]) => {
   const possibleUsersAll = eventTimeCandidates.reduce<User[]>(
     (prev, eventTimeCandidate) => {
-      const userIds = eventTimeCandidate.possibleUsers.map((u) => u);
-      return prev.concat(userIds.filter((id) => prev.indexOf(id) < 0));
+      const users = eventTimeCandidate.possibleUsers.map((u) => u);
+      return prev.concat(
+        users.filter(
+          ({ userId }) =>
+            !prev.map(({ userId: prevUserId }) => prevUserId).includes(userId)
+        )
+      );
     },
     []
   );

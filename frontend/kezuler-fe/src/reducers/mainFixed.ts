@@ -10,18 +10,20 @@ const getFixedEventsThunk = createAsyncThunk(
   async (
     {
       onFinally,
+      page,
     }: {
       onFinally?: () => void;
+      page: number;
     },
     { rejectWithValue }
   ) => {
     // console.log('here');
 
     try {
-      const response = await getFixedEvents();
+      const response = await getFixedEvents(page);
       onFinally?.();
 
-      return response.data.result;
+      return { page: page, events: response.data.result };
     } catch (error) {
       const err = error as TError;
       onFinally?.();
@@ -33,17 +35,23 @@ const getFixedEventsThunk = createAsyncThunk(
 interface MainFixedState {
   isFetched: boolean;
   loading: boolean;
-  errorMessage?: string;
   curUserId: string;
   events: BFixedEvent[];
+  nextPage: number;
+  isBtmEnd: boolean;
+  prePage: number;
+  isTopEnd: boolean;
 }
 
 const initialState: MainFixedState = {
   isFetched: false,
   loading: false,
-  errorMessage: '',
   curUserId: '',
   events: [],
+  nextPage: 0,
+  isBtmEnd: false,
+  prePage: 0,
+  isTopEnd: false,
 };
 
 export const mainFixed = createSlice({
@@ -60,13 +68,20 @@ export const mainFixed = createSlice({
       .addCase(getFixedEventsThunk.fulfilled, (state, action) => {
         state.isFetched = true;
         state.loading = false;
-        const fixedEvents = action.payload;
-        state.events = fixedEvents;
-        // state.curUserId = userId;
+        const { page, events: fixedEvents } = action.payload;
+        if (page >= 0) {
+          state.nextPage = page + 1;
+          if (page === 0) state.prePage = page - 1;
+          if (fixedEvents.length < 15) state.isBtmEnd = true;
+          state.events = [...state.events, ...fixedEvents];
+        } else if (page < 0) {
+          state.prePage = page - 1;
+          if (fixedEvents.length < 15) state.isTopEnd = true;
+          state.events = [...fixedEvents, ...state.events];
+        }
       })
       .addCase(getFixedEventsThunk.rejected, (state, action) => {
         state.loading = false;
-        state.errorMessage = (action.payload as { message?: string })?.message;
       });
   },
 });

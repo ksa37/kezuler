@@ -5,6 +5,7 @@ import {
   PPatchUserGoogleToggle,
   PPatchUserProfile,
   PPatchUserTimezone,
+  RPostRefresh,
   RPostUser,
   RSettingUser,
 } from 'src/types/user';
@@ -16,6 +17,7 @@ const postAuth = (accessToken: string) =>
     `${HOST_ADDRESS}/auth/token`,
     {
       registerWith: 'kakao',
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     },
     {
       headers: {
@@ -23,6 +25,13 @@ const postAuth = (accessToken: string) =>
       },
     }
   );
+
+const postRefresh = (refreshToken: string) =>
+  axios.post<RPostRefresh>(`${HOST_ADDRESS}/auth/re`, undefined, {
+    headers: {
+      REFRESHTOKEN: refreshToken,
+    },
+  });
 
 // 현재 유저 정보 가져오기
 const getUser = () => KezulerInstance.get<RSettingUser>('user');
@@ -63,6 +72,7 @@ export {
   getUser,
   deleteUser,
   postAuth,
+  postRefresh,
   patchUserGoogle,
   patchUserTimeZone,
   patchUserProfile,

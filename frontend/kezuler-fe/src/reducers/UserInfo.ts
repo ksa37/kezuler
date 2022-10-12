@@ -27,12 +27,10 @@ export const getUserInfoThunk = createAsyncThunk(
 
 interface UserInfoState extends User {
   loading: boolean;
-  errorMessage: string;
 }
 
 const initialState: UserInfoState = {
   loading: false,
-  errorMessage: '',
   userId: '',
   userName: '',
   userProfileImage: '',
@@ -58,7 +56,6 @@ export const userInfoSlice = createSlice({
       })
       .addCase(getUserInfoThunk.rejected, (state, action) => {
         state.loading = false;
-        state.errorMessage = (action.payload as { message: string }).message;
       });
   },
 });

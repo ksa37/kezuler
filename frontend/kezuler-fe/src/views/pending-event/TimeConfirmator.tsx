@@ -17,6 +17,8 @@ import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
 } from 'src/utils/dateParser';
+import { getSchedules } from 'src/utils/getCalendar';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
 import CompletionPage from '../../components/common/CompletionPage';
@@ -41,12 +43,18 @@ function TimeConfirmator() {
   const { setSelctedTime, increaseStep, destroy } = confirmTimeActions;
   const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
     pendingEvent;
+  const { calendarList } = useSelector(
+    (state: RootState) => state.calendarList
+  );
   const { show } = participantsPopupAction;
   const { openDialog } = useDialog();
   const navigate = useNavigate();
 
   const totalStepsNum = Object.keys(ConfirmMeetingSteps).length / 2 - 1;
   const progressPerStep = 100 / totalStepsNum;
+
+  const { googleToggle } = useMemo(() => ({ ...getCurrentUserInfo() }), []);
+  const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
 
   useEffect(() => {
     return () => {
@@ -132,35 +140,40 @@ function TimeConfirmator() {
     );
   }, [eventTimeCandidates]);
 
-  // console.log(eventTimeListDevideByDate);
+  const { setCalendarStore } = getSchedules(eventTimeListDevideByDate);
 
-  type Schedule = {
-    timeRange: string;
-    scheduleTitle: string;
-  };
-  interface ScehdulesEachDay {
-    [dateString: string]: Schedule[];
-  }
-  const mockSchedule: ScehdulesEachDay = {
-    '6/22 수': [
-      { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
-      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
-    ],
-    '6/23 목': [
-      { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
-      { timeRange: '하루종일', scheduleTitle: '수아' },
-    ],
-    '6/29 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
-    '7/1 금': [
-      { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
-      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
-    ],
-  };
+  useEffect(() => {
+    if (!isCalendarPaired) return;
+    setCalendarStore();
+  }, [eventTimeListDevideByDate, isCalendarPaired]);
 
-  const [calendarPairOpened, setCalendarPairOpened] = useState(true);
-  const handlePairClick = () => {
-    setCalendarPairOpened(false);
-  };
+  // type Schedule = {
+  //   timeRange: string;
+  //   scheduleTitle: string;
+  // };
+  // interface ScehdulesEachDay {
+  //   [dateString: string]: Schedule[];
+  // }
+  // const mockSchedule: ScehdulesEachDay = {
+  //   '6/22 수': [
+  //     { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
+  //     { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
+  //   ],
+  //   '6/23 목': [
+  //     { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
+  //     { timeRange: '하루종일', scheduleTitle: '수아' },
+  //   ],
+  //   '6/29 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
+  //   '7/1 금': [
+  //     { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
+  //     { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
+  //   ],
+  // };
+
+  // const handlePairClick = () => {
+  //   // 구글 계정 연동하기
+  //   setCalendarPairOpened(false);
+  // };
 
   return (
     <div className={'accept-wrapper'}>
@@ -193,8 +206,8 @@ function TimeConfirmator() {
             </div>
           </div>
           <div className={'time-select-with-schedule'}>
-            {calendarPairOpened && (
-              <CalendarPairBtn onClick={handlePairClick} />
+            {!isCalendarPaired && (
+              <CalendarPairBtn setIsCalendarPaired={setIsCalendarPaired} />
             )}
             <div className={'time-line-line'} />
             {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
@@ -208,8 +221,8 @@ function TimeConfirmator() {
                 {Array(
                   Math.max(
                     eventTimeListDevideByDate[dateKey].length,
-                    Object.keys(mockSchedule).includes(dateKey)
-                      ? mockSchedule[dateKey].length
+                    calendarList && Object.keys(calendarList).includes(dateKey)
+                      ? calendarList[dateKey].length
                       : 0
                   )
                 )
@@ -249,13 +262,13 @@ function TimeConfirmator() {
                       ) : (
                         <TimeCard isEmpty={true} />
                       )}
-                      {Object.keys(mockSchedule).includes(dateKey) &&
-                      mockSchedule[dateKey].length > index ? (
+                      {Object.keys(calendarList).includes(dateKey) &&
+                      calendarList[dateKey].length > index ? (
                         <ScheduleCard
                           isEmpty={false}
-                          timeRange={mockSchedule[dateKey][index].timeRange}
+                          timeRange={calendarList[dateKey][index].timeRange}
                           scheduleTitle={
-                            mockSchedule[dateKey][index].scheduleTitle
+                            calendarList[dateKey][index].scheduleTitle
                           }
                         />
                       ) : (

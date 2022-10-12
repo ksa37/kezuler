@@ -8,8 +8,8 @@ import {
 } from 'src/types/fixedEvent';
 import { PPatchReminder, Reminder } from 'src/types/reminder';
 
-const getFixedEvents = () =>
-  KezulerInstance.get<RGetFixedEvents>(`fixedEvents`);
+const getFixedEvents = (page: number) =>
+  KezulerInstance.get<RGetFixedEvents>(`fixedEvents?page=${page}`);
 
 const getFixedEventById = (eventId: string) =>
   KezulerInstance.get<FixedEvent>(`/fixedEvents/${eventId}`);
