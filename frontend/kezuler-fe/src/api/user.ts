@@ -16,6 +16,7 @@ const postAuth = (accessToken: string) =>
     `${HOST_ADDRESS}/auth/token`,
     {
       registerWith: 'kakao',
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     },
     {
       headers: {
