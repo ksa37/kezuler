@@ -21,8 +21,10 @@ import {
   getTimeListDevideByDateWithPossibleNum,
   getTimeRange,
 } from 'src/utils/dateParser';
+import { getSchedules } from 'src/utils/getCalendar';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
-import { getDeclineReason, getSelectedOptions } from 'src/utils/joinMeeting';
+import { getDeclineReason } from 'src/utils/joinMeeting';
 import { isModification as isModificationfunc } from 'src/utils/joinMeeting';
 
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
@@ -42,6 +44,9 @@ function TimeListSelector({ isModification }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const { pendingEvent, availableTimes, declineReason, isDecline } =
     useSelector((state: RootState) => state.acceptMeeting);
+  const { calendarList } = useSelector(
+    (state: RootState) => state.calendarList
+  );
   const {
     addAvailableTimes,
     deleteAvailableTimes,
@@ -59,7 +64,9 @@ function TimeListSelector({ isModification }: Props) {
   const putEventTimeCandidate = usePutPendingEventGuest();
   const deleteEventTimeCandidate = useDeletePendingEventGuest();
 
-  // isModification(eventTimeCandidates, declinedUsers)
+  const { googleToggle } = useMemo(() => ({ ...getCurrentUserInfo() }), []);
+  const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
+
   // 가능한 시간 없는 이유 가져옴
   useEffect(() => {
     const declineReasontext = getDeclineReason(declinedUsers);
@@ -173,10 +180,12 @@ function TimeListSelector({ isModification }: Props) {
     );
   }, [eventTimeCandidates]);
 
-  const [calendarPairOpened, setCalendarPairOpened] = useState(true);
-  const handlePairClick = () => {
-    setCalendarPairOpened(false);
-  };
+  const { setCalendarStore } = getSchedules(eventTimeListDevideByDate);
+
+  useEffect(() => {
+    if (!isCalendarPaired) return;
+    setCalendarStore();
+  }, [eventTimeListDevideByDate, isCalendarPaired]);
 
   const [error, setError] = useState('');
   useEffect(() => {
@@ -188,29 +197,6 @@ function TimeListSelector({ isModification }: Props) {
   }, [declineReason]);
 
   const nextButtonDisabled = !!error;
-
-  type Schedule = {
-    timeRange: string;
-    scheduleTitle: string;
-  };
-  interface ScehdulesEachDay {
-    [dateString: string]: Schedule[];
-  }
-  const mockSchedule: ScehdulesEachDay = {
-    '6/22 수': [
-      { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
-      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
-    ],
-    '6/23 목': [
-      { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
-      { timeRange: '하루종일', scheduleTitle: '수아' },
-    ],
-    '6/29 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
-    '7/1 금': [
-      { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
-      { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
-    ],
-  };
 
   return (
     <div className={'time-list-selector'}>
@@ -235,7 +221,9 @@ function TimeListSelector({ isModification }: Props) {
         </div>
       </div>
       <div className={'time-select-with-schedule'}>
-        {calendarPairOpened && <CalendarPairBtn onClick={handlePairClick} />}
+        {!isCalendarPaired && (
+          <CalendarPairBtn setIsCalendarPaired={setIsCalendarPaired} />
+        )}
         <div className={'time-line-line'} />
         {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
           <div key={dateKey} className={'time-select-date'}>
@@ -248,8 +236,8 @@ function TimeListSelector({ isModification }: Props) {
             {Array(
               Math.max(
                 eventTimeListDevideByDate[dateKey].length,
-                Object.keys(mockSchedule).includes(dateKey)
-                  ? mockSchedule[dateKey].length
+                calendarList && Object.keys(calendarList).includes(dateKey)
+                  ? calendarList[dateKey].length
                   : 0
               )
             )
@@ -291,12 +279,13 @@ function TimeListSelector({ isModification }: Props) {
                   ) : (
                     <TimeCard isEmpty={true} />
                   )}
-                  {Object.keys(mockSchedule).includes(dateKey) &&
-                  mockSchedule[dateKey].length > index ? (
+                  {calendarList &&
+                  Object.keys(calendarList).includes(dateKey) &&
+                  calendarList[dateKey].length > index ? (
                     <ScheduleCard
                       isEmpty={false}
-                      timeRange={mockSchedule[dateKey][index].timeRange}
-                      scheduleTitle={mockSchedule[dateKey][index].scheduleTitle}
+                      timeRange={calendarList[dateKey][index].timeRange}
+                      scheduleTitle={calendarList[dateKey][index].scheduleTitle}
                     />
                   ) : (
                     <ScheduleCard isEmpty={true} />

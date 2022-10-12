@@ -8,8 +8,8 @@ import {
   RPendingEvent,
 } from 'src/types/pendingEvent';
 
-const getPendingEvents = () =>
-  KezulerInstance.get<RGetPendingEvents>('/pendingEvents');
+const getPendingEvents = (page: number) =>
+  KezulerInstance.get<RGetPendingEvents>(`/pendingEvents?page=${page}`);
 
 const getPendingEventById = (eventId: string) =>
   KezulerInstance.get<RPendingEvent>(`/pendingEvents/${eventId}`);

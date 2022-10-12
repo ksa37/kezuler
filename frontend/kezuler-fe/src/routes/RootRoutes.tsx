@@ -217,7 +217,7 @@ function RootRoutes() {
               />
               <Route path="*" element={<AcceptIndex />} />
             </Route>
-            <Route path={PathName.create} element={<CreateMeeting />}>
+            {/* <Route path={PathName.create} element={<CreateMeeting />}>
               <Route
                 index
                 element={<Navigate replace to={PathName.createInfo} />}
@@ -240,8 +240,8 @@ function RootRoutes() {
                 path="*"
                 element={<Navigate replace to={PathName.createInfo} />}
               />
-            </Route>
-            <Route path={PathName.myPage} element={<MyPage />} />
+            </Route> */}
+            {/* <Route path={PathName.myPage} element={<MyPage />} /> */}
             <Route path={PathName.login} element={<Login />}>
               <Route path="*" element={<Login />} />
             </Route>

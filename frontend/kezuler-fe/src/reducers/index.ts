@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import AcceptMeeting from './AcceptMeeting';
 import alert from './alert';
+import calendarList from './calendarList';
 import ConfirmTime from './ConfirmTime';
 import CreateMeeting from './CreateMeeting';
 import dialog from './dialog';
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   share: share,
   participantsPopup: participantsPopup,
   confirmTime: ConfirmTime,
+  calendarList: calendarList,
 });
 
 type RootState = ReturnType<typeof rootReducer>;

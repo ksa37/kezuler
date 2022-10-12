@@ -6,4 +6,17 @@ interface RKakaoAccessToken {
   refresh_token_expires_in: number;
 }
 
-export type { RKakaoAccessToken };
+interface RGoogleAccessToken {
+  access_token: string;
+  expires_in: number;
+  token_type: string;
+  scope: string;
+  refresh_token: string;
+}
+
+interface PPostGoogleToken {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export type { RKakaoAccessToken, RGoogleAccessToken, PPostGoogleToken };
