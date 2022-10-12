@@ -1,31 +1,11 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// import { AcceptMeetingSteps } from 'src/constants/Steps';
-import { TError } from '../types/axios';
 import { PendingEvent } from 'src/types/pendingEvent';
-
-import mockApi from 'src/api/mockApi';
-
-export const mockThunkAction = createAsyncThunk(
-  'getMock',
-  async (userId: string, { rejectWithValue }) => {
-    try {
-      const response: { data: string } = (await mockApi(userId)) as {
-        data: string;
-      };
-      return response.data;
-    } catch (error) {
-      const err = error as TError;
-      return rejectWithValue(err?.response?.data?.error);
-    }
-  }
-);
 
 interface AcceptMeetingState {
   // mock up
   loading: boolean;
   data: string;
-  errorMessage: string;
 
   isLoaded: boolean;
   // step: AcceptMeetingSteps;
@@ -58,7 +38,6 @@ const initialPendingEvent: PendingEvent = {
 const initialState: AcceptMeetingState = {
   loading: false,
   data: '',
-  errorMessage: '',
 
   isLoaded: false,
   // step: AcceptMeetingSteps.First,
@@ -134,20 +113,6 @@ export const acceptMeetingSlice = createSlice({
       state.availableTimes = dateSort(state.availableTimes);
     },
     destroy: () => initialState,
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(mockThunkAction.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(mockThunkAction.fulfilled, (state, action) => {
-        state.loading = false;
-        state.data = action.payload;
-      })
-      .addCase(mockThunkAction.rejected, (state, action) => {
-        state.loading = false;
-        state.errorMessage = (action.payload as { message: string }).message;
-      });
   },
 });
 
