@@ -81,7 +81,7 @@ const PathNameList = [
   /\/invite\/.+\/complete/,
 
   /\/modify\/.+/,
-  '/confirm',
+  /\/confirm\/.+/,
   '/oauth/kakao/token',
 ];
 
