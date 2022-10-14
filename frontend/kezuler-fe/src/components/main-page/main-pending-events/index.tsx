@@ -66,33 +66,26 @@ function MainPendingEvents() {
       getPendingEvents(page.current);
       page.current += 1;
     }
-
+    if (inView && !isEnd) {
+      fetchCards();
+    }
     return () => {
       dispatch(destroy());
     };
   }, []);
 
   const fetchCards = useCallback(async () => {
-    if (page.current == nextPage && !isEnd) getPendingEvents(page.current);
-    page.current += 1;
+    if (page.current == nextPage && !isEnd) {
+      getPendingEvents(page.current);
+      page.current += 1;
+    }
   }, []);
 
   useEffect(() => {
-    // console.log(page.current, nextPage, isEnd, inView);
     if (inView && !isEnd) {
       fetchCards();
     }
   }, [fetchCards, nextPage, isEnd, inView]);
-
-  // const obsHandler = (entries: IntersectionObserverEntry[]) => {
-  //   const target = entries[0];
-  //   console.log('ㅐㅠㄴ');
-  //   if (target.isIntersecting) {
-  //     console.log('is intersecting');
-  //     page.current += 1;
-  //     // setPage((prev) => prev + 1); //페이지 값 증가
-  //   }
-  // };
 
   const [popupOpened, setPopupOpened] = useState(true);
 

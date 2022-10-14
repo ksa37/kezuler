@@ -28,8 +28,6 @@ import MainButtonContainer from '../MainButtonContainer';
 import FixedEventCard from './FixedEventCard';
 import EmptyFixedEventCard from 'src/components/main-page/main-fixed-events/EmptyFixedEventCard';
 
-import BottomCardBg from 'src/assets/img_bottom_popper_cards.svg';
-
 function MainFixedEvents() {
   const dispatch = useDispatch<AppDispatch>();
   const { getFixedEvents, events, isFetched } = useMainFixed();
@@ -59,6 +57,13 @@ function MainFixedEvents() {
       getFixedEvents(pageBtm.current);
       pageBtm.current += 1;
       pageTop.current -= 1;
+    }
+
+    if (inViewBtm && !isBtmEnd) {
+      fetchBtmCards();
+    }
+    if (inViewTop && !isTopEnd) {
+      fetchTopCards();
     }
     return () => {
       dispatch(pendingDestroy());
@@ -101,12 +106,12 @@ function MainFixedEvents() {
     }
   }, [fetchTopCards, prePage, isTopEnd, inViewTop]);
   // 화면 첫 진입 시 오늘로 스크롤 내림
-  useEffect(() => {
-    if (isFetched) {
-      const element = document.getElementById(FIXED_TODAY_ID);
-      element?.scrollIntoView({ block: 'start', behavior: 'auto' });
-    }
-  }, [isFetched]);
+  // useEffect(() => {
+  //   if (isFetched) {
+  //     const element = document.getElementById(FIXED_TODAY_ID);
+  //     element?.scrollIntoView({ block: 'start', behavior: 'auto' });
+  //   }
+  // }, [isFetched]);
 
   const [popupOpened, setPopupOpened] = useState(true);
 
