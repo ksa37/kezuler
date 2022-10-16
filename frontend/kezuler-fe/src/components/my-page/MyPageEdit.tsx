@@ -153,7 +153,6 @@ function MyPageEdit({ goToMain }: Props) {
   };
 
   const handleProfileImgDelete = () => {
-    console.log('delete');
     openDialog({
       title: `프로필 사진을 삭제하시겠습니까?`,
       onConfirm: () => {

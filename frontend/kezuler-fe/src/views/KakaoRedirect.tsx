@@ -17,7 +17,6 @@ function KakaoRedirect() {
       if (!path) {
         path = redirectURI as PathName;
       }
-      console.log(path);
       getKakaoToken(code, path ? (path as PathName) : PathName.mainFixed);
     }
   }, [code]);

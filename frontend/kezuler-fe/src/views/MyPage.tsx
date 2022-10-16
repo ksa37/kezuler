@@ -6,8 +6,6 @@ import MyPageMain from 'src/components/my-page/MyPageMain';
 
 import 'src/styles/myPage.scss';
 
-// import { getFixedEvents } from 'src/api/fixedEvent';
-
 function MyPage() {
   const [isEdit, setIsEdit] = useState(false);
   const goToEdit = () => {
@@ -16,6 +14,7 @@ function MyPage() {
   const goToMain = () => {
     setIsEdit(false);
   };
+
   return (
     <>
       <MyPageAppBar isEdit={isEdit} goToMain={goToMain} />
