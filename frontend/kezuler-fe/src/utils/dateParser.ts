@@ -143,7 +143,6 @@ const isoStringToDateString = (isoString: string) => {
     ':',
     ...fullTime.split(':').slice(1, 2)
   );
-  console.log(date + ' ' + time);
   return date + ' ' + time;
 };
 

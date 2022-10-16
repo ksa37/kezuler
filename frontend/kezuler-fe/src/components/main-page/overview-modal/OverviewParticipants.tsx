@@ -75,7 +75,6 @@ function OverviewParticipants({ event }: Props) {
   const { avatarElements, avatarNames } = useMemo(() => {
     const Elements: JSX.Element[] = [];
     const Names: JSX.Element[] = [];
-    console.log(acceptParticipants.length > MAX_PREVIEW_NUM);
     acceptParticipants
       ?.slice(
         0,

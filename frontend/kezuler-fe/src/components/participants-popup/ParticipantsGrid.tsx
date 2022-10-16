@@ -23,7 +23,6 @@ function ParticipantsGrid({ isHost, isFixed, isAttendant, users }: Props) {
     const element = document.getElementById(targetId);
     element?.scrollIntoView({ inline: 'center', behavior: 'smooth' });
   };
-  console.log(isHost, isFixed, isAttendant);
   return (
     <>
       {users.length === 0 && (

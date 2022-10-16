@@ -78,75 +78,6 @@ const useGetInvitation = () => {
   return getPendingEventInfo;
 };
 
-// const useDeletePendingEventById = () => {
-//   const dispatch = useDispatch<AppDispatch>();
-//   const { show } = alertAction;
-
-//   const deletePendingEventHost = (eventId: string) => {
-//     deleteMeetingByHost(eventId)
-//       .then((res) => {
-//         console.log(res);
-//       })
-//       .catch((err) => {
-//         console.log('미팅 삭제 에러', err);
-//         dispatch(
-//           show({
-//             title: '미팅 삭제 오류',
-//             description: '미팅 삭제 과정 중 오류가 생겼습니다.',
-//           })
-//         );
-//       });
-//   };
-
-//   return deletePendingEventHost;
-// };
-
-// const useCancelPendingEventById = () => {
-//   const dispatch = useDispatch<AppDispatch>();
-//   const { show } = alertAction;
-
-//   const cancelPendingEventHost = (eventId: string) => {
-//     cancelMeetingByHost(eventId)
-//       .then((res) => {
-//         console.log(res);
-//       })
-//       .catch((err) => {
-//         console.log('미팅 삭제 에러', err);
-//         dispatch(
-//           show({
-//             title: '미팅 삭제 오류',
-//             description: '미팅 삭제 과정 중 오류가 생겼습니다.',
-//           })
-//         );
-//       });
-//   };
-
-//   return cancelPendingEventHost;
-// };
-
-// const useCancelPendingEventByGuest = () => {
-//   const dispatch = useDispatch<AppDispatch>();
-//   const { show } = alertAction;
-
-//   const cancelPendingEventGuest = (eventId: string) => {
-//     cancelMeetingByGuest(eventId)
-//       .then((res) => {
-//         console.log(res);
-//       })
-//       .catch((err) => {
-//         console.log('미팅 취소 에러', err);
-//         dispatch(
-//           show({
-//             title: '미팅 취소 오류',
-//             description: '미팅 취소 과정 중 오류가 생겼습니다.',
-//           })
-//         );
-//       });
-//   };
-
-//   return cancelPendingEventGuest;
-// };
-
 const usePostPendingEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -187,21 +118,16 @@ const usePutPendingEventGuest = () => {
     eventId: string,
     ppendingEvent: PPutPendingEvent
   ) => {
-    putPendingEventCandidateById(eventId, ppendingEvent)
-      .then((res) => {
-        console.log(res.data);
-        //
-      })
-      .catch((err) => {
-        console.log('미팅 수락/수정 에러', err);
-        dispatch(
-          show({
-            title: '미팅 참여 오류',
-            description: '미팅 참여 과정 중 오류가 생겼습니다.',
-          })
-        );
-        navigate(`${PathName.invite}/${eventId}/invitation`, { replace: true });
-      });
+    putPendingEventCandidateById(eventId, ppendingEvent).catch((err) => {
+      console.log('미팅 수락/수정 에러', err);
+      dispatch(
+        show({
+          title: '미팅 참여 오류',
+          description: '미팅 참여 과정 중 오류가 생겼습니다.',
+        })
+      );
+      navigate(`${PathName.invite}/${eventId}/invitation`, { replace: true });
+    });
   };
   return putEventTimeCandidate;
 };

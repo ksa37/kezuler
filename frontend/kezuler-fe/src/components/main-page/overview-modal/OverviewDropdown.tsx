@@ -52,9 +52,8 @@ function OverviewDropdown({ eventId, eventStartsAt }: Props) {
     const seletedMinutes = REMINDER_OPTIONS[newIdx].hours;
 
     patchGuestReminder(eventId, { remindDate: seletedMinutes })
-      .then((res) => {
+      .then(() => {
         setSelectedIdx(newIdx);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log('리마인더 에러', err);

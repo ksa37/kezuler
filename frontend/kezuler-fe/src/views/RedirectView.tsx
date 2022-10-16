@@ -32,7 +32,6 @@ function RedirectView() {
     } else if (currentPath === PathName.login) {
       navigate(PathName.login);
     } else {
-      console.log(location.pathname);
       navigate(`${PathName.notFound}`);
     }
   }, []);

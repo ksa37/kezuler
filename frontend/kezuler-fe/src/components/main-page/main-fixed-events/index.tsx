@@ -53,7 +53,6 @@ function MainFixedEvents() {
   useEffect(() => {
     dispatch(fixedDestroy());
     if (pageBtm.current === 0) {
-      // console.log('here');
       getFixedEvents(pageBtm.current);
       pageBtm.current += 1;
       pageTop.current -= 1;
