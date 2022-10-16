@@ -4,7 +4,6 @@ import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import classNames from 'classnames';
 
-import PathName from 'src/constants/PathName';
 import { AcceptMeetingSteps } from 'src/constants/Steps';
 import { useGetInvitation } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
@@ -52,13 +51,6 @@ function AcceptMeeting() {
   );
 
   const getAppBarText = () => {
-    console.log(
-      location.pathname,
-      PathName.inviteInvitation,
-      PathName.inviteSelect,
-      PathName.inviteComplete
-    );
-
     if (location.pathname.endsWith('/invitation')) return '새로운 미팅 초대';
     else if (location.pathname.endsWith('/select')) return '미팅일정 선택';
     else if (location.pathname.endsWith('/complete'))

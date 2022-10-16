@@ -41,7 +41,7 @@ import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
 import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
 
 import { patchFixedEventById } from 'src/api/fixedEvent';
-import { patchPendingEventsById } from 'src/api/pendingEvent';
+import { patchPendingEventById } from 'src/api/pendingEvent';
 
 interface Props {
   eventDate?: number;
@@ -64,7 +64,7 @@ const usePatchEvent = () => {
     onFinally: () => void
   ) => {
     setLoading(true);
-    (isFixedEvent ? patchFixedEventById : patchPendingEventsById)(
+    (isFixedEvent ? patchFixedEventById : patchPendingEventById)(
       eventId,
       params
     )

@@ -109,7 +109,6 @@ function MeetingInfoForm() {
     event: ChangeEvent<HTMLInputElement>
   ) => {
     dispatch(setAttachment(event.target.value));
-    console.log(isURL(eventAttachment));
   };
 
   const handleNextClick = () => {

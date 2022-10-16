@@ -11,11 +11,10 @@ import {
 import PathName from 'src/constants/PathName';
 import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
-import { PPostGoogleToken, RGoogleAccessToken } from 'src/types/login';
 import { setCookie } from '../utils/cookie';
 
 import { getGoogleAccount } from 'src/api/calendar';
-import { getGoogleTokenApi, getKakaoAccessTokenApi } from 'src/api/Login';
+import { getKakaoAccessTokenApi } from 'src/api/Login';
 import { postAuth } from 'src/api/user';
 
 const useKakaoLogin = () => {
@@ -28,7 +27,6 @@ const useKakaoLogin = () => {
         const accessToken = getRes.data.access_token;
         postAuth(accessToken)
           .then((res) => {
-            console.log(res.data.result);
             const {
               userToken: {
                 accessToken,
@@ -119,19 +117,15 @@ const useGoogleLoginSuccess = () => {
   const { show } = alertAction;
   // 리다이렉트 후 토큰 요청
   const getGoogleToken = (code: string) => {
-    getGoogleAccount(code)
-      .then((getRes) => {
-        console.log(getRes);
-      })
-      .catch((err) => {
-        console.log('구글 계정 연동 에러', err);
-        dispatch(
-          show({
-            title: '구글 계정 오류',
-            description: '구글 계정 연동중 오류가 생겼습니다.',
-          })
-        );
-      });
+    getGoogleAccount(code).catch((err) => {
+      console.log('구글 계정 연동 에러', err);
+      dispatch(
+        show({
+          title: '구글 계정 오류',
+          description: '구글 계정 연동중 오류가 생겼습니다.',
+        })
+      );
+    });
   };
 
   return { getGoogleToken };

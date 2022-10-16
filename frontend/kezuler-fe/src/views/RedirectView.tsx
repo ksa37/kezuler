@@ -10,7 +10,6 @@ function RedirectView() {
   const checkPath = (currentPath: string) => {
     for (const item in PathNameList) {
       const checkPath = PathNameList[item];
-      console.log(checkPath);
       if (typeof checkPath === 'string') {
         if (checkPath === currentPath) {
           return true;
@@ -33,7 +32,6 @@ function RedirectView() {
     } else if (currentPath === PathName.login) {
       navigate(PathName.login);
     } else {
-      console.log(location.pathname);
       navigate(`${PathName.notFound}`);
     }
   }, []);

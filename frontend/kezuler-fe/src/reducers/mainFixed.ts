@@ -17,8 +17,6 @@ const getFixedEventsThunk = createAsyncThunk(
     },
     { rejectWithValue }
   ) => {
-    // console.log('here');
-
     try {
       const response = await getFixedEvents(page);
       onFinally?.();
@@ -80,7 +78,7 @@ export const mainFixed = createSlice({
           state.events = [...fixedEvents, ...state.events];
         }
       })
-      .addCase(getFixedEventsThunk.rejected, (state, action) => {
+      .addCase(getFixedEventsThunk.rejected, (state) => {
         state.loading = false;
       });
   },

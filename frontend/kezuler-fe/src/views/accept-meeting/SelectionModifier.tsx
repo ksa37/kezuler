@@ -43,7 +43,6 @@ function SelectionModifier() {
     if (eventId) {
       getPendingEventInfo(eventId);
     }
-    // console.log('first', isModification(eventTimeCandidates, declinedUsers));
   }, [eventId]);
 
   useEffect(() => {

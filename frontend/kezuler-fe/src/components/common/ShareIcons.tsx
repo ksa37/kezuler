@@ -62,7 +62,6 @@ function ShareIcons({ eventTitle, eventId, forPopup }: Props) {
     copyText(`${shareUrl}`, '케줄러링크가');
   };
   const handleGeneralShareClick = () => {
-    console.log(typeof navigator.share);
     if (typeof navigator.share !== 'undefined') {
       window.navigator.share({
         title: `${

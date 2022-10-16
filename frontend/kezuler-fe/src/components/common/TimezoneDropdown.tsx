@@ -46,7 +46,6 @@ function TimezoneButton({
   };
 
   const handleMenuClose = () => {
-    console.log('hello');
     setMenuOpen(false);
   };
 

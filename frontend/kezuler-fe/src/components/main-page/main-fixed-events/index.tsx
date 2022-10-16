@@ -28,8 +28,6 @@ import MainButtonContainer from '../MainButtonContainer';
 import FixedEventCard from './FixedEventCard';
 import EmptyFixedEventCard from 'src/components/main-page/main-fixed-events/EmptyFixedEventCard';
 
-import BottomCardBg from 'src/assets/img_bottom_popper_cards.svg';
-
 function MainFixedEvents() {
   const dispatch = useDispatch<AppDispatch>();
   const { getFixedEvents, events, isFetched } = useMainFixed();
@@ -55,10 +53,16 @@ function MainFixedEvents() {
   useEffect(() => {
     dispatch(fixedDestroy());
     if (pageBtm.current === 0) {
-      // console.log('here');
       getFixedEvents(pageBtm.current);
       pageBtm.current += 1;
       pageTop.current -= 1;
+    }
+
+    if (inViewBtm && !isBtmEnd) {
+      fetchBtmCards();
+    }
+    if (inViewTop && !isTopEnd) {
+      fetchTopCards();
     }
     return () => {
       dispatch(pendingDestroy());

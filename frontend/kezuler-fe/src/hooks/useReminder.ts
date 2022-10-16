@@ -50,26 +50,4 @@ const usePatchReminder = () => {
   return putReminder;
 };
 
-// const useDeleteReminder = () => {
-//   const dispatch = useDispatch<AppDispatch>();
-//   const { show } = alertAction;
-
-//   const deleteReminder = (eventId: string) => {
-//     deleteGuestReminder(eventId)
-//       .then((res) => {
-//         console.log(res.data);
-//       })
-//       .catch((err) => {
-//         console.log('리마인더 에러', err);
-//         dispatch(
-//           show({
-//             title: '리마인더 오류',
-//             description: '리마인더를 삭제할수 없습니다.',
-//           })
-//         );
-//       });
-//   };
-//   return deleteReminder;
-// };
-
 export { useGetReminder, usePatchReminder };
