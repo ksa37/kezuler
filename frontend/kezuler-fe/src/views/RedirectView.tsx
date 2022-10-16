@@ -10,12 +10,6 @@ function RedirectView() {
   const checkPath = (currentPath: string) => {
     for (const item in PathNameList) {
       const checkPath = PathNameList[item];
-      // console.log(checkPath);
-      console.log(
-        currentPath,
-        /\/confirm\/.+/,
-        currentPath.match(/\/confirm\/.+/)
-      );
       if (typeof checkPath === 'string') {
         if (checkPath === currentPath) {
           return true;

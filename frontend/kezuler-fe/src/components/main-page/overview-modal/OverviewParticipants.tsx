@@ -75,10 +75,11 @@ function OverviewParticipants({ event }: Props) {
   const { avatarElements, avatarNames } = useMemo(() => {
     const Elements: JSX.Element[] = [];
     const Names: JSX.Element[] = [];
+    console.log(acceptParticipants.length > MAX_PREVIEW_NUM);
     acceptParticipants
       ?.slice(
         0,
-        acceptParticipants.length > MAX_PREVIEW_NUM
+        acceptParticipants.length >= MAX_PREVIEW_NUM
           ? MAX_PREVIEW_NUM - 1
           : MAX_PREVIEW_NUM
       )
@@ -143,7 +144,9 @@ function OverviewParticipants({ event }: Props) {
                 }}
                 alt={`+${etcParticipantsNum}`}
               >
-                {`+${etcParticipantsNum}`}
+                <div
+                  className={'participant-avatar-etc-num'}
+                >{`+${etcParticipantsNum}`}</div>
               </Avatar>
             )}
           </td>

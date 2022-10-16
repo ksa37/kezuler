@@ -106,12 +106,12 @@ function MainFixedEvents() {
     }
   }, [fetchTopCards, prePage, isTopEnd, inViewTop]);
   // 화면 첫 진입 시 오늘로 스크롤 내림
-  // useEffect(() => {
-  //   if (isFetched) {
-  //     const element = document.getElementById(FIXED_TODAY_ID);
-  //     element?.scrollIntoView({ block: 'start', behavior: 'auto' });
-  //   }
-  // }, [isFetched]);
+  useEffect(() => {
+    if (isFetched) {
+      const element = document.getElementById(FIXED_TODAY_ID);
+      element?.scrollIntoView({ block: 'start', behavior: 'auto' });
+    }
+  }, [isFetched]);
 
   const [popupOpened, setPopupOpened] = useState(true);
 

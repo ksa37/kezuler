@@ -41,7 +41,11 @@ import { ReactComponent as EditIcon } from 'src/assets/icn_edit_big.svg';
 import { ReactComponent as JoinIcon } from 'src/assets/icn_join.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icn_link.svg';
 
-import { putFixedEventGuestById } from 'src/api/fixedEvent';
+import {
+  cancelFixedEventGuestById,
+  putFixedEventGuestById,
+} from 'src/api/fixedEvent';
+import { cancelMeetingByHost } from 'src/api/pendingEvent';
 
 function Overview() {
   const { eventId } = useParams();
@@ -139,9 +143,11 @@ function Overview() {
     navigate((isFixedMeeting ? makeFixedInfoUrl : makePendingInfoUrl)(eventId));
   };
 
+  // cancelFixedEventHost(eventId);
   const handleCancelHostClick = () => {
     const cancelFixedMeeting = () => {
       cancelFixedEventHost(eventId);
+      // cancelMeetingByHost(eventId);
       location.reload();
     };
 
@@ -150,6 +156,7 @@ function Overview() {
       location.reload();
     };
 
+    console.log(isFixedEvent(event));
     openDialog({
       title: `'${eventTitle}'\n미팅을 취소 하시겠어요?`,
       description:
@@ -184,13 +191,18 @@ function Overview() {
         : deletePendingMeeting,
     });
   };
-
+  // cancelFixedEventGuest(eventId);
+  // cancelFixedEventGuestById(eventId);
+  // console.log(eventId);
   const handleCancelGuestFixedClick = () => {
     const cancel = () => {
       cancelFixedEventGuest(eventId);
+      // cancelFixedEventGuestById(eventId);
       location.reload();
     };
-
+    // cancelFixedEventGuest(eventId);
+    // cancelFixedEventGuestById(eventId);
+    // location.reload();
     openDialog({
       title: `'${eventTitle}'\n미팅 참여를 취소 하시겠어요?`,
       onConfirm: cancel,
