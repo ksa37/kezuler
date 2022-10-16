@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { CURRENT_HOST } from 'src/constants/Auth';
@@ -10,18 +10,9 @@ import PathName, {
 } from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import useDialog from 'src/hooks/useDialog';
-import {
-  useCancelFixedEvent,
-  useCancelFixedEventGuest,
-  useDeleteFixedEvent,
-  useDeleteFixedEventGuest,
-} from 'src/hooks/useFixedEvent';
-import {
-  useCancelPendingEventByGuest,
-  useCancelPendingEventById,
-  useDeletePendingEventById,
-} from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
+import { alertAction } from 'src/reducers/alert';
+import { AppDispatch } from 'src/store';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
@@ -43,14 +34,22 @@ import { ReactComponent as LinkIcon } from 'src/assets/icn_link.svg';
 
 import {
   cancelFixedEventGuestById,
+  cancelFixedEventHostById,
+  deleteFixedEventGuestById,
+  deleteFixedEventHostById,
   putFixedEventGuestById,
 } from 'src/api/fixedEvent';
-import { cancelMeetingByHost } from 'src/api/pendingEvent';
+import {
+  cancelPendingEventGuestById,
+  cancelPendingEventHostById,
+  deletePendingEventHostById,
+} from 'src/api/pendingEvent';
 
 function Overview() {
   const { eventId } = useParams();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = alertAction;
   const [isSaveAvailable, setIsSaveAvailable] = useState(true);
 
   const isFixedMeeting = location.pathname.startsWith(PathName.mainFixed);
@@ -118,15 +117,6 @@ function Overview() {
 
   const { openDialog } = useDialog();
 
-  const deletePendingEventHost = useDeletePendingEventById();
-  const deleteFixedEventHost = useDeleteFixedEvent();
-  const cancelPendingEventHost = useCancelPendingEventById();
-  const cancelFixedEventHost = useCancelFixedEvent();
-
-  const cancelPendingEventGuest = useCancelPendingEventByGuest();
-  const deleteFixedEventGuest = useDeleteFixedEventGuest();
-  const cancelFixedEventGuest = useCancelFixedEventGuest();
-
   const closeModal = () => {
     navigate(isFixedMeeting ? PathName.mainFixed : PathName.mainPending);
   };
@@ -143,66 +133,113 @@ function Overview() {
     navigate((isFixedMeeting ? makeFixedInfoUrl : makePendingInfoUrl)(eventId));
   };
 
-  // cancelFixedEventHost(eventId);
   const handleCancelHostClick = () => {
-    const cancelFixedMeeting = () => {
-      cancelFixedEventHost(eventId);
-      // cancelMeetingByHost(eventId);
-      location.reload();
+    const cancelFixedMeetingHost = () => {
+      cancelFixedEventHostById(eventId)
+        .then(() => {
+          location.reload();
+        })
+        .catch((err) => {
+          console.log('미팅 취소 에러', err);
+          dispatch(
+            show({
+              title: '미팅 취소 오류',
+              description: '미팅 취소 과정 중 오류가 생겼습니다.',
+            })
+          );
+        });
     };
 
-    const cancelPendingMeeting = () => {
-      cancelPendingEventHost(eventId);
-      location.reload();
+    const cancelPendingMeetingHost = () => {
+      cancelPendingEventHostById(eventId)
+        .then(() => {
+          location.reload();
+        })
+        .catch((err) => {
+          console.log('미팅 취소 에러', err);
+          dispatch(
+            show({
+              title: '미팅 취소 오류',
+              description: '미팅 취소 과정 중 오류가 생겼습니다.',
+            })
+          );
+        });
     };
 
-    console.log(isFixedEvent(event));
     openDialog({
       title: `'${eventTitle}'\n미팅을 취소 하시겠어요?`,
       description:
         '취소 시, 되돌리기 어려우며\n참여자들에게 카카오톡 메세지가 전송됩니다.',
       onConfirm: isFixedEvent(event)
-        ? cancelFixedMeeting
-        : cancelPendingMeeting,
+        ? cancelFixedMeetingHost
+        : cancelPendingMeetingHost,
     });
   };
 
   const handleDeleteHostClick = () => {
-    const deleteFixedMeeting = () => {
-      deleteFixedEventHost(eventId);
-      closeModal();
-      navigate(PathName.mainFixed);
-      location.reload();
+    const deleteFixedMeetingHost = () => {
+      deleteFixedEventHostById(eventId)
+        .then(() => {
+          closeModal();
+          navigate(PathName.mainFixed);
+          location.reload();
+        })
+        .catch((err) => {
+          console.log('미팅 삭제 에러', err);
+          dispatch(
+            show({
+              title: '미팅 삭제 오류',
+              description: '미팅 삭제 과정 중 오류가 생겼습니다.',
+            })
+          );
+        });
     };
 
-    const deletePendingMeeting = () => {
-      deletePendingEventHost(eventId);
-      closeModal();
-      navigate(PathName.mainPending);
-      location.reload();
+    const deletePendingMeetingHost = () => {
+      deletePendingEventHostById(eventId)
+        .then(() => {
+          closeModal();
+          navigate(PathName.mainPending);
+          location.reload();
+        })
+        .catch((err) => {
+          console.log('미팅 삭제 에러', err);
+          dispatch(
+            show({
+              title: '미팅 삭제 오류',
+              description: '미팅 삭제 과정 중 오류가 생겼습니다.',
+            })
+          );
+        });
     };
 
     openDialog({
-      title: `'${eventTitle}'\n미팅 카드를 삭제 하시겠어요?`,
+      title: `'${eventTitle}'\n미팅카드를 삭제 하시겠어요?`,
       description:
         '삭제 시, 되돌리기 어려우며\n다가오는 미팅 목록에서 사라집니다.',
       onConfirm: isFixedEvent(event)
-        ? deleteFixedMeeting
-        : deletePendingMeeting,
+        ? deleteFixedMeetingHost
+        : deletePendingMeetingHost,
     });
   };
-  // cancelFixedEventGuest(eventId);
-  // cancelFixedEventGuestById(eventId);
-  // console.log(eventId);
+
   const handleCancelGuestFixedClick = () => {
     const cancel = () => {
-      cancelFixedEventGuest(eventId);
-      // cancelFixedEventGuestById(eventId);
-      location.reload();
+      cancelFixedEventGuestById(eventId)
+        .then(() => {
+          location.reload();
+        })
+        .catch((err) => {
+          console.log('미팅 취소 에러', err);
+          dispatch(
+            show({
+              title: '미팅 취소 오류',
+              description: '미팅 취소 과정 중 오류가 생겼습니다.',
+            })
+          );
+        });
     };
-    // cancelFixedEventGuest(eventId);
-    // cancelFixedEventGuestById(eventId);
-    // location.reload();
+
     openDialog({
       title: `'${eventTitle}'\n미팅 참여를 취소 하시겠어요?`,
       onConfirm: cancel,
@@ -211,44 +248,77 @@ function Overview() {
 
   const handleCancelGuestPendingClick = () => {
     const cancel = () => {
-      cancelPendingEventGuest(eventId);
-      closeModal();
-      navigate(PathName.mainPending);
-      location.reload();
+      cancelPendingEventGuestById(eventId)
+        .then(() => {
+          closeModal();
+          navigate(PathName.mainPending);
+          location.reload();
+        })
+        .catch((err) => {
+          console.log('미팅카드 삭제 에러', err);
+          dispatch(
+            show({
+              title: '미팅카드 삭제 오류',
+              description: '미팅카드 삭제 과정 중 오류가 생겼습니다.',
+            })
+          );
+        });
     };
 
     openDialog({
-      title: `'${eventTitle}'\n미팅 카드를 삭제 하시겠어요?`,
+      title: `'${eventTitle}'\n미팅카드를 삭제 하시겠어요?`,
       description:
         '삭제 시, 되돌리기 어려우며\n투표중인 미팅 목록에서 사라집니다.',
       onConfirm: cancel,
     });
   };
 
-  const handleDeleteGuestClick = () => {
+  const handleDeleteGuestFixedClick = () => {
     const cancel = () => {
-      deleteFixedEventGuest(eventId);
-      closeModal();
-      navigate(PathName.mainFixed);
-      location.reload();
+      deleteFixedEventGuestById(eventId)
+        .then(() => {
+          closeModal();
+          navigate(PathName.mainFixed);
+          location.reload();
+        })
+        .catch((err) => {
+          console.log('미팅 삭제 에러', err);
+          dispatch(
+            show({
+              title: '미팅 삭제 오류',
+              description: '미팅 삭제 과정 중 오류가 생겼습니다.',
+            })
+          );
+        });
     };
 
     openDialog({
-      title: `'${eventTitle}'\n미팅 카드를 삭제 하시겠어요?`,
+      title: `'${eventTitle}'\n미팅카드를 삭제 하시겠어요?`,
       description:
         '삭제 시, 되돌리기 어려우며\n다가오는 미팅 목록에서 사라집니다.',
       onConfirm: cancel,
     });
   };
 
-  const handleJoinClick = () => {
+  const handleJoinGuestFixedClick = () => {
     const join = () => {
-      putFixedEventGuestById(eventId);
-      location.reload();
+      putFixedEventGuestById(eventId)
+        .then(() => {
+          location.reload();
+        })
+        .catch((err) => {
+          console.log('미팅 재참여 에러', err);
+          dispatch(
+            show({
+              title: '미팅 재참여 오류',
+              description: '미팅 재참여 과정 중 오류가 생겼습니다.',
+            })
+          );
+        });
     };
 
     openDialog({
-      title: `'${eventTitle}'\n미팅에 참여하시겠어요?`,
+      title: `'${eventTitle}'\n미팅에 재참여하시겠어요?`,
       onConfirm: join,
     });
   };
@@ -346,7 +416,7 @@ function Overview() {
                     <OverviewButton
                       className={'canceled'}
                       icon={<JoinIcon />}
-                      onClick={handleJoinClick}
+                      onClick={handleJoinGuestFixedClick}
                       text={'참여하기'}
                     />
                   )
@@ -374,7 +444,7 @@ function Overview() {
                 isHost
                   ? handleDeleteHostClick
                   : isFixedEvent(event)
-                  ? handleDeleteGuestClick
+                  ? handleDeleteGuestFixedClick
                   : handleCancelGuestPendingClick
               }
               text={'미팅 삭제'}

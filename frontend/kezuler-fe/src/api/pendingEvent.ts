@@ -14,18 +14,17 @@ const getPendingEvents = (page: number) =>
 const getPendingEventById = (eventId: string) =>
   KezulerInstance.get<RPendingEvent>(`/pendingEvents/${eventId}`);
 
-const patchPendingEventsById = (eventId: string, params: PPatchPendingEvent) =>
+const postPendingEvent = (ppendingEvent: PPostPendingEvent) =>
+  KezulerInstance.post<RPendingEvent>(`pendingEvents`, ppendingEvent);
+
+const patchPendingEventById = (eventId: string, params: PPatchPendingEvent) =>
   KezulerInstance.patch(`/pendingEvents/${eventId}`, {
     ...params,
   });
 
-const postPendingEvent = (ppendingEvent: PPostPendingEvent) =>
-  KezulerInstance.post<RPendingEvent>(`pendingEvents`, ppendingEvent);
+// Candidate
 
-const deletePendingEventById = (eventId: string) =>
-  KezulerInstance.delete(`pendingEvents/${eventId}`);
-
-const putPendingEventGuestById = (
+const putPendingEventCandidateById = (
   eventId: string,
   ppendingEvent: PPutPendingEvent
 ) =>
@@ -34,7 +33,7 @@ const putPendingEventGuestById = (
     ppendingEvent
   );
 
-const deletePendingEventGuestById = (
+const deletePendingEventCandidateById = (
   eventId: string,
   ppendingEvent?: PDeletePendingEvent
 ) => {
@@ -44,27 +43,25 @@ const deletePendingEventGuestById = (
   KezulerInstance.delete(`pendingEvents/${eventId}/candidate`, config);
 };
 
-const cancelMeetingByGuest = (eventId: string) =>
+const cancelPendingEventGuestById = (eventId: string) =>
   KezulerInstance.patch(`pendingEvents/${eventId}/candidate`);
 
-// const deleteMeetingByGuest = (eventId: string) =>
-//   KezulerInstance.delete(`events/guest/${eventId}`);
+// Host
 
-const cancelMeetingByHost = (eventId: string) =>
+const cancelPendingEventHostById = (eventId: string) =>
   KezulerInstance.patch(`pendingEvents/${eventId}/host`);
 
-const deleteMeetingByHost = (eventId: string) =>
+const deletePendingEventHostById = (eventId: string) =>
   KezulerInstance.delete(`pendingEvents/${eventId}/host`);
 
 export {
   getPendingEvents,
   getPendingEventById,
-  patchPendingEventsById,
+  patchPendingEventById,
   postPendingEvent,
-  deletePendingEventById,
-  putPendingEventGuestById,
-  deletePendingEventGuestById,
-  cancelMeetingByGuest,
-  cancelMeetingByHost,
-  deleteMeetingByHost,
+  putPendingEventCandidateById,
+  deletePendingEventCandidateById,
+  cancelPendingEventGuestById,
+  cancelPendingEventHostById,
+  deletePendingEventHostById,
 };
