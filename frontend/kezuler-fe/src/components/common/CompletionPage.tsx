@@ -37,12 +37,16 @@ function CompletionPage({
   const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
 
   const handleGoogleSuccess = (res: any) => {
-    changeUser(getGoogleAccount(res.code), {
-      onSuccess: () => {
-        getUserInfo();
-        setIsCalendarPaired(!isCalendarPaired);
+    changeUser(
+      getGoogleAccount(res.code),
+      {
+        onSuccess: () => {
+          getUserInfo();
+          setIsCalendarPaired(!isCalendarPaired);
+        },
       },
-    });
+      true
+    );
   };
 
   const handleGooglelogin = useGoogleLogin({

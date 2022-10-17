@@ -78,7 +78,6 @@ function CalendarTimeSelector() {
         )
       ).getTime();
     } else {
-      console.log('Warning: date is null!');
       return getTimezoneDate(new Date().getTime()).getTime();
     }
   };
@@ -120,8 +119,6 @@ function CalendarTimeSelector() {
           dispatch(addTimeList(dateToAdd));
         }
       }
-    } else {
-      console.log('Warning: date is null');
     }
   };
 
