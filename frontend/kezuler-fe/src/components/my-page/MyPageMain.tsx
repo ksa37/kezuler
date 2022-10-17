@@ -118,12 +118,16 @@ function MyPageMain({ goToEdit }: Props) {
   };
 
   const handleGoogleSuccess = (res: any) => {
-    changeUser(getGoogleAccount(res.code), {
-      onSuccess: () => {
-        getUserInfo();
-        setIsCalendarPaired(!isCalendarPaired);
+    changeUser(
+      getGoogleAccount(res.code),
+      {
+        onSuccess: () => {
+          getUserInfo();
+          setIsCalendarPaired(!isCalendarPaired);
+        },
       },
-    });
+      true
+    );
   };
 
   const handleGooglelogin = useGoogleLogin({

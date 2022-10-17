@@ -43,12 +43,16 @@ function MainPendingEvents() {
   const [ref, inView] = useInView();
 
   const handleGoogleSuccess = (res: any) => {
-    changeUser(getGoogleAccount(res.code), {
-      onSuccess: () => {
-        getUserInfo();
-        setIsCalendarPaired(!isCalendarPaired);
+    changeUser(
+      getGoogleAccount(res.code),
+      {
+        onSuccess: () => {
+          getUserInfo();
+          setIsCalendarPaired(!isCalendarPaired);
+        },
       },
-    });
+      true
+    );
   };
 
   const handleGooglelogin = useGoogleLogin({
