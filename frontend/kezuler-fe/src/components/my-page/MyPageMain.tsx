@@ -130,11 +130,18 @@ function MyPageMain({ goToEdit }: Props) {
     );
   };
 
-  const handleGooglelogin = useGoogleLogin({
+  const connectGoogle = useGoogleLogin({
     onSuccess: handleGoogleSuccess,
     flow: 'auth-code',
     scope: GOOGLE_LOGIN_SCOPE,
   });
+  const handleGooglelogin = () => {
+    openDialog({
+      title: `구글 캘린더 연동`,
+      description: '연동시, 다가오는 모든 일정이 \n 구글 캘린더에 연동됩니다.',
+      onConfirm: connectGoogle,
+    });
+  };
 
   const handleTermsClick = () => {
     navigate(PathName.serviceTerm);
