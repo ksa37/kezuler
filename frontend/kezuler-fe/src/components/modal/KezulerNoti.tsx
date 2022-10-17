@@ -55,11 +55,7 @@ function KezulerNoti() {
             <span className={'noti-desc'}>{'까지 선택하여'}</span>
             <br />
             <span className={'noti-desc'}>
-              {'참여자들에게 물어볼 수 있으며,'}
-            </span>
-            <br />
-            <span className={'noti-desc'}>
-              {'투표 결과에 따라 미팅 시간을 확정 지을 수 있습니다.'}
+              {'참여자들에게 물어볼 수 있습니다.'}
             </span>
           </div>
         </div>

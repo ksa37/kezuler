@@ -18,12 +18,16 @@ function CalendarPairBtn({ setIsCalendarPaired }: Props) {
   const { getUserInfo } = useGetUserInfo();
 
   const handleGoogleSuccess = (res: any) => {
-    changeUser(getGoogleAccount(res.code), {
-      onSuccess: () => {
-        getUserInfo();
-        setIsCalendarPaired(true);
+    changeUser(
+      getGoogleAccount(res.code),
+      {
+        onSuccess: () => {
+          getUserInfo();
+          setIsCalendarPaired(true);
+        },
       },
-    });
+      true
+    );
   };
 
   const handleGooglelogin = useGoogleLogin({
