@@ -203,7 +203,13 @@ function OnOffSelector() {
       </div>
       <BottomButton
         onClick={handlePostClick}
-        text={nextButtonDisabled ? '다음' : isOnline ? '건너뛰기' : '다음'}
+        text={
+          nextButtonDisabled
+            ? '다음'
+            : isOnline && addressDetail === ''
+            ? '건너뛰기'
+            : '다음'
+        }
         disabled={nextButtonDisabled}
       />
     </div>
