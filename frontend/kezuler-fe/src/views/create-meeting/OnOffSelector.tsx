@@ -46,15 +46,15 @@ function OnOffSelector() {
   const onFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
 
-  useEffect(() => {
-    if (isMobile && isIOS) {
-      if (focused) {
-        focusDisable();
-      } else {
-        focusEnable();
-      }
-    }
-  }, [focused]);
+  // useEffect(() => {
+  //   if (isMobile && isIOS) {
+  //     if (focused) {
+  //       focusDisable();
+  //     } else {
+  //       focusEnable();
+  //     }
+  //   }
+  // }, [focused]);
 
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
