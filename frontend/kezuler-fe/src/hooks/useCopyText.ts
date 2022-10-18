@@ -17,12 +17,12 @@ const useCopyText = () => {
           })
           .catch(() => {
             dispatch(show({ title: '복사를 실패하였습니다.' }));
-          })
-          .finally(() => {
-            setTimeout(() => {
-              dispatch(hide());
-            }, 1500);
           });
+        // .finally(() => {
+        //   setTimeout(() => {
+        //     dispatch(hide());
+        //   }, 1500);
+        // });
       } else {
         const textArea = document.createElement('textarea');
         textArea.value = targetText;
