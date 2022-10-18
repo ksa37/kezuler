@@ -4,6 +4,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 
 import { GOOGLE_LOGIN_SCOPE } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
+import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
@@ -33,6 +34,7 @@ function CompletionPage({
   const { googleToggle } = useMemo(() => ({ ...getCurrentUserInfo() }), []);
   const { changeUser } = usePatchUser();
   const { getUserInfo } = useGetUserInfo();
+  const { openDialog } = useDialog();
 
   const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
 
@@ -49,11 +51,18 @@ function CompletionPage({
     );
   };
 
-  const handleGooglelogin = useGoogleLogin({
+  const connectGoogle = useGoogleLogin({
     onSuccess: handleGoogleSuccess,
     flow: 'auth-code',
     scope: GOOGLE_LOGIN_SCOPE,
   });
+  const handleGooglelogin = () => {
+    openDialog({
+      title: `구글 캘린더 연동`,
+      description: '연동시, 다가오는 모든 일정이 \n 구글 캘린더에 연동됩니다.',
+      onConfirm: connectGoogle,
+    });
+  };
 
   const handleConnectClick = () => {
     if (!googleToggle) {

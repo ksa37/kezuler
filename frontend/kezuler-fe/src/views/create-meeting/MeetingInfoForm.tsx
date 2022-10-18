@@ -84,15 +84,15 @@ function MeetingInfoForm() {
     }));
   }, [eventAttachment]);
 
-  useEffect(() => {
-    if (isMobile && isIOS) {
-      if (focused) {
-        focusDisable();
-      } else {
-        focusEnable();
-      }
-    }
-  }, [focused]);
+  // useEffect(() => {
+  //   if (isMobile && isIOS) {
+  //     if (focused) {
+  //       focusDisable();
+  //     } else {
+  //       focusEnable();
+  //     }
+  //   }
+  // }, [focused]);
 
   const navigate = useNavigate();
 
