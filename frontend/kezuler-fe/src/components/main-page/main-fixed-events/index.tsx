@@ -92,8 +92,9 @@ function MainFixedEvents() {
   }, []);
 
   useEffect(() => {
-    // console.log(pageBtm.current, nextPage, isBtmEnd, inViewBtm);
+    console.log(pageBtm.current, nextPage, isBtmEnd, inViewBtm);
     if (inViewBtm && !isBtmEnd) {
+      console.log('hello');
       fetchBtmCards();
     }
   }, [fetchBtmCards, nextPage, isBtmEnd, inViewBtm]);

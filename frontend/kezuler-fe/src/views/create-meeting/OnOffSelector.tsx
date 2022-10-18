@@ -46,15 +46,15 @@ function OnOffSelector() {
   const onFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
 
-  useEffect(() => {
-    if (isMobile && isIOS) {
-      if (focused) {
-        focusDisable();
-      } else {
-        focusEnable();
-      }
-    }
-  }, [focused]);
+  // useEffect(() => {
+  //   if (isMobile && isIOS) {
+  //     if (focused) {
+  //       focusDisable();
+  //     } else {
+  //       focusEnable();
+  //     }
+  //   }
+  // }, [focused]);
 
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
@@ -203,7 +203,13 @@ function OnOffSelector() {
       </div>
       <BottomButton
         onClick={handlePostClick}
-        text={nextButtonDisabled ? '다음' : isOnline ? '건너뛰기' : '다음'}
+        text={
+          nextButtonDisabled
+            ? '다음'
+            : isOnline && addressDetail === ''
+            ? '건너뛰기'
+            : '다음'
+        }
         disabled={nextButtonDisabled}
       />
     </div>
