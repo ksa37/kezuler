@@ -79,20 +79,17 @@ function MainPendingEvents() {
       getPendingEvents(page.current);
       page.current += 1;
     }
-    if (inView && !isEnd) {
-      fetchCards();
-    }
     return () => {
       dispatch(destroy());
     };
   }, []);
 
-  const fetchCards = useCallback(async () => {
+  const fetchCards = () => {
     if (page.current == nextPage && !isEnd) {
       getPendingEvents(page.current);
       page.current += 1;
     }
-  }, []);
+  };
 
   useEffect(() => {
     if (inView && !isEnd) {

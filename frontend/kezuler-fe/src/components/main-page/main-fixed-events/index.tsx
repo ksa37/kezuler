@@ -58,12 +58,6 @@ function MainFixedEvents() {
       pageTop.current -= 1;
     }
 
-    if (inViewBtm && !isBtmEnd) {
-      fetchBtmCards();
-    }
-    if (inViewTop && !isTopEnd) {
-      fetchTopCards();
-    }
     return () => {
       dispatch(pendingDestroy());
       dispatch(fixedDestroy());
@@ -76,32 +70,38 @@ function MainFixedEvents() {
     }
   }, [events.length === 0]);
 
-  const fetchBtmCards = useCallback(async () => {
+  const fetchBtmCards = () => {
     // console.log(pageBtm.current, nextPage, !isBtmEnd);
     if (pageBtm.current == nextPage && !isBtmEnd) {
       getFixedEvents(pageBtm.current);
       pageBtm.current += 1;
     }
-  }, []);
+  };
 
-  const fetchTopCards = useCallback(async () => {
+  const fetchTopCards = () => {
     if (pageTop.current == prePage && !isTopEnd) {
       getFixedEvents(pageTop.current);
       pageTop.current -= 1;
     }
-  }, []);
+  };
 
   useEffect(() => {
-    console.log(pageBtm.current, nextPage, isBtmEnd, inViewBtm);
+    console.log(
+      'Reached Bottom',
+      pageBtm.current,
+      nextPage,
+      isBtmEnd,
+      inViewBtm
+    );
     if (inViewBtm && !isBtmEnd) {
-      console.log('hello');
       fetchBtmCards();
     }
   }, [fetchBtmCards, nextPage, isBtmEnd, inViewBtm]);
 
   useEffect(() => {
-    // console.log(pageTop.current, prePage, isTopEnd, inViewTop);
+    console.log('Reached Top', pageTop.current, prePage, isTopEnd, inViewTop);
     if (inViewTop && !isTopEnd) {
+      console.log('hello top called');
       fetchTopCards();
     }
   }, [fetchTopCards, prePage, isTopEnd, inViewTop]);
