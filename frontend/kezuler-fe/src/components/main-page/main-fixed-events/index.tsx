@@ -86,22 +86,21 @@ function MainFixedEvents() {
   };
 
   useEffect(() => {
-    console.log(
-      'Reached Bottom',
-      pageBtm.current,
-      nextPage,
-      isBtmEnd,
-      inViewBtm
-    );
+    // console.log(
+    //   'Reached Bottom',
+    //   pageBtm.current,
+    //   nextPage,
+    //   isBtmEnd,
+    //   inViewBtm
+    // );
     if (inViewBtm && !isBtmEnd) {
       fetchBtmCards();
     }
   }, [fetchBtmCards, nextPage, isBtmEnd, inViewBtm]);
 
   useEffect(() => {
-    console.log('Reached Top', pageTop.current, prePage, isTopEnd, inViewTop);
+    // console.log('Reached Top', pageTop.current, prePage, isTopEnd, inViewTop);
     if (inViewTop && !isTopEnd) {
-      console.log('hello top called');
       fetchTopCards();
     }
   }, [fetchTopCards, prePage, isTopEnd, inViewTop]);
