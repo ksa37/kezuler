@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { isIOS, isMobile } from 'react-device-detect';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
@@ -14,11 +13,11 @@ import {
 } from 'src/constants/Validation';
 import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
+import useIOSScroll from 'src/hooks/useIOSScroll';
 import { usePatchUser } from 'src/hooks/usePatchUser';
 import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
-import { focusDisable, focusEnable } from 'src/utils/iosScrollDisable';
 
 import BottomButton from '../common/BottomButton';
 
@@ -37,6 +36,8 @@ interface UserForm {
 }
 
 function MyPageEdit({ goToMain }: Props) {
+  useIOSScroll();
+
   const dispatch = useDispatch<AppDispatch>();
   const { show } = alertAction;
   const { openDialog } = useDialog();
@@ -58,20 +59,6 @@ function MyPageEdit({ goToMain }: Props) {
   const { getUserInfo } = useGetUserInfo();
 
   const [previewImage, setPreviewImage] = useState(userProfileImage);
-
-  const [focused, setFocused] = useState(false);
-  const onFocus = () => setFocused(true);
-  const onBlur = () => setFocused(false);
-
-  // useEffect(() => {
-  //   if (isMobile && isIOS) {
-  //     if (focused) {
-  //       focusDisable();
-  //     } else {
-  //       focusEnable();
-  //     }
-  //   }
-  // }, [focused]);
 
   const encodeAndPreview = (file: File) => {
     const reader = new FileReader();
@@ -214,7 +201,6 @@ function MyPageEdit({ goToMain }: Props) {
             })}
             placeholder={'이름을 입력해주세요.'}
             defaultValue={userName}
-            onFocus={onFocus}
             {...register('userName', {
               required: REQUIRED_ERROR,
               maxLength: {
@@ -222,7 +208,6 @@ function MyPageEdit({ goToMain }: Props) {
                 message: MAX_NAME_LENGTH_ERROR,
               },
             })}
-            onBlur={onBlur}
           />
           {errors.userName && (
             <div className={'my-page-edit-error-text'}>
@@ -238,7 +223,6 @@ function MyPageEdit({ goToMain }: Props) {
           <div className={'my-page-edit-textfield-title'}>이메일</div>
           <input
             onKeyDown={handleKeyDown}
-            onFocus={onFocus}
             className={classNames('my-page-edit-textfield-box', {
               error: errors.userEmail,
             })}
@@ -250,7 +234,6 @@ function MyPageEdit({ goToMain }: Props) {
                 isEmail: checkEmail,
               },
             })}
-            onBlur={onBlur}
           />
           {errors.userEmail && (
             <div className={'my-page-edit-error-text'}>

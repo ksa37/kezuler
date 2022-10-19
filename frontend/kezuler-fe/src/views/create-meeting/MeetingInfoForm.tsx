@@ -1,11 +1,4 @@
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { isIOS, isMobile } from 'react-device-detect';
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
@@ -20,6 +13,7 @@ import {
   MAX_TITLE_LENGTH,
   MAX_TITLE_LENGTH_ERROR,
 } from 'src/constants/Validation';
+import useIOSScroll from 'src/hooks/useIOSScroll';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
@@ -34,48 +28,7 @@ interface CreateInfoErrorForm {
 }
 
 function MeetingInfoForm() {
-  const defaultHeightDiff = useMemo(() => {
-    return window.outerHeight - window.innerHeight;
-  }, []);
-
-  useEffect(() => {
-    if (!isMobile || !isIOS) {
-      return;
-    }
-
-    const app = document.getElementById('App');
-    const appInner = document.getElementById('app-inner');
-
-    if (appInner && app) {
-      const handler = () => {
-        // alert(
-        //   `${window.outerHeight} ${window.innerHeight} ${defaultHeightDiff}`
-        // );
-        if (window.outerHeight - window.innerHeight > defaultHeightDiff) {
-          app.style.height = '100vh';
-        } else {
-          app.style.height = 'calc(var(--vh, 1vh) * 100)';
-        }
-      };
-
-      const observer = new ResizeObserver((entries) => {
-        entries.forEach((e) => {
-          if (window.outerHeight - e.contentRect.height > defaultHeightDiff) {
-            app.style.height = '100vh';
-          } else {
-            app.style.height = 'calc(var(--vh, 1vh) * 100)';
-          }
-        });
-        handler();
-      });
-
-      observer.observe(appInner);
-
-      return () => {
-        observer.unobserve(appInner);
-      };
-    }
-  }, []);
+  useIOSScroll();
 
   const dispatch = useDispatch<AppDispatch>();
   const { setTitle, setDescription, setAttachment } = createMeetingActions;

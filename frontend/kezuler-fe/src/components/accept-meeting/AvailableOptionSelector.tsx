@@ -1,20 +1,21 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { isIOS, isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import classNames from 'classnames';
 
+import useIOSScroll from 'src/hooks/useIOSScroll';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
-import { focusDisable, focusEnable } from 'src/utils/iosScrollDisable';
 interface Props {
   errorMessage: string;
 }
 
 function AvailableOptionSelector({ errorMessage }: Props) {
+  useIOSScroll();
+
   const dispatch = useDispatch<AppDispatch>();
   const { isDecline, declineReason, availableTimes, pendingEvent } =
     useSelector((state: RootState) => state.acceptMeeting);
@@ -27,19 +28,6 @@ function AvailableOptionSelector({ errorMessage }: Props) {
   } = acceptMeetingActions;
 
   const [isOpen, setIsOpen] = useState(false);
-  const [focused, setFocused] = useState(false);
-  const onFocus = () => setFocused(true);
-  const onBlur = () => setFocused(false);
-
-  // useEffect(() => {
-  //   if (isMobile && isIOS) {
-  //     if (focused) {
-  //       focusDisable();
-  //     } else {
-  //       focusEnable();
-  //     }
-  //   }
-  // }, [focused]);
 
   const handleOutsideClick = () => {
     setIsOpen(false);
@@ -143,8 +131,6 @@ function AvailableOptionSelector({ errorMessage }: Props) {
             value={declineReason || ''}
             onKeyDown={handleKeyDown}
             onChange={handleDeclineReasonChange}
-            onFocus={onFocus}
-            onBlur={onBlur}
           />
         )}
         {isDecline &&
