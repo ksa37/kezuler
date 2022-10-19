@@ -427,7 +427,7 @@ function Overview() {
                     text={'참여취소'}
                   />
                 )}
-                {!canceledFixedGuest && (
+                {!isFixedEvent(event) && (
                   <OverviewButton
                     icon={<LinkIcon />}
                     onClick={handleCopyLinkClick}
