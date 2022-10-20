@@ -4,11 +4,15 @@ import {
   PPatchFixedEvent,
   PPostFixedEvent,
   RGetFixedEvents,
+  RGetFixedNextNum,
 } from 'src/types/fixedEvent';
 import { PPatchReminder, Reminder } from 'src/types/reminder';
 
 const getFixedEvents = (page: number) =>
   KezulerInstance.get<RGetFixedEvents>(`fixedEvents?page=${page}`);
+
+const getFixedNextNum = (page: number) =>
+  KezulerInstance.get<RGetFixedNextNum>(`fixedEvents/next?page=${page}`);
 
 const getFixedEventById = (eventId: string) =>
   KezulerInstance.get<FixedEvent>(`/fixedEvents/${eventId}`);
@@ -54,6 +58,7 @@ const deleteGuestReminder = (eventId: string) =>
 
 export {
   getFixedEvents,
+  getFixedNextNum,
   getFixedEventById,
   patchFixedEventById,
   postFixedEvent,

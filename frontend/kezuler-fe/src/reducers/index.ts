@@ -6,6 +6,7 @@ import calendarList from './calendarList';
 import ConfirmTime from './ConfirmTime';
 import CreateMeeting from './CreateMeeting';
 import dialog from './dialog';
+import loading from './loading';
 import mainFixed from './mainFixed';
 import mainPending from './mainPending';
 import noti from './noti';
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   participantsPopup: participantsPopup,
   confirmTime: ConfirmTime,
   calendarList: calendarList,
+  loading: loading,
 });
 
 type RootState = ReturnType<typeof rootReducer>;

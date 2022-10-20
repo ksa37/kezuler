@@ -10,6 +10,7 @@ import PathName, {
 } from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
 import useDialog from 'src/hooks/useDialog';
+import useLoading from 'src/hooks/useLoading';
 import { RootState } from 'src/reducers';
 import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
@@ -46,6 +47,8 @@ import {
 } from 'src/api/pendingEvent';
 
 function Overview() {
+  const { startLoading, endLoading } = useLoading();
+
   const { eventId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -135,11 +138,13 @@ function Overview() {
 
   const handleCancelHostClick = () => {
     const cancelFixedMeetingHost = () => {
+      startLoading();
       cancelFixedEventHostById(eventId)
         .then(() => {
           location.reload();
         })
         .catch((err) => {
+          endLoading();
           console.log('미팅 취소 에러', err);
           dispatch(
             show({
@@ -151,11 +156,13 @@ function Overview() {
     };
 
     const cancelPendingMeetingHost = () => {
+      startLoading();
       cancelPendingEventHostById(eventId)
         .then(() => {
           location.reload();
         })
         .catch((err) => {
+          endLoading();
           console.log('미팅 취소 에러', err);
           dispatch(
             show({
@@ -178,6 +185,7 @@ function Overview() {
 
   const handleDeleteHostClick = () => {
     const deleteFixedMeetingHost = () => {
+      startLoading();
       deleteFixedEventHostById(eventId)
         .then(() => {
           closeModal();
@@ -185,6 +193,7 @@ function Overview() {
           location.reload();
         })
         .catch((err) => {
+          endLoading();
           console.log('미팅 삭제 에러', err);
           dispatch(
             show({
@@ -196,6 +205,7 @@ function Overview() {
     };
 
     const deletePendingMeetingHost = () => {
+      startLoading();
       deletePendingEventHostById(eventId)
         .then(() => {
           closeModal();
@@ -203,6 +213,7 @@ function Overview() {
           location.reload();
         })
         .catch((err) => {
+          endLoading();
           console.log('미팅 삭제 에러', err);
           dispatch(
             show({
@@ -225,11 +236,13 @@ function Overview() {
 
   const handleCancelGuestFixedClick = () => {
     const cancel = () => {
+      startLoading();
       cancelFixedEventGuestById(eventId)
         .then(() => {
           location.reload();
         })
         .catch((err) => {
+          endLoading();
           console.log('미팅 취소 에러', err);
           dispatch(
             show({
@@ -248,6 +261,7 @@ function Overview() {
 
   const handleCancelGuestPendingClick = () => {
     const cancel = () => {
+      startLoading();
       cancelPendingEventGuestById(eventId)
         .then(() => {
           closeModal();
@@ -255,6 +269,7 @@ function Overview() {
           location.reload();
         })
         .catch((err) => {
+          endLoading();
           console.log('미팅카드 삭제 에러', err);
           dispatch(
             show({
@@ -275,6 +290,7 @@ function Overview() {
 
   const handleDeleteGuestFixedClick = () => {
     const cancel = () => {
+      startLoading();
       deleteFixedEventGuestById(eventId)
         .then(() => {
           closeModal();
@@ -282,6 +298,7 @@ function Overview() {
           location.reload();
         })
         .catch((err) => {
+          endLoading();
           console.log('미팅 삭제 에러', err);
           dispatch(
             show({
@@ -302,11 +319,13 @@ function Overview() {
 
   const handleJoinGuestFixedClick = () => {
     const join = () => {
+      startLoading();
       putFixedEventGuestById(eventId)
         .then(() => {
           location.reload();
         })
         .catch((err) => {
+          endLoading();
           console.log('미팅 재참여 에러', err);
           dispatch(
             show({
@@ -427,7 +446,7 @@ function Overview() {
                     text={'참여취소'}
                   />
                 )}
-                {!canceledFixedGuest && (
+                {!isFixedEvent(event) && (
                   <OverviewButton
                     icon={<LinkIcon />}
                     onClick={handleCopyLinkClick}
