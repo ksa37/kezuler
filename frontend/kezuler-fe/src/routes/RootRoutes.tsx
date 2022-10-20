@@ -183,7 +183,7 @@ function RootRoutes() {
               <Route path="*" element={<AcceptIndex />} />
             </Route>
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
-            <Route path={'landing'} element={<LandingPage />} />
+            <Route path={PathName.landing} element={<LandingPage />} />
             <Route path={PathName.notFound} element={<NotFound />} />
             <Route
               path="*"
@@ -194,7 +194,8 @@ function RootRoutes() {
       ) : (
         <main>
           <Routes>
-            <Route index element={<Navigate replace to={PathName.login} />} />
+            <Route index element={<Navigate replace to={PathName.landing} />} />
+            <Route path={PathName.landing} element={<LandingPage />} />
             <Route path={PathName.create} element={<CreateMeeting />}>
               <Route
                 index

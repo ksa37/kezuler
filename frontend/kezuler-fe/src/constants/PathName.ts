@@ -2,6 +2,7 @@ const PathName = {
   login: '/login',
   main: '/main',
   notification: '/noti',
+  landing: '/landing',
 
   myPage: '/mypage',
   privacyPolicy: '/mypage/privacy-policy',
@@ -49,6 +50,7 @@ const PathNameList = [
   '/login',
   '/main',
   '/noti',
+  '/landing',
 
   '/mypage',
   '/mypage/privacy-policy',
