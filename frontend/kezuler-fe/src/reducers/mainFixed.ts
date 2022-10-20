@@ -21,7 +21,10 @@ const getFixedEventsThunk = createAsyncThunk(
       const response = await getFixedEvents(page);
       onFinally?.();
 
-      return { page: page, events: response.data.result };
+      return {
+        page: page,
+        events: response.data.result,
+      };
     } catch (error) {
       const err = error as TError;
       onFinally?.();
@@ -69,8 +72,10 @@ export const mainFixed = createSlice({
         const { page, events: fixedEvents } = action.payload;
         if (page >= 0) {
           state.nextPage = page + 1;
-          if (page === 0) state.prePage = page - 1;
-          if (fixedEvents.length < 15) state.isBtmEnd = true;
+          if (page === 0) {
+            state.prePage = page - 1;
+          }
+          if (page !== 0 && fixedEvents.length < 15) state.isBtmEnd = true;
           state.events = [...state.events, ...fixedEvents];
         } else if (page < 0) {
           state.prePage = page - 1;
