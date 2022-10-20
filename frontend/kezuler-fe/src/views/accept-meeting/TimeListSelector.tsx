@@ -184,7 +184,9 @@ function TimeListSelector({ isModification }: Props) {
 
   useEffect(() => {
     if (!isCalendarPaired) return;
-    setCalendarStore();
+    if (Object.keys(eventTimeListDevideByDate).length > 0) {
+      setCalendarStore();
+    }
   }, [eventTimeListDevideByDate, isCalendarPaired]);
 
   const [error, setError] = useState('');

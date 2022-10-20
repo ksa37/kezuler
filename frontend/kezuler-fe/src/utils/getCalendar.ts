@@ -23,18 +23,22 @@ type EventTimeListByDateWithPossibleNum = {
 
 const getSchedules = (eventTimeList: EventTimeListByDateWithPossibleNum) => {
   const dispatch = useDispatch<AppDispatch>();
-
   const dateKeys = Object.keys(eventTimeList);
   const { setCalendarList } = calendarAction;
 
-  const getCalendarByDate = (
-    dateToGet: PGetCalendarByDay,
-    dateKey: string,
-    objToPut: ScehdulesEachDay
-  ) => {
-    return new Promise((resolve) => {
-      getCalendars(dateToGet).then((res) => {
-        const calendarList: RGetCalendars[] = res.data.result;
+  const dateToGetList = dateKeys.map((dateKey) => {
+    const dateToGet: PGetCalendarByDay = {
+      year: eventTimeList[dateKey][0].eventStartsAt.getFullYear(),
+      month: Number(dateKey.split('/')[0]),
+      day: Number(dateKey.split('/')[1].split(' ')[0]),
+    };
+    return getCalendars(dateToGet);
+  });
+
+  const setCalendarStore = () =>
+    Promise.all(dateToGetList).then((res) => {
+      const schedules = res.map((item) => {
+        const calendarList: RGetCalendars[] = item.data.result;
         const calendars = calendarList.map((schedule) => ({
           timeRange: schedule.isAllDay
             ? '하루 종일'
@@ -43,30 +47,15 @@ const getSchedules = (eventTimeList: EventTimeListByDateWithPossibleNum) => {
               )}`,
           scheduleTitle: schedule.title,
         }));
-        if (calendars.length) {
-          objToPut[dateKey] = calendars;
-        }
-        resolve(objToPut);
+        return calendars;
       });
+      const schedulesEachDay: ScehdulesEachDay = {};
+      dateKeys.map((dateKey, index) => {
+        schedulesEachDay[dateKey] = schedules[index];
+      });
+      dispatch(setCalendarList(schedulesEachDay));
     });
-  };
 
-  const result = dateKeys.reduce<Promise<any>>((prevPromise, dateKey) => {
-    const dateToGet: PGetCalendarByDay = {
-      year: eventTimeList[dateKey][0].eventStartsAt.getFullYear(),
-      month: Number(dateKey.split('/')[0]),
-      day: Number(dateKey.split('/')[1].split(' ')[0]),
-    };
-
-    return prevPromise.then((res) => {
-      return getCalendarByDate(dateToGet, dateKey, res);
-    });
-  }, Promise.resolve({}));
-
-  const setCalendarStore = () =>
-    result.then((res) => {
-      dispatch(setCalendarList(res));
-    });
   return { setCalendarStore };
 };
 
