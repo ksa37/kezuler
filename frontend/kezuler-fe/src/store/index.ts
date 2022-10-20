@@ -16,7 +16,12 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['acceptMeeting', 'createMeeting', 'confirmTime'],
+  whitelist: [
+    'acceptMeeting',
+    'createMeeting',
+    'confirmTime',
+    'participantsPopup',
+  ],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
