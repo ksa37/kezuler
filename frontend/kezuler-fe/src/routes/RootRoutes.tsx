@@ -18,6 +18,7 @@ import MeetingShare from 'src/views/create-meeting/MeetingShare';
 import OnOffSelector from 'src/views/create-meeting/OnOffSelector';
 import SelectedOptions from 'src/views/create-meeting/SelectedOptions';
 import KakaoRedirect from 'src/views/KakaoRedirect';
+import LandingPage from 'src/views/LandingPage';
 import Login from 'src/views/Login';
 import MainPage from 'src/views/MainPage';
 import MyPage from 'src/views/MyPage';
@@ -182,19 +183,7 @@ function RootRoutes() {
               <Route path="*" element={<AcceptIndex />} />
             </Route>
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
-            {/* <Route
-              path={'test'}
-              element={
-                // <MeetingShare />
-                <AcceptanceCompletion />
-                // <CompletionPage
-                //   boldTextFirst="미팅 시간이"
-                //   boldTextSecond="확정되었습니다."
-                //   regularTextFirst="미팅 참여자들에게"
-                //   regularTextSecond="확정된 일정이 전송되었습니다."
-                // />
-              }
-            /> */}
+            <Route path={'landing'} element={<LandingPage />} />
             <Route path={PathName.notFound} element={<NotFound />} />
             <Route
               path="*"
@@ -266,6 +255,8 @@ function RootRoutes() {
               />
             </Route> */}
             {/* <Route path={PathName.myPage} element={<MyPage />} /> */}
+            <Route path={PathName.privacyPolicy} element={<PrivacyPolicy />} />
+            <Route path={PathName.serviceTerm} element={<TermsOfService />} />
             <Route path={PathName.login} element={<Login />}>
               <Route path="*" element={<Login />} />
             </Route>
