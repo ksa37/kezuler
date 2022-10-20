@@ -9,19 +9,19 @@ const useCopyText = () => {
 
   const copyText = useCallback(
     (targetText: string, targetName: string) => {
-      navigator.clipboard
-        .writeText(targetText)
-        .then(() => {
-          dispatch(show({ title: `${targetName} 복사되었습니다.` }));
-        })
-        .catch(() => {
-          dispatch(show({ title: '복사를 실패하였습니다.' }));
-        })
-        .finally(() => {
-          setTimeout(() => {
-            dispatch(hide());
-          }, 1500);
-        });
+      const textArea = document.createElement('textarea');
+      textArea.value = targetText;
+      document.body.appendChild(textArea);
+      textArea.select();
+      textArea.setSelectionRange(0, 99999);
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        dispatch(show({ title: '복사를 실패하였습니다.' }));
+      }
+      textArea.setSelectionRange(0, 0);
+      document.body.removeChild(textArea);
+      dispatch(show({ title: `${targetName} 복사되었습니다.` }));
     },
     [dispatch, show]
   );

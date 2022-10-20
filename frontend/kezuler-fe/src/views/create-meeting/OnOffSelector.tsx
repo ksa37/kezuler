@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { isIOS, isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
@@ -11,12 +10,12 @@ import {
   MAX_ONLINE_LOCATION_LENGTH_ERROR,
 } from 'src/constants/Validation';
 import useDialog from 'src/hooks/useDialog';
+import useIOSScroll from 'src/hooks/useIOSScroll';
 import { usePostPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 import { PPostPendingEvent } from 'src/types/pendingEvent';
-import { focusDisable, focusEnable } from 'src/utils/iosScrollDisable';
 import isURL from 'src/utils/isURL';
 
 import BottomButton from 'src/components/common/BottomButton';
@@ -25,6 +24,8 @@ import { ReactComponent as OfflineIcon } from 'src/assets/offline_icon.svg';
 import { ReactComponent as OnlineIcon } from 'src/assets/online_icon.svg';
 
 function OnOffSelector() {
+  useIOSScroll();
+
   const dispatch = useDispatch<AppDispatch>();
   const { setIsOnline, setAddressType, setAddressDetail } =
     createMeetingActions;
@@ -41,20 +42,6 @@ function OnOffSelector() {
   } = useSelector((state: RootState) => state.createMeeting);
 
   const { openDialog } = useDialog();
-
-  const [focused, setFocused] = useState(false);
-  const onFocus = () => setFocused(true);
-  const onBlur = () => setFocused(false);
-
-  // useEffect(() => {
-  //   if (isMobile && isIOS) {
-  //     if (focused) {
-  //       focusDisable();
-  //     } else {
-  //       focusEnable();
-  //     }
-  //   }
-  // }, [focused]);
 
   const handleOnlineClick = () => {
     dispatch(setIsOnline(true));
@@ -189,8 +176,6 @@ function OnOffSelector() {
                   ? '링크를 입력하세요.'
                   : '만날 장소 또는 주소를 입력하세요.'
               }
-              onFocus={onFocus}
-              onBlur={onBlur}
             />
             <div className={'on-off-textfield-field-footer'}>
               <div className={'on-off-textfield-field-footer-error'}>

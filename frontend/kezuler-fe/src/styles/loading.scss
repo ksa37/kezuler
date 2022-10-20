@@ -1,0 +1,19 @@
+@import 'constants';
+
+.kezuler-loading {
+  z-index: 5000;
+}
+
+.kezuler-loading-paper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: visible;
+  background: none;
+  box-shadow: none;
+}
+
+.kezuler-loading-progress {
+  color: $color-highlight;
+}
