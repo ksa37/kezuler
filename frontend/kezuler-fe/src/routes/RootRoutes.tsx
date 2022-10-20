@@ -206,6 +206,30 @@ function RootRoutes() {
         <main>
           <Routes>
             <Route index element={<Navigate replace to={PathName.login} />} />
+            <Route path={PathName.create} element={<CreateMeeting />}>
+              <Route
+                index
+                element={<Navigate replace to={PathName.createInfo} />}
+              />
+              <Route path={PathName.createInfo} element={<MeetingInfoForm />} />
+              <Route
+                path={PathName.createTime}
+                element={<CalendarTimeSelector />}
+              />
+              <Route
+                path={PathName.createCheck}
+                element={<SelectedOptions />}
+              />
+              <Route path={PathName.createPlace} element={<OnOffSelector />} />
+              <Route
+                path={PathName.createComplete}
+                element={<MeetingShare />}
+              />
+              <Route
+                path="*"
+                element={<Navigate replace to={PathName.createInfo} />}
+              />
+            </Route>
             <Route
               path={`${PathName.invite}/:eventId`}
               element={<AcceptMeeting />}
