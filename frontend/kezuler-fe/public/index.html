@@ -112,11 +112,11 @@
 
         if (navigator.userAgent.match(/iPhone|iPad/i)) {
           // 아이폰 접속 경우
-          console.log('[window ready] : [접속 모바일] : ' + '[아이폰]');
+          // console.log('[window ready] : [접속 모바일] : ' + '[아이폰]');
           // 아이폰의 경우 인앱브라우저 전환불가
         } else {
           // 안드로이드 접속 경우
-          console.log('[window ready] : [접속 모바일] : ' + '[안드로이드]');
+          // console.log('[window ready] : [접속 모바일] : ' + '[안드로이드]');
           // 카카오 인앱 브라우저 닫기
           if (Agent.includes('kakao')) {
             location.href = 'kakaotalk://inappbrowser/close';
