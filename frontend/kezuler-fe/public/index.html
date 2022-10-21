@@ -100,6 +100,55 @@
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
       });
+
+      document.addEventListener('DOMContentLoaded', ready);
+      function ready() {
+        let Url = location.href;
+        let Agent = navigator.userAgent.toLowerCase();
+        let chromeNewTab =
+          'intent://' +
+          location.href.replace(/https?:\/\//i, '') +
+          '#Intent;scheme=http;package=com.android.chrome;end';
+
+        if (navigator.userAgent.match(/iPhone|iPad/i)) {
+          // 아이폰 접속 경우
+          console.log('[window ready] : [접속 모바일] : ' + '[아이폰]');
+          // 아이폰의 경우 인앱브라우저 전환불가
+        } else {
+          // 안드로이드 접속 경우
+          console.log('[window ready] : [접속 모바일] : ' + '[안드로이드]');
+          // 카카오 인앱 브라우저 닫기
+          if (Agent.includes('kakao')) {
+            location.href = 'kakaotalk://inappbrowser/close';
+            location.href = chromeNewTab;
+          }
+          // 네이버 인앱 브라우저 닫기
+          else if (Agent.includes('naver')) {
+            self.close();
+            location.href = chromeNewTab;
+          }
+          // 인스타 인앱 브라우저 닫기
+          else if (Agent.includes('instagram')) {
+            location.href = 'instagram://inappbrowser/close';
+            location.href = chromeNewTab;
+          }
+        }
+      }
+      const copytoclipboard = (url) => {
+        const textArea = document.createElement('textarea');
+        document.body.appendChild(textArea);
+        textArea.value = url;
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      };
+      const inappbrowserout = () => {
+        copytoclipboard(location.href);
+        alert(
+          'URL주소가 복사되었습니다.\n\nSafari가 열리면 주소창을 길게 터치한 뒤, "붙여놓기 및 이동"를 누르면 정상적으로 이용하실 수 있습니다.'
+        );
+        location.href = 'x-web-search://?';
+      };
     </script>
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
