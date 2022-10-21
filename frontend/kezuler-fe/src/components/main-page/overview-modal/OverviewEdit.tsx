@@ -121,6 +121,7 @@ function OverviewEdit({
       navigate(
         (isFixedEvent(event) ? makeFixedInfoUrl : makePendingInfoUrl)(eventId)
       );
+      window.location.reload();
     });
   };
 

@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 
+import PathName from 'src/constants/PathName';
+
 // import CommonAppBar from 'src/components/common/CommonAppBar';
 import { ReactComponent as BackIcon } from 'src/assets/left_arrow.svg';
 
@@ -18,7 +20,7 @@ function MyPageAppBar({ isEdit, goToMain }: Props) {
       goToMain();
       return;
     }
-    navigate(-1);
+    navigate(PathName.mainFixed);
   };
 
   return (
