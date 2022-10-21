@@ -167,7 +167,7 @@ function LandingPage() {
               <span className={classNames('font-15')}>
                 나의{' '}
                 <span className={'font-light-blue'}>
-                  모든 팀플 일정을 한눈에 보고
+                  모든 미팅 일정을 한눈에 보고
                 </span>
               </span>
             </p>
