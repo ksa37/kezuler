@@ -239,23 +239,53 @@
     display: flex;
     align-items: center;
 
-    span {
+    a {
       text-overflow: ellipsis;
       overflow: hidden;
       flex: 1;
       white-space: nowrap;
     }
 
+    // span {
+    //   text-overflow: ellipsis;
+    //   overflow: hidden;
+    //   flex: 1;
+    //   white-space: nowrap;
+    // }
+
     svg {
       margin-right: 4px;
       width: 16px;
       height: 16px;
+
+      &.is-ellipsis {
+        color: $color-66;
+        margin-right: 0px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        &:hover {
+          background-color: #00000011;
+        }
+      }
     }
 
     .overview-section-copy-btn {
       svg {
         margin-right: 1px;
       }
+    }
+  }
+
+  .overview-section-fold {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex: 1;
+    white-space: nowrap;
+    &.is-fold {
+      text-overflow: clip;
+      white-space: normal;
     }
   }
 }
