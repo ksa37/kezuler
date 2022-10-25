@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Button } from '@mui/material';
 import classNames from 'classnames';
 import { format } from 'date-fns/esm';
@@ -110,11 +111,29 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
       <div
         className={classNames('overview-section-place', {
           'is-ellipsis': isEllipsisActive,
+          'is-fold': foldEllipsis,
         })}
       >
         {addressType === 'OFF' ? (
           <>
             <LocIcon />
+            {isEllipsisActive ? (
+              !foldEllipsis ? (
+                <KeyboardArrowDownIcon
+                  onClick={handleFoldEllipsis}
+                  className={classNames('overview-section-place', {
+                    'is-ellipsis': isEllipsisActive,
+                  })}
+                />
+              ) : (
+                <KeyboardArrowUpIcon
+                  onClick={handleFoldEllipsis}
+                  className={classNames('overview-section-place', {
+                    'is-ellipsis': isEllipsisActive,
+                  })}
+                />
+              )
+            ) : null}
             <span
               className={classNames('overview-section-fold', {
                 'is-fold': foldEllipsis,
@@ -123,39 +142,43 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
             >
               {addressDetail}
             </span>
-            {isEllipsisActive && (
-              <KeyboardArrowDownIcon
-                onClick={handleFoldEllipsis}
-                className={classNames('overview-section-place', {
-                  'is-ellipsis': isEllipsisActive,
-                })}
-              />
-            )}
           </>
         ) : (
           <>
             <PCIcon />
             {addressDetail ? (
               <>
+                {isEllipsisActive ? (
+                  !foldEllipsis ? (
+                    <KeyboardArrowDownIcon
+                      onClick={handleFoldEllipsis}
+                      className={classNames('overview-section-place', {
+                        'is-ellipsis': isEllipsisActive,
+                      })}
+                    />
+                  ) : (
+                    <KeyboardArrowUpIcon
+                      onClick={handleFoldEllipsis}
+                      className={classNames('overview-section-place', {
+                        'is-ellipsis': isEllipsisActive,
+                      })}
+                    />
+                  )
+                ) : null}
                 <a
                   id="addressDetail"
                   href={addressDetail}
                   target="_blank"
                   rel="noreferrer"
-                  className={classNames('overview-section-fold', {
-                    'is-fold': foldEllipsis,
-                  })}
                 >
-                  <span>{addressDetail}</span>
-                </a>
-                {isEllipsisActive && (
-                  <KeyboardArrowDownIcon
-                    onClick={handleFoldEllipsis}
-                    className={classNames('overview-section-place', {
-                      'is-ellipsis': isEllipsisActive,
+                  <span
+                    className={classNames('overview-section-fold', {
+                      'is-fold': foldEllipsis,
                     })}
-                  />
-                )}
+                  >
+                    {addressDetail}
+                  </span>
+                </a>
               </>
             ) : (
               <span>{'온라인'}</span>

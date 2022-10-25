@@ -219,7 +219,6 @@
   .overview-section-attachment-link {
     color: #6695d8;
     text-decoration: underline;
-
     flex: 1;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -244,14 +243,26 @@
       overflow: hidden;
       flex: 1;
       white-space: nowrap;
+      &.is-fold {
+        text-overflow: clip;
+        overflow: scroll;
+        white-space: normal;
+        word-break: break-all;
+      }
     }
 
-    // span {
-    //   text-overflow: ellipsis;
-    //   overflow: hidden;
-    //   flex: 1;
-    //   white-space: nowrap;
-    // }
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      flex: 1;
+      white-space: nowrap;
+      &.is-fold {
+        // text-overflow: clip;
+        overflow: scroll;
+        white-space: normal;
+        word-break: break-all;
+      }
+    }
 
     svg {
       margin-right: 4px;
@@ -271,21 +282,17 @@
       }
     }
 
+    .overview-section-fold {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      flex: 1;
+      white-space: nowrap;
+    }
+
     .overview-section-copy-btn {
       svg {
         margin-right: 1px;
       }
-    }
-  }
-
-  .overview-section-fold {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    flex: 1;
-    white-space: nowrap;
-    &.is-fold {
-      text-overflow: clip;
-      white-space: normal;
     }
   }
 }
