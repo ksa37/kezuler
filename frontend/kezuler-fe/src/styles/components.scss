@@ -177,3 +177,67 @@
     line-height: 1.75;
   }
 }
+
+.google-login-on {
+  border: 1px solid #282f39;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  .google-login-on-logo {
+    width: 18px;
+    width: 18px;
+    margin-right: 10px;
+  }
+
+  .google-login-on-text {
+    height: 10px;
+    line-height: 10px;
+    font-size: 12px;
+  }
+}
+
+.google-login-off {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .google-login-off-logo {
+    width: 18px;
+    width: 18px;
+    margin-right: 10px;
+  }
+
+  .google-login-off-text {
+    height: 10px;
+    line-height: 10px;
+    font-size: 12px;
+  }
+
+  .google-login-off-info {
+    font-size: 12px;
+
+    .google-login-off-info-gray {
+      color: #9f9f9f;
+    }
+  }
+
+  .google-login-off-disconnect {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 10px;
+    cursor: pointer;
+    svg {
+      width: 12px;
+      color: #9f9f9f;
+    }
+    .google-login-off-disconnect-gray {
+      color: #9f9f9f;
+    }
+  }
+}
