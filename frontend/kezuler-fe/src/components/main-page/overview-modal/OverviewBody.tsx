@@ -1,4 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Button } from '@mui/material';
 import classNames from 'classnames';
 import { format } from 'date-fns/esm';
@@ -46,6 +48,8 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
   const { copyText } = useCopyText();
 
   const [showDescAll, setShowDescAll] = useState(false);
+  const [isEllipsisActive, setIsEllipsisActive] = useState(false);
+  const [foldEllipsis, setFoldEllipsis] = useState(false);
 
   let canceledFixedGuest = false;
   if (isFixedEvent(event) && hostId !== getCurrentUserInfo()?.userId) {
@@ -75,21 +79,107 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
     copyText(eventAttachment, '참조 링크가');
   };
 
+  const handleFoldEllipsis = () => {
+    setFoldEllipsis((prev) => !prev);
+  };
+
+  const addressDetailElem = null;
+
+  useEffect(() => {
+    const addressDetailElem = document.getElementById('addressDetail');
+
+    const checkEllipsisActive = (e: any) => {
+      if (!e) return false;
+      e.style.overflow = 'initial';
+      const noEllipsisWidth = e.offsetWidth;
+      e.style.overflow = 'hidden';
+      const ellipsisWidth = e.offsetWidth;
+      return ellipsisWidth < noEllipsisWidth;
+    };
+
+    setIsEllipsisActive(checkEllipsisActive(addressDetailElem));
+    console.log(
+      'this is check Ellip',
+      addressDetailElem,
+      checkEllipsisActive(addressDetailElem),
+      isEllipsisActive
+    );
+  }, [addressDetailElem, isEllipsisActive]);
+
   const place = useMemo(
     () => (
-      <div className={'overview-section-place'}>
+      <div
+        className={classNames('overview-section-place', {
+          'is-ellipsis': isEllipsisActive,
+          'is-fold': foldEllipsis,
+        })}
+      >
         {addressType === 'OFF' ? (
           <>
             <LocIcon />
-            <span>{addressDetail}</span>
+            {isEllipsisActive ? (
+              !foldEllipsis ? (
+                <KeyboardArrowDownIcon
+                  onClick={handleFoldEllipsis}
+                  className={classNames('overview-section-place', {
+                    'is-ellipsis': isEllipsisActive,
+                  })}
+                />
+              ) : (
+                <KeyboardArrowUpIcon
+                  onClick={handleFoldEllipsis}
+                  className={classNames('overview-section-place', {
+                    'is-ellipsis': isEllipsisActive,
+                  })}
+                />
+              )
+            ) : null}
+            <span
+              className={classNames('overview-section-fold', {
+                'is-fold': foldEllipsis,
+              })}
+              id="addressDetail"
+            >
+              {addressDetail}
+            </span>
           </>
         ) : (
           <>
             <PCIcon />
             {addressDetail ? (
-              <a href={addressDetail} target="_blank" rel="noreferrer">
-                {addressDetail}
-              </a>
+              <>
+                {isEllipsisActive ? (
+                  !foldEllipsis ? (
+                    <KeyboardArrowDownIcon
+                      onClick={handleFoldEllipsis}
+                      className={classNames('overview-section-place', {
+                        'is-ellipsis': isEllipsisActive,
+                      })}
+                    />
+                  ) : (
+                    <KeyboardArrowUpIcon
+                      onClick={handleFoldEllipsis}
+                      className={classNames('overview-section-place', {
+                        'is-ellipsis': isEllipsisActive,
+                      })}
+                    />
+                  )
+                ) : null}
+                <a
+                  id="addressDetail"
+                  href={addressDetail}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span
+                    className={classNames('overview-section-fold', {
+                      'is-fold': foldEllipsis,
+                    })}
+                  >
+                    {addressDetail}
+                  </span>
+                </a>
+              </>
             ) : (
               <span>{'온라인'}</span>
             )}
@@ -104,7 +194,7 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
         </button>
       </div>
     ),
-    [addressType, addressDetail]
+    [addressType, addressDetail, isEllipsisActive, foldEllipsis]
   );
 
   return (
@@ -138,15 +228,16 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
         {eventDescription && (
           <OverviewSection title={'미팅 내용'}>
             <div className={'overview-section-description'}>
-              {showDescAll
+              {eventDescription.replaceAll('\\n', '\n')}
+              {/* {showDescAll
                 ? eventDescription.replaceAll('\\n', '\n')
-                : shortEventDescription.replaceAll('\\n', '\n')}
+                : shortEventDescription.replaceAll('\\n', '\n')} */}
               {shortEventDescription !== eventDescription && (
                 <Button
                   classes={{ root: 'show-all-btn' }}
                   onClick={handleShowAllClick}
                 >
-                  {showDescAll ? '...접기' : '...더보기'}
+                  {/* {showDescAll ? '...접기' : '...더보기'} */}
                 </Button>
               )}
             </div>
