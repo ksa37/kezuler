@@ -10,7 +10,7 @@ function GoogleToggleOff({ onClick, userEmail }: any) {
       <img src={GLogo} className="google-login-off-logo" />
       <div className="google-login-off-info">
         <div>Google</div>
-        <div className="google-login-off-info-gray">{userEmail}</div>
+        {/* <div className="google-login-off-info-gray">{userEmail}</div> */}
       </div>
       <div className="google-login-off-disconnect" onClick={onClick}>
         <DoNotDisturbAltIcon />
