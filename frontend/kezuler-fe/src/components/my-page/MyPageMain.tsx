@@ -51,7 +51,7 @@ function MyPageMain({ goToEdit }: Props) {
 
   const navigate = useNavigate();
   const { openDialog } = useDialog();
-  console.log('this is user info', userEmail);
+
   //TODO 구글 캘린더 연동
   const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
 
