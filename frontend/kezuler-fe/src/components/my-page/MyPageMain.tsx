@@ -23,6 +23,8 @@ import { usePatchUser } from 'src/hooks/usePatchUser';
 import { deleteCookie } from 'src/utils/cookie';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
+import GoogleToggleOn from '../common/GoogleToogleOn';
+import GoogleToggleOff from '../common/GoogleToogleOn copy';
 import TimezoneButton from '../common/TimezoneDropdown';
 import MyPageRow from './MyPageRow';
 
@@ -221,17 +223,21 @@ function MyPageMain({ goToEdit }: Props) {
       </div>
       <h1 className={'my-page-h1'}>미팅 정보</h1>
       <MyPageRow title={'캘린더 연동'} startIcon={<CalenderIcon />}>
-        구글 캘린더
         {isCalendarPaired ? (
-          <ToggleOnIcon
-            className={'calendar-toggle'}
+          // <ToggleOnIcon
+          //   className={'calendar-toggle'}
+          //   onClick={handleCalendarToggle}
+          // />
+          <GoogleToggleOff
+            userEmail={userEmail}
             onClick={handleCalendarToggle}
           />
         ) : (
-          <ToggleOffIcon
-            className={'calendar-toggle'}
-            onClick={handleGooglelogin}
-          />
+          // <ToggleOffIcon
+          // className={'calendar-toggle'}
+          // onClick={handleGooglelogin}
+          // />
+          <GoogleToggleOn onClick={handleGooglelogin} />
         )}
       </MyPageRow>
       <MyPageRow title={'타임존 설정'} startIcon={<ClockIcon />}>
