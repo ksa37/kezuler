@@ -100,7 +100,9 @@
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
       });
-
+    </script>
+    <script>
+      //웹뷰탈출
       document.addEventListener('DOMContentLoaded', ready);
       function ready() {
         let Url = location.href;
@@ -148,6 +150,21 @@
           'URL주소가 복사되었습니다.\n\nSafari가 열리면 주소창을 길게 터치한 뒤, "붙여놓기 및 이동"를 누르면 정상적으로 이용하실 수 있습니다.'
         );
         location.href = 'x-web-search://?';
+      };
+    </script>
+    <script>
+      history.pushState(null, null, '');
+      window.onpopstate = function (event) {
+        let prevUrl = document.referrer;
+        //뒤로가기를 한 페이지가 미팅일정선택완료 페이지가 아니면 뒤로가기, 미팅일정선택완료 페이지면 메인페이지로 이동.
+        if (
+          prevUrl.indexOf('/invite') < 0 &&
+          prevUrl.indexOf('/complete') < 0
+        ) {
+          history.back(); // 뒤로가기
+        } else {
+          location.href = 'kezuler.com/main/fixed'; // 메인페이지로 이동
+        }
       };
     </script>
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
