@@ -98,12 +98,6 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
     };
 
     setIsEllipsisActive(checkEllipsisActive(addressDetailElem));
-    console.log(
-      'this is check Ellip',
-      addressDetailElem,
-      checkEllipsisActive(addressDetailElem),
-      isEllipsisActive
-    );
   }, [addressDetailElem, isEllipsisActive]);
 
   const place = useMemo(

@@ -158,11 +158,8 @@
         let prevUrl = document.referrer;
         //뒤로가기를 한 페이지가 미팅일정선택완료 페이지가 아니면 뒤로가기, 미팅일정선택완료 페이지면 메인페이지로 이동.
         if (
-          prevUrl.indexOf('/invite') < 0 &&
-          prevUrl.indexOf('/complete') < 0
+          !(prevUrl.indexOf('/invite') < 0 && prevUrl.indexOf('/complete') < 0)
         ) {
-          history.back(); // 뒤로가기
-        } else {
           location.href = 'kezuler.com/main/fixed'; // 메인페이지로 이동
         }
       };
