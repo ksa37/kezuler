@@ -96,10 +96,15 @@ function MyPageMain({ goToEdit }: Props) {
   };
 
   const handleLogoutClick = () => {
-    deleteCookie(ACCESS_TOKEN_KEY);
-    deleteCookie(REFRESH_TOKEN_KEY);
-    localStorage.removeItem(CURRENT_USER_INFO_KEY);
-    location.reload();
+    openDialog({
+      title: `로그아웃 하시겠습니까?`,
+      onConfirm: () => {
+        deleteCookie(ACCESS_TOKEN_KEY);
+        deleteCookie(REFRESH_TOKEN_KEY);
+        localStorage.removeItem(CURRENT_USER_INFO_KEY);
+        location.reload();
+      },
+    });
   };
 
   const handleEditClick = () => {
@@ -109,11 +114,16 @@ function MyPageMain({ goToEdit }: Props) {
   const handleCalendarToggle = () => {
     if (isCalendarPaired !== null || undefined) {
       if (isCalendarPaired) {
-        changeUser(deleteCalendarConnect(), {
-          onSuccess: () => {
-            getUserInfo();
-            setIsCalendarPaired(!isCalendarPaired);
-          },
+        openDialog({
+          title: `구글캘린더 연동을 해제하시겠습니까?`,
+          description: '해제 시, 해당 캘린더 정보는 연동되지 않습니다.',
+          onConfirm: () =>
+            changeUser(deleteCalendarConnect(), {
+              onSuccess: () => {
+                getUserInfo();
+                setIsCalendarPaired(!isCalendarPaired);
+              },
+            }),
         });
       }
     }
@@ -265,7 +275,7 @@ function MyPageMain({ goToEdit }: Props) {
         startIcon={<PaperIcon />}
       />
       <MyPageRow
-        href={PathName.login}
+        // href={PathName.login}
         onClick={handleLogoutClick}
         title={'로그아웃'}
         startIcon={<LogoutIcon />}
