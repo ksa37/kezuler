@@ -109,10 +109,10 @@ function CalendarTimeSelector() {
             },
             onCancel: handleCloseNoti,
           });
-        } else if (eventTimeList.length === 5) {
+        } else if (eventTimeList.length === 10) {
           dispatch(
             show({
-              title: '5개 옵션까지만 선택이 가능합니다.',
+              title: '10개 옵션까지만 선택이 가능합니다.',
             })
           );
         } else {
@@ -247,7 +247,7 @@ function CalendarTimeSelector() {
           ) : (
             <>
               {'미팅 시작 선택중'}
-              <b>{` ${eventTimeList.length}/5`}</b>
+              <b>{` ${eventTimeList.length}/10`}</b>
             </>
           )}
         </div>
@@ -289,7 +289,7 @@ function CalendarTimeSelector() {
         onClick={handleNextClick}
         subtext={
           eventTimeList.length !== 0
-            ? `${eventTimeList.length}개 시간 선택중(최대 5개)`
+            ? `${eventTimeList.length}개 시간 선택중(최대 10개)`
             : undefined
         }
         text="다음"
