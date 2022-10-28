@@ -194,7 +194,7 @@ function RootRoutes() {
       ) : (
         <main>
           <Routes>
-            <Route index element={<Navigate replace to={PathName.landing} />} />
+            <Route index element={<Navigate replace to={PathName.login} />} />
             <Route path={PathName.landing} element={<LandingPage />} />
             <Route path={PathName.create} element={<CreateMeeting />}>
               <Route
