@@ -69,7 +69,8 @@ function CalendarPairBtn({ setIsCalendarPaired }: Props) {
   const handleGooglelogin = () => {
     openDialog({
       title: `구글 캘린더 연동`,
-      description: '연동시, 다가오는 모든 일정이 \n 구글 캘린더에 연동됩니다.',
+      description:
+        '연동시, 다가오는 모든 일정이 \n 구글 캘린더에 연동되고 \n 앞으로 케줄러의 일정이  \n 캘린더에 자동 등록됩니다.',
       onConfirm: checkIos,
     });
   };
