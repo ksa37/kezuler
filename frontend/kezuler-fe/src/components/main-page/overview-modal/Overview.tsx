@@ -496,7 +496,7 @@ function Overview() {
                       onClick={handleCancelHostClick}
                       text={'미팅 취소'}
                     />
-                    {isFixedEvent(event) && (
+                    {isFixedEvent(event) && !isCalendarPaired && (
                       <OverviewButton
                         icon={<GoogleIcon />}
                         onClick={handleConnectClick}
@@ -513,12 +513,14 @@ function Overview() {
                         onClick={handleCancelGuestFixedClick}
                         text={'참여 취소'}
                       />
-                      <OverviewButton
-                        icon={<GoogleIcon />}
-                        onClick={handleConnectClick}
-                        text={'내 캘린더에'}
-                        textBtm={'추가하기'}
-                      />
+                      {!isCalendarPaired && (
+                        <OverviewButton
+                          icon={<GoogleIcon />}
+                          onClick={handleConnectClick}
+                          text={'내 캘린더에'}
+                          textBtm={'추가하기'}
+                        />
+                      )}
                     </>
                   ) : (
                     <OverviewButton
