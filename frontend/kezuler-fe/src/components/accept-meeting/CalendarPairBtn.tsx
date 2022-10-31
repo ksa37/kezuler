@@ -70,7 +70,7 @@ function CalendarPairBtn({ setIsCalendarPaired }: Props) {
     openDialog({
       title: `구글 캘린더 연동`,
       description:
-        '연동시, 다가오는 모든 일정이 \n 구글 캘린더에 연동되고 \n 앞으로 케줄러의 일정이  \n 캘린더에 자동 등록됩니다.',
+        '확정된 일정을 자동으로 등록하고,\n 일정을 확인해 중복 예약을 \n 방지할 수 있습니다.',
       onConfirm: checkIos,
     });
   };
