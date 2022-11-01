@@ -18,7 +18,9 @@ import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import getTimezoneDate from 'src/utils/getTimezoneDate';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
+import { ReactComponent as LocIconGray } from 'src/assets/icn_location_gray.svg';
 import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
+import { ReactComponent as PCIconGray } from 'src/assets/icn_pc_gray.svg';
 import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
 
 interface Props {
@@ -162,14 +164,14 @@ function FixedEventCard({ event, hasTodayId }: Props) {
     if (addressType === 'OFF') {
       return (
         <div className={'fixed-event-card-place'}>
-          <LocIcon />
+          {tense === 'past' || isCanceled ? <LocIconGray /> : <LocIcon />}
           <span>{addressDetail}</span>
         </div>
       );
     }
     return (
       <div className={'fixed-event-card-place'}>
-        <PCIcon />
+        {tense === 'past' || isCanceled ? <PCIconGray /> : <PCIcon />}
         <span>온라인</span>
       </div>
     );
