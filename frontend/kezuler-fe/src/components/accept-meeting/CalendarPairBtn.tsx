@@ -6,6 +6,8 @@ import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import { usePatchUser } from 'src/hooks/usePatchUser';
 
+import { ReactComponent as GoogleIcon } from 'src/assets/google_icon.svg';
+
 import { getGoogleAccount } from 'src/api/calendar';
 
 interface Props {
@@ -80,11 +82,12 @@ function CalendarPairBtn({ setIsCalendarPaired }: Props) {
       <div className={'calendar-pair-ask-txt'}>
         {'캘린더를 연동하여'}
         <br />
-        {'이중약속을 방지해요!'}
+        <b>{'이중약속을 방지'}</b>
+        {'해요!'}
       </div>
       <div className={'calendar-pair-ask-btn'} onClick={handleGooglelogin}>
-        <div className={'btn-txt'}>나의 일정 </div>
-        <div className={'btn-txt'}>불러오기</div>
+        <GoogleIcon />
+        <span className={'btn-txt'}>일정 불러오기</span>
       </div>
     </div>
   );
