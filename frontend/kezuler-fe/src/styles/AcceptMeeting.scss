@@ -17,6 +17,11 @@
 
 // Invitation
 
+.invitation {
+  overflow-y: scroll;
+  height: 120vh;
+}
+
 .invitation-message {
   color: $color-highlight;
   font-size: $font-24;
@@ -85,6 +90,16 @@
     word-break: break-all;
     @media (max-width: 340px) {
       font-size: $font-16;
+      margin-top: 4px;
+    }
+  }
+  .invitation-description-text {
+    margin-top: 8px;
+    font-size: $font-16;
+    line-height: 21px;
+    white-space: pre-line;
+    overflow-x: scroll;
+    @media (max-width: 340px) {
       margin-top: 4px;
     }
   }

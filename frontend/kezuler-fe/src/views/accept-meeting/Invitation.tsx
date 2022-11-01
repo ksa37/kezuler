@@ -30,6 +30,7 @@ function Invitation() {
     eventId,
     eventHost,
     eventTitle,
+    eventDescription,
     addressType,
     addressDetail,
     eventTimeCandidates,
@@ -70,6 +71,7 @@ function Invitation() {
 
   const meetingTitleDescription = '미팅 제목';
   const meetingPlaceDescription = '미팅 장소';
+  const meetingDescription = '미팅 내용';
   const timeSelectDescription = '참여 가능한 시간을 알려주세요';
   const loginButtonText = '시간 선택하기';
   const unloginButtonText = '카카오로 계속하기';
@@ -102,6 +104,16 @@ function Invitation() {
               {addressType === 'OFF' ? addressDetail : '온라인'}
             </div>
           </div>
+          {eventDescription ? (
+            <>
+              <div className={classNames('invitation-title-place', 'place')}>
+                {meetingDescription}
+              </div>
+              <div className={'invitation-description-text'}>
+                {eventDescription.replaceAll('\\n', '\n')}
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
       <div>
