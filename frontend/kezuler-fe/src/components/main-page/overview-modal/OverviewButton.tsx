@@ -5,6 +5,7 @@ interface Props {
   icon: JSX.Element;
   onClick?: () => void;
   text?: string;
+  textBtm?: string;
   className?: string;
   type?: 'button' | 'submit';
   formId?: string;
@@ -15,6 +16,7 @@ function OverviewButton({
   icon,
   onClick,
   text,
+  textBtm,
   className,
   type = 'button',
   formId,
@@ -31,6 +33,11 @@ function OverviewButton({
     >
       <div className={'overview-btn-icon'}>{icon}</div>
       {text}
+      {textBtm && (
+        <>
+          <br /> {textBtm}
+        </>
+      )}
     </button>
   );
 }
