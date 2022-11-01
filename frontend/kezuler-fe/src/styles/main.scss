@@ -125,6 +125,11 @@
   }
 
   &.passed {
+    &.is-host {
+      &::before {
+        border-color: #bfbfbf;
+      }
+    }
     .fixed-event-card-date {
       box-shadow: 0 0 10px #282f391a;
       color: #9f9f9f;
@@ -139,9 +144,18 @@
         color: #bfbfbf;
       }
     }
+
+    .fixed-event-card-avatars {
+      opacity: 0.5;
+    }
   }
 
   &.canceled {
+    &.is-host {
+      &::before {
+        border-color: #bfbfbf;
+      }
+    }
     .fixed-event-card-date {
       background-color: #eaeaea;
       box-shadow: 0 0 10px #282f391a;
