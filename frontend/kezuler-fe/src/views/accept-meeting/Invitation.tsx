@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from '@mui/material';
@@ -77,7 +78,11 @@ function Invitation() {
   const unloginButtonText = '카카오로 계속하기';
 
   return (
-    <div className={'invitation'}>
+    <div
+      className={classNames('invitation', {
+        'is-mobile': isMobile,
+      })}
+    >
       <div className={'invitation-info'}>
         <div className={'invitation-message'}>
           <b>{eventHost.userName}</b>

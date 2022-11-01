@@ -5,11 +5,14 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-
+  &.is-nonMobile {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
   &.in-participants {
     margin-top: 0;
   }
-
   @media (max-height: $short-height-size) {
     margin-top: $app-bar-height--short;
   }
@@ -19,7 +22,9 @@
 
 .invitation {
   overflow-y: scroll;
-  height: 120vh;
+  &.is-mobile {
+    height: 120vh;
+  }
 }
 
 .invitation-message {
