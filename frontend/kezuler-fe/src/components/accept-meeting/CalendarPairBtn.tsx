@@ -88,7 +88,6 @@ function CalendarPairBtn({ setIsCalendarPaired }: Props) {
       <div className={'calendar-pair-ask-btn'} onClick={handleGooglelogin}>
         <GoogleIcon />
         <span className={'btn-txt'}>일정 불러오기</span>
-        {/* <span className={'btn-txt'}>불러오기</span> */}
       </div>
     </div>
   );
