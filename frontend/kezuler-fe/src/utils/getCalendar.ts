@@ -36,7 +36,6 @@ const getSchedules = (
   const { setCalendarList } = calendarActions;
 
   const dateToGetList = dateKeys.map((dateKey) => {
-    eventTimeList[dateKey][0];
     const dateToGet: PGetCalendarByDay = {
       year: isEventTimeListByDateWithNum(eventTimeList)
         ? eventTimeList[dateKey][0].eventStartsAt.getFullYear()

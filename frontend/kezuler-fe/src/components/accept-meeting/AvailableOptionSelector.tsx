@@ -40,7 +40,6 @@ function AvailableOptionSelector({ errorMessage }: Props) {
   };
 
   const handleAllAvailableClick = () => {
-    console.log('this is allAvailable', allAvailable, availableTimes);
     if (availableTimes.length === eventTimeCandidates.length)
       setAllAvailable(false);
     else {
