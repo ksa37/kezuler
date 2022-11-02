@@ -1,7 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Avatar } from '@mui/material';
 import classNames from 'classnames';
 
@@ -46,6 +48,19 @@ function Invitation() {
     [eventHost.userId]
   );
 
+  const [isEllipsis, setIsEllipsis] = useState(false);
+  const [scrollHeight, setScrollHeight] = useState(0);
+  const [finalHeight, setFinalHeight] = useState(0);
+
+  useEffect(() => {
+    if (eventDescription.split('\\n')[1]) setIsEllipsis(true);
+    else setIsEllipsis(false);
+    setScrollHeight(
+      Number(document.getElementById('text-ellipsis')?.scrollHeight)
+    );
+    setFinalHeight(scrollHeight + window.innerHeight);
+  }, [scrollHeight]);
+
   const handleNextClick = () => {
     if (isHost) {
       dispatch(
@@ -82,6 +97,7 @@ function Invitation() {
       className={classNames('invitation', {
         'is-mobile': isMobile,
       })}
+      style={isEllipsis ? { height: 'auto' } : { height: finalHeight }}
     >
       <div className={'invitation-info'}>
         <div className={'invitation-message'}>
@@ -111,12 +127,42 @@ function Invitation() {
           </div>
           {eventDescription ? (
             <>
-              <div className={classNames('invitation-title-place', 'place')}>
-                {meetingDescription}
+              <div className={classNames('invitation-section-wrapper')}>
+                <div className={classNames('invitation-title-place', 'place')}>
+                  {meetingDescription}
+                </div>
+                <div
+                  className={classNames('invitation-showmore')}
+                  onClick={() => setIsEllipsis((prev) => !prev)}
+                >
+                  <span className={classNames('invitation-showmore-text')}>
+                    {isEllipsis ? '펼쳐보기' : '접기'}
+                  </span>
+                  {isEllipsis ? (
+                    <KeyboardArrowDownIcon
+                      className={classNames('invitation-showmore-icon')}
+                    />
+                  ) : (
+                    <KeyboardArrowUpIcon
+                      className={classNames('invitation-showmore-icon')}
+                    />
+                  )}
+                </div>
               </div>
-              <div className={'invitation-description-text'}>
-                {eventDescription.replaceAll('\\n', '\n')}
-              </div>
+              {isEllipsis ? (
+                <>
+                  <div
+                    id="text-ellipsis"
+                    className={'invitation-description-text-ellipsis'}
+                  >
+                    {eventDescription.replaceAll('\\n', '\n')}
+                  </div>
+                </>
+              ) : (
+                <div className={'invitation-description-text'}>
+                  {eventDescription.replaceAll('\\n', '\n')}
+                </div>
+              )}
             </>
           ) : null}
         </div>
