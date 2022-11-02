@@ -56,9 +56,10 @@ function Invitation() {
   const [foldEllipsis, setFoldEllipsis] = useState(false);
 
   useEffect(() => {
-    if (eventDescription.split('\\n')[1]) setIsEllipsis(true);
-    if (eventDescription.split('\\n')[2]) setIsShowMoreNeed(true);
-    else setIsEllipsis(false);
+    if (eventDescription.split('\\n')[1]) {
+      setIsEllipsis(true);
+      setIsShowMoreNeed(true);
+    } else setIsEllipsis(false);
 
     if (Number(document.getElementById('text-ellipsis')?.clientHeight) > 0)
       setScrollHeight(
@@ -212,11 +213,19 @@ function Invitation() {
               {addressType === 'OFF' ? (
                 addressDetail
               ) : (
-                <a href={addressDetail} target="_blank" rel="noreferrer">
-                  <span>{addressDetail}</span>
-                </a>
+                <>
+                  {addressDetail ? (
+                    <>
+                      <a href={addressDetail} target="_blank" rel="noreferrer">
+                        <span>{addressDetail}</span>
+                      </a>
+                      <div />
+                    </>
+                  ) : (
+                    <span>{'온라인'}</span>
+                  )}
+                </>
               )}
-              {/* {addressDetail} */}
             </div>
           </div>
           {eventDescription ? (
