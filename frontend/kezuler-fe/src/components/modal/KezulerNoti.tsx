@@ -50,7 +50,7 @@ function KezulerNoti() {
           <div className={classNames('kezuler-dialog-date-wrapper', 'noti')}>
             <span className={'noti-desc'}>{'미팅 시간을 '} </span>
             <span className={classNames('noti-desc', 'highlight')}>
-              <b>{'최대 5개'}</b>
+              <b>{'최대 10개'}</b>
             </span>
             <span className={'noti-desc'}>{'까지 선택하여'}</span>
             <br />

@@ -96,10 +96,15 @@ function MyPageMain({ goToEdit }: Props) {
   };
 
   const handleLogoutClick = () => {
-    deleteCookie(ACCESS_TOKEN_KEY);
-    deleteCookie(REFRESH_TOKEN_KEY);
-    localStorage.removeItem(CURRENT_USER_INFO_KEY);
-    location.reload();
+    openDialog({
+      title: `로그아웃 하시겠습니까?`,
+      onConfirm: () => {
+        deleteCookie(ACCESS_TOKEN_KEY);
+        deleteCookie(REFRESH_TOKEN_KEY);
+        localStorage.removeItem(CURRENT_USER_INFO_KEY);
+        location.reload();
+      },
+    });
   };
 
   const handleEditClick = () => {
@@ -109,11 +114,16 @@ function MyPageMain({ goToEdit }: Props) {
   const handleCalendarToggle = () => {
     if (isCalendarPaired !== null || undefined) {
       if (isCalendarPaired) {
-        changeUser(deleteCalendarConnect(), {
-          onSuccess: () => {
-            getUserInfo();
-            setIsCalendarPaired(!isCalendarPaired);
-          },
+        openDialog({
+          title: `구글캘린더 연동을 해제하시겠습니까?`,
+          description: '해제 시, 해당 캘린더 정보는 연동되지 않습니다.',
+          onConfirm: () =>
+            changeUser(deleteCalendarConnect(), {
+              onSuccess: () => {
+                getUserInfo();
+                setIsCalendarPaired(!isCalendarPaired);
+              },
+            }),
         });
       }
     }
@@ -169,7 +179,8 @@ function MyPageMain({ goToEdit }: Props) {
   const handleGooglelogin = () => {
     openDialog({
       title: `구글 캘린더 연동`,
-      description: '연동시, 다가오는 모든 일정이 \n 구글 캘린더에 연동됩니다.',
+      description:
+        '확정된 일정을 자동으로 등록하고,\n 일정을 확인해 중복 예약을 \n 방지할 수 있습니다.',
       onConfirm: checkIos,
     });
   };
@@ -265,7 +276,7 @@ function MyPageMain({ goToEdit }: Props) {
         startIcon={<PaperIcon />}
       />
       <MyPageRow
-        href={PathName.login}
+        // href={PathName.login}
         onClick={handleLogoutClick}
         title={'로그아웃'}
         startIcon={<LogoutIcon />}

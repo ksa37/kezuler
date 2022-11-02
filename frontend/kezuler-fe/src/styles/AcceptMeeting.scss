@@ -5,17 +5,24 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-
+  &.is-nonMobile {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
   &.in-participants {
     margin-top: 0;
   }
-
   @media (max-height: $short-height-size) {
     margin-top: $app-bar-height--short;
   }
 }
 
 // Invitation
+
+.invitation {
+  overflow-y: scroll;
+}
 
 .invitation-message {
   color: $color-highlight;
@@ -64,6 +71,12 @@
     margin-top: 40px;
     padding: 16px;
   }
+
+  .invitation-section-wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+
   .invitation-title-place {
     font-size: $font-14;
     line-height: 17px;
@@ -89,6 +102,34 @@
     }
   }
 
+  .invitation-description-text-ellipsis {
+    height: 30px;
+    overflow: auto;
+    overflow-y: hidden;
+    margin-top: 8px;
+    font-size: $font-16;
+    line-height: 21px;
+    word-break: break-word;
+    white-space: pre-line;
+    @media (max-width: 340px) {
+      margin-top: 4px;
+    }
+    background: linear-gradient(to bottom, #000000, #f9f9f9);
+    color: transparent;
+    background-clip: text;
+  }
+
+  .invitation-description-text {
+    margin-top: 8px;
+    font-size: $font-16;
+    line-height: 21px;
+    word-break: break-word;
+    white-space: pre-line;
+    @media (max-width: 340px) {
+      margin-top: 4px;
+    }
+  }
+
   .invitation-place {
     margin-top: 8px;
     font-size: $font-16;
@@ -104,6 +145,38 @@
     .invitation-place-text {
       padding-left: 6px;
       word-break: break-all;
+    }
+  }
+
+  .invitation-showmore {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 4px 2px 4px 6px;
+    margin-top: 11px;
+    margin-left: 10px;
+    cursor: pointer;
+    @media (max-width: 340px) {
+      margin-top: 3px;
+    }
+
+    .invitation-showmore-text {
+      font-size: $font-14;
+      line-height: 17px;
+      color: #9f9f9f;
+      @media (max-width: 340px) {
+        font-size: $font-12;
+      }
+    }
+
+    .invitation-showmore-icon {
+      font-size: $font-18;
+      line-height: 17px;
+      color: #9f9f9f;
+      @media (max-width: 340px) {
+        font-size: $font-16;
+      }
     }
   }
 }

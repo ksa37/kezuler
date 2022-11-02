@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import { isMobile } from 'react-device-detect';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
@@ -74,6 +75,7 @@ function AcceptMeeting() {
     <div
       className={classNames('accept-wrapper', {
         'in-participants': isInParticipants,
+        'is-nonMobile': !isMobile,
       })}
     >
       {isLoaded ? (
