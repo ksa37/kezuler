@@ -145,16 +145,22 @@
     }
 
     .invitation-place-text {
+      width: 100%;
       padding-left: 6px;
-      overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      word-break: break-all;
       &.is-ellipsis {
         padding-left: 2px;
       }
       &.is-fold {
-        overflow: scroll;
+        text-overflow: clip;
         white-space: normal;
+        word-break: break-all;
+        word-wrap: normal;
+      }
+
+      span {
         word-break: break-all;
       }
     }
