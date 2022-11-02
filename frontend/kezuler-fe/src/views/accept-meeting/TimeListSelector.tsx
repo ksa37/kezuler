@@ -14,6 +14,7 @@ import {
 } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
+import { calendarActions } from 'src/reducers/calendarList';
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { AppDispatch } from 'src/store';
 import { PDeletePendingEvent, PPutPendingEvent } from 'src/types/pendingEvent';
@@ -47,6 +48,7 @@ function TimeListSelector({ isModification }: Props) {
   const { calendarList } = useSelector(
     (state: RootState) => state.calendarList
   );
+  const { destroy: destroyCalendar } = calendarActions;
   const {
     addAvailableTimes,
     deleteAvailableTimes,
@@ -80,6 +82,9 @@ function TimeListSelector({ isModification }: Props) {
     if (isModificationfunc(eventTimeCandidates, declinedUsers)) {
       navigate(`/modify/${eventId}`);
     }
+    return () => {
+      dispatch(destroyCalendar());
+    };
   }, []);
 
   const handlePutClick = () => {

@@ -24,5 +24,5 @@ const reducers = {
 
 const calendarSlice = createSlice({ name, initialState, reducers });
 
-export const calendarAction = calendarSlice.actions;
+export const calendarActions = calendarSlice.actions;
 export default calendarSlice.reducer;
