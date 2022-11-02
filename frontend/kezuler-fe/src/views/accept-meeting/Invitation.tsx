@@ -51,15 +51,41 @@ function Invitation() {
   const [isEllipsis, setIsEllipsis] = useState(false);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [finalHeight, setFinalHeight] = useState(0);
+  const [isEllipsisActive, setIsEllipsisActive] = useState(false);
+  const [foldEllipsis, setFoldEllipsis] = useState(false);
 
   useEffect(() => {
     if (eventDescription.split('\\n')[1]) setIsEllipsis(true);
     else setIsEllipsis(false);
-    setScrollHeight(
-      Number(document.getElementById('text-ellipsis')?.scrollHeight)
-    );
-    setFinalHeight(scrollHeight + window.innerHeight);
+
+    if (Number(document.getElementById('text-ellipsis')?.clientHeight) > 0)
+      setScrollHeight(
+        Number(document.getElementById('text-ellipsis')?.clientHeight)
+      );
+
+    if (isNaN(scrollHeight) && isNaN(window.innerHeight)) {
+      setFinalHeight(window.innerHeight);
+    } else {
+      setFinalHeight(scrollHeight + window.innerHeight);
+    }
   }, [scrollHeight]);
+  console.log(isEllipsis, isEllipsisActive);
+  const addressDetailElem = null;
+
+  useEffect(() => {
+    const addressDetailElem = document.getElementById('addressDetail');
+
+    const checkEllipsisActive = (e: any) => {
+      if (!e) return false;
+      e.style.overflow = 'initial';
+      const noEllipsisWidth = e.offsetWidth;
+      e.style.overflow = 'hidden';
+      const ellipsisWidth = e.offsetWidth;
+      return ellipsisWidth < noEllipsisWidth;
+    };
+
+    setIsEllipsisActive(checkEllipsisActive(addressDetailElem));
+  }, [addressDetailElem, isEllipsisActive]);
 
   const handleNextClick = () => {
     if (isHost) {
@@ -88,12 +114,14 @@ function Invitation() {
   const meetingTitleDescription = '미팅 제목';
   const meetingPlaceDescription = '미팅 장소';
   const meetingDescription = '미팅 내용';
+  const meetingRefLink = '참조 링크';
   const timeSelectDescription = '참여 가능한 시간을 알려주세요';
   const loginButtonText = '시간 선택하기';
   const unloginButtonText = '카카오로 계속하기';
 
   return (
     <div
+      id="invitationEL"
       className={classNames('invitation', {
         'is-mobile': isMobile,
       })}
@@ -120,9 +148,64 @@ function Invitation() {
             {meetingPlaceDescription}
           </div>
           <div className={'invitation-place'}>
-            {addressType === 'OFF' ? <LocIcon /> : <PCIcon />}
-            <div className={'invitation-place-text'}>
-              {addressType === 'OFF' ? addressDetail : '온라인'}
+            {addressType === 'OFF' ? (
+              <>
+                <LocIcon />
+                {isEllipsisActive ? (
+                  !foldEllipsis ? (
+                    <KeyboardArrowDownIcon
+                      onClick={() => setFoldEllipsis((prev) => !prev)}
+                      className={classNames('invitation-place-arrow', {
+                        'is-ellipsis': isEllipsisActive,
+                      })}
+                    />
+                  ) : (
+                    <KeyboardArrowUpIcon
+                      onClick={() => setFoldEllipsis((prev) => !prev)}
+                      className={classNames('invitation-place-arrow', {
+                        'is-ellipsis': isEllipsisActive,
+                      })}
+                    />
+                  )
+                ) : null}
+              </>
+            ) : (
+              <>
+                <PCIcon />
+                {isEllipsisActive ? (
+                  !foldEllipsis ? (
+                    <KeyboardArrowDownIcon
+                      onClick={() => setFoldEllipsis((prev) => !prev)}
+                      className={classNames('invitation-place-arrow', {
+                        'is-ellipsis': isEllipsisActive,
+                      })}
+                    />
+                  ) : (
+                    <KeyboardArrowUpIcon
+                      onClick={() => setFoldEllipsis((prev) => !prev)}
+                      className={classNames('invitation-place-arrow', {
+                        'is-ellipsis': isEllipsisActive,
+                      })}
+                    />
+                  )
+                ) : null}
+              </>
+            )}
+            <div
+              id="addressDetail"
+              className={classNames('invitation-place-text', {
+                'is-ellipsis': isEllipsisActive,
+                'is-fold': foldEllipsis,
+              })}
+            >
+              {addressType === 'OFF' ? (
+                addressDetail
+              ) : (
+                <a href={addressDetail} target="_blank" rel="noreferrer">
+                  <span>{addressDetail}</span>
+                </a>
+              )}
+              {/* {addressDetail} */}
             </div>
           </div>
           {eventDescription ? (
@@ -131,6 +214,22 @@ function Invitation() {
                 <div className={classNames('invitation-title-place', 'place')}>
                   {meetingDescription}
                 </div>
+              </div>
+              {isEllipsis ? (
+                <>
+                  <div className={'invitation-description-text-ellipsis'}>
+                    {eventDescription.replaceAll('\\n', '\n')}
+                  </div>
+                </>
+              ) : (
+                <div
+                  id="text-ellipsis"
+                  className={'invitation-description-text'}
+                >
+                  {eventDescription.replaceAll('\\n', '\n')}
+                </div>
+              )}
+              {
                 <div
                   className={classNames('invitation-showmore')}
                   onClick={() => setIsEllipsis((prev) => !prev)}
@@ -148,21 +247,7 @@ function Invitation() {
                     />
                   )}
                 </div>
-              </div>
-              {isEllipsis ? (
-                <>
-                  <div
-                    id="text-ellipsis"
-                    className={'invitation-description-text-ellipsis'}
-                  >
-                    {eventDescription.replaceAll('\\n', '\n')}
-                  </div>
-                </>
-              ) : (
-                <div className={'invitation-description-text'}>
-                  {eventDescription.replaceAll('\\n', '\n')}
-                </div>
-              )}
+              }
             </>
           ) : null}
         </div>

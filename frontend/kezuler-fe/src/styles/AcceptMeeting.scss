@@ -59,14 +59,16 @@
 
 .invitation-card {
   position: relative;
-  padding: 20px;
+  padding: 20px 20px 30px 20px;
   text-align: left;
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 15px 35px #282f390d;
   border-radius: 16px;
   margin-top: 24px;
   margin-inline: 32px;
-
+  &.is-ellipsis {
+    padding: 20px;
+  }
   @media (max-width: 340px) {
     margin-top: 40px;
     padding: 16px;
@@ -111,6 +113,7 @@
     line-height: 21px;
     word-break: break-word;
     white-space: pre-line;
+    border-bottom: 1px solid #f3f3f3;
     @media (max-width: 340px) {
       margin-top: 4px;
     }
@@ -125,6 +128,7 @@
     line-height: 21px;
     word-break: break-word;
     white-space: pre-line;
+    border-bottom: 1px solid #f3f3f3;
     @media (max-width: 340px) {
       margin-top: 4px;
     }
@@ -144,23 +148,46 @@
 
     .invitation-place-text {
       padding-left: 6px;
-      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &.is-ellipsis {
+        padding-left: 2px;
+      }
+      &.is-fold {
+        overflow: scroll;
+        white-space: normal;
+        word-break: break-all;
+      }
+    }
+    svg {
+      width: 16px;
+      height: 16px;
+      &.is-ellipsis {
+        color: $color-66;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        &:hover {
+          background-color: #00000011;
+        }
+      }
     }
   }
 
   .invitation-showmore {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    border: 1px solid black;
-    border-radius: 7px;
-    padding: 4px 2px 4px 6px;
-    margin-top: 11px;
-    margin-left: 10px;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    bottom: 5px;
     cursor: pointer;
     @media (max-width: 340px) {
-      margin-top: 3px;
+      bottom: 0.5px;
     }
-
     .invitation-showmore-text {
       font-size: $font-14;
       line-height: 17px;
