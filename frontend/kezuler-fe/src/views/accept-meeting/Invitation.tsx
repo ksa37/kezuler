@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -37,6 +36,7 @@ function Invitation() {
     addressType,
     addressDetail,
     eventTimeCandidates,
+    eventDescription,
     declinedUsers,
   } = pendingEvent;
 
