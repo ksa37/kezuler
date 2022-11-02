@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { calendarAction } from 'src/reducers/calendarList';
+import { calendarActions } from 'src/reducers/calendarList';
 import { AppDispatch } from 'src/store';
 import {
   PGetCalendarByDay,
@@ -24,7 +24,7 @@ type EventTimeListByDateWithPossibleNum = {
 const getSchedules = (eventTimeList: EventTimeListByDateWithPossibleNum) => {
   const dispatch = useDispatch<AppDispatch>();
   const dateKeys = Object.keys(eventTimeList);
-  const { setCalendarList } = calendarAction;
+  const { setCalendarList } = calendarActions;
 
   const dateToGetList = dateKeys.map((dateKey) => {
     const dateToGet: PGetCalendarByDay = {
