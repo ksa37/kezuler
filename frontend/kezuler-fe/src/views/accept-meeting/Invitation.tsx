@@ -71,7 +71,7 @@ function Invitation() {
       setFinalHeight(scrollHeight + window.innerHeight);
     }
   }, [scrollHeight]);
-  console.log(isEllipsis, isEllipsisActive);
+
   const addressDetailElem = null;
 
   useEffect(() => {
