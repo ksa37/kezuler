@@ -9,6 +9,7 @@ import useDialog from 'src/hooks/useDialog';
 import { usePostFixedEvent } from 'src/hooks/useFixedEvent';
 import { useGetPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
+import { calendarActions } from 'src/reducers/calendarList';
 import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { AppDispatch } from 'src/store';
@@ -55,10 +56,12 @@ function TimeConfirmator() {
 
   const { googleToggle } = useMemo(() => ({ ...getCurrentUserInfo() }), []);
   const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
+  const { destroy: destroyCalendar } = calendarActions;
 
   useEffect(() => {
     return () => {
       dispatch(destroy());
+      dispatch(destroyCalendar());
     };
   }, []);
 

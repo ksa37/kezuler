@@ -250,7 +250,8 @@
     text-align: left;
     font: normal normal normal 14px/22px Pretendard;
     letter-spacing: 0;
-    color: #9f9f9f;
+    color: $color-highlight;
+    font-weight: 200;
     opacity: 1;
   }
   .calendar-pair-ask-btn {
@@ -259,19 +260,40 @@
     box-shadow: 0px 15px 35px #282f390d;
     opacity: 1;
     color: $color-highlight;
+    background-color: $color-main;
     cursor: pointer;
-    @media screen and (min-width: 380px) {
-      padding-inline: 11px;
-      .btn-txt {
-        display: inline;
-      }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (min-width: 360px) {
+      padding-inline: 8px;
+      font-size: 11px;
     }
     text-align: center;
-    padding-top: 8px;
-    padding-bottom: 7px;
+    padding-block: 8px;
     margin-top: 12px;
 
-    font-size: 12px;
+    .btn-txt {
+      margin-left: 4px;
+      margin-right: 4px;
+      @media (min-width: 360px) {
+        margin-right: 0;
+      }
+    }
+
+    > svg {
+      padding-left: 4px;
+      min-width: 15px;
+      width: 20px;
+      height: 20px;
+
+      @media (min-width: 360px) {
+        padding-left: 0;
+      }
+    }
+
+    font-size: 10px;
     box-sizing: border-box;
   }
 }

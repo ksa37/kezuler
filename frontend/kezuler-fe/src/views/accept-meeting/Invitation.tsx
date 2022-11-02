@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { isMobile } from 'react-device-detect';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -33,7 +34,6 @@ function Invitation() {
     eventId,
     eventHost,
     eventTitle,
-    eventDescription,
     addressType,
     addressDetail,
     eventTimeCandidates,
@@ -117,6 +117,7 @@ function Invitation() {
   const meetingPlaceDescription = '미팅 장소';
   const meetingDescription = '미팅 내용';
   const meetingRefLink = '참조 링크';
+
   const timeSelectDescription = '참여 가능한 시간을 알려주세요';
   const loginButtonText = '시간 선택하기';
   const unloginButtonText = '카카오로 계속하기';
