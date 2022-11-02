@@ -33,6 +33,7 @@ function Invitation() {
     eventId,
     eventHost,
     eventTitle,
+    eventDescription,
     addressType,
     addressDetail,
     eventTimeCandidates,
