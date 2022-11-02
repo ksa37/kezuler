@@ -59,15 +59,15 @@
 
 .invitation-card {
   position: relative;
-  padding: 20px 20px 30px 20px;
+  padding: 20px;
   text-align: left;
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 15px 35px #282f390d;
   border-radius: 16px;
   margin-top: 24px;
   margin-inline: 32px;
-  &.is-ellipsis {
-    padding: 20px;
+  &.is-showmore-need {
+    padding: 20px 20px 30px 20px;
   }
   @media (max-width: 340px) {
     margin-top: 40px;
@@ -113,7 +113,9 @@
     line-height: 21px;
     word-break: break-word;
     white-space: pre-line;
-    border-bottom: 1px solid #f3f3f3;
+    &.is-showmore-need {
+      border-bottom: 1px solid #f3f3f3;
+    }
     @media (max-width: 340px) {
       margin-top: 4px;
     }
@@ -128,7 +130,6 @@
     line-height: 21px;
     word-break: break-word;
     white-space: pre-line;
-    border-bottom: 1px solid #f3f3f3;
     @media (max-width: 340px) {
       margin-top: 4px;
     }
@@ -160,6 +161,12 @@
         word-break: break-all;
       }
     }
+
+    .invitation-place-icon {
+      width: 16px;
+      height: 16px;
+    }
+
     svg {
       width: 16px;
       height: 16px;

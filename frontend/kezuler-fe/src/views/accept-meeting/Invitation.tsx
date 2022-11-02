@@ -48,14 +48,16 @@ function Invitation() {
     [eventHost.userId]
   );
 
-  const [isEllipsis, setIsEllipsis] = useState(false);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [finalHeight, setFinalHeight] = useState(0);
+  const [isEllipsis, setIsEllipsis] = useState(false);
   const [isEllipsisActive, setIsEllipsisActive] = useState(false);
+  const [isShowMoreNeed, setIsShowMoreNeed] = useState(false);
   const [foldEllipsis, setFoldEllipsis] = useState(false);
 
   useEffect(() => {
     if (eventDescription.split('\\n')[1]) setIsEllipsis(true);
+    if (eventDescription.split('\\n')[2]) setIsShowMoreNeed(true);
     else setIsEllipsis(false);
 
     if (Number(document.getElementById('text-ellipsis')?.clientHeight) > 0)
@@ -134,7 +136,11 @@ function Invitation() {
           <br />
           {'미팅에 초대합니다.'}
         </div>
-        <div className={'invitation-card'}>
+        <div
+          className={classNames('invitation-card', {
+            'is-showmore-need': isShowMoreNeed,
+          })}
+        >
           <Avatar
             className={'invitation-avatar'}
             alt=""
@@ -150,7 +156,9 @@ function Invitation() {
           <div className={'invitation-place'}>
             {addressType === 'OFF' ? (
               <>
-                <LocIcon />
+                <div className={classNames('invitation-place-icon')}>
+                  <LocIcon />
+                </div>
                 {isEllipsisActive ? (
                   !foldEllipsis ? (
                     <KeyboardArrowDownIcon
@@ -171,7 +179,9 @@ function Invitation() {
               </>
             ) : (
               <>
-                <PCIcon />
+                <div className={classNames('invitation-place-icon')}>
+                  <PCIcon />
+                </div>
                 {isEllipsisActive ? (
                   !foldEllipsis ? (
                     <KeyboardArrowDownIcon
@@ -217,7 +227,12 @@ function Invitation() {
               </div>
               {isEllipsis ? (
                 <>
-                  <div className={'invitation-description-text-ellipsis'}>
+                  <div
+                    className={classNames(
+                      'invitation-description-text-ellipsis',
+                      { 'is-showmore-need': isShowMoreNeed }
+                    )}
+                  >
                     {eventDescription.replaceAll('\\n', '\n')}
                   </div>
                 </>
@@ -229,7 +244,7 @@ function Invitation() {
                   {eventDescription.replaceAll('\\n', '\n')}
                 </div>
               )}
-              {
+              {isShowMoreNeed ? (
                 <div
                   className={classNames('invitation-showmore')}
                   onClick={() => setIsEllipsis((prev) => !prev)}
@@ -247,7 +262,7 @@ function Invitation() {
                     />
                   )}
                 </div>
-              }
+              ) : null}
             </>
           ) : null}
         </div>
