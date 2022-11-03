@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import PathName from 'src/constants/PathName';
 import { CreateMeetingSteps } from 'src/constants/Steps';
 import { RootState } from 'src/reducers';
+import { calendarActions } from 'src/reducers/calendarList';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 
@@ -20,6 +21,7 @@ function CreateMeeting() {
     (state: RootState) => state.createMeeting
   );
   const { destroy } = createMeetingActions;
+  const { destroy: destroyCalendar } = calendarActions;
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -53,6 +55,7 @@ function CreateMeeting() {
 
     return () => {
       dispatch(destroy());
+      dispatch(destroyCalendar());
     };
   }, []);
 
