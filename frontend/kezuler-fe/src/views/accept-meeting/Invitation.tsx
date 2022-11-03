@@ -34,6 +34,7 @@ function Invitation() {
     eventHost,
     eventTitle,
     eventDescription,
+    eventAttachment,
     addressType,
     addressDetail,
     eventTimeCandidates,
@@ -59,11 +60,21 @@ function Invitation() {
     if (eventDescription.split('\\n')[1]) {
       setIsEllipsis(true);
       setIsShowMoreNeed(true);
+    } else if (eventAttachment) {
+      setIsEllipsis(true);
+      setIsShowMoreNeed(true);
     } else setIsEllipsis(false);
 
-    if (Number(document.getElementById('text-ellipsis')?.clientHeight) > 0)
+    if (
+      Number(
+        document.getElementById('event-description-text-ellipsis')?.clientHeight
+      ) > 0
+    )
       setScrollHeight(
-        Number(document.getElementById('text-ellipsis')?.clientHeight)
+        Number(
+          document.getElementById('event-description-text-ellipsis')
+            ?.clientHeight
+        )
       );
 
     if (isNaN(scrollHeight) && isNaN(window.innerHeight)) {
@@ -129,7 +140,7 @@ function Invitation() {
       className={classNames('invitation', {
         'is-mobile': isMobile,
       })}
-      style={isEllipsis ? { height: 'auto' } : { height: finalHeight }}
+      style={{ height: finalHeight }}
     >
       <div className={'invitation-info'}>
         <div className={'invitation-message'}>
@@ -248,7 +259,7 @@ function Invitation() {
                 </>
               ) : (
                 <div
-                  id="text-ellipsis"
+                  id="event-description-text-ellipsis"
                   className={'invitation-description-text'}
                 >
                   {eventDescription.replaceAll('\\n', '\n')}
@@ -275,6 +286,34 @@ function Invitation() {
               ) : null}
             </>
           ) : null}
+          {/* {eventAttachment && !isEllipsis ? (
+            <>
+              <div className={classNames('invitation-section-wrapper')}>
+                <div className={classNames('invitation-title-place', 'place')}>
+                  {meetingRefLink}
+                </div>
+              </div>
+              {isEllipsis ? (
+                <>
+                  <div
+                    className={classNames(
+                      'invitation-description-text-ellipsis',
+                      { 'is-showmore-need': isShowMoreNeed }
+                    )}
+                  >
+                    {eventAttachment}
+                  </div>
+                </>
+              ) : (
+                <div
+                  id="event-description-text-ellipsis"
+                  className={'invitation-description-text'}
+                >
+                  {eventAttachment}
+                </div>
+              )}
+            </>
+          ) : null} */}
         </div>
       </div>
       <div>
