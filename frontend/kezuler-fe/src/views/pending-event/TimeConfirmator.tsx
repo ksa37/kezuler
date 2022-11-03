@@ -9,6 +9,7 @@ import useDialog from 'src/hooks/useDialog';
 import { usePostFixedEvent } from 'src/hooks/useFixedEvent';
 import { useGetPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
+import { calendarActions } from 'src/reducers/calendarList';
 import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { AppDispatch } from 'src/store';
@@ -55,10 +56,12 @@ function TimeConfirmator() {
 
   const { googleToggle } = useMemo(() => ({ ...getCurrentUserInfo() }), []);
   const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
+  const { destroy: destroyCalendar } = calendarActions;
 
   useEffect(() => {
     return () => {
       dispatch(destroy());
+      dispatch(destroyCalendar());
     };
   }, []);
 
@@ -148,34 +151,6 @@ function TimeConfirmator() {
       setCalendarStore();
     }
   }, [eventTimeListDevideByDate, isCalendarPaired]);
-
-  // type Schedule = {
-  //   timeRange: string;
-  //   scheduleTitle: string;
-  // };
-  // interface ScehdulesEachDay {
-  //   [dateString: string]: Schedule[];
-  // }
-  // const mockSchedule: ScehdulesEachDay = {
-  //   '6/22 수': [
-  //     { timeRange: '오전 11:00 ~ 오후 10:00', scheduleTitle: '철수랑 저녁' },
-  //     { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '영희랑 점심' },
-  //   ],
-  //   '6/23 목': [
-  //     { timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '영화관' },
-  //     { timeRange: '하루종일', scheduleTitle: '수아' },
-  //   ],
-  //   '6/29 수': [{ timeRange: '오전 11:00 ~ 오후 1:00', scheduleTitle: '꽃집' }],
-  //   '7/1 금': [
-  //     { timeRange: '하루종일', scheduleTitle: '제주도 여행' },
-  //     { timeRange: '오후 1:00 ~ 오후 3:00', scheduleTitle: '렌트카' },
-  //   ],
-  // };
-
-  // const handlePairClick = () => {
-  //   // 구글 계정 연동하기
-  //   setCalendarPairOpened(false);
-  // };
 
   return (
     <div className={'accept-wrapper'}>

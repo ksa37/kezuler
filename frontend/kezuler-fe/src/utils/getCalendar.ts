@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { calendarAction } from 'src/reducers/calendarList';
+import { calendarActions } from 'src/reducers/calendarList';
 import { AppDispatch } from 'src/store';
 import {
   PGetCalendarByDay,
@@ -21,14 +21,25 @@ type EventTimeListByDateWithPossibleNum = {
   [date: string]: EventTimeListWithPossibleNum[];
 };
 
-const getSchedules = (eventTimeList: EventTimeListByDateWithPossibleNum) => {
+type EventTimeListByDate = { [date: string]: Date[] };
+
+const isEventTimeListByDateWithNum = (
+  eventTimeList: any
+): eventTimeList is EventTimeListByDateWithPossibleNum =>
+  eventTimeList[Object.keys(eventTimeList)[0]]?.eventStartsAt !== undefined;
+
+const getSchedules = (
+  eventTimeList: EventTimeListByDateWithPossibleNum | EventTimeListByDate
+) => {
   const dispatch = useDispatch<AppDispatch>();
   const dateKeys = Object.keys(eventTimeList);
-  const { setCalendarList } = calendarAction;
+  const { setCalendarList } = calendarActions;
 
   const dateToGetList = dateKeys.map((dateKey) => {
     const dateToGet: PGetCalendarByDay = {
-      year: eventTimeList[dateKey][0].eventStartsAt.getFullYear(),
+      year: isEventTimeListByDateWithNum(eventTimeList)
+        ? eventTimeList[dateKey][0].eventStartsAt.getFullYear()
+        : eventTimeList[dateKey][0].getFullYear(),
       month: Number(dateKey.split('/')[0]),
       day: Number(dateKey.split('/')[1].split(' ')[0]),
     };
