@@ -18,17 +18,15 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-//        config.addAllowedOrigin("http://localhost:3000");
-//        config.addAllowedOrigin("http://172.30.1.8:3000");
-//        config.addAllowedOrigin("http://172.30.1.52:3000");
-//        config.addAllowedOrigin("http://kezuler.com");
-//        config.addAllowedOrigin("https://d1aq7vfi131rdo.cloudfront.net");
-//        config.addAllowedOrigin("https://kezuler.com");
-//        config.addAllowedOrigin("http://192.168.0.123:3000");
-//        config.addAllowedOrigin("http://192.168.200.157:3000");
-//        config.addAllowedOrigin("http://192.168.35.173:3000");
+        config.setAllowCredentials(true);
+//        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedOrigin("http://kezuler.com");
+        config.addAllowedOrigin("https://kezuler.com");
+        config.addAllowedOrigin("http://172.30.1.55:3000");
+        config.addAllowedOrigin("http://172.30.1.10:3000");
+        config.addAllowedOrigin("http://192.168.0.123:3000");
+        config.addAllowedOrigin("http://192.168.200.157:3000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 

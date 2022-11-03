@@ -67,11 +67,9 @@ public class EventDto {
         @Size(min = 1, max = 5)
         private String eventTimeDuration;
         private List<Long> eventTimeCandidates;
-        @Size(max = 100)
         private String eventAttachment;
         @Size(min = 1, max = 10)
         private String addressType;
-        @Size(max = 100)
         private String addressDetail;
     }
 
@@ -89,9 +87,7 @@ public class EventDto {
         private String eventDescription;
         @Size(min = 1, max = 10)
         private String addressType;
-        @Size(max = 100)
         private String addressDetail;
-        @Size(max = 100)
         private String eventAttachment;
     }
 

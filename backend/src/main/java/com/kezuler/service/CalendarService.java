@@ -343,7 +343,7 @@ public class CalendarService {
             LocalDateTime target = LocalDateTime.of(dto.getYear(), dto.getMonth(), dto.getDay(), 00, 00);
             String timeMin = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss'Z'").format(target.minusHours(24));
             String timeMax = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss'Z'").format(target.plusHours(24));
-            HttpResult objects = HttpClient.getWithAuthorize(app.getGoogleCldUri() + googleCalendar.getEmail() + "/events?timeMax=" + timeMax + "&timeMin=" + timeMin + "&orderBy=updated"  , app.getJwtPrifix() + googleCalendar.getAccess(), 1000);
+            HttpResult objects = HttpClient.getWithAuthorize(app.getGoogleCldUri() + googleCalendar.getEmail() + "/events?timeMax=" + timeMax + "&timeMin=" + timeMin + "&orderBy=updated&singleEvents=true"  , app.getJwtPrifix() + googleCalendar.getAccess(), 1000);
 
             JSONObject resultObject = new JSONObject(objects.getData());
             log.info("resultObject: {}", resultObject);

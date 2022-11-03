@@ -42,7 +42,7 @@ public class AccountDto {
     @AllArgsConstructor
     @Builder
     public static class UpdateTimezone {
-        @Size(min = 1, max = 30)
+        @Size(min = 1, max = 100)
         private String timeZone;
     }
 
