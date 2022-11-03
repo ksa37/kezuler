@@ -25,7 +25,7 @@
   color: $color-highlight;
   font-size: $font-24;
   text-align: left;
-  padding: 68px 0 0 40px;
+  padding: 40px 0 0 40px;
 
   b {
     width: 100%;
@@ -196,7 +196,7 @@
     bottom: 5px;
     cursor: pointer;
     @media (max-width: 340px) {
-      bottom: 0.5px;
+      bottom: 6px;
     }
     .invitation-showmore-text {
       font-size: $font-14;
