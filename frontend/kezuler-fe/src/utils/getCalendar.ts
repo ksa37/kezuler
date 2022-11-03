@@ -25,8 +25,12 @@ type EventTimeListByDate = { [date: string]: Date[] };
 
 const isEventTimeListByDateWithNum = (
   eventTimeList: any
-): eventTimeList is EventTimeListByDateWithPossibleNum =>
-  eventTimeList[Object.keys(eventTimeList)[0]]?.eventStartsAt !== undefined;
+): eventTimeList is EventTimeListByDateWithPossibleNum => {
+  return (
+    eventTimeList[Object.keys(eventTimeList)[0]]?.[0]?.eventStartsAt !==
+    undefined
+  );
+};
 
 const getSchedules = (
   eventTimeList: EventTimeListByDateWithPossibleNum | EventTimeListByDate
@@ -35,9 +39,10 @@ const getSchedules = (
   const dateKeys = Object.keys(eventTimeList);
   const { setCalendarList } = calendarActions;
 
+  const isWithNum = isEventTimeListByDateWithNum(eventTimeList);
   const dateToGetList = dateKeys.map((dateKey) => {
     const dateToGet: PGetCalendarByDay = {
-      year: isEventTimeListByDateWithNum(eventTimeList)
+      year: isWithNum
         ? eventTimeList[dateKey][0].eventStartsAt.getFullYear()
         : eventTimeList[dateKey][0].getFullYear(),
       month: Number(dateKey.split('/')[0]),

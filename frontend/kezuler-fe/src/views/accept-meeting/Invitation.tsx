@@ -37,7 +37,6 @@ function Invitation() {
     addressType,
     addressDetail,
     eventTimeCandidates,
-    eventDescription,
     declinedUsers,
   } = pendingEvent;
 
