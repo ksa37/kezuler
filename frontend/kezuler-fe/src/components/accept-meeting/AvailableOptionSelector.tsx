@@ -40,9 +40,10 @@ function AvailableOptionSelector({ errorMessage }: Props) {
   };
 
   const handleAllAvailableClick = () => {
-    if (availableTimes.length === eventTimeCandidates.length)
+    if (availableTimes.length === eventTimeCandidates.length) {
       setAllAvailable(false);
-    else {
+      dispatch(clearAvailableTimes());
+    } else {
       setIsOpen(false);
       dispatch(setIsDecline(false));
       dispatch(setDeclineReason(''));
