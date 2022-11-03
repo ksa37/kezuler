@@ -74,7 +74,7 @@ function Invitation() {
         Number(
           document.getElementById('event-description-text-ellipsis')
             ?.clientHeight
-        )
+        ) + 100
       );
 
     if (isNaN(scrollHeight) && isNaN(window.innerHeight)) {
@@ -286,34 +286,45 @@ function Invitation() {
               ) : null}
             </>
           ) : null}
-          {/* {eventAttachment && !isEllipsis ? (
+          {eventAttachment && !isEllipsis ? (
             <>
               <div className={classNames('invitation-section-wrapper')}>
                 <div className={classNames('invitation-title-place', 'place')}>
                   {meetingRefLink}
                 </div>
               </div>
-              {isEllipsis ? (
-                <>
-                  <div
-                    className={classNames(
-                      'invitation-description-text-ellipsis',
-                      { 'is-showmore-need': isShowMoreNeed }
-                    )}
-                  >
-                    {eventAttachment}
-                  </div>
-                </>
-              ) : (
-                <div
-                  id="event-description-text-ellipsis"
-                  className={'invitation-description-text'}
-                >
+              <a
+                href={eventAttachment}
+                target="_blank"
+                rel="noreferrer"
+                style={{ wordBreak: 'break-all' }}
+              >
+                <span style={{ wordBreak: 'break-all' }}>
                   {eventAttachment}
-                </div>
-              )}
+                </span>
+              </a>
             </>
-          ) : null} */}
+          ) : null}
+          {/* 예외처리 미팅 내용은 없고 참조링크만 있는경우 */}
+          {!eventDescription && eventAttachment ? (
+            <>
+              <div className={classNames('invitation-section-wrapper')}>
+                <div className={classNames('invitation-title-place', 'place')}>
+                  {meetingRefLink}
+                </div>
+              </div>
+              <a
+                href={eventAttachment}
+                target="_blank"
+                rel="noreferrer"
+                style={{ wordBreak: 'break-all' }}
+              >
+                <span style={{ wordBreak: 'break-all' }}>
+                  {eventAttachment}
+                </span>
+              </a>
+            </>
+          ) : null}
         </div>
       </div>
       <div>
