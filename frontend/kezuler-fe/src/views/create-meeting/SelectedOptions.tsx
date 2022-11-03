@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 
 import PathName from 'src/constants/PathName';
 import { RootState } from 'src/reducers';
@@ -8,15 +9,11 @@ import { alertAction } from 'src/reducers/alert';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
 import { getTimeListDevideByDate, getTimeRange } from 'src/utils/dateParser';
-import { getSchedules } from 'src/utils/getCalendar';
-import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
-import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
-import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
 import BottomButton from 'src/components/common/BottomButton';
-import TimeOptionCard from 'src/components/create-meeting/TimeOptionCard';
 
+import { ReactComponent as DeleteIcon } from 'src/assets/icn_trash.svg';
 import 'src/styles/common/TimeLineGrid.scss';
 
 function SelectedOptions() {
@@ -25,14 +22,9 @@ function SelectedOptions() {
   const { eventTimeList, eventTimeDuration } = useSelector(
     (state: RootState) => state.createMeeting
   );
-  const { calendarList } = useSelector(
-    (state: RootState) => state.calendarList
-  );
 
   const { show } = alertAction;
   const navigate = useNavigate();
-  const { googleToggle } = useMemo(() => ({ ...getCurrentUserInfo() }), []);
-  const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
 
   const eventTimeListDevideByDate = useMemo(
     () =>
@@ -60,15 +52,6 @@ function SelectedOptions() {
     navigate(PathName.createPlace);
   };
 
-  const { setCalendarStore } = getSchedules(eventTimeListDevideByDate);
-
-  useEffect(() => {
-    if (!isCalendarPaired) return;
-    if (Object.keys(eventTimeListDevideByDate).length > 0) {
-      setCalendarStore();
-    }
-  }, [eventTimeListDevideByDate, isCalendarPaired]);
-
   return (
     <div className={'time-list-selector'}>
       <div className={'time-list-top'}>
@@ -80,9 +63,6 @@ function SelectedOptions() {
         <div className={'time-list-selector-personnel'}>{subDescription}</div>
       </div>
       <div className={'time-select-with-schedule'}>
-        {!isCalendarPaired && (
-          <CalendarPairBtn setIsCalendarPaired={setIsCalendarPaired} />
-        )}
         <div className={'time-line-line'} />
         {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
           <div key={dateKey} className={'time-select-date'}>
@@ -92,46 +72,23 @@ function SelectedOptions() {
                 {dateKey}
               </div>
             </div>
-            {Array(
-              Math.max(
-                eventTimeListDevideByDate[dateKey].length,
-                calendarList && Object.keys(calendarList).includes(dateKey)
-                  ? calendarList[dateKey].length
-                  : 0
-              )
-            )
-              .fill(0)
-              .map((_, index) => (
-                <div key={dateKey + index} className={'time-select-card-grid'}>
-                  {eventTimeListDevideByDate[dateKey].length > index ? (
-                    <TimeOptionCard
-                      isEmpty={false}
-                      onDeleteClick={() =>
-                        handleDeleteClick(
-                          dateKey,
-                          eventTimeListDevideByDate[dateKey][index]
-                        )
-                      }
-                      timeRange={getTimeRange(
-                        eventTimeListDevideByDate[dateKey][index],
-                        eventTimeDuration
-                      )}
-                    />
-                  ) : (
-                    <TimeOptionCard isEmpty={true} />
-                  )}
-                  {Object.keys(calendarList).includes(dateKey) &&
-                  calendarList[dateKey].length > index ? (
-                    <ScheduleCard
-                      isEmpty={false}
-                      timeRange={calendarList[dateKey][index].timeRange}
-                      scheduleTitle={calendarList[dateKey][index].scheduleTitle}
-                    />
-                  ) : (
-                    <ScheduleCard isEmpty={true} />
-                  )}
+            {eventTimeListDevideByDate[dateKey].map((time) => (
+              <div key={dateKey + time} className={'time-select-card-grid'}>
+                <div
+                  className={classNames('time-select-time-card', 'no-cursor')}
+                >
+                  <div className={'time-select-time-content'}>
+                    {getTimeRange(time, eventTimeDuration)}
+                  </div>
+                  <div
+                    className="check-box-icon"
+                    onClick={() => handleDeleteClick(dateKey, time)}
+                  >
+                    <DeleteIcon />
+                  </div>
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
         ))}
       </div>
