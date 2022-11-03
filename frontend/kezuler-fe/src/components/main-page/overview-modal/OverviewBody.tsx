@@ -79,10 +79,6 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
     copyText(eventAttachment, '참조 링크가');
   };
 
-  const handleFoldEllipsis = () => {
-    setFoldEllipsis((prev) => !prev);
-  };
-
   const addressDetailElem = null;
 
   useEffect(() => {
@@ -114,14 +110,14 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
             {isEllipsisActive ? (
               !foldEllipsis ? (
                 <KeyboardArrowDownIcon
-                  onClick={handleFoldEllipsis}
+                  onClick={() => setFoldEllipsis((prev) => !prev)}
                   className={classNames('overview-section-place', {
                     'is-ellipsis': isEllipsisActive,
                   })}
                 />
               ) : (
                 <KeyboardArrowUpIcon
-                  onClick={handleFoldEllipsis}
+                  onClick={() => setFoldEllipsis((prev) => !prev)}
                   className={classNames('overview-section-place', {
                     'is-ellipsis': isEllipsisActive,
                   })}
@@ -145,14 +141,14 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
                 {isEllipsisActive ? (
                   !foldEllipsis ? (
                     <KeyboardArrowDownIcon
-                      onClick={handleFoldEllipsis}
+                      onClick={() => setFoldEllipsis((prev) => !prev)}
                       className={classNames('overview-section-place', {
                         'is-ellipsis': isEllipsisActive,
                       })}
                     />
                   ) : (
                     <KeyboardArrowUpIcon
-                      onClick={handleFoldEllipsis}
+                      onClick={() => setFoldEllipsis((prev) => !prev)}
                       className={classNames('overview-section-place', {
                         'is-ellipsis': isEllipsisActive,
                       })}

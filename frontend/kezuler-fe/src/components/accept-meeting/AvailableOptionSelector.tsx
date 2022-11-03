@@ -40,11 +40,16 @@ function AvailableOptionSelector({ errorMessage }: Props) {
   };
 
   const handleAllAvailableClick = () => {
-    setIsOpen(false);
-    dispatch(setIsDecline(false));
-    dispatch(setDeclineReason(''));
-    setAllAvailable(true);
-    dispatch(setAllAvailableTimes());
+    if (availableTimes.length === eventTimeCandidates.length) {
+      setAllAvailable(false);
+      dispatch(clearAvailableTimes());
+    } else {
+      setIsOpen(false);
+      dispatch(setIsDecline(false));
+      dispatch(setDeclineReason(''));
+      setAllAvailable(true);
+      dispatch(setAllAvailableTimes());
+    }
   };
 
   const handleDeclineReasonChange = (

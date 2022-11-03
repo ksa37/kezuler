@@ -17,11 +17,15 @@
 
 // Invitation
 
+// .invitation {
+//   overflow-y: scroll;
+// }
+
 .invitation-message {
   color: $color-highlight;
   font-size: $font-24;
   text-align: left;
-  padding: 68px 0 0 40px;
+  padding: 40px 0 0 40px;
 
   b {
     width: 100%;
@@ -59,11 +63,19 @@
   border-radius: 16px;
   margin-top: 24px;
   margin-inline: 32px;
-
+  &.is-showmore-need {
+    padding: 20px 20px 30px 20px;
+  }
   @media (max-width: 340px) {
     margin-top: 40px;
     padding: 16px;
   }
+
+  .invitation-section-wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+
   .invitation-title-place {
     font-size: $font-14;
     line-height: 17px;
@@ -89,6 +101,37 @@
     }
   }
 
+  .invitation-description-text-ellipsis {
+    height: 30px;
+    overflow: auto;
+    overflow-y: hidden;
+    margin-top: 8px;
+    font-size: $font-16;
+    line-height: 21px;
+    word-break: break-word;
+    white-space: pre-line;
+    &.is-showmore-need {
+      border-bottom: 1px solid #f3f3f3;
+    }
+    @media (max-width: 340px) {
+      margin-top: 4px;
+    }
+    background: linear-gradient(to bottom, #000000, #f9f9f9);
+    color: transparent;
+    background-clip: text;
+  }
+
+  .invitation-description-text {
+    margin-top: 8px;
+    font-size: $font-16;
+    line-height: 21px;
+    word-break: break-word;
+    white-space: pre-line;
+    @media (max-width: 340px) {
+      margin-top: 4px;
+    }
+  }
+
   .invitation-place {
     margin-top: 8px;
     font-size: $font-16;
@@ -102,8 +145,75 @@
     }
 
     .invitation-place-text {
+      width: 100%;
       padding-left: 6px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       word-break: break-all;
+      &.is-ellipsis {
+        padding-left: 2px;
+      }
+      &.is-fold {
+        text-overflow: clip;
+        white-space: normal;
+        word-break: break-all;
+        word-wrap: normal;
+      }
+
+      span {
+        word-break: break-all;
+      }
+    }
+
+    .invitation-place-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      &.is-ellipsis {
+        color: $color-66;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        &:hover {
+          background-color: #00000011;
+        }
+      }
+    }
+  }
+
+  .invitation-showmore {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    cursor: pointer;
+    @media (max-width: 340px) {
+      bottom: 6px;
+    }
+    .invitation-showmore-text {
+      font-size: $font-14;
+      line-height: 17px;
+      color: #9f9f9f;
+      @media (max-width: 340px) {
+        font-size: $font-12;
+      }
+    }
+
+    .invitation-showmore-icon {
+      font-size: $font-18;
+      line-height: 17px;
+      color: #9f9f9f;
+      @media (max-width: 340px) {
+        font-size: $font-16;
+      }
     }
   }
 }
