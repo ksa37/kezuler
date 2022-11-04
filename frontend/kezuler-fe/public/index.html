@@ -107,10 +107,10 @@
       function ready() {
         let Url = location.href;
         let Agent = navigator.userAgent.toLowerCase();
-        let chromeNewTab =
+        let newTab =
           'intent://' +
           location.href.replace(/https?:\/\//i, '') +
-          '#Intent;scheme=http;package=com.android.chrome;end';
+          '#Intent;scheme=http;end';
 
         if (navigator.userAgent.match(/iPhone|iPad/i)) {
           // 아이폰 접속 경우
@@ -122,17 +122,17 @@
           // 카카오 인앱 브라우저 닫기
           if (Agent.includes('kakao')) {
             location.href = 'kakaotalk://inappbrowser/close';
-            location.href = chromeNewTab;
+            location.href = newTab;
           }
           // 네이버 인앱 브라우저 닫기
           else if (Agent.includes('naver')) {
             self.close();
-            location.href = chromeNewTab;
+            location.href = newTab;
           }
           // 인스타 인앱 브라우저 닫기
           else if (Agent.includes('instagram')) {
             location.href = 'instagram://inappbrowser/close';
-            location.href = chromeNewTab;
+            location.href = newTab;
           }
         }
       }
