@@ -61,7 +61,7 @@ function OverviewParticipants({ event }: Props) {
   }, []);
 
   const MAX_PREVIEW_NUM = useMemo(() => {
-    if (windowSize.innerWidth > 440) {
+    if (windowSize.innerWidth > 440 && windowSize.innerWidth < 800) {
       return 5;
     } else if (windowSize.innerWidth > 400) {
       return 4;
