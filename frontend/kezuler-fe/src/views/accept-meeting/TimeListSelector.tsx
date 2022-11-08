@@ -14,6 +14,7 @@ import {
 } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
+import { alertAction } from 'src/reducers/alert';
 import { calendarActions } from 'src/reducers/calendarList';
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { AppDispatch } from 'src/store';
@@ -56,10 +57,16 @@ function TimeListSelector({ isModification }: Props) {
     setIsDecline,
   } = acceptMeetingActions;
 
-  const { eventId, eventTimeDuration, declinedUsers, eventTimeCandidates } =
-    pendingEvent;
+  const {
+    eventId,
+    eventHost,
+    eventTimeDuration,
+    declinedUsers,
+    eventTimeCandidates,
+  } = pendingEvent;
 
   const { show } = participantsPopupAction;
+  const { show: showAlert } = alertAction;
 
   const navigate = useNavigate();
   const { openDialog } = useDialog();
@@ -69,6 +76,10 @@ function TimeListSelector({ isModification }: Props) {
   const { googleToggle } = useMemo(() => ({ ...getCurrentUserInfo() }), []);
   const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
 
+  const isHost = useMemo(
+    () => eventHost.userId === getCurrentUserInfo()?.userId,
+    [eventHost.userId]
+  );
   // 가능한 시간 없는 이유 가져옴
   useEffect(() => {
     const declineReasontext = getDeclineReason(declinedUsers);
@@ -88,6 +99,17 @@ function TimeListSelector({ isModification }: Props) {
   }, []);
 
   const handlePutClick = () => {
+    if (isHost) {
+      dispatch(
+        showAlert({
+          title: '참여 불가 알림',
+          description: '본인이 생성한 미팅에 투표가 불가합니다.',
+        })
+      );
+      navigate(`${PathName.mainPending}`, { replace: true });
+      return;
+    }
+
     // 가능한 시간 있을때 활용
     const putData: PPutPendingEvent = {
       addTimeCandidates: availableTimes,

@@ -38,11 +38,11 @@ const useGetPendingEvent = () => {
         console.log('미팅 정보 불러오기 에러', err);
         dispatch(
           show({
-            title: '참여 오류',
-            description: '미팅 정보를 불러올 수 없습니다.',
+            title: '참여 불가 알림',
+            description: '미팅이 확정되었거나 취소되어 참여가 불가합니다.',
           })
         );
-        navigate(PathName.mainPending);
+        navigate(PathName.mainPending, { replace: true });
       });
   };
 
@@ -67,11 +67,11 @@ const useGetInvitation = () => {
         console.log('미팅 정보 불러오기 에러', err);
         dispatch(
           show({
-            title: '참여 오류',
-            description: '미팅 정보를 불러올 수 없습니다.',
+            title: '참여 불가 알림',
+            description: '미팅이 확정되었거나 취소되어 참여가 불가합니다.',
           })
         );
-        navigate(PathName.mainPending);
+        navigate(PathName.mainPending, { replace: true });
       });
   };
 
@@ -133,15 +133,36 @@ const usePutPendingEventGuest = () => {
 };
 
 const useDeletePendingEventGuest = () => {
-  //TODO
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = alertAction;
+
   const deleteEventTimeCandidate = (
     eventId: string,
     ppendingEvent?: PDeletePendingEvent
   ) => {
     if (ppendingEvent) {
-      deletePendingEventCandidateById(eventId, ppendingEvent);
+      deletePendingEventCandidateById(eventId, ppendingEvent).catch((err) => {
+        console.log('미팅 수락/수정 에러', err);
+        dispatch(
+          show({
+            title: '미팅 참여 오류',
+            description: '미팅 참여 과정 중 오류가 생겼습니다.',
+          })
+        );
+        navigate(`${PathName.invite}/${eventId}/invitation`, { replace: true });
+      });
     } else {
-      deletePendingEventCandidateById(eventId);
+      deletePendingEventCandidateById(eventId).catch((err) => {
+        console.log('미팅 수락/수정 에러', err);
+        dispatch(
+          show({
+            title: '미팅 참여 오류',
+            description: '미팅 참여 과정 중 오류가 생겼습니다.',
+          })
+        );
+        navigate(`${PathName.invite}/${eventId}/invitation`, { replace: true });
+      });
     }
   };
   return deleteEventTimeCandidate;

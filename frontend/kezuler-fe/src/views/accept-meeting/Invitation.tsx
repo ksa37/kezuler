@@ -102,15 +102,7 @@ function Invitation() {
   }, [addressDetailElem, isEllipsisActive]);
 
   const handleNextClick = () => {
-    if (isHost) {
-      dispatch(
-        show({
-          title: '참여오류',
-          description: '해당 미팅의 호스트입니다.',
-        })
-      );
-      navigate(`${PathName.mainPending}`);
-    } else if (isModification(eventTimeCandidates, declinedUsers)) {
+    if (isModification(eventTimeCandidates, declinedUsers)) {
       navigate(`/modify/${eventId}`);
     } else {
       navigate(`${PathName.invite}/${eventId}/select`);
