@@ -103,7 +103,6 @@ function Invitation() {
       const ellipsisWidth = e.offsetWidth;
       return ellipsisWidth < noEllipsisWidth;
     };
-    console.log(isShowMoreNeed);
     const linkDoubleLineOver = (e: any) => {
       if (!e) return false;
       return e.offsetHeight > 19;
@@ -112,7 +111,6 @@ function Invitation() {
     setIsEllipsisActive(checkEllipsisActive(addressDetailElem));
     setIsEllipsisLink(linkDoubleLineOver(linkDetailElem));
     setIsShowMoreNeedLink(linkDoubleLineOver(linkDetailElem));
-    console.log(isShowMoreNeedLink);
   }, [addressDetailElem, linkDetailElem, isEllipsisActive, isShowMoreNeedLink]);
 
   const handleNextClick = () => {
