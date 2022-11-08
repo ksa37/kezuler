@@ -40,7 +40,10 @@ const deletePendingEventCandidateById = (
   const config = {
     data: ppendingEvent,
   };
-  KezulerInstance.delete(`pendingEvents/${eventId}/candidate`, config);
+  return KezulerInstance.delete<RPendingEvent>(
+    `pendingEvents/${eventId}/candidate`,
+    config
+  );
 };
 
 const cancelPendingEventGuestById = (eventId: string) =>
