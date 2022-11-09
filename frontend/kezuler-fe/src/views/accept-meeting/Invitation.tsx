@@ -52,10 +52,8 @@ function Invitation() {
   const [scrollHeight, setScrollHeight] = useState(0);
   const [finalHeight, setFinalHeight] = useState(0);
   const [isEllipsis, setIsEllipsis] = useState(false);
-  const [isEllipsisLink, setIsEllipsisLink] = useState(false);
   const [isEllipsisActive, setIsEllipsisActive] = useState(false);
   const [isShowMoreNeed, setIsShowMoreNeed] = useState(false);
-  const [isShowMoreNeedLink, setIsShowMoreNeedLink] = useState(false);
   const [foldEllipsis, setFoldEllipsis] = useState(false);
 
   useEffect(() => {
@@ -64,6 +62,7 @@ function Invitation() {
       setIsShowMoreNeed(true);
     } else if (eventAttachment) {
       setIsEllipsis(true);
+      setIsShowMoreNeed(true);
     } else setIsEllipsis(false);
 
     if (
@@ -86,15 +85,10 @@ function Invitation() {
   }, [scrollHeight]);
 
   const addressDetailElem = null;
-  const linkDetailElem = null;
 
   useEffect(() => {
     const addressDetailElem = document.getElementById('addressDetail');
-    const linkDetailElem = document.getElementById('linkDetail');
-    if (eventDescription && eventAttachment) {
-      setIsEllipsis(true);
-      setIsShowMoreNeed(true);
-    }
+
     const checkEllipsisActive = (e: any) => {
       if (!e) return false;
       e.style.overflow = 'initial';
@@ -103,15 +97,9 @@ function Invitation() {
       const ellipsisWidth = e.offsetWidth;
       return ellipsisWidth < noEllipsisWidth;
     };
-    const linkDoubleLineOver = (e: any) => {
-      if (!e) return false;
-      return e.offsetHeight > 19;
-    };
 
     setIsEllipsisActive(checkEllipsisActive(addressDetailElem));
-    setIsEllipsisLink(linkDoubleLineOver(linkDetailElem));
-    setIsShowMoreNeedLink(linkDoubleLineOver(linkDetailElem));
-  }, [addressDetailElem, linkDetailElem, isEllipsisActive, isShowMoreNeedLink]);
+  }, [addressDetailElem, isEllipsisActive]);
 
   const handleNextClick = () => {
     if (isModification(eventTimeCandidates, declinedUsers)) {
@@ -156,7 +144,6 @@ function Invitation() {
         <div
           className={classNames('invitation-card', {
             'is-showmore-need': isShowMoreNeed,
-            'is-showmore-need-link': isShowMoreNeedLink,
           })}
         >
           <Avatar
@@ -318,35 +305,16 @@ function Invitation() {
                   {meetingRefLink}
                 </div>
               </div>
-              <a href={eventAttachment} target="_blank" rel="noreferrer">
-                <div
-                  id="linkDetail"
-                  className={classNames('invitation-link-text', {
-                    'is-ellipsis-link': isEllipsisLink,
-                  })}
-                >
+              <a
+                href={eventAttachment}
+                target="_blank"
+                rel="noreferrer"
+                style={{ wordBreak: 'break-all' }}
+              >
+                <span style={{ wordBreak: 'break-all' }}>
                   {eventAttachment}
-                </div>
+                </span>
               </a>
-              {isShowMoreNeedLink ? (
-                <div
-                  className={classNames('invitation-showmore')}
-                  onClick={() => setIsEllipsisLink((prev) => !prev)}
-                >
-                  <span className={classNames('invitation-showmore-text')}>
-                    {isEllipsisLink ? '펼쳐보기' : '접기'}
-                  </span>
-                  {isEllipsisLink ? (
-                    <KeyboardArrowDownIcon
-                      className={classNames('invitation-showmore-icon')}
-                    />
-                  ) : (
-                    <KeyboardArrowUpIcon
-                      className={classNames('invitation-showmore-icon')}
-                    />
-                  )}
-                </div>
-              ) : null}
             </>
           ) : null}
         </div>
