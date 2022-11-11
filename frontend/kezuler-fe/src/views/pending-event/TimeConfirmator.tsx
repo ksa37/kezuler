@@ -24,6 +24,7 @@ import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
 import CompletionPage from '../../components/common/CompletionPage';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
+import NewTimeAdd from 'src/components/accept-meeting/NewTimeAdd';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
 import TimeCard from 'src/components/accept-meeting/TimeCard';
 import BottomButton from 'src/components/common/BottomButton';
@@ -253,6 +254,7 @@ function TimeConfirmator() {
                       )}
                     </div>
                   ))}
+                <NewTimeAdd />
               </div>
             ))}
           </div>

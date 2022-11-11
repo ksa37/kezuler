@@ -31,6 +31,7 @@ import { isModification as isModificationfunc } from 'src/utils/joinMeeting';
 
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
+import NewTimeAdd from 'src/components/accept-meeting/NewTimeAdd';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
 import TimeCard from 'src/components/accept-meeting/TimeCard';
 import BottomButton from 'src/components/common/BottomButton';
@@ -321,6 +322,7 @@ function TimeListSelector({ isModification }: Props) {
                   )}
                 </div>
               ))}
+            <NewTimeAdd />
           </div>
         ))}
       </div>
