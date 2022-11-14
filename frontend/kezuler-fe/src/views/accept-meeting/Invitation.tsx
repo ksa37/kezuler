@@ -289,9 +289,9 @@ function Invitation() {
                 href={eventAttachment}
                 target="_blank"
                 rel="noreferrer"
-                style={{ wordBreak: 'break-all' }}
+                className={classNames('invitation-link')}
               >
-                <span style={{ wordBreak: 'break-all' }}>
+                <span className={classNames('invitation-link')}>
                   {eventAttachment}
                 </span>
               </a>
@@ -309,9 +309,9 @@ function Invitation() {
                 href={eventAttachment}
                 target="_blank"
                 rel="noreferrer"
-                style={{ wordBreak: 'break-all' }}
+                className={classNames('invitation-link')}
               >
-                <span style={{ wordBreak: 'break-all' }}>
+                <span className={classNames('invitation-link')}>
                   {eventAttachment}
                 </span>
               </a>
