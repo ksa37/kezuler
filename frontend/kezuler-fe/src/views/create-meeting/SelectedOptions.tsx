@@ -98,7 +98,7 @@ function SelectedOptions() {
           <div key={dateKey} className={'time-select-date'}>
             <div className={'time-select-date-grid'}>
               <div className={'time-select-my-calendar-part'}>
-                {dateIdx === 0 && '내 캘린더'}
+                {dateIdx === 0 && isCalendarPaired && '내 캘린더'}
               </div>
               <div className={'time-select-date-part'}>
                 <div className={'time-line-circle'} />
@@ -140,7 +140,10 @@ function SelectedOptions() {
                       timeRange={calendarList[dateKey][index].timeRange}
                       scheduleTitle={calendarList[dateKey][index].scheduleTitle}
                     />
-                  ) : dateIdx === 0 && index === 0 && !calendarLoaded ? (
+                  ) : dateIdx === 0 &&
+                    index === 0 &&
+                    isCalendarPaired &&
+                    !calendarLoaded ? (
                     <CircularProgress
                       size={20}
                       className={classNames(
@@ -150,7 +153,10 @@ function SelectedOptions() {
                       )}
                       disableShrink
                     />
-                  ) : dateIdx === 0 && index === 0 && isCalendarEmpty ? (
+                  ) : dateIdx === 0 &&
+                    index === 0 &&
+                    isCalendarPaired &&
+                    isCalendarEmpty ? (
                     <div
                       className={classNames(
                         'time-select-schedule-card',
@@ -162,16 +168,6 @@ function SelectedOptions() {
                   ) : (
                     <ScheduleCard isEmpty={true} />
                   )}
-                  {/* {Object.keys(calendarList).includes(dateKey) &&
-                  calendarList[dateKey].length > index ? (
-                    <ScheduleCard
-                      isEmpty={false}
-                      timeRange={calendarList[dateKey][index].timeRange}
-                      scheduleTitle={calendarList[dateKey][index].scheduleTitle}
-                    />
-                  ) : (
-                    <ScheduleCard isEmpty={true} />
-                  )} */}
                 </div>
               ))}
           </div>

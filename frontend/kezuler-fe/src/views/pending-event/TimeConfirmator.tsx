@@ -201,7 +201,7 @@ function TimeConfirmator() {
               <div key={dateKey} className={'time-select-date'}>
                 <div className={'time-select-date-grid'}>
                   <div className={'time-select-my-calendar-part'}>
-                    {dateIdx === 0 && '내 캘린더'}
+                    {dateIdx === 0 && isCalendarPaired && '내 캘린더'}
                   </div>
                   <div className={'time-select-date-part'}>
                     <div className={'time-line-circle'} />
@@ -261,7 +261,10 @@ function TimeConfirmator() {
                             calendarList[dateKey][index].scheduleTitle
                           }
                         />
-                      ) : dateIdx === 0 && index === 0 && !calendarLoaded ? (
+                      ) : dateIdx === 0 &&
+                        index === 0 &&
+                        isCalendarPaired &&
+                        !calendarLoaded ? (
                         <CircularProgress
                           size={20}
                           className={classNames(
