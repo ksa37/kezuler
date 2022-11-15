@@ -19,20 +19,6 @@ const useDialog = () => {
   return { openDialog };
 };
 
-const useDialog2 = () => {
-  const { show } = dialogAction;
-  const dispatch = useDispatch();
-
-  const openDialog2 = useCallback(
-    (props: DialogProps) => {
-      dispatch(show(props));
-    },
-    [dispatch, show]
-  );
-
-  return { openDialog2 };
-};
-
 const useNoti = () => {
   const { show } = notiAction;
   const dispatch = useDispatch();
@@ -48,4 +34,4 @@ const useNoti = () => {
 };
 
 export default useDialog;
-export { useNoti, useDialog2 };
+export { useNoti };
