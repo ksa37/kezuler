@@ -1,9 +1,13 @@
 import React from 'react';
 import { Add } from '@mui/icons-material';
 
-function NewTimeAdd() {
+interface Props {
+  onClick: () => void;
+}
+
+function AddTimeBtn({ onClick }: Props) {
   return (
-    <div className="time-select-card-grid">
+    <div className="time-select-card-grid" onClick={onClick}>
       <div className="time-select-time-card">
         <div className="time-select-time-add">
           <Add />
@@ -14,4 +18,4 @@ function NewTimeAdd() {
   );
 }
 
-export default NewTimeAdd;
+export default AddTimeBtn;

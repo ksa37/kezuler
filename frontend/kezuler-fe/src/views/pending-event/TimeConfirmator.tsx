@@ -23,8 +23,8 @@ import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
 import CompletionPage from '../../components/common/CompletionPage';
+import AddTimeBtn from 'src/components/accept-meeting/AddTimeBtn';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
-import NewTimeAdd from 'src/components/accept-meeting/NewTimeAdd';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
 import TimeCard from 'src/components/accept-meeting/TimeCard';
 import BottomButton from 'src/components/common/BottomButton';
@@ -114,6 +114,12 @@ function TimeConfirmator() {
   const handleAllShowClick = () => {
     dispatch(show(pendingEvent));
     navigate(`${PathName.confirm}/${eventConfirmId}/participants`);
+  };
+
+  const processType = location.pathname.split('/')[1];
+  const handleAddTimeClick = () => {
+    dispatch(show(pendingEvent));
+    navigate(`/${processType}/${eventConfirmId}/time`);
   };
 
   const possibleUsersAll = eventTimeCandidates.reduce<string[]>(
@@ -254,9 +260,9 @@ function TimeConfirmator() {
                       )}
                     </div>
                   ))}
-                <NewTimeAdd />
               </div>
             ))}
+            <AddTimeBtn onClick={handleAddTimeClick} />
           </div>
           <BottomButton
             text={'미팅시간 확정'}
