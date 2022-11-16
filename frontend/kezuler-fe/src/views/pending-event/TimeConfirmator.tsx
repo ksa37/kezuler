@@ -22,6 +22,7 @@ import { getSchedules } from 'src/utils/getCalendar';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 
+import EmptyTimeCard from '../../components/accept-meeting/EmptyTimeCard';
 import CompletionPage from '../../components/common/CompletionPage';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
@@ -211,33 +212,15 @@ function TimeConfirmator() {
                     >
                       {eventTimeListDevideByDate[dateKey].length > index ? (
                         <TimeCard
-                          isEmpty={false}
-                          isSelected={
-                            selectedTime ===
-                            getUTCDate(
-                              eventTimeListDevideByDate[dateKey][
-                                index
-                              ].eventStartsAt.getTime()
-                            ).getTime()
-                          }
-                          onClick={() =>
-                            handleEventTimeClick(
-                              eventTimeListDevideByDate[dateKey][index]
-                                .eventStartsAt
-                            )
-                          }
-                          timeRange={getTimeRange(
-                            eventTimeListDevideByDate[dateKey][index]
-                              .eventStartsAt,
-                            eventTimeDuration
-                          )}
-                          possibleNum={
-                            eventTimeListDevideByDate[dateKey][index]
-                              .possibleNum
+                          etl={eventTimeListDevideByDate[dateKey][index]}
+                          onEventClick={handleEventTimeClick}
+                          eventTimeDuration={eventTimeDuration}
+                          getIsSelected={(utcTimestamp) =>
+                            selectedTime === utcTimestamp
                           }
                         />
                       ) : (
-                        <TimeCard isEmpty={true} />
+                        <EmptyTimeCard />
                       )}
                       {Object.keys(calendarList).includes(dateKey) &&
                       calendarList[dateKey].length > index ? (
