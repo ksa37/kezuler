@@ -33,6 +33,7 @@ interface Props<T extends BMenu> {
   fitToButtonWidth?: boolean;
   popperBottomStart?: boolean;
   disabledIdxs?: number[];
+  isAddTime?: boolean;
 }
 
 function KezulerDropdown<T extends BMenu>({
@@ -54,6 +55,7 @@ function KezulerDropdown<T extends BMenu>({
   fitToButtonWidth,
   popperBottomStart,
   disabledIdxs,
+  isAddTime,
 }: Props<T>): React.ReactElement {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -73,6 +75,7 @@ function KezulerDropdown<T extends BMenu>({
   return (
     <>
       <Button
+        disabled={isAddTime ? true : false}
         startIcon={startIcon}
         endIcon={endIcon}
         ref={buttonRef}

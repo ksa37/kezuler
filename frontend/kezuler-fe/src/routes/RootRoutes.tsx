@@ -11,6 +11,10 @@ import AcceptIndex from 'src/views/accept-meeting/AcceptIndex';
 import Invitation from 'src/views/accept-meeting/Invitation';
 import SelectionModifier from 'src/views/accept-meeting/SelectionModifier';
 import TimeListSelector from 'src/views/accept-meeting/TimeListSelector';
+import AddTime from 'src/views/add-time';
+import CalendarTimeSelectorAddTime from 'src/views/add-time/CalendarTimeSelectorAddTime';
+import TimeSelectedOptions from 'src/views/add-time/SelectedOptionsAddTime';
+import SelectedOptionsAddTime from 'src/views/add-time/SelectedOptionsAddTime';
 import CreateMeeting from 'src/views/create-meeting';
 import CalendarTimeSelector from 'src/views/create-meeting/CalendarTimeSelector';
 import MeetingInfoForm from 'src/views/create-meeting/MeetingInfoForm';
@@ -159,6 +163,13 @@ function RootRoutes() {
               path={`${PathName.confirm}/:eventConfirmId/participants`}
               element={<ParticipantsPopup />}
             />
+            <Route path={`/:type/:eventConfirmId/time`} element={<AddTime />}>
+              <Route index element={<CalendarTimeSelectorAddTime />} />
+              <Route
+                path={`/:type/:eventConfirmId/time/check`}
+                element={<SelectedOptionsAddTime />}
+              />
+            </Route>
             <Route
               path={`${PathName.invite}/:eventId`}
               element={<AcceptMeeting />}
@@ -172,6 +183,7 @@ function RootRoutes() {
                 path={PathName.inviteSelect}
                 element={<TimeListSelector />}
               />
+
               <Route
                 path={PathName.inviteSelectParticipants}
                 element={<ParticipantsPopup />}
