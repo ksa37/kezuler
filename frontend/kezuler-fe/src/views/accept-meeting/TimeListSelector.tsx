@@ -29,6 +29,7 @@ import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 import { getDeclineReason } from 'src/utils/joinMeeting';
 import { isModification as isModificationfunc } from 'src/utils/joinMeeting';
 
+import AddTimeBtn from 'src/components/accept-meeting/AddTimeBtn';
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
@@ -175,6 +176,11 @@ function TimeListSelector({ isModification }: Props) {
         isModification ? 'participants' : 'select/participants'
       }`
     );
+  };
+
+  const processType = location.pathname.split('/')[1];
+  const handleAddTimeClick = () => {
+    navigate(`/${processType}/${eventId}/time`);
   };
 
   const possibleUsersAll = eventTimeCandidates.reduce<string[]>(
@@ -361,6 +367,7 @@ function TimeListSelector({ isModification }: Props) {
               ))}
           </div>
         ))}
+        <AddTimeBtn onClick={handleAddTimeClick} />
       </div>
       <AvailableOptionSelector errorMessage={error} />
       <BottomButton

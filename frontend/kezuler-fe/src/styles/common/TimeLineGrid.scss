@@ -198,6 +198,36 @@
     // .possible-num {
     // }
   }
+
+  .time-select-time-add {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    font-size: 14px;
+    margin-right: 25px;
+    box-sizing: border-box;
+    box-shadow: 0px 15px 35px #282f391a;
+    padding-left: 12px;
+    padding-right: 8px;
+    border: 1px solid #000;
+    border-radius: 8px;
+
+    @media (max-width: 300px) {
+      font-size: 12px;
+      line-height: 14px;
+    }
+
+    > svg {
+      width: 20px;
+      height: 20px;
+    }
+    > span {
+      padding-left: 5px;
+    }
+  }
+
   .check-box-icon {
     width: 20px;
     height: 20px;
