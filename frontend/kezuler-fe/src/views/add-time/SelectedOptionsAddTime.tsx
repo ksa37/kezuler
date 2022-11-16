@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import PathName from 'src/constants/PathName';
+import useDialog from 'src/hooks/useDialog';
 import { RootState } from 'src/reducers';
 import { alertAction } from 'src/reducers/alert';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
@@ -18,11 +18,15 @@ import BottomButton from 'src/components/common/BottomButton';
 import TimeOptionCard from 'src/components/create-meeting/TimeOptionCard';
 
 import 'src/styles/common/TimeLineGrid.scss';
-import classNames from 'classnames';
-import { CircularProgress } from '@mui/material';
 
-function SelectedOptions() {
+import { addTimes } from 'src/api/addTimes';
+import { CircularProgress } from '@mui/material';
+import classNames from 'classnames';
+
+function SelectedOptionsAddTime() {
   const dispatch = useDispatch<AppDispatch>();
+  const { openDialog } = useDialog();
+  const { eventConfirmId } = useParams();
   const { deleteTimeList } = createMeetingActions;
   const { eventTimeList, eventTimeDuration } = useSelector(
     (state: RootState) => state.createMeeting
@@ -45,6 +49,7 @@ function SelectedOptions() {
   );
 
   const subDescription = `총 ${eventTimeList.length}개 선택`;
+  const processType = location.pathname.split('/')[1];
 
   const handleDeleteClick = (dateKey: string, time: Date) => {
     if (eventTimeList.length === 1) {
@@ -58,8 +63,39 @@ function SelectedOptions() {
     }
   };
 
-  const handleNextClick = () => {
-    navigate(PathName.createPlace);
+  const handlePostClick = () => {
+    const PostAddTime = () => {
+      const navigateToInitialPage = () => {
+        if (processType !== 'invite')
+          navigate(`/${processType}/${eventConfirmId}`);
+        else navigate(`/${processType}/${eventConfirmId}/select`);
+      };
+
+      const result = addTimes(eventConfirmId, eventTimeList);
+      result
+        .then(async () => {
+          navigateToInitialPage();
+          dispatch(
+            show({
+              title: '새로운 시간이 추가되었습니다!',
+            })
+          );
+        })
+        .catch(() => {
+          navigateToInitialPage();
+          dispatch(
+            show({
+              title: '시간 추가에 실패하였습니다!',
+            })
+          );
+        });
+    };
+
+    openDialog({
+      title: `시간을 추가 하시겠어요?`,
+      description: `추가시, 기존 미팅에 추가로 선택할 수 있는 시간이 생성됩니다.`,
+      onConfirm: PostAddTime,
+    });
   };
 
   const { setCalendarStore } = getSchedules(eventTimeListDevideByDate);
@@ -83,7 +119,7 @@ function SelectedOptions() {
     <div className={'time-list-selector'}>
       <div className={'time-list-top'}>
         <div className={'time-list-top-description'}>
-          {'선택한 날짜와 시간을'}
+          {'추가할 날짜와 시간을'}
           <br />
           {'확인해주세요'}
         </div>
@@ -173,9 +209,9 @@ function SelectedOptions() {
           </div>
         ))}
       </div>
-      <BottomButton onClick={handleNextClick} text="다음" />
+      <BottomButton onClick={handlePostClick} text="확인" />
     </div>
   );
 }
 
-export default SelectedOptions;
+export default SelectedOptionsAddTime;

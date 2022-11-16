@@ -28,7 +28,7 @@ const getSchedules = (
 ) => {
   const dispatch = useDispatch<AppDispatch>();
   const dateKeys = Object.keys(eventTimeList);
-  const { setCalendarList } = calendarActions;
+  const { setCalendarList, setCalendarLoaded } = calendarActions;
 
   const isWithNum = isEventTimeListByDateWithNum(eventTimeList);
   const dateToGetList = dateKeys.map((dateKey) => {
@@ -61,6 +61,7 @@ const getSchedules = (
         schedulesEachDay[dateKey] = schedules[index];
       });
       dispatch(setCalendarList(schedulesEachDay));
+      dispatch(setCalendarLoaded(true));
     });
 
   return { setCalendarStore };

@@ -27,6 +27,8 @@ import { getDeclineReason } from 'src/utils/joinMeeting';
 import { isModification as isModificationfunc } from 'src/utils/joinMeeting';
 
 import EmptyTimeCard from '../../components/accept-meeting/EmptyTimeCard';
+import AddTimeBtn from 'src/components/accept-meeting/AddTimeBtn';
+
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
@@ -36,6 +38,8 @@ import BottomButton from 'src/components/common/BottomButton';
 import { ReactComponent as ArrowRightIcon } from 'src/assets/icn_right_outline.svg';
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
+import { CircularProgress } from '@mui/material';
+import classNames from 'classnames';
 
 interface Props {
   isModification?: boolean;
@@ -44,7 +48,7 @@ function TimeListSelector({ isModification }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const { pendingEvent, availableTimes, declineReason, isDecline } =
     useSelector((state: RootState) => state.acceptMeeting);
-  const { calendarList } = useSelector(
+  const { calendarList, loaded: calendarLoaded } = useSelector(
     (state: RootState) => state.calendarList
   );
   const { destroy: destroyCalendar } = calendarActions;
@@ -173,6 +177,11 @@ function TimeListSelector({ isModification }: Props) {
     );
   };
 
+  const processType = location.pathname.split('/')[1];
+  const handleAddTimeClick = () => {
+    navigate(`/${processType}/${eventId}/time`);
+  };
+
   const possibleUsersAll = eventTimeCandidates.reduce<string[]>(
     (prev, eventTimeCandidate) => {
       const userIds = eventTimeCandidate.possibleUsers.map((u) => u.userId);
@@ -225,6 +234,14 @@ function TimeListSelector({ isModification }: Props) {
 
   const nextButtonDisabled = !!error;
 
+  const isCalendarEmpty = useMemo(() => {
+    const concatList = Object.values(calendarList).reduce(
+      (pre, cur) => pre.concat(cur),
+      []
+    );
+    return calendarLoaded && concatList.length === 0;
+  }, [calendarList]);
+
   return (
     <div className={'time-list-selector'}>
       <div className={'time-list-top'}>
@@ -252,9 +269,12 @@ function TimeListSelector({ isModification }: Props) {
           <CalendarPairBtn setIsCalendarPaired={setIsCalendarPaired} />
         )}
         <div className={'time-line-line'} />
-        {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
+        {Object.keys(eventTimeListDevideByDate).map((dateKey, dateIdx) => (
           <div key={dateKey} className={'time-select-date'}>
             <div className={'time-select-date-grid'}>
+              <div className={'time-select-my-calendar-part'}>
+                {dateIdx === 0 && isCalendarPaired && '내 캘린더'}
+              </div>
               <div className={'time-select-date-part'}>
                 <div className={'time-line-circle'} />
                 {dateKey}
@@ -291,6 +311,31 @@ function TimeListSelector({ isModification }: Props) {
                       timeRange={calendarList[dateKey][index].timeRange}
                       scheduleTitle={calendarList[dateKey][index].scheduleTitle}
                     />
+                  ) : dateIdx === 0 &&
+                    index === 0 &&
+                    isCalendarPaired &&
+                    !calendarLoaded ? (
+                    <CircularProgress
+                      size={20}
+                      className={classNames(
+                        'time-select-schedule-card',
+                        'no-list',
+                        'loading-bar'
+                      )}
+                      disableShrink
+                    />
+                  ) : dateIdx === 0 &&
+                    index === 0 &&
+                    isCalendarPaired &&
+                    isCalendarEmpty ? (
+                    <div
+                      className={classNames(
+                        'time-select-schedule-card',
+                        'no-list'
+                      )}
+                    >
+                      일정이 없습니다.
+                    </div>
                   ) : (
                     <ScheduleCard isEmpty={true} />
                   )}
@@ -298,6 +343,7 @@ function TimeListSelector({ isModification }: Props) {
               ))}
           </div>
         ))}
+        <AddTimeBtn onClick={handleAddTimeClick} />
       </div>
       <AvailableOptionSelector errorMessage={error} />
       <BottomButton
