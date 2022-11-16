@@ -113,7 +113,13 @@
   grid-template-columns: 1fr 2fr;
   row-gap: 12px;
   column-gap: 24px;
-  grid-template-areas: '. date-text';
+  grid-template-areas: 'calendar-text date-text';
+
+  .time-select-my-calendar-part {
+    grid-area: calendar-text;
+    position: relative;
+    font: normal normal 500 14px/17px Pretendard;
+  }
 
   .time-select-date-part {
     grid-area: date-text;
@@ -218,6 +224,18 @@
 
   &.no-schedule {
     display: none;
+  }
+
+  &.no-list {
+    background: none;
+    box-shadow: none;
+    padding-inline: 0px;
+    font-size: 12px;
+    color: #bfbfbf;
+  }
+
+  &.loading-bar {
+    text-align: center;
   }
 
   .schedule-time-range {
