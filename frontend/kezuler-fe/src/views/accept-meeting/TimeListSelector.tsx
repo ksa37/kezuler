@@ -178,7 +178,6 @@ function TimeListSelector({ isModification }: Props) {
 
   const processType = location.pathname.split('/')[1];
   const handleAddTimeClick = () => {
-    dispatch(show(pendingEvent));
     navigate(`/${processType}/${eventId}/time`);
   };
 

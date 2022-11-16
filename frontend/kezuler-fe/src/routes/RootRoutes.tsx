@@ -160,7 +160,7 @@ function RootRoutes() {
               element={<TimeConfirmator />}
             />
             <Route
-              path={`/:type/:eventConfirmId/participants`}
+              path={`${PathName.confirm}/:eventConfirmId/participants`}
               element={<ParticipantsPopup />}
             />
             <Route path={`/:type/:eventConfirmId/time`} element={<AddTime />}>

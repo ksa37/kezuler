@@ -118,7 +118,6 @@ function TimeConfirmator() {
 
   const processType = location.pathname.split('/')[1];
   const handleAddTimeClick = () => {
-    dispatch(show(pendingEvent));
     navigate(`/${processType}/${eventConfirmId}/time`);
   };
 

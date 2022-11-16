@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
 import { RootState } from 'src/reducers';
 import { alertAction } from 'src/reducers/alert';

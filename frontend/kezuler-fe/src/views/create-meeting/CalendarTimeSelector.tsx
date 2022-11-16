@@ -251,39 +251,15 @@ function CalendarTimeSelector() {
             </>
           )}
         </div>
-        {location.href.includes('A') ? (
-          <ScrollContainer className="scroll-container">
-            <div className={'time-chips-stack-wrapper'}>
-              <Stack
-                direction="row"
-                spacing={'6px'}
-                className={classNames('time-chips-stack', {
-                  'is-mobile': isMobile,
-                })}
-              >
-                {getChips}
-              </Stack>
-            </div>
-          </ScrollContainer>
-        ) : (
-          // <div className={'time-chips-stack-wrapper'}>
-          <Stack
-            direction="row"
-            spacing={'6px'}
-            className={classNames('time-chips-stack-b', {
-              'is-mobile': isMobile,
-            })}
-          >
-            {getChips}
-          </Stack>
-          // </div>
-        )}
-        {/* {!nogcalendar && !popupDisable && (
-          <CalendarPopup
-            onYesClick={handleCalendarPopupYes}
-            onNoClick={handleCalendarPopupNo}
-          />
-        )} */}
+        <Stack
+          direction="row"
+          spacing={'6px'}
+          className={classNames('time-chips-stack', {
+            'is-mobile': isMobile,
+          })}
+        >
+          {getChips}
+        </Stack>
       </div>
       <BottomButton
         onClick={handleNextClick}

@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import ScrollContainer from 'react-indiana-drag-scroll';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
@@ -10,7 +9,6 @@ import { ko } from 'date-fns/locale';
 
 import TimeOptions from '../../constants/TimeOptions';
 import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
-import PathName from 'src/constants/PathName';
 import { CREATE_MEETING_NOTI_DISABLE_KEY } from 'src/constants/Popup';
 import { useNoti } from 'src/hooks/useDialog';
 import {
@@ -21,6 +19,7 @@ import {
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { alertAction } from 'src/reducers/alert';
+import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { AppDispatch } from '../../store';
 import { setMindate } from 'src/utils/dateParser';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
@@ -42,8 +41,9 @@ function CalendarTimeSelectorAddTime() {
   const { eventTimeList } = useSelector(
     (state: RootState) => state.createMeeting
   );
-  const { pendingEvent } = useSelector(
-    (state: RootState) => state.acceptMeeting
+
+  const { pendingEvent } = useSelector((state: RootState) =>
+    processType === 'confirm' ? state.confirmTime : state.acceptMeeting
   );
   const { eventTimeCandidates } = pendingEvent;
   const { addTimeList, deleteTimeList, setEventTimeDuration } =
@@ -54,9 +54,13 @@ function CalendarTimeSelectorAddTime() {
   const { eventConfirmId } = useParams();
 
   const getInvitationEventInfo = useGetInvitation();
-
+  const getPendingEventInfo = useGetPendingEvent();
   useMemo(() => {
-    if (eventConfirmId) getInvitationEventInfo(eventConfirmId);
+    if (!eventConfirmId) return;
+    if (processType === 'confirm') getPendingEventInfo(eventConfirmId);
+    else {
+      getInvitationEventInfo(eventConfirmId);
+    }
   }, [eventConfirmId]);
 
   const navigate = useNavigate();
@@ -156,7 +160,6 @@ function CalendarTimeSelectorAddTime() {
       setEventTimeDuration(MEETING_LENGTH_LIST[selectedLengthIdx].minutes)
     );
   }, [MEETING_LENGTH_LIST[selectedLengthIdx].minutes]);
-
   // Time Option Chip Focus 설정
   const setChipFocus = (startTimeStr: string) => {
     const focusChip = document.getElementById(startTimeStr);
@@ -251,31 +254,15 @@ function CalendarTimeSelectorAddTime() {
             </>
           )}
         </div>
-        {location.href.includes('A') ? (
-          <ScrollContainer className="scroll-container">
-            <div className={'time-chips-stack-wrapper'}>
-              <Stack
-                direction="row"
-                spacing={'6px'}
-                className={classNames('time-chips-stack', {
-                  'is-mobile': isMobile,
-                })}
-              >
-                {getChips}
-              </Stack>
-            </div>
-          </ScrollContainer>
-        ) : (
-          <Stack
-            direction="row"
-            spacing={'6px'}
-            className={classNames('time-chips-stack-b', {
-              'is-mobile': isMobile,
-            })}
-          >
-            {getChips}
-          </Stack>
-        )}
+        <Stack
+          direction="row"
+          spacing={'6px'}
+          className={classNames('time-chips-stack', {
+            'is-mobile': isMobile,
+          })}
+        >
+          {getChips}
+        </Stack>
       </div>
       <BottomButton
         onClick={handleNextClick}
