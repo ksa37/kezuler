@@ -21,6 +21,7 @@ import MeetingInfoForm from 'src/views/create-meeting/MeetingInfoForm';
 import MeetingShare from 'src/views/create-meeting/MeetingShare';
 import OnOffSelector from 'src/views/create-meeting/OnOffSelector';
 import SelectedOptions from 'src/views/create-meeting/SelectedOptions';
+import InAppNotiPage from 'src/views/InAppNotiPage';
 import KakaoRedirect from 'src/views/KakaoRedirect';
 import LandingPage from 'src/views/LandingPage';
 import Login from 'src/views/Login';
@@ -197,6 +198,7 @@ function RootRoutes() {
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
             <Route path={PathName.landing} element={<LandingPage />} />
             <Route path={PathName.notFound} element={<NotFound />} />
+            <Route path={PathName.InAppNoti} element={<InAppNotiPage />} />
             <Route
               path="*"
               element={<Navigate replace to={PathName.notFound} />}

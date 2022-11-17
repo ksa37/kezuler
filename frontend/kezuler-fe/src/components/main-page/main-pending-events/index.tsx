@@ -7,10 +7,11 @@ import React, {
 } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 
 import { GOOGLE_LOGIN_SCOPE } from 'src/constants/Auth';
+import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
 import useGetUserInfo from 'src/hooks/useGetUserInfo';
 import useMainPending from 'src/hooks/useMainPending';
@@ -43,6 +44,7 @@ function MainPendingEvents() {
   const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
   const [ref, inView] = useInView();
   const { openDialog } = useDialog();
+  const navigate = useNavigate();
 
   const handleGoogleSuccess = (res: any) => {
     changeUser(
@@ -63,7 +65,7 @@ function MainPendingEvents() {
     scope: GOOGLE_LOGIN_SCOPE,
   });
 
-  const checkIos = () => {
+  const checkIosNaver = () => {
     const Agent = navigator.userAgent;
 
     const checkIosPage = () => {
@@ -86,6 +88,8 @@ function MainPendingEvents() {
       } else {
         connectGoogle();
       }
+    } else if (Agent.toLowerCase().includes('naver')) {
+      navigate(PathName.InAppNoti);
     } else {
       connectGoogle();
     }
@@ -96,7 +100,7 @@ function MainPendingEvents() {
       title: `구글 캘린더 연동`,
       description:
         '확정된 일정을 자동으로 등록하고,\n 일정을 확인해 중복 예약을 \n 방지할 수 있습니다.',
-      onConfirm: checkIos,
+      onConfirm: checkIosNaver,
     });
   };
 

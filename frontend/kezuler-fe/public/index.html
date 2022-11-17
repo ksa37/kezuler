@@ -151,6 +151,12 @@
         );
         location.href = 'x-web-search://?';
       };
+      const inappbrowseroutChrome = () => {
+        location.href =
+          'intent://' +
+          location.href.replace(/https?:\/\//i, '') +
+          '#Intent;scheme=http;package=com.android.chrome;end';
+      };
     </script>
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--

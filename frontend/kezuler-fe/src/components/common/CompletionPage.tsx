@@ -57,7 +57,7 @@ function CompletionPage({
     scope: GOOGLE_LOGIN_SCOPE,
   });
 
-  const checkIos = () => {
+  const checkIosNaver = () => {
     const Agent = navigator.userAgent;
 
     const checkIosPage = () => {
@@ -80,6 +80,8 @@ function CompletionPage({
       } else {
         connectGoogle();
       }
+    } else if (Agent.toLowerCase().includes('naver')) {
+      navigate(PathName.InAppNoti);
     } else {
       connectGoogle();
     }
@@ -90,7 +92,7 @@ function CompletionPage({
       title: `구글 캘린더 연동`,
       description:
         '확정된 일정을 자동으로 등록하고,\n 일정을 확인해 중복 예약을 \n 방지할 수 있습니다.',
-      onConfirm: checkIos,
+      onConfirm: checkIosNaver,
     });
   };
 
