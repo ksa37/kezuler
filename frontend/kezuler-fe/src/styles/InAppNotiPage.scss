@@ -1,0 +1,43 @@
+@import 'constants';
+
+.inapp-noti-page {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-top: 68px;
+  align-items: center;
+  padding-top: 50px;
+
+  @media (max-height: $short-height-size) {
+    margin-top: 52px;
+  }
+
+  > h2 {
+    @media (max-width: 340px) {
+      font-size: $font-20;
+    }
+  }
+  .inapp-noti-page-content {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 17px;
+    word-break: keep-all;
+    color: #999;
+    @media (max-width: 340px) {
+      font-size: $font-14;
+    }
+  }
+
+  .inapp-noti-page-button {
+    min-width: 180px;
+    margin-top: 50px;
+    height: 54px;
+    font-weight: 700;
+    background-color: #fad94f;
+    color: #000;
+    border: 0;
+    border-radius: 4px;
+    font-size: 17px;
+    cursor: pointer;
+  }
+}
