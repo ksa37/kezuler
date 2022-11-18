@@ -42,6 +42,8 @@ const PathName = {
 
   kakaoRedirect: '/oauth/kakao/token',
 
+  storage: '/storage',
+
   notFound: '/notfound',
 } as const;
 type PathName = typeof PathName[keyof typeof PathName];

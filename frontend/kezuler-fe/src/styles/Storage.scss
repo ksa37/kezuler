@@ -1,0 +1,9 @@
+@import './constants';
+
+.folder-wrapper {
+  margin-top: $app-bar-height;
+  padding: 30px;
+  @media (max-height: $short-height-size) {
+    margin-top: $app-bar-height--short;
+  }
+}
