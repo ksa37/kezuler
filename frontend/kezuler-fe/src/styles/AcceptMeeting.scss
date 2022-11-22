@@ -69,12 +69,6 @@
       padding: 20px 20px 25px 20px;
     }
   }
-  &.is-showmore-need-link {
-    padding: 20px 20px 30px 20px;
-    @media (max-width: 340px) {
-      padding: 20px 20px 25px 20px;
-    }
-  }
   @media (max-width: 340px) {
     margin-top: 40px;
     padding: 16px;
@@ -168,6 +162,7 @@
         word-break: break-all;
         word-wrap: normal;
       }
+
       span {
         word-break: break-all;
       }
@@ -224,17 +219,12 @@
       }
     }
   }
-  .invitation-link-text {
+
+  .invitation-link {
+    display: block;
+    text-overflow: ellipsis;
     overflow: hidden;
-    word-break: break-all;
-    overflow: hidden;
-    &.is-ellipsis-link {
-      background: linear-gradient(to bottom, #0000ee, #f9f9f9);
-      color: transparent;
-      background-clip: text;
-      border-bottom: 1px solid #f3f3f3;
-      height: 30px;
-    }
+    white-space: nowrap;
   }
 }
 

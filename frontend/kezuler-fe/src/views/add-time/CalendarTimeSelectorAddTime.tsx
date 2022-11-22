@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import ScrollContainer from 'react-indiana-drag-scroll';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import classNames from 'classnames';
 import { format } from 'date-fns';
@@ -10,13 +9,17 @@ import { ko } from 'date-fns/locale';
 
 import TimeOptions from '../../constants/TimeOptions';
 import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
-import PathName from 'src/constants/PathName';
 import { CREATE_MEETING_NOTI_DISABLE_KEY } from 'src/constants/Popup';
 import { useNoti } from 'src/hooks/useDialog';
+import {
+  useGetInvitation,
+  useGetPendingEvent,
+} from 'src/hooks/usePendingEvent';
 // import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { alertAction } from 'src/reducers/alert';
+import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { AppDispatch } from '../../store';
 import { setMindate } from 'src/utils/dateParser';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
@@ -32,16 +35,33 @@ import { ReactComponent as ClockIcon } from 'src/assets/clock_icon.svg';
 import { ReactComponent as ClockOrangeIcon } from 'src/assets/icn_clock_o20.svg';
 import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 
-function CalendarTimeSelector() {
+function CalendarTimeSelectorAddTime() {
   const dispatch = useDispatch<AppDispatch>();
+  const processType = location.pathname.split('/')[1];
   const { eventTimeList } = useSelector(
     (state: RootState) => state.createMeeting
   );
+
+  const { pendingEvent } = useSelector((state: RootState) =>
+    processType === 'confirm' ? state.confirmTime : state.acceptMeeting
+  );
+  const { eventTimeCandidates } = pendingEvent;
   const { addTimeList, deleteTimeList, setEventTimeDuration } =
     createMeetingActions;
 
   const [startDate, setStartDate] = useState<Date | null>(setMindate());
   const { show } = alertAction;
+  const { eventConfirmId } = useParams();
+
+  const getInvitationEventInfo = useGetInvitation();
+  const getPendingEventInfo = useGetPendingEvent();
+  useMemo(() => {
+    if (!eventConfirmId) return;
+    if (processType === 'confirm') getPendingEventInfo(eventConfirmId);
+    else {
+      getInvitationEventInfo(eventConfirmId);
+    }
+  }, [eventConfirmId]);
 
   const navigate = useNavigate();
 
@@ -60,12 +80,11 @@ function CalendarTimeSelector() {
 
   const eventTimeListDateToHighlight = useMemo(
     () =>
-      eventTimeList.map((timeStamp) =>
-        getTimezoneDate(new Date(timeStamp).getTime())
+      eventTimeCandidates.map((el) =>
+        getTimezoneDate(new Date(el.eventStartsAt).getTime())
       ),
-    [eventTimeList]
+    [eventTimeCandidates]
   );
-
   const createDate = (timeOption: string) => {
     if (startDate) {
       return getUTCDate(
@@ -94,13 +113,25 @@ function CalendarTimeSelector() {
 
   const [notiPopped, setNotiPopped] = useState(checkNotiDisable());
 
-  const handleChipClick = (timeOption: string) => {
+  const handleChipClick = (timeOption: string, includedByOld: boolean) => {
+    if (includedByOld) {
+      dispatch(
+        show({
+          title: '이미 선택된 시간입니다.',
+        })
+      );
+      return;
+    }
     if (startDate) {
       const dateToAdd = createDate(timeOption);
       if (eventTimeList.includes(dateToAdd)) {
         dispatch(deleteTimeList(dateToAdd));
       } else {
-        if (eventTimeList.length === 0 && !notiPopped) {
+        if (
+          eventTimeList.length === 0 &&
+          eventTimeCandidates.length < 10 &&
+          !notiPopped
+        ) {
           setNotiPopped(true);
           openNoti({
             title: `미팅 투표 생성 기능`,
@@ -109,10 +140,10 @@ function CalendarTimeSelector() {
             },
             onCancel: handleCloseNoti,
           });
-        } else if (eventTimeList.length === 10) {
+        } else if (eventTimeCandidates.length + eventTimeList.length >= 10) {
           dispatch(
             show({
-              title: '10개 옵션까지만 선택이 가능합니다.',
+              title: '10개의 옵션까지만 선택이 가능하여 추가가 불가능합니다.',
             })
           );
         } else {
@@ -123,36 +154,9 @@ function CalendarTimeSelector() {
   };
 
   const handleNextClick = () => {
-    navigate(PathName.createCheck);
+    navigate(`/${processType}/${eventConfirmId}/time/check`);
   };
 
-  // 캘린더 연동 팝업 관련
-  // const [scheduleConnected, setScheduleConnected] = useState(false);
-  // const [popupDisable, setPopupDisable] = useState(
-  //   localStorage.getItem(CREATE_CALENDAR_POPUP_DISABLE_KEY) === 'true'
-  // );
-
-  // const handleCalendarPopupNo = () => {
-  //   // localStorage.setItem(CREATE_CALENDAR_POPUP_DISABLE_KEY, 'true');
-  //   setPopupDisable(true);
-  //   console.log('no');
-  // };
-
-  // const handleCalendarPopupYes = () => {
-  //   setScheduleConnected(true);
-  //   console.log('yes');
-  //   //TODO
-  //   //캘린더 연동
-  // };
-
-  // const mockSceduleData = [
-  //   { title: '인공지능개론 팀플', time: '오후 2:00 ~ 오후 3:00' },
-  //   { title: '수아랑 저녁', time: '오후 6:00 ~ 오후 7:00' },
-  //   { title: '동아리 정기모임', time: '오후 7:00 ~ 오후 9:00' },
-  //   { title: '토익 시험 접수', time: '하루종일' },
-  // ];
-
-  // eventTimeDuration Index: 30, 60, 120
   const [selectedLengthIdx, setSelectedLengthIdx] = useState(1);
   // eventTimeDuration state 설정
   useMemo(() => {
@@ -160,7 +164,6 @@ function CalendarTimeSelector() {
       setEventTimeDuration(MEETING_LENGTH_LIST[selectedLengthIdx].minutes)
     );
   }, [MEETING_LENGTH_LIST[selectedLengthIdx].minutes]);
-
   // Time Option Chip Focus 설정
   const setChipFocus = (startTimeStr: string) => {
     const focusChip = document.getElementById(startTimeStr);
@@ -188,16 +191,21 @@ function CalendarTimeSelector() {
     () =>
       startDate &&
       TimeOptions(startDate).map((timeOption) => {
-        const included = eventTimeList.includes(createDate(timeOption));
+        const includedByOld = eventTimeCandidates
+          .map((el) => el.eventStartsAt)
+          .includes(createDate(timeOption));
+        const includedByNew = eventTimeList.includes(createDate(timeOption));
         return (
           <div
             key={startDate?.getTime() + timeOption}
             id={timeOption}
             className={classNames('time-chips', {
-              filled: included,
-              blank: !included,
+              filled: includedByOld ? true : includedByNew,
+              blank: includedByOld ? false : !includedByNew,
             })}
-            onClick={() => handleChipClick(timeOption)}
+            onClick={() =>
+              handleChipClick(timeOption, includedByOld ? true : false)
+            }
           >
             <div className={'text'}>{timeOption}</div>
           </div>
@@ -209,11 +217,11 @@ function CalendarTimeSelector() {
   return (
     <div className={'create-wrapper'}>
       <div className={'padding-wrapper'}>
-        {/* <div className={'duration-selector-margin'} /> */}
         <div className={'duration-selector'}>
           <ClockOrangeIcon className={'icn-clock-o20'} />
           <div className={'duration-text'}>미팅 길이</div>
           <KezulerDropdown
+            isAddTime={true}
             buttonClassName={'duration-dropdown'}
             menuData={MEETING_LENGTH_LIST}
             displayKey={'display'}
@@ -233,12 +241,9 @@ function CalendarTimeSelector() {
           <CalendarIcon className={'calendar-icon'} />
           <div className={'date-string-text'}>{dateStr}</div>
         </div>
-        {/* {!nogcalendar && scheduleConnected && (
-          <ScheduleList schedules={mockSceduleData} />
-        )} */}
         <div className={'time-chip-text'}>
           <ClockIcon className={'icn-clock-b20'} />
-          {eventTimeList.length === 0 ? (
+          {eventTimeCandidates.length + eventTimeList.length === 0 ? (
             <>
               {'미팅 시작을'}
               <b>{' 여러 개'}</b>
@@ -247,7 +252,9 @@ function CalendarTimeSelector() {
           ) : (
             <>
               {'미팅 시작 선택중'}
-              <b>{` ${eventTimeList.length}/10`}</b>
+              <b>{` ${
+                eventTimeCandidates.length + eventTimeList.length
+              }/10`}</b>
             </>
           )}
         </div>
@@ -265,7 +272,9 @@ function CalendarTimeSelector() {
         onClick={handleNextClick}
         subtext={
           eventTimeList.length !== 0
-            ? `${eventTimeList.length}개 시간 선택중(최대 10개)`
+            ? `${
+                eventTimeCandidates.length + eventTimeList.length
+              }개 시간 선택중(최대 10개)`
             : undefined
         }
         text="다음"
@@ -275,4 +284,4 @@ function CalendarTimeSelector() {
   );
 }
 
-export default CalendarTimeSelector;
+export default CalendarTimeSelectorAddTime;

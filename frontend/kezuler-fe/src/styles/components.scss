@@ -61,7 +61,7 @@
   color: $color-highlight;
   background-color: $color-background;
   height: calc(#{$app-bar-height} - 4px);
-  z-index: 2;
+  z-index: 3;
   position: absolute;
   left: 0;
   top: 0;
@@ -103,7 +103,7 @@
   width: 100%;
   position: absolute;
   top: calc(#{$app-bar-height} - 4px);
-  z-index: 2;
+  z-index: 3;
   background-color: #ffffff;
 
   @media (max-height: $short-height-size) {
