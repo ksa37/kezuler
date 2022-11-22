@@ -42,6 +42,8 @@ const PathName = {
 
   kakaoRedirect: '/oauth/kakao/token',
 
+  InAppNoti: '/inappbrowser/notification',
+
   notFound: '/notfound',
 } as const;
 type PathName = typeof PathName[keyof typeof PathName];

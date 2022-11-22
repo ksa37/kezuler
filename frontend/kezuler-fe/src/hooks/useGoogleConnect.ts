@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 
 import { GOOGLE_LOGIN_SCOPE } from '../constants/Auth';
+import PathName from 'src/constants/PathName';
 
 import { getGoogleAccount } from '../api/calendar';
 import useDialog from './useDialog';
@@ -15,6 +17,7 @@ function useGoogleConnect({ onSuccess }: Props) {
   const { openDialog } = useDialog();
   const { changeUser } = usePatchUser();
   const { getUserInfo } = useGetUserInfo();
+  const navigate = useNavigate();
 
   const handleGoogleSuccess = (res: any) => {
     changeUser(
@@ -35,7 +38,7 @@ function useGoogleConnect({ onSuccess }: Props) {
     scope: GOOGLE_LOGIN_SCOPE,
   });
 
-  const checkIos = () => {
+  const checkIosNaver = () => {
     const Agent = navigator.userAgent;
 
     const checkIosPage = () => {
@@ -58,6 +61,8 @@ function useGoogleConnect({ onSuccess }: Props) {
       } else {
         connectGoogle();
       }
+    } else if (Agent.toLowerCase().includes('naver')) {
+      navigate(PathName.InAppNoti);
     } else {
       connectGoogle();
     }
@@ -73,7 +78,7 @@ function useGoogleConnect({ onSuccess }: Props) {
         { text: '중복 예약', highlight: true },
         { text: '을 \n 방지할 수 있습니다.' },
       ],
-      onConfirm: checkIos,
+      onConfirm: checkIosNaver,
     });
   };
 
