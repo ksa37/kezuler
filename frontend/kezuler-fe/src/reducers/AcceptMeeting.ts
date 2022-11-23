@@ -93,8 +93,14 @@ export const acceptMeetingSlice = createSlice({
       state.availableTimes = [];
     },
     setAllAvailableTimes: (state) => {
-      state.availableTimes = state.pendingEvent.eventTimeCandidates.map(
-        (eventTimeCandidate) => eventTimeCandidate.eventStartsAt
+      // 현재 시각 기준 가능한 미팅만 선택
+      state.availableTimes = state.pendingEvent.eventTimeCandidates.reduce<number[]>(
+        (prev, {eventStartsAt}) =>{
+          if (eventStartsAt > new Date().getTime()) {
+            return [...prev, eventStartsAt]
+          }
+          return prev
+        }, []
       );
     },
     setAvailableTimes: (state, action: PayloadAction<number[]>) => {

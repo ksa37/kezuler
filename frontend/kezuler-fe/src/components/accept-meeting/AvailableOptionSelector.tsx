@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -64,23 +64,29 @@ function AvailableOptionSelector({ errorMessage }: Props) {
     }
   };
 
+  // 현재 이후의 선택지 개수
+  const validEventCount = useMemo(
+    () =>
+      eventTimeCandidates.filter(
+        ({ eventStartsAt }) => eventStartsAt > new Date().getTime()
+      ).length,
+    [eventTimeCandidates]
+  );
+
   useEffect(() => {
     if (availableTimes.length > 0) {
       dispatch(setIsDecline(false));
     }
-    setAllAvailable(availableTimes.length === eventTimeCandidates.length);
-  }, [availableTimes]);
+    setAllAvailable(
+      validEventCount > 0 && availableTimes.length === validEventCount
+    );
+  }, [availableTimes, validEventCount]);
 
   useEffect(() => {
     if (isDecline) setIsOpen(true);
   }, [isDecline]);
 
   const [allAvailable, setAllAvailable] = useState(false);
-
-  // useMemo(
-  //   () => setAllAvailable(availableTimes.length === eventTimeCandidates.length),
-  //   [availableTimes]
-  // );
 
   const notAvailableDescription = '가능한 시간이 없어요';
   const allAvailableDescription = '모든 시간 가능해요';
@@ -113,6 +119,7 @@ function AvailableOptionSelector({ errorMessage }: Props) {
             <b>{notAvailableDescription}</b>
           </Button>
           <Button
+            disabled={!validEventCount}
             classes={{
               root: 'available-option-btn',
               contained: 'selected',

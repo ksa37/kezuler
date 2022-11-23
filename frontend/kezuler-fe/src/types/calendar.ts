@@ -20,4 +20,22 @@ interface ScehdulesEachDay {
   [dateString: string]: Schedule[];
 }
 
-export type { PGetCalendarByDay, RGetCalendars, ScehdulesEachDay };
+interface EventTimeListWithPossibleNum {
+  eventStartsAt: Date;
+  possibleNum: number;
+}
+
+type EventTimeListByDateWithPossibleNum = {
+  [date: string]: EventTimeListWithPossibleNum[];
+};
+
+type EventTimeListByDate = { [date: string]: Date[] };
+
+export type {
+  PGetCalendarByDay,
+  RGetCalendars,
+  ScehdulesEachDay,
+  EventTimeListByDateWithPossibleNum,
+  EventTimeListByDate,
+  EventTimeListWithPossibleNum,
+};
