@@ -100,7 +100,7 @@ function PendingEventCard({ event }: Props) {
     return lastEventStartTime < new Date().getTime();
   }, [eventTimeCandidates]);
 
-  const isDisabled = useMemo(() => isCanceled, [isPast, isCanceled]);
+  const isDisabled = useMemo(() => isPast || isCanceled , [isPast, isCanceled]);
 
   return (
     <section
