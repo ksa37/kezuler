@@ -121,13 +121,13 @@ function Invitation() {
         );
         navigate(`${PathName.mainFixed}`);
       } else {
-        startLoading();
+        // startLoading();
         putFixedEventGuestById(eventId)
           .then(() => {
             navigate(`${PathName.invite}/${eventId}/completeFixed`);
           })
           .catch((err) => {
-            endLoading();
+            // endLoading();
             console.log('미팅 참여 에러', err);
             dispatch(
               show({

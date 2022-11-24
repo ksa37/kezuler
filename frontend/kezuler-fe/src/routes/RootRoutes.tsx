@@ -35,6 +35,7 @@ import OverviewModal from 'src/components/main-page/overview-modal';
 import PrivacyPolicy from 'src/components/my-page/PrivacyPolicy';
 import TermsOfService from 'src/components/my-page/TermsOfService';
 import ParticipantsPopup from 'src/components/participants-popup';
+import AcceptFixedCompletion from 'src/views/accept-meeting/AcceptFixedCompletion';
 
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
@@ -191,6 +192,10 @@ function RootRoutes() {
               <Route
                 path={PathName.inviteComplete}
                 element={<AcceptanceCompletion />}
+              />
+              <Route
+                path={PathName.inviteCompleteFixed}
+                element={<AcceptFixedCompletion />}
               />
               <Route path="*" element={<AcceptIndex />} />
             </Route>

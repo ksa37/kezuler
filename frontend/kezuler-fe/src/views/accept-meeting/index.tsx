@@ -52,7 +52,11 @@ function AcceptMeeting() {
   );
 
   const getAppBarText = () => {
-    if (location.pathname.endsWith('/invitation')) return '새로운 미팅 초대';
+    if (
+      location.pathname.endsWith('/invitation') ||
+      location.pathname.endsWith('/completeFixed')
+    )
+      return '새로운 미팅 초대';
     else if (location.pathname.endsWith('/select')) return '미팅일정 선택';
     else if (location.pathname.endsWith('/complete'))
       return '미팅일정 선택 완료';
