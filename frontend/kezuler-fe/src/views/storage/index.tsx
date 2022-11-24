@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Comment, MoreHoriz } from '@mui/icons-material';
@@ -23,6 +23,7 @@ function StoragePage() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [currentUrl, setCurrentUrl] = useState('');
   const [isClickedMenu, setIsClickedMenu] = useState(false);
   const [commentOrDots, setCommentOrDots] = useState('null');
   const [testAppBarTitle, setTextAppBarTitle] = useState('');
@@ -31,12 +32,13 @@ function StoragePage() {
   const { storageType, storageMemoContent } = useSelector(
     (state: RootState) => state.createStorage
   );
-  const { eventTitle } = useSelector(
+  const { prevUrl, eventTitle } = useSelector(
     (state: RootState) => state.historyStorage
   );
 
   useEffect(() => {
     setIsClickedMenu(false);
+    setCurrentUrl(location.pathname);
     switch (location.pathname) {
       case `${PathName.storage}/${eventId}`: {
         setCommentOrDots('comment');
@@ -76,14 +78,6 @@ function StoragePage() {
     };
   }, []);
 
-  window.onpopstate = function () {
-    const prevUrl = document.referrer;
-    //뒤로가기를 한 페이지가 미팅일정선택완료 페이지면 메인페이지(fixed)로 이동.
-    if (prevUrl.indexOf('/invite') >= 0 && prevUrl.indexOf('/complete') >= 0) {
-      navigate(PathName.mainFixed);
-    }
-  };
-
   const handleDeleteClick = () => {
     openDialog({
       title: '삭제후, 복구는 불가능합니다.\n삭제하시겠습니까?',
@@ -101,7 +95,18 @@ function StoragePage() {
   };
 
   const handlePrevClick = () => {
-    navigate(-1);
+    if (!prevUrl) navigate(`${PathName.mainFixed}`);
+    else if (currentUrl === `${PathName.storage}/${eventId}`) {
+      navigate(prevUrl);
+    } else navigate(-1);
+  };
+
+  window.onpopstate = function () {
+    //뒤로가기를 한 페이지가 미팅일정선택완료 페이지면 메인페이지(fixed)로 이동.
+    if (!prevUrl) navigate(`${PathName.mainFixed}`);
+    else if (currentUrl === `${PathName.storage}/${eventId}`) {
+      navigate(prevUrl);
+    }
   };
 
   return (

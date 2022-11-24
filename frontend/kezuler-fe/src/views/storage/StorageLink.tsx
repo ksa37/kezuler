@@ -35,11 +35,8 @@ function StorageLink() {
   };
 
   return (
-    <div
-      onClick={handleLinkClick}
-      className={classNames('storage-wrapper', 'flex-column')}
-    >
-      <div className="storage-og-wrapper">
+    <div className={classNames('storage-wrapper', 'flex-column')}>
+      <div onClick={handleLinkClick} className="storage-og-wrapper">
         <img
           onError={handleImgError}
           className="storage-og-image"
