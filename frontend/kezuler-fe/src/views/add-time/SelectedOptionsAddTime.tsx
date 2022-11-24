@@ -20,6 +20,8 @@ import TimeOptionCard from 'src/components/create-meeting/TimeOptionCard';
 import 'src/styles/common/TimeLineGrid.scss';
 
 import { addTimes } from 'src/api/addTimes';
+import { CircularProgress } from '@mui/material';
+import classNames from 'classnames';
 
 function SelectedOptionsAddTime() {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,7 +31,7 @@ function SelectedOptionsAddTime() {
   const { eventTimeList, eventTimeDuration } = useSelector(
     (state: RootState) => state.createMeeting
   );
-  const { calendarList } = useSelector(
+  const { calendarList, loaded: calendarLoaded } = useSelector(
     (state: RootState) => state.calendarList
   );
 
@@ -105,6 +107,14 @@ function SelectedOptionsAddTime() {
     }
   }, [eventTimeListDevideByDate, isCalendarPaired]);
 
+  const isCalendarEmpty = useMemo(() => {
+    const concatList = Object.values(calendarList).reduce(
+      (pre, cur) => pre.concat(cur),
+      []
+    );
+    return calendarLoaded && concatList.length === 0;
+  }, [calendarList]);
+
   return (
     <div className={'time-list-selector'}>
       <div className={'time-list-top'}>
@@ -120,9 +130,12 @@ function SelectedOptionsAddTime() {
           <CalendarPairBtn setIsCalendarPaired={setIsCalendarPaired} />
         )}
         <div className={'time-line-line'} />
-        {Object.keys(eventTimeListDevideByDate).map((dateKey) => (
+        {Object.keys(eventTimeListDevideByDate).map((dateKey, dateIdx) => (
           <div key={dateKey} className={'time-select-date'}>
             <div className={'time-select-date-grid'}>
+              <div className={'time-select-my-calendar-part'}>
+                {dateIdx === 0 && isCalendarPaired && '내 캘린더'}
+              </div>
               <div className={'time-select-date-part'}>
                 <div className={'time-line-circle'} />
                 {dateKey}
@@ -163,6 +176,31 @@ function SelectedOptionsAddTime() {
                       timeRange={calendarList[dateKey][index].timeRange}
                       scheduleTitle={calendarList[dateKey][index].scheduleTitle}
                     />
+                  ) : dateIdx === 0 &&
+                    index === 0 &&
+                    isCalendarPaired &&
+                    !calendarLoaded ? (
+                    <CircularProgress
+                      size={20}
+                      className={classNames(
+                        'time-select-schedule-card',
+                        'no-list',
+                        'loading-bar'
+                      )}
+                      disableShrink
+                    />
+                  ) : dateIdx === 0 &&
+                    index === 0 &&
+                    isCalendarPaired &&
+                    isCalendarEmpty ? (
+                    <div
+                      className={classNames(
+                        'time-select-schedule-card',
+                        'no-list'
+                      )}
+                    >
+                      일정이 없습니다.
+                    </div>
                   ) : (
                     <ScheduleCard isEmpty={true} />
                   )}

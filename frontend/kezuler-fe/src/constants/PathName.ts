@@ -42,6 +42,7 @@ const PathName = {
 
   kakaoRedirect: '/oauth/kakao/token',
 
+
   storage: '/storage',
   storageTypeSelect: '/storage/:eventId/type',
   storageMemoWrite: '/storage/:eventId/memo',
@@ -52,6 +53,9 @@ const PathName = {
   storageLink: '/storage/:eventId/link/:id',
 
   storageTitle: '/storage/:eventId/:type/title',
+
+  InAppNoti: '/inappbrowser/notification',
+
 
   notFound: '/notfound',
 } as const;

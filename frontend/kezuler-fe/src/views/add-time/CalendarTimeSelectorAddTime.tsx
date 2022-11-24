@@ -127,7 +127,11 @@ function CalendarTimeSelectorAddTime() {
       if (eventTimeList.includes(dateToAdd)) {
         dispatch(deleteTimeList(dateToAdd));
       } else {
-        if (eventTimeList.length === 0 && !notiPopped) {
+        if (
+          eventTimeList.length === 0 &&
+          eventTimeCandidates.length < 10 &&
+          !notiPopped
+        ) {
           setNotiPopped(true);
           openNoti({
             title: `미팅 투표 생성 기능`,
@@ -136,10 +140,10 @@ function CalendarTimeSelectorAddTime() {
             },
             onCancel: handleCloseNoti,
           });
-        } else if (eventTimeCandidates.length + eventTimeList.length === 10) {
+        } else if (eventTimeCandidates.length + eventTimeList.length >= 10) {
           dispatch(
             show({
-              title: '10개 옵션까지만 선택이 가능합니다.',
+              title: '10개의 옵션까지만 선택이 가능하여 추가가 불가능합니다.',
             })
           );
         } else {

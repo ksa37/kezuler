@@ -39,7 +39,7 @@ function LandingPage() {
 
   return (
     <div>
-      <header className={'lanidng-header'}>
+      <header className={'landing-header'}>
         <KezulerLogo />
         <div className={'landing-header-btn'} onClick={handleKezulerClick}>
           케:줄러 바로가기

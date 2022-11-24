@@ -143,6 +143,7 @@
   }
 
   > h2 {
+    z-index: 0;
     margin: 16px 0 0;
     line-height: inherit;
     font-size: $font-12;
@@ -150,6 +151,28 @@
     white-space: pre-line;
     text-align: center;
     font-weight: 400;
+
+    em {
+      font-size: inherit;
+      font-weight: bold;
+      color: inherit;
+      font-style: unset;
+      position: relative;
+
+      &::after {
+        z-index: -1;
+        width: calc(100% + 2px);
+        height: 4px;
+        left: -1px;
+        bottom: 0;
+
+        border-radius: 2px;
+        position: absolute;
+        content: '';
+        color: $color-main;
+        background-color: $color-main;
+      }
+    }
   }
 }
 .noti-btns {
