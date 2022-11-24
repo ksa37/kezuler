@@ -38,17 +38,6 @@ function KezulerDialog() {
     closeModal();
   };
 
-  const makeDescriptionElement = () => {
-    if (!description || typeof description === 'string') {
-      return description;
-    }
-    return description.map(({ text, highlight }) =>
-      highlight ? <em>{text}</em> : text
-    );
-  };
-
-  const descriptionElement = makeDescriptionElement();
-
   return (
     <KezulerPaper open={!!dialogProps} onClose={handleClose}>
       <div className={'kezuler-dialog'}>
@@ -59,7 +48,7 @@ function KezulerDialog() {
             {timeRange && <h1 className={'date'}>{`${timeRange}`}</h1>}
           </div>
           <h1>{title}</h1>
-          {description && <h2>{descriptionElement}</h2>}
+          {description && <h2>{description}</h2>}
         </div>
         {onConfirm && (
           <footer className={'kezuler-dialog-footer'}>

@@ -30,7 +30,7 @@ function PendingEventCard({ event }: Props) {
     addressType,
     eventTimeCandidates,
     declinedUsers,
-    disable: isCanceled,
+    disable,
   } = event;
 
   const dispatch = useDispatch<AppDispatch>();
@@ -90,33 +90,17 @@ function PendingEventCard({ event }: Props) {
     return participantsSet.size;
   }, [eventTimeCandidates]);
 
-  // 모든 날짜가 이전 날짜인 경우
-  const isPast = useMemo(() => {
-    if (!eventTimeCandidates.length) {
-      return false;
-    }
-    const lastEventStartTime =
-      eventTimeCandidates[eventTimeCandidates.length - 1].eventStartsAt;
-    return lastEventStartTime < new Date().getTime();
-  }, [eventTimeCandidates]);
-
-  const isDisabled = useMemo(() => isPast || isCanceled , [isPast, isCanceled]);
-
   return (
     <section
       className={classNames('pending-event-card', {
         'is-host': isHost,
-        canceled: isDisabled,
+        canceled: disable,
       })}
-      onClick={isDisabled ? handleInfoClick : undefined}
+      onClick={disable ? handleInfoClick : undefined}
     >
-      <div className={classNames({ canceled: isDisabled })}>
+      <div className={classNames({ canceled: disable })}>
         {eventLocation}
-        {isCanceled ? (
-          <span>취소된 미팅</span>
-        ) : isPast ? (
-          <span>만료된 미팅</span>
-        ) : (
+        {!disable && (
           <span
             className={'pending-participant-info'}
             onClick={handleParticipantsShow}
@@ -132,44 +116,45 @@ function PendingEventCard({ event }: Props) {
             </span>
           </span>
         )}
+        {disable && <span>취소된 미팅</span>}
       </div>
-      <div className={classNames({ canceled: isDisabled })}>{eventTitle}</div>
+      <div className={classNames({ canceled: disable })}>{eventTitle}</div>
       <div>
         {isHost ? (
           <Button
             className={classNames('pending-event-confirm', {
-              canceled: isDisabled,
+              canceled: disable,
             })}
             onClick={handleConfirmClick}
-            disabled={isDisabled}
+            disabled={disable}
           >
             시간 확정하기
           </Button>
         ) : (
           <Button
             className={classNames('pending-event-change', {
-              canceled: isDisabled,
+              canceled: disable,
             })}
             onClick={handleChangeTime}
-            disabled={isDisabled}
+            disabled={disable}
           >
             투표 수정하기
           </Button>
         )}
         <Button
-          startIcon={isDisabled ? <InfoIconGrey /> : <InfoIcon />}
-          className={classNames('pending-event-info', { canceled: isDisabled })}
+          startIcon={disable ? <InfoIconGrey /> : <InfoIcon />}
+          className={classNames('pending-event-info', { canceled: disable })}
           onClick={handleInfoClick}
-          disabled={isDisabled}
+          disabled={disable}
           classes={{ startIcon: 'pending-event-icon' }}
         >
           미팅정보
         </Button>
         <Button
-          startIcon={isDisabled ? <SendIconGrey /> : <SendIcon />}
-          className={classNames('pending-event-info', { canceled: isDisabled })}
+          startIcon={disable ? <SendIconGrey /> : <SendIcon />}
+          className={classNames('pending-event-info', { canceled: disable })}
           onClick={handleInviteClick}
-          disabled={isDisabled}
+          disabled={disable}
           classes={{ startIcon: 'pending-event-icon' }}
         >
           공유하기

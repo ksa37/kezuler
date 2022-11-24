@@ -1,16 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Button } from '@mui/material';
 import classNames from 'classnames';
 import { format } from 'date-fns/esm';
 
-import PathName from 'src/constants/PathName';
 import useCopyText from 'src/hooks/useCopyText';
-import { historyStorageActions } from 'src/reducers/HistoryStorage';
-import { AppDispatch } from 'src/store';
 import { BFixedEvent } from 'src/types/fixedEvent';
 import { BPendingEvent } from 'src/types/pendingEvent';
 import { getTimeRange } from 'src/utils/dateParser';
@@ -49,9 +44,7 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
       userId: hostId,
     },
   } = event;
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const { setPrevUrl, setEventTitle } = historyStorageActions;
+
   const { copyText } = useCopyText();
 
   const [showDescAll, setShowDescAll] = useState(false);
@@ -84,12 +77,6 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
 
   const handleAttachmentClick = () => {
     copyText(eventAttachment, '참조 링크가');
-  };
-
-  const handleStorageClick = () => {
-    dispatch(setEventTitle(eventTitle));
-    dispatch(setPrevUrl(location.pathname));
-    navigate(`${PathName.storage}/${eventId}`);
   };
 
   const addressDetailElem = null;
@@ -267,14 +254,6 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
             </div>
           </OverviewSection>
         )}
-        <OverviewSection title={'참고자료'} alignWith>
-          <button
-            className={'overview-section-storage-btn'}
-            onClick={handleStorageClick}
-          >
-            보관함 바로가기
-          </button>
-        </OverviewSection>
         {isFixedEvent(event) &&
           !isCanceled &&
           !isPassed &&
