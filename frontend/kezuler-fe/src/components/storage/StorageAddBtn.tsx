@@ -1,32 +1,28 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Add } from '@mui/icons-material';
 
-import KezulerStorageInstance from 'src/constants/api-storage';
+import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
 
 import 'src/styles/components.scss';
 
 function StorageAddBtn() {
   const { openDialog } = useDialog();
-  const { eventConfirmId } = useParams();
-  console.log(eventConfirmId);
-  const handleAddFolderClick = () => {
-    const postFolder = () =>
-      KezulerStorageInstance.post(`folder/${eventConfirmId}`, {
-        type: 'note2',
-        title: '필독사항',
-        content: '살아가는데 많은 힘이 될것입니다.',
-        eventId: eventConfirmId,
-      });
+  const { eventId } = useParams();
+  const navigate = useNavigate();
 
+  const handleAddBoxClick = () => {
     openDialog({
-      title: '보관함을 생성하시겠어요?',
-      onConfirm: () => postFolder(),
+      title: '새로운 자료를 생성하시겠어요?',
+      onConfirm: () => navigate(`${PathName.storage}/${eventId}/type`),
     });
   };
   return (
-    <div className="storage-add-button" onClick={handleAddFolderClick}>
-      <span className="storage-add-button-cross">+</span>
+    <div className="storage-add-button" onClick={handleAddBoxClick}>
+      <span className="storage-add-button-cross">
+        <Add />
+      </span>
     </div>
   );
 }

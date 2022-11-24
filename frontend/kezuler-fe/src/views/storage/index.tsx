@@ -1,30 +1,80 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Outlet, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Comment, MoreHoriz } from '@mui/icons-material';
+import classNames from 'classnames';
 
+import KezulerStorageInstance from 'src/constants/api-storage';
 import PathName from 'src/constants/PathName';
-import { mainFixedActions } from 'src/reducers/mainFixed';
-import { mainPendingActions } from 'src/reducers/mainPending';
+import useDialog from 'src/hooks/useDialog';
+import { RootState } from 'src/reducers';
+import { createStorageActions } from 'src/reducers/CreateStorage';
 import { AppDispatch } from 'src/store';
 
 import TextAppBar from 'src/components/common/TextAppBar';
-import StorageAddBtn from 'src/components/storage/StorageAddBtn';
 
 import 'src/styles/Storage.scss';
 
 function StoragePage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { destroy: fixedDestroy } = mainFixedActions;
-  const { destroy: pendingDestroy } = mainPendingActions;
+  const { destroy } = createStorageActions;
+  const { eventId, id } = useParams();
+  const { openDialog } = useDialog();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // 페이지 나갈 때 redux 스토어 초기화
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(fixedDestroy());
-  //     dispatch(pendingDestroy());
-  //   };
-  // }, []);
+  const [isClickedMenu, setIsClickedMenu] = useState(false);
+  const [commentOrDots, setCommentOrDots] = useState('null');
+  const [testAppBarTitle, setTextAppBarTitle] = useState('');
+  const typeFromPath = location.pathname.split('/')[3];
+
+  const { storageType, storageMemoContent } = useSelector(
+    (state: RootState) => state.createStorage
+  );
+  const { eventTitle } = useSelector(
+    (state: RootState) => state.historyStorage
+  );
+
+  useEffect(() => {
+    setIsClickedMenu(false);
+    switch (location.pathname) {
+      case `${PathName.storage}/${eventId}`: {
+        setCommentOrDots('comment');
+        setTextAppBarTitle(eventTitle);
+        break;
+      }
+      case `${PathName.storage}/${eventId}/memo/${id}`: {
+        setCommentOrDots('dots');
+        break;
+      }
+      case `${PathName.storage}/${eventId}/link/${id}`: {
+        setCommentOrDots('dots');
+        break;
+      }
+      default:
+        setCommentOrDots('null');
+    }
+  }, [location]);
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case `${PathName.storage}/${eventId}/memo`: {
+        if (storageType === '') {
+          navigate(`${PathName.storage}/${eventId}/type`);
+        }
+        break;
+      }
+      case `${PathName.storage}/${eventId}/memo/title`: {
+        if (storageMemoContent === '') {
+          navigate(`${PathName.storage}/${eventId}/type`);
+        }
+        break;
+      }
+    }
+    return () => {
+      dispatch(destroy());
+    };
+  }, []);
 
   window.onpopstate = function () {
     const prevUrl = document.referrer;
@@ -33,16 +83,72 @@ function StoragePage() {
       navigate(PathName.mainFixed);
     }
   };
+
+  const handleDeleteClick = () => {
+    openDialog({
+      title: '삭제후, 복구는 불가능합니다.\n삭제하시겠습니까?',
+      onConfirm: () => {
+        KezulerStorageInstance.delete(`/${typeFromPath}/${id}`).then(() => {
+          navigate(`${PathName.storage}/${eventId}`);
+        });
+      },
+    });
+  };
+
+  const handleEditClick = () => {
+    console.log(location.pathname);
+    navigate(`${PathName.storage}/${eventId}/${typeFromPath}/${id}/edit`);
+  };
+
   const handlePrevClick = () => {
     navigate(-1);
   };
+
   return (
     <div>
       <div>
-        <TextAppBar onClick={handlePrevClick} text="보관함" />
-        <div className="folder-wrapper">
-          <StorageAddBtn />
+        <TextAppBar
+          onClick={handlePrevClick}
+          text={testAppBarTitle}
+          mainColored={true}
+        />
+        <div className="comment-icon">
+          {commentOrDots === 'comment' && <Comment />}
+          {commentOrDots === 'dots' && (
+            <div className="dots-wrapper">
+              <MoreHoriz onClick={() => setIsClickedMenu((prev) => !prev)} />
+              {isClickedMenu && (
+                <div className="dots-menu">
+                  {typeFromPath === 'memo' && (
+                    <div
+                      onClick={handleEditClick}
+                      className="dots-menu-content"
+                    >
+                      편집하기
+                    </div>
+                  )}
+                  {typeFromPath === 'memo' && (
+                    <div
+                      onClick={handleDeleteClick}
+                      className={classNames('dots-menu-content', 'border-top')}
+                    >
+                      삭제하기
+                    </div>
+                  )}
+                  {typeFromPath !== 'memo' && (
+                    <div
+                      onClick={handleDeleteClick}
+                      className={classNames('dots-menu-content')}
+                    >
+                      삭제하기
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </div>
+        <Outlet context={{ setTextAppBarTitle }} />
       </div>
     </div>
   );

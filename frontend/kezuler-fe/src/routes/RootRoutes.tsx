@@ -29,6 +29,14 @@ import MyPage from 'src/views/MyPage';
 import NotFound from 'src/views/NotFound';
 import TimeConfirmator from 'src/views/pending-event/TimeConfirmator';
 import RedirectView from 'src/views/RedirectView';
+import StoragePage from 'src/views/storage';
+import StorageIndex from 'src/views/storage/StorageIndex';
+import StorageLink from 'src/views/storage/StorageLink';
+import StorageLinkWrite from 'src/views/storage/StorageLinkWrite';
+import StorageMemo from 'src/views/storage/StorageMemo';
+import StorageMemoWrite from 'src/views/storage/StorageMemoWrite';
+import StorageTitle from 'src/views/storage/StorageTitle';
+import StorageTypeSelect from 'src/views/storage/StorageTypeSelect';
 import MainFixedEvents from 'src/components/main-page/main-fixed-events';
 import MainPendingEvents from 'src/components/main-page/main-pending-events';
 import OverviewModal from 'src/components/main-page/overview-modal';
@@ -193,6 +201,40 @@ function RootRoutes() {
                 element={<AcceptanceCompletion />}
               />
               <Route path="*" element={<AcceptIndex />} />
+            </Route>
+            <Route
+              path={`${PathName.storage}/:eventId`}
+              element={<StoragePage />}
+            >
+              <Route index element={<StorageIndex />} />
+              <Route
+                path={`${PathName.storageTypeSelect}`}
+                element={<StorageTypeSelect />}
+              />
+              <Route
+                path={`${PathName.storageMemoWrite}`}
+                element={<StorageMemoWrite />}
+              />
+              <Route
+                path={`${PathName.storageMemoEdit}`}
+                element={<StorageMemoWrite />}
+              />
+              <Route
+                path={`${PathName.storageLinkWrite}`}
+                element={<StorageLinkWrite />}
+              />
+              <Route
+                path={`${PathName.storageTitle}`}
+                element={<StorageTitle />}
+              />
+              <Route
+                path={`${PathName.storageMemo}`}
+                element={<StorageMemo />}
+              />
+              <Route
+                path={`${PathName.storageLink}`}
+                element={<StorageLink />}
+              />
             </Route>
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
             <Route path={PathName.landing} element={<LandingPage />} />
