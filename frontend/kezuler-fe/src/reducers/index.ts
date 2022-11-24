@@ -5,9 +5,7 @@ import alert from './alert';
 import calendarList from './calendarList';
 import ConfirmTime from './ConfirmTime';
 import CreateMeeting from './CreateMeeting';
-import CreateStorage from './CreateStorage';
 import dialog from './dialog';
-import HistoryStorage from './HistoryStorage';
 import loading from './loading';
 import mainFixed from './mainFixed';
 import mainPending from './mainPending';
@@ -19,8 +17,6 @@ import userInfo from './UserInfo';
 const rootReducer = combineReducers({
   acceptMeeting: AcceptMeeting,
   createMeeting: CreateMeeting,
-  createStorage: CreateStorage,
-  historyStorage: HistoryStorage,
   mainFixed: mainFixed,
   mainPending: mainPending,
   userInfo: userInfo,

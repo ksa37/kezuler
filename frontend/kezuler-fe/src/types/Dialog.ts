@@ -1,13 +1,8 @@
-interface DescriptionText {
-  text: string;
-  highlight?: boolean;
-}
-
 interface DialogProps {
   date?: string;
   timeRange?: string;
   title: string;
-  description?: string | DescriptionText[];
+  description?: string;
   onCancel?: () => void;
   onConfirm?: () => void;
 }

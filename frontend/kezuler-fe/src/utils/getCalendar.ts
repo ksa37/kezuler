@@ -3,8 +3,6 @@ import { useDispatch } from 'react-redux';
 import { calendarActions } from 'src/reducers/calendarList';
 import { AppDispatch } from 'src/store';
 import {
-  EventTimeListByDate,
-  EventTimeListByDateWithPossibleNum,
   PGetCalendarByDay,
   RGetCalendars,
   ScehdulesEachDay,
@@ -13,6 +11,17 @@ import {
 import { dateToDailyTime } from './dateParser';
 
 import { getCalendars } from 'src/api/calendar';
+
+interface EventTimeListWithPossibleNum {
+  eventStartsAt: Date;
+  possibleNum: number;
+}
+
+type EventTimeListByDateWithPossibleNum = {
+  [date: string]: EventTimeListWithPossibleNum[];
+};
+
+type EventTimeListByDate = { [date: string]: Date[] };
 
 const isEventTimeListByDateWithNum = (
   eventTimeList: any
