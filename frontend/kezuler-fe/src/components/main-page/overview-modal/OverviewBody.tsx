@@ -51,7 +51,7 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
   } = event;
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { setEventTitle } = historyStorageActions;
+  const { setPrevUrl, setEventTitle } = historyStorageActions;
   const { copyText } = useCopyText();
 
   const [showDescAll, setShowDescAll] = useState(false);
@@ -87,9 +87,9 @@ function OverviewBody({ eventDate, event, isCanceled, isPassed }: Props) {
   };
 
   const handleStorageClick = () => {
-    dispatch(setEventTitle(''));
-    navigate(`${PathName.storage}/${eventId}`);
     dispatch(setEventTitle(eventTitle));
+    dispatch(setPrevUrl(location.pathname));
+    navigate(`${PathName.storage}/${eventId}`);
   };
 
   const addressDetailElem = null;

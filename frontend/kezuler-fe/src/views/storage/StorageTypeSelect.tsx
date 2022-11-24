@@ -17,10 +17,10 @@ function StorageTypeSelect() {
 
   // [title, type]
   const TypeList = [
-    ['사진', 'photo'],
+    // ['사진', 'photo'],
     ['메모', 'memo'],
     ['링크', 'link'],
-    ['파일', 'file'],
+    // ['파일', 'file'],
   ];
 
   const handleBoxClick = (type: string) => {
