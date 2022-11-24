@@ -5,7 +5,7 @@ import { CircularProgress } from '@mui/material';
 import classNames from 'classnames';
 
 import { AcceptMeetingSteps } from 'src/constants/Steps';
-import { useGetInvitation } from 'src/hooks/usePendingEvent';
+import { useGetInvitation } from 'src/hooks/useInvitation';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';
@@ -18,7 +18,7 @@ import 'src/styles/common/TimeLineGrid.scss';
 
 function AcceptMeeting() {
   const dispatch = useDispatch<AppDispatch>();
-  const { pendingEvent } = useSelector(
+  const { pendingEvent, fixedEvent } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
   const { destroy } = acceptMeetingActions;
@@ -30,6 +30,7 @@ function AcceptMeeting() {
   const progressPerStep = 100 / totalStepsNum;
 
   useEffect(() => {
+    dispatch(destroy());
     return () => {
       dispatch(destroy());
     };
@@ -37,17 +38,17 @@ function AcceptMeeting() {
 
   const { eventId } = useParams();
 
-  const getPendingEventInfo = useGetInvitation();
+  const getEventInfo = useGetInvitation();
 
   useMemo(() => {
     if (eventId) {
-      getPendingEventInfo(eventId);
+      getEventInfo(eventId);
     }
   }, [eventId]);
 
   const isLoaded = useMemo(
-    () => pendingEvent.eventTitle !== '',
-    [pendingEvent.eventTitle]
+    () => pendingEvent.eventTitle !== '' || fixedEvent.eventTitle !== '',
+    [pendingEvent.eventTitle, fixedEvent.eventTitle]
   );
 
   const getAppBarText = () => {

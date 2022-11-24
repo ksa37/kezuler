@@ -22,6 +22,7 @@ const currentPendingEvent: PendingEvent = {
   addressDetail: '',
   eventAttachment: '',
   disable: false,
+  state: '',
 };
 
 const initialState: ConfirmTimeState = {

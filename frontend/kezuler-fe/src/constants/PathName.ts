@@ -23,8 +23,6 @@ const PathName = {
   create: '/create',
   createInfo: '/create/info',
   createTime: '/create/time',
-  createTimeA: '/create/time/A',
-  createTimeB: '/create/time/B',
   createCheck: '/create/check',
   createPlace: '/create/place',
   createComplete: '/create/complete',
@@ -34,6 +32,8 @@ const PathName = {
   inviteSelect: '/invite/:eventId/select',
   inviteSelectParticipants: '/invite/:eventId/select/participants',
   inviteComplete: '/invite/:eventId/complete',
+
+  inviteCompleteFixed: '/invite/:eventId/completeFixed',
 
   modify: '/modify/:eventId',
   modifyParticipants: '/modify/:eventId/participants',
@@ -71,8 +71,6 @@ const PathNameList = [
   '/create',
   '/create/info',
   '/create/time',
-  '/create/time/A',
-  '/create/time/B',
   '/create/check',
   '/create/place',
   '/create/complete',
@@ -81,6 +79,7 @@ const PathNameList = [
   /\/invite\/.+\/invitation/,
   /\/invite\/.+\/select/,
   /\/invite\/.+\/complete/,
+  /\/invite\/.+\/completeFixed/,
 
   /\/modify\/.+/,
   /\/confirm\/.+/,

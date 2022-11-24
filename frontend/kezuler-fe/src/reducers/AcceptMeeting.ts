@@ -1,27 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { BFixedEvent } from 'src/types/fixedEvent';
 import { PendingEvent } from 'src/types/pendingEvent';
 
 interface AcceptMeetingState {
-  // mock up
-  loading: boolean;
-  data: string;
-
   isLoaded: boolean;
-  // step: AcceptMeetingSteps;
-
   pendingEvent: PendingEvent;
-
-  eventId: string;
-  userId?: string;
-  userName?: string;
+  fixedEvent: BFixedEvent;
   isDecline: boolean;
   declineReason: null | string;
   availableTimes: number[];
 }
 
 const initialPendingEvent: PendingEvent = {
-  userId: '',
   eventId: '',
   eventHost: { userId: '', userName: '', userProfileImage: '' },
   eventTitle: '',
@@ -29,26 +20,41 @@ const initialPendingEvent: PendingEvent = {
   eventTimeDuration: 60,
   declinedUsers: [],
   eventTimeCandidates: [],
+
   addressType: '',
   addressDetail: '',
   eventAttachment: '',
   disable: false,
+  state: '',
+};
+
+const initialFixedEvent: BFixedEvent = {
+  eventId: '',
+  eventHost: {
+    userId: '',
+    userName: '',
+    userProfileImage: '',
+    userStatus: undefined,
+  },
+  eventTitle: '',
+  eventDescription: '',
+  eventTimeDuration: 60,
+  eventTimeStartsAt: 0,
+  participants: [],
+  addressType: '',
+  addressDetail: '',
+  eventAttachment: '',
+  disable: false,
+  state: '',
 };
 
 const initialState: AcceptMeetingState = {
-  loading: false,
-  data: '',
-
   isLoaded: false,
-  // step: AcceptMeetingSteps.First,
 
   pendingEvent: initialPendingEvent,
+  fixedEvent: initialFixedEvent,
 
-  eventId: '',
-  userId: '',
-  userName: '',
   isDecline: false,
-
   declineReason: null,
   availableTimes: [],
 };
@@ -62,26 +68,11 @@ export const acceptMeetingSlice = createSlice({
     setIsLoaded: (state, action: PayloadAction<boolean>) => {
       state.isLoaded = action.payload;
     },
-    // setStep: (state, action: PayloadAction<number>) => {
-    //   state.step = action.payload;
-    // },
-    // increaseStep: (state) => {
-    //   state.step += 1;
-    // },
-    // decreaseStep: (state) => {
-    //   state.step -= 1;
-    // },
     setPendingEvent: (state, action: PayloadAction<PendingEvent>) => {
       state.pendingEvent = action.payload;
     },
-    setUserID: (state, action: PayloadAction<string>) => {
-      state.userId = action.payload;
-    },
-    setEventID: (state, action: PayloadAction<string>) => {
-      state.eventId = action.payload;
-    },
-    setUserName: (state, action: PayloadAction<string>) => {
-      state.userName = action.payload;
+    setFixedEvent: (state, action: PayloadAction<BFixedEvent>) => {
+      state.fixedEvent = action.payload;
     },
     setIsDecline: (state, action: PayloadAction<boolean>) => {
       state.isDecline = action.payload;
@@ -93,9 +84,11 @@ export const acceptMeetingSlice = createSlice({
       state.availableTimes = [];
     },
     setAllAvailableTimes: (state) => {
-      state.availableTimes = state.pendingEvent.eventTimeCandidates.map(
-        (eventTimeCandidate) => eventTimeCandidate.eventStartsAt
-      );
+      if (state.pendingEvent.eventTimeCandidates) {
+        state.availableTimes = state.pendingEvent.eventTimeCandidates.map(
+          (eventTimeCandidate) => eventTimeCandidate.eventStartsAt
+        );
+      }
     },
     setAvailableTimes: (state, action: PayloadAction<number[]>) => {
       state.availableTimes = action.payload;

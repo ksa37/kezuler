@@ -21,6 +21,7 @@ interface BPendingEvent {
   addressDetail: string;
   eventAttachment: string;
   disable: boolean;
+  state: string;
 }
 
 interface RGetPendingEvents {

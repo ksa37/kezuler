@@ -68,6 +68,10 @@ function TimeListSelector({ isModification }: Props) {
     eventTimeCandidates,
   } = pendingEvent;
 
+  // const { eventTimeCandidates, declinedUsers } = isFixedEvent(pendingEvent)
+  //   ? { eventTimeCandidates: [], declinedUsers: [] }
+  //   : pendingEvent;
+
   const { show } = participantsPopupAction;
   const { show: showAlert } = alertAction;
 

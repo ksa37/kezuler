@@ -10,11 +10,13 @@ import classNames from 'classnames';
 import { KAKAO_AUTH_URL, LOGIN_REDIRECT_KEY } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
 import useIsLoggedIn from 'src/hooks/useIsLoggedIn';
+import useLoading from 'src/hooks/useLoading';
 import { RootState } from 'src/reducers';
 import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
-import { isModification } from 'src/utils/joinMeeting';
+import { isModification, isParticipant } from 'src/utils/joinMeeting';
+import { isFixedEvent } from 'src/utils/typeGuard';
 
 import BottomPopper from 'src/components/common/BottomPopper';
 
@@ -23,9 +25,11 @@ import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
 import KakaoIcon from 'src/assets/img_kakao.svg';
 import popupBgInvite from 'src/assets/popup_bg_invitation.svg';
 
+import { putFixedEventGuestById } from 'src/api/fixedEvent';
+
 function Invitation() {
   const dispatch = useDispatch<AppDispatch>();
-  const { pendingEvent } = useSelector(
+  const { pendingEvent, fixedEvent } = useSelector(
     (state: RootState) => state.acceptMeeting
   );
   const { show } = alertAction;
@@ -37,9 +41,14 @@ function Invitation() {
     eventAttachment,
     addressType,
     addressDetail,
-    eventTimeCandidates,
-    declinedUsers,
-  } = pendingEvent;
+  } = pendingEvent.eventId !== '' ? pendingEvent : fixedEvent;
+  const { startLoading, endLoading } = useLoading();
+
+  const isFixed = useMemo(() => fixedEvent.eventId !== '', [fixedEvent]);
+
+  const { eventTimeCandidates, declinedUsers } = isFixed
+    ? { eventTimeCandidates: [], declinedUsers: [] }
+    : pendingEvent;
 
   const navigate = useNavigate();
   const isLoggedIn = useIsLoggedIn();
@@ -102,10 +111,38 @@ function Invitation() {
   }, [addressDetailElem, isEllipsisActive]);
 
   const handleNextClick = () => {
-    if (isModification(eventTimeCandidates, declinedUsers)) {
-      navigate(`/modify/${eventId}`);
+    if (isFixed) {
+      if (isHost || isParticipant(fixedEvent.participants)) {
+        dispatch(
+          show({
+            title: '참여 불가 알림',
+            description: '이미 참여중인 미팅입니다',
+          })
+        );
+        navigate(`${PathName.mainFixed}`);
+      } else {
+        startLoading();
+        putFixedEventGuestById(eventId)
+          .then(() => {
+            navigate(`${PathName.invite}/${eventId}/completeFixed`);
+          })
+          .catch((err) => {
+            endLoading();
+            console.log('미팅 참여 에러', err);
+            dispatch(
+              show({
+                title: '미팅 참여 오류',
+                description: '미팅 참여 과정 중 오류가 생겼습니다.',
+              })
+            );
+          });
+      }
     } else {
-      navigate(`${PathName.invite}/${eventId}/select`);
+      if (isModification(eventTimeCandidates, declinedUsers)) {
+        navigate(`/modify/${eventId}`);
+      } else {
+        navigate(`${PathName.invite}/${eventId}/select`);
+      }
     }
   };
 
@@ -125,6 +162,10 @@ function Invitation() {
   const timeSelectDescription = '참여 가능한 시간을 알려주세요';
   const loginButtonText = '시간 선택하기';
   const unloginButtonText = '카카오로 계속하기';
+
+  const fixedMeetingDescription = '미팅에 참여하시겠습니까?';
+  const fixedLoginButtonText = '참여하기';
+  const fixedUnloginButtonText = '카카오로 참여하기';
 
   return (
     <div
@@ -321,8 +362,16 @@ function Invitation() {
       </div>
       <div>
         <BottomPopper
-          title={timeSelectDescription}
-          buttonText={isLoggedIn ? loginButtonText : unloginButtonText}
+          title={isFixed ? fixedMeetingDescription : timeSelectDescription}
+          buttonText={
+            isLoggedIn
+              ? isFixed
+                ? fixedLoginButtonText
+                : loginButtonText
+              : isFixed
+              ? fixedUnloginButtonText
+              : unloginButtonText
+          }
           onClick={isLoggedIn ? handleNextClick : handleConnectClick}
           image={popupBgInvite}
           isSmallTitle
