@@ -95,17 +95,17 @@ function StoragePage() {
   };
 
   const handlePrevClick = () => {
-    if (!prevUrl) navigate(`${PathName.mainFixed}`);
-    else if (currentUrl === `${PathName.storage}/${eventId}`) {
-      navigate(prevUrl);
+    if (currentUrl === `${PathName.storage}/${eventId}`) {
+      if (!prevUrl) navigate(`${PathName.mainFixed}`);
+      else navigate(prevUrl);
     } else navigate(-1);
   };
 
   window.onpopstate = function () {
     //뒤로가기를 한 페이지가 미팅일정선택완료 페이지면 메인페이지(fixed)로 이동.
-    if (!prevUrl) navigate(`${PathName.mainFixed}`);
-    else if (currentUrl === `${PathName.storage}/${eventId}`) {
-      navigate(prevUrl);
+    if (currentUrl === `${PathName.storage}/${eventId}`) {
+      if (!prevUrl) navigate(`${PathName.mainFixed}`);
+      else navigate(prevUrl);
     }
   };
 
