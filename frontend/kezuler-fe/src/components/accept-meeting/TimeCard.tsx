@@ -1,50 +1,40 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { EventTimeListWithPossibleNum } from '../../types/calendar';
-import { getTimeRange } from '../../utils/dateParser';
-import { getUTCDate } from '../../utils/getTimezoneDate';
-
 import { ReactComponent as CheckedIcon } from 'src/assets/icn_checked.svg';
 import { ReactComponent as NotCheckedIcon } from 'src/assets/icon_not_checked.svg';
 import { ReactComponent as ProfileIcon } from 'src/assets/icon_profile.svg';
 
 interface Props {
-  etl: EventTimeListWithPossibleNum;
-  onEventClick: (startTime: Date) => void;
-  getIsSelected: (utcTimestamp: number) => boolean;
-  eventTimeDuration: number;
+  isEmpty: boolean;
+  isSelected?: boolean;
+  onClick?: () => void;
+  timeRange?: string;
+  possibleNum?: number;
 }
 
 function TimeCard({
-  etl,
-  getIsSelected,
-  onEventClick,
-  eventTimeDuration,
+  isEmpty,
+  isSelected,
+  onClick,
+  timeRange,
+  possibleNum,
 }: Props) {
-  const startTime = etl.eventStartsAt;
-  const possibleNum = etl.possibleNum;
-  const isSelected = getIsSelected(getUTCDate(startTime.getTime()).getTime());
-  const timeRange = getTimeRange(startTime, eventTimeDuration);
-  const isPast = startTime.getTime() < new Date().getTime();
-
-  return (
-    <div
-      className={classNames('time-select-time-card', {
-        past: isPast,
-      })}
-      onClick={() => onEventClick(startTime)}
-    >
+  return isEmpty ? (
+    <div className={classNames('time-select-time-card', 'no-time')}></div>
+  ) : (
+    <div className={'time-select-time-card'} onClick={onClick}>
       <div
-        className={classNames('time-select-time-content', {
-          selected: isSelected,
-        })}
+        className={classNames(
+          'time-select-time-content',
+          isSelected ? 'selected' : ''
+        )}
       >
         <div className={'option-time-range'}>{timeRange}</div>
-        <div>
+        <div className={'profile-icon'}>
           <ProfileIcon />
         </div>
-        <div>{possibleNum}</div>
+        <div className={'possible-num'}>{possibleNum}</div>
       </div>
       <div className="check-box-icon">
         {isSelected ? <CheckedIcon /> : <NotCheckedIcon />}
