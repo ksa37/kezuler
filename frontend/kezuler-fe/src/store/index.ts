@@ -19,6 +19,8 @@ const persistConfig = {
   whitelist: [
     'acceptMeeting',
     'createMeeting',
+    'createStorage',
+    'historyStorage',
     'confirmTime',
     'participantsPopup',
   ],
