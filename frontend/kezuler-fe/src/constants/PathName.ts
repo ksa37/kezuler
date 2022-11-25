@@ -23,8 +23,6 @@ const PathName = {
   create: '/create',
   createInfo: '/create/info',
   createTime: '/create/time',
-  createTimeA: '/create/time/A',
-  createTimeB: '/create/time/B',
   createCheck: '/create/check',
   createPlace: '/create/place',
   createComplete: '/create/complete',
@@ -41,6 +39,17 @@ const PathName = {
   confirmParticipants: '/confirm/participants',
 
   kakaoRedirect: '/oauth/kakao/token',
+
+  storage: '/storage',
+  storageTypeSelect: '/storage/:eventId/type',
+  storageMemoWrite: '/storage/:eventId/memo',
+  storageMemoEdit: '/storage/:eventId/memo/:id/edit',
+  storageMemo: '/storage/:eventId/memo/:id',
+
+  storageLinkWrite: '/storage/:eventId/link',
+  storageLink: '/storage/:eventId/link/:id',
+
+  storageTitle: '/storage/:eventId/:type/title',
 
   InAppNoti: '/inappbrowser/notification',
 
@@ -64,17 +73,15 @@ const PathNameList = [
   '/main/fixed/B',
   /\/main\/fixed\/.+\/info/,
   /\/main\/fixed\/.+\/info-edit/,
+  /\/main\/fixed\/.+\/participants/,
   '/main/pending',
   /\/main\/pending\/.+\/info/,
   /\/main\/pending\/.+\/info-edit/,
-
-  '/delete',
+  /\/main\/pending\/.+\/participants/,
 
   '/create',
   '/create/info',
   '/create/time',
-  '/create/time/A',
-  '/create/time/B',
   '/create/check',
   '/create/place',
   '/create/complete',
@@ -82,11 +89,28 @@ const PathNameList = [
   '/invite',
   /\/invite\/.+\/invitation/,
   /\/invite\/.+\/select/,
+  /\/invite\/.+\/select\/participants/,
   /\/invite\/.+\/complete/,
 
   /\/modify\/.+/,
+  /\/modify\/.+\/participants/,
   /\/confirm\/.+/,
+  /\/confirm\/.+\/participants/,
   '/oauth/kakao/token',
+
+  '/storage',
+  /\/storage\/.+/,
+  /\/storage\/.+\/type/,
+  /\/storage\/.+\/memo/,
+  /\/storage\/.+\/memo\/.+\/edit/,
+  /\/storage\/.+\/memo\/.+/,
+
+  /\/storage\/.+\/link/,
+  /\/storage\/.+\/link\/.+/,
+
+  /\/storage\/.+\/\/.+\/title/,
+
+  '/inappbrowser/notification',
 ];
 
 // TODO util 로?
