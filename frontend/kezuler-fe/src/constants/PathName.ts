@@ -42,6 +42,19 @@ const PathName = {
 
   kakaoRedirect: '/oauth/kakao/token',
 
+  storage: '/storage',
+  storageTypeSelect: '/storage/:eventId/type',
+  storageMemoWrite: '/storage/:eventId/memo',
+  storageMemoEdit: '/storage/:eventId/memo/:id/edit',
+  storageMemo: '/storage/:eventId/memo/:id',
+
+  storageLinkWrite: '/storage/:eventId/link',
+  storageLink: '/storage/:eventId/link/:id',
+
+  storageTitle: '/storage/:eventId/:type/title',
+
+  InAppNoti: '/inappbrowser/notification',
+
   notFound: '/notfound',
 } as const;
 type PathName = typeof PathName[keyof typeof PathName];
@@ -62,11 +75,11 @@ const PathNameList = [
   '/main/fixed/B',
   /\/main\/fixed\/.+\/info/,
   /\/main\/fixed\/.+\/info-edit/,
+  /\/main\/fixed\/.+\/participants/,
   '/main/pending',
   /\/main\/pending\/.+\/info/,
   /\/main\/pending\/.+\/info-edit/,
-
-  '/delete',
+  /\/main\/pending\/.+\/participants/,
 
   '/create',
   '/create/info',
@@ -78,12 +91,29 @@ const PathNameList = [
   '/invite',
   /\/invite\/.+\/invitation/,
   /\/invite\/.+\/select/,
+  /\/invite\/.+\/select\/participants/,
   /\/invite\/.+\/complete/,
   /\/invite\/.+\/completeFixed/,
 
   /\/modify\/.+/,
+  /\/modify\/.+\/participants/,
   /\/confirm\/.+/,
+  /\/confirm\/.+\/participants/,
   '/oauth/kakao/token',
+
+  '/storage',
+  /\/storage\/.+/,
+  /\/storage\/.+\/type/,
+  /\/storage\/.+\/memo/,
+  /\/storage\/.+\/memo\/.+\/edit/,
+  /\/storage\/.+\/memo\/.+/,
+
+  /\/storage\/.+\/link/,
+  /\/storage\/.+\/link\/.+/,
+
+  /\/storage\/.+\/\/.+\/title/,
+
+  '/inappbrowser/notification',
 ];
 
 // TODO util 로?

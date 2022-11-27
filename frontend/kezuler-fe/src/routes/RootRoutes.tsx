@@ -7,6 +7,7 @@ import useIsLoggedIn from 'src/hooks/useIsLoggedIn';
 
 import AcceptMeeting from 'src/views/accept-meeting';
 import AcceptanceCompletion from 'src/views/accept-meeting/AcceptanceCompletion';
+import AcceptFixedCompletion from 'src/views/accept-meeting/AcceptFixedCompletion';
 import AcceptIndex from 'src/views/accept-meeting/AcceptIndex';
 import Invitation from 'src/views/accept-meeting/Invitation';
 import SelectionModifier from 'src/views/accept-meeting/SelectionModifier';
@@ -21,6 +22,7 @@ import MeetingInfoForm from 'src/views/create-meeting/MeetingInfoForm';
 import MeetingShare from 'src/views/create-meeting/MeetingShare';
 import OnOffSelector from 'src/views/create-meeting/OnOffSelector';
 import SelectedOptions from 'src/views/create-meeting/SelectedOptions';
+import InAppNotiPage from 'src/views/InAppNotiPage';
 import KakaoRedirect from 'src/views/KakaoRedirect';
 import LandingPage from 'src/views/LandingPage';
 import Login from 'src/views/Login';
@@ -29,13 +31,20 @@ import MyPage from 'src/views/MyPage';
 import NotFound from 'src/views/NotFound';
 import TimeConfirmator from 'src/views/pending-event/TimeConfirmator';
 import RedirectView from 'src/views/RedirectView';
+import StoragePage from 'src/views/storage';
+import StorageIndex from 'src/views/storage/StorageIndex';
+import StorageLink from 'src/views/storage/StorageLink';
+import StorageLinkWrite from 'src/views/storage/StorageLinkWrite';
+import StorageMemo from 'src/views/storage/StorageMemo';
+import StorageMemoWrite from 'src/views/storage/StorageMemoWrite';
+import StorageTitle from 'src/views/storage/StorageTitle';
+import StorageTypeSelect from 'src/views/storage/StorageTypeSelect';
 import MainFixedEvents from 'src/components/main-page/main-fixed-events';
 import MainPendingEvents from 'src/components/main-page/main-pending-events';
 import OverviewModal from 'src/components/main-page/overview-modal';
 import PrivacyPolicy from 'src/components/my-page/PrivacyPolicy';
 import TermsOfService from 'src/components/my-page/TermsOfService';
 import ParticipantsPopup from 'src/components/participants-popup';
-import AcceptFixedCompletion from 'src/views/accept-meeting/AcceptFixedCompletion';
 
 // TODO kakao redirect 가 isLoggedIn true 일 때도 있어야하는데, 순서가 맞게 되어있는지 확인 필요
 function RootRoutes() {
@@ -199,9 +208,44 @@ function RootRoutes() {
               />
               <Route path="*" element={<AcceptIndex />} />
             </Route>
+            <Route
+              path={`${PathName.storage}/:eventId`}
+              element={<StoragePage />}
+            >
+              <Route index element={<StorageIndex />} />
+              <Route
+                path={`${PathName.storageTypeSelect}`}
+                element={<StorageTypeSelect />}
+              />
+              <Route
+                path={`${PathName.storageMemoWrite}`}
+                element={<StorageMemoWrite />}
+              />
+              <Route
+                path={`${PathName.storageMemoEdit}`}
+                element={<StorageMemoWrite />}
+              />
+              <Route
+                path={`${PathName.storageLinkWrite}`}
+                element={<StorageLinkWrite />}
+              />
+              <Route
+                path={`${PathName.storageTitle}`}
+                element={<StorageTitle />}
+              />
+              <Route
+                path={`${PathName.storageMemo}`}
+                element={<StorageMemo />}
+              />
+              <Route
+                path={`${PathName.storageLink}`}
+                element={<StorageLink />}
+              />
+            </Route>
             <Route path={PathName.kakaoRedirect} element={<KakaoRedirect />} />
             <Route path={PathName.landing} element={<LandingPage />} />
             <Route path={PathName.notFound} element={<NotFound />} />
+            <Route path={PathName.InAppNoti} element={<InAppNotiPage />} />
             <Route
               path="*"
               element={<Navigate replace to={PathName.notFound} />}

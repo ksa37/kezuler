@@ -16,7 +16,6 @@ import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import { isModification, isParticipant } from 'src/utils/joinMeeting';
-import { isFixedEvent } from 'src/utils/typeGuard';
 
 import BottomPopper from 'src/components/common/BottomPopper';
 

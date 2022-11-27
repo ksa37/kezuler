@@ -1,8 +1,13 @@
+interface DescriptionText {
+  text: string;
+  highlight?: boolean;
+}
+
 interface DialogProps {
   date?: string;
   timeRange?: string;
   title: string;
-  description?: string;
+  description?: string | DescriptionText[];
   onCancel?: () => void;
   onConfirm?: () => void;
 }
@@ -18,4 +23,4 @@ interface ShareProps {
   element: JSX.Element;
 }
 
-export type { DialogProps, AlertProps, ShareProps };
+export type { DialogProps, AlertProps, ShareProps, DescriptionText };

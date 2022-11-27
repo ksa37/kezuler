@@ -1,5 +1,65 @@
 @import './constants';
 
+.bottom-card {
+  background-color: #ffffff;
+  margin-inline: 30px;
+  border-radius: 16px;
+  padding: 14px;
+  filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.160784));
+  margin-top: 5rem;
+
+  .bottom-card-description {
+    font-size: $font-16;
+    font-weight: 500;
+
+    // &:last-child {
+    margin-bottom: 16px;
+    // }
+
+    em {
+      font-size: inherit;
+      font-weight: bold;
+      color: inherit;
+      font-style: unset;
+      position: relative;
+
+      &::after {
+        z-index: -1;
+        width: calc(100% + 2px);
+        height: 4px;
+        left: -1px;
+        bottom: 0;
+
+        border-radius: 2px;
+        position: absolute;
+        content: '';
+        color: $color-main;
+        background-color: $color-main;
+      }
+    }
+  }
+
+  .bottom-card-btn-wrapper {
+    // margin-left: ;
+    display: flex;
+    justify-content: flex-end;
+
+    .bottom-card-btn {
+      font-size: 13px;
+      font-weight: bold;
+      background-color: #fee500;
+      border-radius: 16px;
+      padding-block: 6px;
+      text-align: center;
+      min-width: 130px;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
 .bottom-button {
   display: flex;
   align-items: center;
