@@ -245,6 +245,9 @@
 
 .acceptance-completion-sub-description {
   flex: 1;
+  &.fixed {
+    flex: none;
+  }
   font: normal normal normal 16px/24px Pretendard;
   color: #9f9f9f;
   text-align: left;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
-import { useGetInvitation } from 'src/hooks/usePendingEvent';
+import { useGetInvitation } from 'src/hooks/useInvitation';
 import { RootState } from 'src/reducers';
 import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
 import { AppDispatch } from 'src/store';

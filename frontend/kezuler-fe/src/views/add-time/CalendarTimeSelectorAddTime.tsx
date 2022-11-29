@@ -11,15 +11,11 @@ import TimeOptions from '../../constants/TimeOptions';
 import { MEETING_LENGTH_LIST } from 'src/constants/CreateMeeting';
 import { CREATE_MEETING_NOTI_DISABLE_KEY } from 'src/constants/Popup';
 import { useNoti } from 'src/hooks/useDialog';
-import {
-  useGetInvitation,
-  useGetPendingEvent,
-} from 'src/hooks/usePendingEvent';
-// import { CREATE_CALENDAR_POPUP_DISABLE_KEY } from 'src/constants/Popup';
+import { useGetInvitation } from 'src/hooks/useInvitation';
+import { useGetPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from '../../reducers';
 import { createMeetingActions } from '../../reducers/CreateMeeting';
 import { alertAction } from 'src/reducers/alert';
-import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { AppDispatch } from '../../store';
 import { setMindate } from 'src/utils/dateParser';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';

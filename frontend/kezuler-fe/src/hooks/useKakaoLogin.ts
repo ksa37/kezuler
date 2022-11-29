@@ -1,13 +1,14 @@
 import { useDispatch } from 'react-redux';
 
-// import { useNavigate } from 'react-router-dom';
 import KezulerInstance from '../constants/api';
 import {
   ACCESS_TOKEN_KEY,
+  AFTER_LOGIN_FUNC_KEY,
   CURRENT_HOST,
   CURRENT_USER_INFO_KEY,
   REFRESH_TOKEN_KEY,
 } from '../constants/Auth';
+import { afterLoginFuncObj } from 'src/constants/afterLoginFunc';
 import PathName from 'src/constants/PathName';
 import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
@@ -46,6 +47,20 @@ const useKakaoLogin = () => {
             KezulerInstance.defaults.headers.common['Authorization'] =
               accessToken;
 
+            // console.log('hey!!!!!!');
+            // const funcAfterLoginStr =
+            //   sessionStorage.getItem(AFTER_LOGIN_FUNC_KEY);
+            // sessionStorage.removeItem(AFTER_LOGIN_FUNC_KEY);
+            // if (funcAfterLoginStr) {
+            //   const parsedFuncs = JSON.parse(funcAfterLoginStr);
+            //   console.log(Object.keys(parsedFuncs));
+            //   Object.keys(parsedFuncs).map((funcKey) => {
+            //     const funcToDo = afterLoginFuncObj[funcKey];
+            //     const funcVars = parsedFuncs[funcKey];
+            //     console.log(...funcVars);
+            //     funcToDo(...funcVars);
+            //   });
+            // }
             location.replace(`${CURRENT_HOST}${path}`);
           })
           .catch((e) => {

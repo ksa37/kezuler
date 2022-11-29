@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
+import classNames from 'classnames';
 
 import PathName from 'src/constants/PathName';
 import {
@@ -19,16 +21,14 @@ import { calendarActions } from 'src/reducers/calendarList';
 import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
 import { AppDispatch } from 'src/store';
 import { PDeletePendingEvent, PPutPendingEvent } from 'src/types/pendingEvent';
-import {
-  getTimeListDevideByDateWithPossibleNum,
-  getTimeRange,
-} from 'src/utils/dateParser';
+import { getTimeListDevideByDateWithPossibleNum } from 'src/utils/dateParser';
 import { getSchedules } from 'src/utils/getCalendar';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import getTimezoneDate, { getUTCDate } from 'src/utils/getTimezoneDate';
 import { getDeclineReason } from 'src/utils/joinMeeting';
 import { isModification as isModificationfunc } from 'src/utils/joinMeeting';
 
+import EmptyTimeCard from '../../components/accept-meeting/EmptyTimeCard';
 import AddTimeBtn from 'src/components/accept-meeting/AddTimeBtn';
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
@@ -39,8 +39,6 @@ import BottomButton from 'src/components/common/BottomButton';
 import { ReactComponent as ArrowRightIcon } from 'src/assets/icn_right_outline.svg';
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
-import { CircularProgress } from '@mui/material';
-import classNames from 'classnames';
 
 interface Props {
   isModification?: boolean;
@@ -67,6 +65,10 @@ function TimeListSelector({ isModification }: Props) {
     declinedUsers,
     eventTimeCandidates,
   } = pendingEvent;
+
+  // const { eventTimeCandidates, declinedUsers } = isFixedEvent(pendingEvent)
+  //   ? { eventTimeCandidates: [], declinedUsers: [] }
+  //   : pendingEvent;
 
   const { show } = participantsPopupAction;
   const { show: showAlert } = alertAction;
@@ -294,38 +296,15 @@ function TimeListSelector({ isModification }: Props) {
                 <div key={dateKey + index} className={'time-select-card-grid'}>
                   {eventTimeListDevideByDate[dateKey].length > index ? (
                     <TimeCard
-                      isEmpty={false}
-                      isSelected={availableTimes.includes(
-                        getUTCDate(
-                          eventTimeListDevideByDate[dateKey][
-                            index
-                          ].eventStartsAt.getTime()
-                        ).getTime()
-                      )}
-                      onClick={() =>
-                        handleEventTimeClick(
-                          eventTimeListDevideByDate[dateKey][index]
-                            .eventStartsAt
-                        )
-                      }
-                      timeRange={getTimeRange(
-                        eventTimeListDevideByDate[dateKey][index].eventStartsAt,
-                        eventTimeDuration
-                      )}
-                      possibleNum={
-                        availableTimes.includes(
-                          eventTimeListDevideByDate[dateKey][
-                            index
-                          ].eventStartsAt.getTime()
-                        )
-                          ? eventTimeListDevideByDate[dateKey][index]
-                              .possibleNum
-                          : eventTimeListDevideByDate[dateKey][index]
-                              .possibleNum
+                      etl={eventTimeListDevideByDate[dateKey][index]}
+                      onEventClick={handleEventTimeClick}
+                      eventTimeDuration={eventTimeDuration}
+                      getIsSelected={(utcTimestamp) =>
+                        availableTimes.includes(utcTimestamp)
                       }
                     />
                   ) : (
-                    <TimeCard isEmpty={true} />
+                    <EmptyTimeCard />
                   )}
                   {calendarList &&
                   Object.keys(calendarList).includes(dateKey) &&
