@@ -45,10 +45,19 @@ interface RGetFixedNextNum {
   result: number;
 }
 
-//TODO: BE에 맞게 수정
 interface PPostFixedEvent {
   pendingEventId: string;
   eventTimeStartsAt: number;
+}
+
+interface PPostFixedEventNew {
+  eventTitle: string;
+  eventDescription: string;
+  eventTimeDuration: number;
+  eventTimeStartsAt: number;
+  addressType: string;
+  addressDetail: string;
+  eventAttachment: string;
 }
 
 //TODO: BE에 맞게 수정
@@ -66,4 +75,5 @@ export type {
   PPostFixedEvent,
   PPutFixedEvent,
   RGetFixedNextNum,
+  PPostFixedEventNew,
 };

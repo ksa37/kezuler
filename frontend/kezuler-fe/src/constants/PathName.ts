@@ -21,6 +21,7 @@ const PathName = {
   mainPendingIdParticipants: '/main/pending/:eventId/participants',
 
   create: '/create',
+  createFixed: '/createFixed',
   createInfo: '/create/info',
   createTime: '/create/time',
   createCheck: '/create/check',
@@ -82,6 +83,7 @@ const PathNameList = [
   /\/main\/pending\/.+\/participants/,
 
   '/create',
+  '/createFixed',
   '/create/info',
   '/create/time',
   '/create/check',

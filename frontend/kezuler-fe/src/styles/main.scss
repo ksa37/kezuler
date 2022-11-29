@@ -495,8 +495,23 @@
   bottom: 0;
   right: 0;
   text-align: right;
-  padding: 24px;
+  // padding: 24px;
   pointer-events: none;
+}
+
+.main-floating-button-dial {
+  box-shadow: 0 5px 10px #00000029;
+  background: $color-highlight;
+  &:hover {
+    background: $color-highlight;
+  }
+  color: $color-main;
+}
+
+.main-floating-button-action {
+  background: #ffffff;
+  width: 56px;
+  height: 56px;
 }
 
 .main-floating-button {

@@ -6,6 +6,7 @@ import { PPostPendingEvent } from 'src/types/pendingEvent';
 
 interface CreateMeetingState extends PPostPendingEvent {
   // step: CreateMeetingSteps;
+  fixedCreate: boolean;
   eventId: string;
   shareUrl: string;
   isOnline: null | boolean;
@@ -13,7 +14,7 @@ interface CreateMeetingState extends PPostPendingEvent {
 }
 
 const initialState: CreateMeetingState = {
-  // step: CreateMeetingSteps.First,
+  fixedCreate: false,
   eventId: '',
   shareUrl: '',
   isOnline: null,
@@ -33,21 +34,16 @@ export const createMeetingSlice = createSlice({
   name: 'create-meeting',
   initialState,
   reducers: {
+    setFixedCreate: (state, action: PayloadAction<boolean>) => {
+      console.log('hello');
+      state.fixedCreate = action.payload;
+    },
     setShareUrl: (state, action: PayloadAction<string>) => {
       state.shareUrl = action.payload;
     },
     setEventId: (state, action: PayloadAction<string>) => {
       state.eventId = action.payload;
     },
-    // setStep: (state, action: PayloadAction<number>) => {
-    //   state.step = action.payload;
-    // },
-    // increaseStep: (state) => {
-    //   state.step += 1;
-    // },
-    // decreaseStep: (state) => {
-    //   state.step -= 1;
-    // },
     setIsOnline: (state, action: PayloadAction<boolean>) => {
       state.isOnline = action.payload;
     },

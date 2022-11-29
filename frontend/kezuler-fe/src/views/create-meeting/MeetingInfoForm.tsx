@@ -1,6 +1,6 @@
 import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import PathName from 'src/constants/PathName';
@@ -31,11 +31,21 @@ function MeetingInfoForm() {
   useIOSScroll();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { setTitle, setDescription, setAttachment } = createMeetingActions;
+  const { setTitle, setDescription, setAttachment, setFixedCreate } =
+    createMeetingActions;
 
   const { eventTitle, eventDescription, eventAttachment } = useSelector(
     (state: RootState) => state.createMeeting
   );
+  const location = useLocation();
+
+  const state = location.state as { fixed: boolean | null };
+  const fixed = state?.fixed || false;
+  useEffect(() => {
+    if (fixed) {
+      dispatch(setFixedCreate(true));
+    }
+  }, [fixed]);
 
   const [error, setError] = useState<CreateInfoErrorForm>({
     title: '',

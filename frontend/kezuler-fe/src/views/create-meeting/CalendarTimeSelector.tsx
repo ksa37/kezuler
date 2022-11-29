@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import ScrollContainer from 'react-indiana-drag-scroll';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
@@ -34,7 +33,7 @@ import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 
 function CalendarTimeSelector() {
   const dispatch = useDispatch<AppDispatch>();
-  const { eventTimeList } = useSelector(
+  const { eventTimeList, fixedCreate } = useSelector(
     (state: RootState) => state.createMeeting
   );
   const { addTimeList, deleteTimeList, setEventTimeDuration } =
@@ -44,7 +43,6 @@ function CalendarTimeSelector() {
   const { show } = alertAction;
 
   const navigate = useNavigate();
-
   const dateStr = useMemo(
     () =>
       startDate ? (
@@ -100,6 +98,20 @@ function CalendarTimeSelector() {
       if (eventTimeList.includes(dateToAdd)) {
         dispatch(deleteTimeList(dateToAdd));
       } else {
+        //정해진 일정 생성시
+        if (fixedCreate) {
+          if (eventTimeList.length === 0) {
+            dispatch(addTimeList(dateToAdd));
+          } else {
+            dispatch(
+              show({
+                title: '1개의 일정을 선택해주세요.',
+              })
+            );
+          }
+          return;
+        }
+        //일정 투표 생성시
         if (eventTimeList.length === 0 && !notiPopped) {
           setNotiPopped(true);
           openNoti({
@@ -125,32 +137,6 @@ function CalendarTimeSelector() {
   const handleNextClick = () => {
     navigate(PathName.createCheck);
   };
-
-  // 캘린더 연동 팝업 관련
-  // const [scheduleConnected, setScheduleConnected] = useState(false);
-  // const [popupDisable, setPopupDisable] = useState(
-  //   localStorage.getItem(CREATE_CALENDAR_POPUP_DISABLE_KEY) === 'true'
-  // );
-
-  // const handleCalendarPopupNo = () => {
-  //   // localStorage.setItem(CREATE_CALENDAR_POPUP_DISABLE_KEY, 'true');
-  //   setPopupDisable(true);
-  //   console.log('no');
-  // };
-
-  // const handleCalendarPopupYes = () => {
-  //   setScheduleConnected(true);
-  //   console.log('yes');
-  //   //TODO
-  //   //캘린더 연동
-  // };
-
-  // const mockSceduleData = [
-  //   { title: '인공지능개론 팀플', time: '오후 2:00 ~ 오후 3:00' },
-  //   { title: '수아랑 저녁', time: '오후 6:00 ~ 오후 7:00' },
-  //   { title: '동아리 정기모임', time: '오후 7:00 ~ 오후 9:00' },
-  //   { title: '토익 시험 접수', time: '하루종일' },
-  // ];
 
   // eventTimeDuration Index: 30, 60, 120
   const [selectedLengthIdx, setSelectedLengthIdx] = useState(1);
@@ -209,7 +195,6 @@ function CalendarTimeSelector() {
   return (
     <div className={'create-wrapper'}>
       <div className={'padding-wrapper'}>
-        {/* <div className={'duration-selector-margin'} /> */}
         <div className={'duration-selector'}>
           <ClockOrangeIcon className={'icn-clock-o20'} />
           <div className={'duration-text'}>미팅 길이</div>
@@ -233,12 +218,14 @@ function CalendarTimeSelector() {
           <CalendarIcon className={'calendar-icon'} />
           <div className={'date-string-text'}>{dateStr}</div>
         </div>
-        {/* {!nogcalendar && scheduleConnected && (
-          <ScheduleList schedules={mockSceduleData} />
-        )} */}
         <div className={'time-chip-text'}>
           <ClockIcon className={'icn-clock-b20'} />
-          {eventTimeList.length === 0 ? (
+          {fixedCreate ? (
+            <>
+              <b>{'미팅 시작 시간'}</b>
+              {'을 선택해주세요'}
+            </>
+          ) : eventTimeList.length === 0 ? (
             <>
               {'미팅 시작을'}
               <b>{' 여러 개'}</b>
@@ -264,7 +251,9 @@ function CalendarTimeSelector() {
       <BottomButton
         onClick={handleNextClick}
         subtext={
-          eventTimeList.length !== 0
+          fixedCreate
+            ? undefined
+            : eventTimeList.length !== 0
             ? `${eventTimeList.length}개 시간 선택중(최대 10개)`
             : undefined
         }

@@ -3,6 +3,8 @@ import {
   FixedEvent,
   PPatchFixedEvent,
   PPostFixedEvent,
+  PPostFixedEventNew,
+  RGetFixedEvent,
   RGetFixedEvents,
   RGetFixedNextNum,
 } from 'src/types/fixedEvent';
@@ -19,6 +21,9 @@ const getFixedEventById = (eventId: string) =>
 
 const postFixedEvent = (pfixedEvent: PPostFixedEvent) =>
   KezulerInstance.post<FixedEvent>(`/fixedEvents`, pfixedEvent);
+
+const postFixedEventNew = (pfixedEvent: PPostFixedEventNew) =>
+  KezulerInstance.post<RGetFixedEvent>(`/fixedEvents/new`, pfixedEvent);
 
 const patchFixedEventById = (eventId: string, params: PPatchFixedEvent) =>
   KezulerInstance.patch<FixedEvent>(`/fixedEvents/${eventId}`, {
@@ -70,4 +75,5 @@ export {
   cancelFixedEventHostById,
   deleteFixedEventHostById,
   patchGuestReminder,
+  postFixedEventNew,
 };

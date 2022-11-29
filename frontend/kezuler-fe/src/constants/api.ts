@@ -5,8 +5,8 @@ import { deleteCookie, getCookie, setCookie } from '../utils/cookie';
 import { postRefresh } from '../api/user';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from './Auth';
 
-const HOST_ADDRESS = 'https://api.kezuler.com';
-// const HOST_ADDRESS = 'http://localhost:8888';
+// const HOST_ADDRESS = 'https://api.kezuler.com';
+const HOST_ADDRESS = 'http://localhost:8888';
 
 const UNAUTHORIZED_STATUS_CODE = 401;
 const FORBIDDEN_STATUS_CODE = 403;

@@ -10,11 +10,13 @@ import {
   MAX_ONLINE_LOCATION_LENGTH_ERROR,
 } from 'src/constants/Validation';
 import useDialog from 'src/hooks/useDialog';
+import { useCreateFixedEvent } from 'src/hooks/useFixedEvent';
 import useIOSScroll from 'src/hooks/useIOSScroll';
 import { usePostPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
 import { AppDispatch } from 'src/store';
+import { PPostFixedEventNew } from 'src/types/fixedEvent';
 import { PPostPendingEvent } from 'src/types/pendingEvent';
 import isURL from 'src/utils/isURL';
 
@@ -39,6 +41,7 @@ function OnOffSelector() {
     eventAttachment,
     isOnline,
     eventTimeList,
+    fixedCreate,
   } = useSelector((state: RootState) => state.createMeeting);
 
   const { openDialog } = useDialog();
@@ -56,15 +59,11 @@ function OnOffSelector() {
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    // if (isOnline) {
-    //   dispatch(setZoomAddress(event.target.value));
-    //   return;
-    // }
-    // dispatch(setPlace(event.target.value));
     dispatch(setAddressDetail(event.target.value));
   };
 
   const postPendingEventAndGetShareUrl = usePostPendingEvent();
+  const postFixedEventAndGetShareUrl = useCreateFixedEvent();
 
   const handlePostClick = () => {
     const PostPendingMeeting = () => {
@@ -81,10 +80,23 @@ function OnOffSelector() {
       postPendingEventAndGetShareUrl(ppostPendingEventData);
     };
 
+    const PostFixedMeeting = () => {
+      const ppostFixedEventData: PPostFixedEventNew = {
+        eventTitle,
+        eventDescription,
+        eventTimeDuration,
+        eventTimeStartsAt: eventTimeList[0],
+        addressType,
+        addressDetail,
+        eventAttachment,
+      };
+      postFixedEventAndGetShareUrl(ppostFixedEventData);
+    };
+
     openDialog({
       title: `'${eventTitle}'\n미팅을 생성하시겠어요?`,
       description: `생성시, 다른 사람들을 미팅에 초대할 수 있는 케줄러링크가 생성됩니다.`,
-      onConfirm: PostPendingMeeting,
+      onConfirm: fixedCreate ? PostFixedMeeting : PostPendingMeeting,
     });
   };
 
