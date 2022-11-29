@@ -3,7 +3,7 @@ import { User } from 'src/types/user';
 type TUserStatus = 'Accepted' | 'Declined' | 'Deleted';
 
 interface FixedUser extends User {
-  userStatus: TUserStatus;
+  userStatus?: TUserStatus;
 }
 
 interface BFixedEvent {
@@ -33,6 +33,10 @@ interface PPatchFixedEvent {
   eventAttachment: string;
 }
 
+interface RGetFixedEvent {
+  result: BFixedEvent;
+}
+
 interface RGetFixedEvents {
   result: BFixedEvent[];
 }
@@ -55,6 +59,7 @@ interface PPutFixedEvent {
 export type {
   FixedUser,
   BFixedEvent,
+  RGetFixedEvent,
   RGetFixedEvents,
   FixedEvent,
   PPatchFixedEvent,

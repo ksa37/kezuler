@@ -1,3 +1,4 @@
+import { FixedUser } from 'src/types/fixedEvent';
 import { DeclinedUser, EventTimeCandidate } from 'src/types/pendingEvent';
 import { User } from 'src/types/user';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
@@ -66,9 +67,20 @@ const getDeclineReason = (declinedUsers: DeclinedUser[]) => {
     return currentUser[0].userDeclineReason;
   }
 };
+
+//확정된 미팅에 참여한 이력이 있는지 확인
+const isParticipant = (participants: FixedUser[]) => {
+  const currentUser = participants.find(
+    (participant) => participant.userId === getCurrentUserInfo()?.userId
+  );
+
+  return currentUser !== undefined;
+};
+
 export {
   isModification,
   getSelectedOptions,
   getDeclineReason,
   getAllPossibleUsers,
+  isParticipant,
 };

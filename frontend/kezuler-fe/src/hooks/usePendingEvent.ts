@@ -50,33 +50,33 @@ const useGetPendingEvent = () => {
 };
 
 // 미팅 수락, 수정시 정보 불러오기
-const useGetInvitation = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const { show } = alertAction;
-  const setIsLoaded = acceptMeetingActions.setIsLoaded;
-  const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
+// const useGetInvitation = () => {
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch<AppDispatch>();
+//   const { show } = alertAction;
+//   const setIsLoaded = acceptMeetingActions.setIsLoaded;
+//   const setAcceptPendingEvent = acceptMeetingActions.setPendingEvent;
 
-  const getPendingEventInfo = (eventId: string) => {
-    getInvitationById(eventId)
-      .then((res) => {
-        dispatch(setAcceptPendingEvent(res.data.result));
-        dispatch(setIsLoaded(true));
-      })
-      .catch((err) => {
-        console.log('미팅 정보 불러오기 에러', err);
-        dispatch(
-          show({
-            title: '참여 불가 알림',
-            description: '미팅이 확정되었거나 취소되어 참여가 불가합니다.',
-          })
-        );
-        navigate(PathName.mainPending, { replace: true });
-      });
-  };
+//   const getPendingEventInfo = (eventId: string) => {
+//     getInvitationById(eventId)
+//       .then((res) => {
+//         dispatch(setAcceptPendingEvent(res.data.result));
+//         dispatch(setIsLoaded(true));
+//       })
+//       .catch((err) => {
+//         console.log('미팅 정보 불러오기 에러', err);
+//         dispatch(
+//           show({
+//             title: '참여 불가 알림',
+//             description: '미팅이 확정되었거나 취소되어 참여가 불가합니다.',
+//           })
+//         );
+//         navigate(PathName.mainPending, { replace: true });
+//       });
+//   };
 
-  return getPendingEventInfo;
-};
+//   return getPendingEventInfo;
+// };
 
 const usePostPendingEvent = () => {
   const navigate = useNavigate();
@@ -173,5 +173,5 @@ export {
   usePostPendingEvent,
   usePutPendingEventGuest,
   useDeletePendingEventGuest,
-  useGetInvitation,
+  // useGetInvitation,
 };
