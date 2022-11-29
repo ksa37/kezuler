@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 
 import PathName from 'src/constants/PathName';
 import useGoogleConnect from 'src/hooks/useGoogleConnect';
@@ -10,7 +11,6 @@ import { getIcsLink } from 'src/utils/getIcsLink';
 
 import BottomButton from 'src/components/common/BottomButton';
 import BottomCard from 'src/components/common/BottomCard';
-import classNames from 'classnames';
 
 function AcceptFixedCompletion() {
   const navigate = useNavigate();
