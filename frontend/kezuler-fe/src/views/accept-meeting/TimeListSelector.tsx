@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
+import classNames from 'classnames';
 
 import PathName from 'src/constants/PathName';
 import {
@@ -28,7 +30,6 @@ import { isModification as isModificationfunc } from 'src/utils/joinMeeting';
 
 import EmptyTimeCard from '../../components/accept-meeting/EmptyTimeCard';
 import AddTimeBtn from 'src/components/accept-meeting/AddTimeBtn';
-
 import AvailableOptionSelector from 'src/components/accept-meeting/AvailableOptionSelector';
 import CalendarPairBtn from 'src/components/accept-meeting/CalendarPairBtn';
 import ScheduleCard from 'src/components/accept-meeting/ScheduleCard';
@@ -38,8 +39,6 @@ import BottomButton from 'src/components/common/BottomButton';
 import { ReactComponent as ArrowRightIcon } from 'src/assets/icn_right_outline.svg';
 import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
-import { CircularProgress } from '@mui/material';
-import classNames from 'classnames';
 
 interface Props {
   isModification?: boolean;

@@ -14,7 +14,6 @@ import SelectionModifier from 'src/views/accept-meeting/SelectionModifier';
 import TimeListSelector from 'src/views/accept-meeting/TimeListSelector';
 import AddTime from 'src/views/add-time';
 import CalendarTimeSelectorAddTime from 'src/views/add-time/CalendarTimeSelectorAddTime';
-import TimeSelectedOptions from 'src/views/add-time/SelectedOptionsAddTime';
 import SelectedOptionsAddTime from 'src/views/add-time/SelectedOptionsAddTime';
 import CreateMeeting from 'src/views/create-meeting';
 import CalendarTimeSelector from 'src/views/create-meeting/CalendarTimeSelector';

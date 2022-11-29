@@ -66,12 +66,12 @@ function AcceptFixedCompletion() {
       <BottomCard
         descriptions={[
           {
-            text: '참여하는 일정을 잊지 않도록',
+            text: '참여하는 일정을 잊지 않도록 ',
             highlight: false,
             break: true,
           },
           {
-            text: ' 내 캘린더에 추가',
+            text: '내 캘린더에 추가',
             highlight: true,
           },
           {

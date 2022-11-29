@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
+import classNames from 'classnames';
 import { format } from 'date-fns';
 
 import PathName from 'src/constants/PathName';
@@ -37,8 +39,6 @@ import { ReactComponent as ProfilesIcon } from 'src/assets/icon_profiles.svg';
 import { ReactComponent as CircleIcon } from 'src/assets/icon_profiles_circle.svg';
 import 'src/styles/common/TimeLineGrid.scss';
 import 'src/styles/AcceptMeeting.scss';
-import classNames from 'classnames';
-import { CircularProgress } from '@mui/material';
 
 function TimeConfirmator() {
   const dispatch = useDispatch<AppDispatch>();
