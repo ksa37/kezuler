@@ -211,6 +211,14 @@
       flex: 1;
     }
 
+    .time-select-profile-icn {
+      &.past-not-selected {
+        svg > path {
+          fill: #bfbfbf;
+        }
+      }
+    }
+
     @media (max-width: 300px) {
       font-size: 12px;
       line-height: 14px;

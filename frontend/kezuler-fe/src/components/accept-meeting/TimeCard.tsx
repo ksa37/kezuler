@@ -41,7 +41,11 @@ function TimeCard({
         })}
       >
         <div className={'option-time-range'}>{timeRange}</div>
-        <div>
+        <div
+          className={classNames('time-select-profile-icn', {
+            'past-not-selected': isPast && !isSelected,
+          })}
+        >
           <ProfileIcon />
         </div>
         <div>{possibleNum}</div>

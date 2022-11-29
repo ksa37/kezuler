@@ -6,15 +6,23 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Avatar } from '@mui/material';
 import classNames from 'classnames';
+import { format } from 'date-fns';
 
-import { KAKAO_AUTH_URL, LOGIN_REDIRECT_KEY } from 'src/constants/Auth';
+import {
+  AFTER_LOGIN_FUNC_KEY,
+  KAKAO_AUTH_URL,
+  LOGIN_REDIRECT_KEY,
+} from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
+import useDialog from 'src/hooks/useDialog';
 import useIsLoggedIn from 'src/hooks/useIsLoggedIn';
-import useLoading from 'src/hooks/useLoading';
 import { RootState } from 'src/reducers';
 import { alertAction } from 'src/reducers/alert';
 import { AppDispatch } from 'src/store';
+import { FuncsAfterLogin } from 'src/types/funcAfterLogin';
+import { getTimeRange } from 'src/utils/dateParser';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
+import getTimezoneDate from 'src/utils/getTimezoneDate';
 import { isModification, isParticipant } from 'src/utils/joinMeeting';
 
 import BottomPopper from 'src/components/common/BottomPopper';
@@ -37,11 +45,14 @@ function Invitation() {
     eventHost,
     eventTitle,
     eventDescription,
+    eventTimeDuration,
     eventAttachment,
     addressType,
     addressDetail,
   } = pendingEvent.eventId !== '' ? pendingEvent : fixedEvent;
-  const { startLoading, endLoading } = useLoading();
+  const { eventTimeStartsAt } =
+    pendingEvent.eventId === '' ? fixedEvent : { eventTimeStartsAt: 0 };
+  const { openDialog } = useDialog();
 
   const isFixed = useMemo(() => fixedEvent.eventId !== '', [fixedEvent]);
 
@@ -120,21 +131,26 @@ function Invitation() {
         );
         navigate(`${PathName.mainFixed}`);
       } else {
-        // startLoading();
-        putFixedEventGuestById(eventId)
-          .then(() => {
-            navigate(`${PathName.invite}/${eventId}/completeFixed`);
-          })
-          .catch((err) => {
-            // endLoading();
-            console.log('미팅 참여 에러', err);
-            dispatch(
-              show({
-                title: '미팅 참여 오류',
-                description: '미팅 참여 과정 중 오류가 생겼습니다.',
-              })
-            );
-          });
+        const joinMeeting = () => {
+          putFixedEventGuestById(eventId)
+            .then(() => {
+              navigate(`${PathName.invite}/${eventId}/completeFixed`);
+            })
+            .catch((err) => {
+              console.log('미팅 참여 에러', err);
+              dispatch(
+                show({
+                  title: '미팅 참여 오류',
+                  description: '미팅 참여 과정 중 오류가 생겼습니다.',
+                })
+              );
+            });
+        };
+
+        openDialog({
+          title: `'${eventTitle}'\n미팅에 참여하시겠어요?`,
+          onConfirm: joinMeeting,
+        });
       }
     } else {
       if (isModification(eventTimeCandidates, declinedUsers)) {
@@ -146,14 +162,26 @@ function Invitation() {
   };
 
   const handleConnectClick = () => {
-    location.href = KAKAO_AUTH_URL;
-    sessionStorage.setItem(
-      LOGIN_REDIRECT_KEY,
-      `${PathName.invite}/${eventId}/select`
-    );
+    if (isFixed) {
+      location.href = KAKAO_AUTH_URL;
+      sessionStorage.setItem(
+        LOGIN_REDIRECT_KEY,
+        `${PathName.invite}/${eventId}/invitation`
+        // `${PathName.invite}/${eventId}/completeFixed`
+      );
+      // const funsToPut: FuncsAfterLogin = { joinFixedMeeting: [eventId] };
+      // sessionStorage.setItem(AFTER_LOGIN_FUNC_KEY, JSON.stringify(funsToPut));
+    } else {
+      location.href = KAKAO_AUTH_URL;
+      sessionStorage.setItem(
+        LOGIN_REDIRECT_KEY,
+        `${PathName.invite}/${eventId}/select`
+      );
+    }
   };
 
   const meetingTitleDescription = '미팅 제목';
+  const meetingTimeDescription = '미팅 시간';
   const meetingPlaceDescription = '미팅 장소';
   const meetingDescription = '미팅 내용';
   const meetingRefLink = '참조 링크';
@@ -195,6 +223,23 @@ function Invitation() {
             {meetingTitleDescription}
           </div>
           <div className={'invitation-title-text'}>{eventTitle}</div>
+          <div className={classNames('invitation-title-place', 'place')}>
+            {meetingTimeDescription}
+          </div>
+          <div className={'invitation-place'}>
+            {format(eventTimeStartsAt, 'yyyy년 M월 d일 ') +
+              getTimeRange(
+                getTimezoneDate(eventTimeStartsAt),
+                eventTimeDuration
+              )}
+          </div>
+          {/* <>
+              <div className={classNames('invitation-section-wrapper')}>
+                <div className={classNames('invitation-title-place', 'place')}>
+                  {meetingDescription}
+                </div>
+              </div>
+            </> */}
           <div className={classNames('invitation-title-place', 'place')}>
             {meetingPlaceDescription}
           </div>

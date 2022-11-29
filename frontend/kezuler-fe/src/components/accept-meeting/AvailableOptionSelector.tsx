@@ -64,23 +64,29 @@ function AvailableOptionSelector({ errorMessage }: Props) {
     }
   };
 
-  // 현재 이후의 선택지 개수
-  const validEventCount = useMemo(
+  const validEvents = useMemo(
     () =>
-      eventTimeCandidates.filter(
-        ({ eventStartsAt }) => eventStartsAt > new Date().getTime()
-      ).length,
+      eventTimeCandidates
+        .map(({ eventStartsAt }) => {
+          if (eventStartsAt > new Date().getTime()) return eventStartsAt;
+        })
+        .filter((e) => e !== undefined),
     [eventTimeCandidates]
   );
+
+  // 현재 이후의 선택지 개수
+  const validEventCount = useMemo(() => validEvents.length, [validEvents]);
 
   useEffect(() => {
     if (availableTimes.length > 0) {
       dispatch(setIsDecline(false));
     }
-    setAllAvailable(
-      validEventCount > 0 && availableTimes.length === validEventCount
-    );
-  }, [availableTimes, validEventCount]);
+    setAllAvailable(availableTimes.length === eventTimeCandidates.length);
+  }, [availableTimes]);
+  //   setAllAvailable(
+  //     validEventCount > 0 && availableTimes.length === validEventCount
+  //   );
+  // }, [availableTimes, validEventCount]);
 
   useEffect(() => {
     if (isDecline) setIsOpen(true);
