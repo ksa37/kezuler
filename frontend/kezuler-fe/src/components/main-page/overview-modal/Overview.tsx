@@ -481,14 +481,14 @@ function Overview() {
                     text={'참여 취소'}
                   />
                 )}
-                {!isFixedEvent(event) && (
-                  <OverviewButton
-                    icon={<LinkIcon />}
-                    onClick={handleCopyLinkClick}
-                    text={'케줄러링크'}
-                    textBtm={'복사'}
-                  />
-                )}
+                {/* {!isFixedEvent(event) && ( */}
+                <OverviewButton
+                  icon={<LinkIcon />}
+                  onClick={handleCopyLinkClick}
+                  text={'케줄러링크'}
+                  textBtm={'복사'}
+                />
+                {/* )} */}
               </>
             ))}
           {(isPassed || isCanceled || canceledFixedGuest) && (

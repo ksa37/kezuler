@@ -23,4 +23,4 @@ interface ShareProps {
   element: JSX.Element;
 }
 
-export type { DialogProps, AlertProps, ShareProps };
+export type { DialogProps, AlertProps, ShareProps, DescriptionText };

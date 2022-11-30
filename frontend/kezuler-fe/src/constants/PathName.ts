@@ -33,6 +33,8 @@ const PathName = {
   inviteSelectParticipants: '/invite/:eventId/select/participants',
   inviteComplete: '/invite/:eventId/complete',
 
+  inviteCompleteFixed: '/invite/:eventId/completeFixed',
+
   modify: '/modify/:eventId',
   modifyParticipants: '/modify/:eventId/participants',
   confirm: '/confirm',
@@ -91,6 +93,7 @@ const PathNameList = [
   /\/invite\/.+\/select/,
   /\/invite\/.+\/select\/participants/,
   /\/invite\/.+\/complete/,
+  /\/invite\/.+\/completeFixed/,
 
   /\/modify\/.+/,
   /\/modify\/.+\/participants/,
