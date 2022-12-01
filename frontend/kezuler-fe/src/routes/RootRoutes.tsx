@@ -19,7 +19,6 @@ import CreateMeeting from 'src/views/create-meeting';
 import CalendarTimeSelector from 'src/views/create-meeting/CalendarTimeSelector';
 import MeetingInfoForm from 'src/views/create-meeting/MeetingInfoForm';
 import MeetingShare from 'src/views/create-meeting/MeetingShare';
-import OnOffSelector from 'src/views/create-meeting/OnOffSelector';
 import SelectedOptions from 'src/views/create-meeting/SelectedOptions';
 import InAppNotiPage from 'src/views/InAppNotiPage';
 import KakaoRedirect from 'src/views/KakaoRedirect';
@@ -149,7 +148,6 @@ function RootRoutes() {
                 path={PathName.createCheck}
                 element={<SelectedOptions />}
               />
-              <Route path={PathName.createPlace} element={<OnOffSelector />} />
               <Route
                 path={PathName.createComplete}
                 element={<MeetingShare />}
@@ -256,30 +254,6 @@ function RootRoutes() {
           <Routes>
             <Route index element={<Navigate replace to={PathName.login} />} />
             <Route path={PathName.landing} element={<LandingPage />} />
-            <Route path={PathName.create} element={<CreateMeeting />}>
-              <Route
-                index
-                element={<Navigate replace to={PathName.createInfo} />}
-              />
-              <Route path={PathName.createInfo} element={<MeetingInfoForm />} />
-              <Route
-                path={PathName.createTime}
-                element={<CalendarTimeSelector />}
-              />
-              <Route
-                path={PathName.createCheck}
-                element={<SelectedOptions />}
-              />
-              <Route path={PathName.createPlace} element={<OnOffSelector />} />
-              <Route
-                path={PathName.createComplete}
-                element={<MeetingShare />}
-              />
-              <Route
-                path="*"
-                element={<Navigate replace to={PathName.createInfo} />}
-              />
-            </Route>
             <Route
               path={`${PathName.invite}/:eventId`}
               element={<AcceptMeeting />}

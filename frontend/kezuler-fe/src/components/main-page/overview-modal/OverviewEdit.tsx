@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 
-import { OVERVIEW_FORM_ID, PLACE_OPTIONS } from 'src/constants/Main';
+import { PLACE_OPTIONS } from 'src/constants/CreateMeeting';
+import { OVERVIEW_FORM_ID } from 'src/constants/Main';
 import { makeFixedInfoUrl, makePendingInfoUrl } from 'src/constants/PathName';
 import {
   INVALID_URL_ERROR,

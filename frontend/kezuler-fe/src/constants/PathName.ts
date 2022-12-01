@@ -24,7 +24,6 @@ const PathName = {
   createInfo: '/create/info',
   createTime: '/create/time',
   createCheck: '/create/check',
-  createPlace: '/create/place',
   createComplete: '/create/complete',
 
   invite: '/invite',

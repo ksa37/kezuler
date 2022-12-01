@@ -39,12 +39,6 @@ function CreateMeeting() {
         }
         break;
       }
-      case PathName.createPlace: {
-        if (eventTitle === '' || eventTimeList.length === 0) {
-          navigate(PathName.createInfo);
-        }
-        break;
-      }
       case PathName.createComplete: {
         if (shareUrl === '') {
           navigate(PathName.createInfo);
@@ -78,8 +72,6 @@ function CreateMeeting() {
         return '미팅일정 설정';
       case PathName.createCheck:
         return '미팅일정 설정';
-      case PathName.createPlace:
-        return '미팅장소 설정';
       case PathName.createComplete:
         return '미팅생성 완료';
       default:
@@ -95,8 +87,6 @@ function CreateMeeting() {
         return 'calendar-selector';
       case PathName.createCheck:
         return '';
-      case PathName.createPlace:
-        return 'place-info';
       case PathName.createComplete:
         return '';
       default:
@@ -112,8 +102,6 @@ function CreateMeeting() {
         return 1;
       case PathName.createCheck:
         return 2;
-      case PathName.createPlace:
-        return 3;
       case PathName.createComplete:
         return 4;
       default:

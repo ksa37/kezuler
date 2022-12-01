@@ -8,7 +8,6 @@ interface CreateMeetingState extends PPostPendingEvent {
   // step: CreateMeetingSteps;
   eventId: string;
   shareUrl: string;
-  isOnline: null | boolean;
   eventTimeList: number[];
 }
 
@@ -16,13 +15,12 @@ const initialState: CreateMeetingState = {
   // step: CreateMeetingSteps.First,
   eventId: '',
   shareUrl: '',
-  isOnline: null,
   eventTimeList: [],
   eventTitle: '',
   eventDescription: '',
   eventTimeDuration: 60,
   eventTimeCandidates: [],
-  addressType: 'OFF',
+  addressType: 'ON',
   addressDetail: '',
   eventAttachment: '',
 };
@@ -48,9 +46,6 @@ export const createMeetingSlice = createSlice({
     // decreaseStep: (state) => {
     //   state.step -= 1;
     // },
-    setIsOnline: (state, action: PayloadAction<boolean>) => {
-      state.isOnline = action.payload;
-    },
     setEventTimeDuration: (state, action: PayloadAction<number>) => {
       state.eventTimeDuration = action.payload;
     },

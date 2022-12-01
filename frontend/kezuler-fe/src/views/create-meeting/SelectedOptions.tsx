@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
+import classNames from 'classnames';
 
-import PathName from 'src/constants/PathName';
+import useDialog from 'src/hooks/useDialog';
+import { usePostPendingEvent } from 'src/hooks/usePendingEvent';
 import { RootState } from 'src/reducers';
 import { alertAction } from 'src/reducers/alert';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
@@ -18,21 +20,21 @@ import BottomButton from 'src/components/common/BottomButton';
 import TimeOptionCard from 'src/components/create-meeting/TimeOptionCard';
 
 import 'src/styles/common/TimeLineGrid.scss';
-import classNames from 'classnames';
-import { CircularProgress } from '@mui/material';
 
 function SelectedOptions() {
   const dispatch = useDispatch<AppDispatch>();
   const { deleteTimeList } = createMeetingActions;
-  const { eventTimeList, eventTimeDuration } = useSelector(
+  const { eventTitle, eventTimeDuration, eventTimeList } = useSelector(
     (state: RootState) => state.createMeeting
   );
+
+  const { openDialog } = useDialog();
+
   const { calendarList, loaded: calendarLoaded } = useSelector(
     (state: RootState) => state.calendarList
   );
 
   const { show } = alertAction;
-  const navigate = useNavigate();
   const { googleToggle } = useMemo(() => ({ ...getCurrentUserInfo() }), []);
   const [isCalendarPaired, setIsCalendarPaired] = useState(googleToggle);
 
@@ -58,8 +60,16 @@ function SelectedOptions() {
     }
   };
 
-  const handleNextClick = () => {
-    navigate(PathName.createPlace);
+  const postPendingEventAndGetShareUrl = usePostPendingEvent();
+
+  const handlePostClick = () => {
+    openDialog({
+      title: `'${eventTitle}'\n미팅을 생성하시겠어요?`,
+      description: `생성시, 다른 사람들을 미팅에 초대할 수 있는 케줄러링크가 생성됩니다.`,
+      onConfirm: () => {
+        postPendingEventAndGetShareUrl();
+      },
+    });
   };
 
   const { setCalendarStore } = getSchedules(eventTimeListDevideByDate);
@@ -173,7 +183,7 @@ function SelectedOptions() {
           </div>
         ))}
       </div>
-      <BottomButton onClick={handleNextClick} text="다음" />
+      <BottomButton onClick={handlePostClick} text="다음" />
     </div>
   );
 }

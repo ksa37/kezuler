@@ -1,9 +1,9 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { CURRENT_HOST } from 'src/constants/Auth';
 import PathName from 'src/constants/PathName';
-import { acceptMeetingActions } from 'src/reducers/AcceptMeeting';
+import { RootState } from 'src/reducers';
 import { alertAction } from 'src/reducers/alert';
 import { confirmTimeActions } from 'src/reducers/ConfirmTime';
 import { createMeetingActions } from 'src/reducers/CreateMeeting';
@@ -14,7 +14,6 @@ import {
   PPutPendingEvent,
 } from 'src/types/pendingEvent';
 
-import { getInvitationById } from 'src/api/invitation';
 import {
   deletePendingEventCandidateById,
   getPendingEventById,
@@ -84,8 +83,28 @@ const usePostPendingEvent = () => {
   const { setShareUrl, setEventId } = createMeetingActions;
   const { show } = alertAction;
 
-  const getShareUrl = (ppendingEvent: PPostPendingEvent) => {
-    postPendingEvent(ppendingEvent)
+  const {
+    eventTitle,
+    eventDescription,
+    eventTimeDuration,
+    addressType,
+    addressDetail,
+    eventAttachment,
+    eventTimeList,
+  } = useSelector((state: RootState) => state.createMeeting);
+
+  const ppostPendingEventData: PPostPendingEvent = {
+    eventTitle,
+    eventDescription,
+    eventTimeDuration,
+    eventTimeCandidates: eventTimeList,
+    addressType,
+    addressDetail,
+    eventAttachment,
+  };
+
+  const getShareUrl = () => {
+    postPendingEvent(ppostPendingEventData)
       .then((res) => {
         dispatch(
           setShareUrl(
@@ -106,6 +125,7 @@ const usePostPendingEvent = () => {
         navigate(PathName.create, { replace: true });
       });
   };
+
   return getShareUrl;
 };
 

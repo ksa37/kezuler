@@ -4,4 +4,9 @@ const MEETING_LENGTH_LIST = [
   { display: '2시간', minutes: 120 },
 ];
 
-export { MEETING_LENGTH_LIST };
+const PLACE_OPTIONS = [
+  { display: '온라인', isOnline: true },
+  { display: '오프라인', isOnline: false },
+];
+
+export { MEETING_LENGTH_LIST, PLACE_OPTIONS };

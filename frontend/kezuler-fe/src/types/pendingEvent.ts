@@ -36,6 +36,8 @@ interface RPendingEvent {
   result: PendingEvent;
 }
 
+// TODO addressType 의 type 을 더 확실하게 잡으면 좋을 것 같음
+// 'ON' | 'OFF' 밖에 쓰이지 않는 것으로 보임
 interface PPostPendingEvent {
   eventTitle: string;
   eventDescription: string;

@@ -20,11 +20,14 @@ import { AppDispatch } from 'src/store';
 import isURL from 'src/utils/isURL';
 
 import BottomButton from 'src/components/common/BottomButton';
+import LocationSelect from 'src/components/create-meeting/LocationSelect';
 
+// TODO 이 부분 react-hook-form 으로 변경하면 좋을 것 같음
 interface CreateInfoErrorForm {
   title: string;
   description: string;
   attachment: string;
+  addressDetail: string;
 }
 
 function MeetingInfoForm() {
@@ -41,7 +44,11 @@ function MeetingInfoForm() {
     title: '',
     description: '',
     attachment: '',
+    addressDetail: '',
   });
+  const setAddressDetail = (newVal: string) => {
+    setError((prev) => ({ ...prev, addressDetail: newVal }));
+  };
 
   useEffect(() => {
     const titleError =
@@ -124,7 +131,11 @@ function MeetingInfoForm() {
   const eventAttachmentDescription = 'URL주소를 입력해주세요.';
 
   const nextButtonDisabled =
-    !eventTitle || !!error.title || !!error.attachment || !!error.description;
+    !eventTitle ||
+    !!error.title ||
+    !!error.attachment ||
+    !!error.description ||
+    !!error.addressDetail;
 
   return (
     <div className={'create-wrapper'}>
@@ -168,6 +179,10 @@ function MeetingInfoForm() {
             'is-error': !!error.attachment,
           })}
         >
+          <LocationSelect
+            error={error.addressDetail}
+            setError={setAddressDetail}
+          />
           <div className={classNames('meeting-additional')}>
             <span className={classNames('meeting-additional-text')}>
               추가정보
@@ -193,7 +208,7 @@ function MeetingInfoForm() {
             </div>
           )}
           <div
-            className={classNames('meeting-additional', 'url', {
+            className={classNames('meeting-additional', {
               'is-error': !!error.description,
             })}
           >
