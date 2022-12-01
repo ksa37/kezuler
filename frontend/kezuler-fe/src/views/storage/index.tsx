@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { BottomSheet } from 'react-spring-bottom-sheet';
 import { Comment, MoreHoriz } from '@mui/icons-material';
 import classNames from 'classnames';
 
@@ -13,6 +14,7 @@ import { AppDispatch } from 'src/store';
 
 import TextAppBar from 'src/components/common/TextAppBar';
 
+import 'react-spring-bottom-sheet/dist/style.css';
 import 'src/styles/Storage.scss';
 
 function StoragePage() {
@@ -22,7 +24,9 @@ function StoragePage() {
   const { openDialog } = useDialog();
   const navigate = useNavigate();
   const location = useLocation();
+  const menuRef = useRef<any>(null);
 
+  const [open, setOpen] = useState(false);
   const [currentUrl, setCurrentUrl] = useState('');
   const [isClickedMenu, setIsClickedMenu] = useState(false);
   const [commentOrDots, setCommentOrDots] = useState('null');
@@ -108,7 +112,23 @@ function StoragePage() {
       else navigate(prevUrl);
     }
   };
+  useEffect(() => {
+    document.addEventListener('mousedown', clickMenuOutside);
 
+    return () => {
+      document.removeEventListener('mousedown', clickMenuOutside);
+    };
+  });
+
+  const clickMenuOutside = (e: MouseEvent) => {
+    if (
+      isClickedMenu &&
+      menuRef.current &&
+      !menuRef.current.contains(e.target)
+    ) {
+      setIsClickedMenu(false);
+    }
+  };
   return (
     <div>
       <div>
@@ -118,9 +138,11 @@ function StoragePage() {
           mainColored={true}
         />
         <div className="comment-icon">
-          {commentOrDots === 'comment' && <Comment />}
+          {commentOrDots === 'comment' && (
+            <Comment onClick={() => setOpen((prev) => !prev)} />
+          )}
           {commentOrDots === 'dots' && (
-            <div className="dots-wrapper">
+            <div className="dots-wrapper" ref={menuRef}>
               <MoreHoriz onClick={() => setIsClickedMenu((prev) => !prev)} />
               {isClickedMenu && (
                 <div className="dots-menu">
@@ -132,28 +154,21 @@ function StoragePage() {
                       편집하기
                     </div>
                   )}
-                  {typeFromPath === 'memo' && (
-                    <div
-                      onClick={handleDeleteClick}
-                      className={classNames('dots-menu-content', 'border-top')}
-                    >
-                      삭제하기
-                    </div>
-                  )}
-                  {typeFromPath !== 'memo' && (
-                    <div
-                      onClick={handleDeleteClick}
-                      className={classNames('dots-menu-content')}
-                    >
-                      삭제하기
-                    </div>
-                  )}
+                  <div
+                    onClick={handleDeleteClick}
+                    className={classNames('dots-menu-content', {
+                      'border-top': typeFromPath === 'memo',
+                    })}
+                  >
+                    삭제하기
+                  </div>
                 </div>
               )}
             </div>
           )}
         </div>
         <Outlet context={{ setTextAppBarTitle }} />
+        <BottomSheet open={open}>My awesome content here</BottomSheet>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import KezulerStorageInstance from 'src/constants/api-storage';
 import { StorageChildProps } from 'src/types/Storage';
 
-import WarningImg from 'src/assets/image/warning.png';
+import NoImg from 'src/assets/image/no_image.jpeg';
 import 'src/styles/Storage.scss';
 
 function StorageLink() {
@@ -31,7 +31,7 @@ function StorageLink() {
   };
 
   const handleImgError = (e: any) => {
-    e.target.src = WarningImg;
+    e.target.src = NoImg;
   };
 
   return (
@@ -41,9 +41,7 @@ function StorageLink() {
           onError={handleImgError}
           className="storage-og-image"
           src={
-            data?.link?.metaImageUrl !== ''
-              ? data?.link?.metaImageUrl
-              : WarningImg
+            data?.link?.metaImageUrl !== '' ? data?.link?.metaImageUrl : NoImg
           }
         />
         <h4 className="storage-og-title">{data?.link?.metaTitle}</h4>

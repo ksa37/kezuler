@@ -64,7 +64,11 @@ function StorageMemoWrite() {
         onChange={(e) => dispatch(setMemoContent(e.target.value))}
         value={storageMemoContent}
       />
-      <BottomButton onClick={handleNextClick} text={isEdit ? '확인' : '다음'} />
+      <BottomButton
+        disabled={storageMemoContent === ''}
+        onClick={handleNextClick}
+        text={isEdit ? '확인' : '다음'}
+      />
     </div>
   );
 }

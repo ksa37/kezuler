@@ -150,6 +150,11 @@
       line-height: 19px;
       align-items: center;
       text-align: center;
+      margin-left: 25%;
+      width: 50%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
     .text-app-bar-content-bbtn {
       cursor: pointer;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { KeyboardEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -6,6 +6,7 @@ import KezulerStorageInstance from 'src/constants/api-storage';
 import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
 import { RootState } from 'src/reducers';
+import { alertAction } from 'src/reducers/alert';
 import { createStorageActions } from 'src/reducers/CreateStorage';
 import { AppDispatch } from 'src/store';
 
@@ -15,9 +16,11 @@ import 'src/styles/Storage.scss';
 
 function StorageTitle() {
   const dispatch = useDispatch<AppDispatch>();
-  const { openDialog } = useDialog();
-  const { setTitle, destroy } = createStorageActions;
   const { eventId } = useParams();
+  const { openDialog } = useDialog();
+  const { show } = alertAction;
+
+  const { setTitle, destroy } = createStorageActions;
   const navigate = useNavigate();
 
   const [titleWord, setTitleWord] = useState('');
@@ -50,13 +53,27 @@ function StorageTitle() {
             eventId,
             title: storageTitle,
             url: storageLinkContent,
-          }).then(() => {
-            dispatch(destroy());
-            navigate(`${PathName.storage}/${eventId}`);
-          });
+          })
+            .then(() => {
+              dispatch(destroy());
+              navigate(`${PathName.storage}/${eventId}`);
+            })
+            .catch(() => {
+              dispatch(
+                show({
+                  title: 'URL을 확인해주세요!',
+                })
+              );
+            });
         }
       },
     });
+  };
+
+  const handleEnter = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key.toLowerCase() === 'enter') {
+      handleClickConfirm();
+    }
   };
 
   return (
@@ -67,8 +84,13 @@ function StorageTitle() {
         placeholder="텍스트를 입력해주세요."
         onChange={(e) => dispatch(setTitle(e.target.value))}
         value={storageTitle}
+        onKeyPress={handleEnter}
       />
-      <BottomButton onClick={handleClickConfirm} text="확인" />
+      <BottomButton
+        disabled={storageTitle === ''}
+        onClick={handleClickConfirm}
+        text="확인"
+      />
     </div>
   );
 }

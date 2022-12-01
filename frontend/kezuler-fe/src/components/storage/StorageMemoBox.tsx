@@ -9,14 +9,12 @@ import 'src/styles/components.scss';
 interface StorageMemoBox {
   id: string;
   storageTitle: string;
-  storageType: string;
   storageMemoContent: string;
 }
 
 function StorageMemoBox({
   id,
   storageTitle,
-  storageType,
   storageMemoContent,
 }: StorageMemoBox) {
   const navigate = useNavigate();
