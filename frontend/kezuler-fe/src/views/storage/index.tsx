@@ -14,10 +14,12 @@ import { AppDispatch } from 'src/store';
 import TextAppBar from 'src/components/common/TextAppBar';
 
 import 'src/styles/Storage.scss';
+import { alertAction } from 'src/reducers/alert';
 
 function StoragePage() {
   const dispatch = useDispatch<AppDispatch>();
   const { destroy } = createStorageActions;
+  const { show } = alertAction;
   const { eventId, id } = useParams();
   const { openDialog } = useDialog();
   const navigate = useNavigate();
@@ -101,6 +103,15 @@ function StoragePage() {
     } else navigate(-1);
   };
 
+  const handleCommentClick = () => {
+    dispatch(
+      show({
+        title: '댓글 기능은 현재 준비중입니다',
+        description: '조금만 기다려주세요!',
+      })
+    );
+  };
+
   window.onpopstate = function () {
     //뒤로가기를 한 페이지가 미팅일정선택완료 페이지면 메인페이지(fixed)로 이동.
     if (currentUrl === `${PathName.storage}/${eventId}`) {
@@ -118,7 +129,9 @@ function StoragePage() {
           mainColored={true}
         />
         <div className="comment-icon">
-          {commentOrDots === 'comment' && <Comment />}
+          {commentOrDots === 'comment' && (
+            <Comment onClick={handleCommentClick} />
+          )}
           {commentOrDots === 'dots' && (
             <div className="dots-wrapper">
               <MoreHoriz onClick={() => setIsClickedMenu((prev) => !prev)} />

@@ -223,16 +223,20 @@ function Invitation() {
             {meetingTitleDescription}
           </div>
           <div className={'invitation-title-text'}>{eventTitle}</div>
-          <div className={classNames('invitation-title-place', 'place')}>
-            {meetingTimeDescription}
-          </div>
-          <div className={'invitation-place'}>
-            {format(eventTimeStartsAt, 'yyyy년 M월 d일 ') +
-              getTimeRange(
-                getTimezoneDate(eventTimeStartsAt),
-                eventTimeDuration
-              )}
-          </div>
+          {isFixed && (
+            <>
+              <div className={classNames('invitation-title-place', 'place')}>
+                {meetingTimeDescription}
+              </div>
+              <div className={'invitation-place'}>
+                {format(eventTimeStartsAt, 'yyyy년 M월 d일 ') +
+                  getTimeRange(
+                    getTimezoneDate(eventTimeStartsAt),
+                    eventTimeDuration
+                  )}
+              </div>
+            </>
+          )}
           {/* <>
               <div className={classNames('invitation-section-wrapper')}>
                 <div className={classNames('invitation-title-place', 'place')}>
