@@ -22,8 +22,6 @@ import { ReactComponent as ArrowDownIcon } from 'src/assets/icn_dn_outline.svg';
 import { ReactComponent as LocIcon } from 'src/assets/icn_location_y.svg';
 import { ReactComponent as PCIcon } from 'src/assets/icn_pc_y.svg';
 
-import 'react';
-
 interface Props {
   setError: (newVal: string) => void;
   error: string;
@@ -31,7 +29,7 @@ interface Props {
 
 // TODO redux + KezulerDropdown 으로 인해 불필요한 단계가 하나 더 생긴 것 같음
 //  KezulerDropdown 이 아니라 일반 dropdown 으로 변경하는 것이 효율적일까?
-function LocationSelect({ setError, error }: Props) {
+function CreateLocationSelect({ setError, error }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const { setAddressType, setAddressDetail } = createMeetingActions;
 
@@ -111,10 +109,9 @@ function LocationSelect({ setError, error }: Props) {
           <TextareaAutosize
             className={classNames(
               'meeting-field-title-and-reference',
-              'no-margin',
               'location',
               {
-                error: error,
+                error,
               }
             )}
             onKeyDown={handleKeyDown}
@@ -129,4 +126,4 @@ function LocationSelect({ setError, error }: Props) {
   );
 }
 
-export default LocationSelect;
+export default CreateLocationSelect;
