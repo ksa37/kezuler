@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
+import classNames from 'classnames';
 
 import useDialog from 'src/hooks/useDialog';
 import { RootState } from 'src/reducers';
@@ -20,8 +22,6 @@ import TimeOptionCard from 'src/components/create-meeting/TimeOptionCard';
 import 'src/styles/common/TimeLineGrid.scss';
 
 import { addTimes } from 'src/api/addTimes';
-import { CircularProgress } from '@mui/material';
-import classNames from 'classnames';
 
 function SelectedOptionsAddTime() {
   const dispatch = useDispatch<AppDispatch>();
@@ -73,7 +73,7 @@ function SelectedOptionsAddTime() {
 
       const result = addTimes(eventConfirmId, eventTimeList);
       result
-        .then(async () => {
+        .then(() => {
           navigateToInitialPage();
           dispatch(
             show({

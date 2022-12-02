@@ -133,13 +133,15 @@ function TimeListSelector({ isModification }: Props) {
     if (availableTimes.length !== 0) {
       if (isModification) {
         confirmMeeting = () => {
-          putEventTimeCandidate(eventId, putData);
-          navigate(PathName.mainPending);
+          putEventTimeCandidate(eventId, putData, PathName.mainPending);
         };
       } else {
         confirmMeeting = () => {
-          putEventTimeCandidate(eventId, putData);
-          navigate(`${PathName.invite}/${eventId}/complete`);
+          putEventTimeCandidate(
+            eventId,
+            putData,
+            `${PathName.invite}/${eventId}/complete`
+          );
         };
       }
     } else {
