@@ -8,13 +8,13 @@ import KezulerStorageInstance from 'src/constants/api-storage';
 import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
 import { RootState } from 'src/reducers';
+import { alertAction } from 'src/reducers/alert';
 import { createStorageActions } from 'src/reducers/CreateStorage';
 import { AppDispatch } from 'src/store';
 
 import TextAppBar from 'src/components/common/TextAppBar';
 
 import 'src/styles/Storage.scss';
-import { alertAction } from 'src/reducers/alert';
 
 function StoragePage() {
   const dispatch = useDispatch<AppDispatch>();

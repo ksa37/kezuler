@@ -27,7 +27,7 @@ function App() {
       <div className={'app-inner'} id={'app-inner'}>
         <RootRoutes />
       </div>
-      <KezulerDialog />
+      {/* <KezulerDialog /> */}
       <KezulerAlert />
       <KezulerShare />
       <KezulerNoti />

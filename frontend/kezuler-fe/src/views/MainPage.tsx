@@ -11,6 +11,7 @@ import MainAppBar from 'src/components/common/MainAppBar';
 import MainTab from 'src/components/main-page/MainTab';
 
 import 'src/styles/main.scss';
+import Tutorials from 'src/components/Tutorials';
 
 function MainPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,6 +41,7 @@ function MainPage() {
         <MainAppBar />
         <MainTab />
         <Outlet />
+        {/* <Tutorials /> */}
         {/* <footer className={'main-footer'}>
         <b>(주)올렌다</b> 대표이사 구자룡
         <br />
