@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { StorageType } from '../types/Storage';
+
 interface CreateStorageState {
-  storageType: string;
+  storageType?: StorageType;
   storageTitle: string;
   storageMemoContent: string;
   storageLinkContent: string;
 }
 
 const initialState: CreateStorageState = {
-  storageType: '',
   storageTitle: '',
   storageMemoContent: '',
   storageLinkContent: '',
@@ -18,7 +19,7 @@ export const createStorageSlice = createSlice({
   name: 'create-storage',
   initialState,
   reducers: {
-    setType: (state, action: PayloadAction<string>) => {
+    setType: (state, action: PayloadAction<StorageType>) => {
       state.storageType = action.payload;
     },
     setMemoContent: (state, action: PayloadAction<string>) => {

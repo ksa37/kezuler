@@ -1,22 +1,14 @@
-import React, { useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
 import Button from '@mui/material/Button';
 import classNames from 'classnames';
 
 import PathName, { makePendingInfoUrl } from 'src/constants/PathName';
-import { participantsPopupAction } from 'src/reducers/ParticipantsPopup';
-import { shareAction } from 'src/reducers/share';
-import { AppDispatch } from 'src/store';
 import { BPendingEvent } from 'src/types/pendingEvent';
+import { User } from 'src/types/user';
 import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
-
-import ShareIcons from 'src/components/common/ShareIcons';
-
-import { ReactComponent as InfoIconGrey } from 'src/assets/icn_info_gr.svg';
-import { ReactComponent as InfoIcon } from 'src/assets/icn_info_yb.svg';
-import { ReactComponent as SendIconGrey } from 'src/assets/icn_send_gr.svg';
-import { ReactComponent as SendIcon } from 'src/assets/icn_send_yb.svg';
 
 interface Props {
   event: BPendingEvent;
@@ -26,20 +18,23 @@ function PendingEventCard({ event }: Props) {
   const {
     eventId,
     eventTitle,
-    eventHost: { userId: hostId },
+    eventHost: {
+      userId: hostId,
+      userName: hostName,
+      userProfileImage: hostProfileImage,
+    },
     addressType,
     eventTimeCandidates,
     declinedUsers,
     disable: isCanceled,
   } = event;
 
-  const dispatch = useDispatch<AppDispatch>();
-  const { show } = participantsPopupAction;
-  const { show: showShare } = shareAction;
+  const [windowSize, setWindowSize] = useState(getWindowSize());
 
   const navigate = useNavigate();
 
-  const handleChangeTime = () => {
+  const handleChangeTime = (e: React.MouseEvent) => {
+    e.stopPropagation();
     navigate(`/modify/${eventId}`);
   };
 
@@ -47,24 +42,9 @@ function PendingEventCard({ event }: Props) {
     navigate(makePendingInfoUrl(eventId));
   };
 
-  const handleConfirmClick = () => {
+  const handleConfirmClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     navigate(`${PathName.confirm}/${eventId}`);
-  };
-
-  const handleInviteClick = () => {
-    dispatch(
-      showShare({
-        title: '케줄러링크 공유하기',
-        element: (
-          <ShareIcons eventTitle={eventTitle} eventId={eventId} forPopup />
-        ),
-      })
-    );
-  };
-
-  const handleParticipantsShow = () => {
-    dispatch(show(event));
-    navigate(`${PathName.mainPending}/${eventId}/participants`);
   };
 
   const isHost = useMemo(
@@ -90,6 +70,38 @@ function PendingEventCard({ event }: Props) {
     return participantsSet.size;
   }, [eventTimeCandidates]);
 
+  const participants = useMemo(() => {
+    const participantsArray: User[] = [];
+    eventTimeCandidates.forEach(({ possibleUsers }) => {
+      possibleUsers.forEach((el) => {
+        participantsArray.push(el);
+      });
+    });
+
+    return participantsArray.reduce<User[]>(function (acc, current) {
+      if (acc.findIndex(({ userId }) => userId === current.userId) === -1) {
+        acc.push(current);
+      }
+      return acc;
+    }, []);
+  }, [eventTimeCandidates]);
+
+  function getWindowSize() {
+    const { innerWidth, innerHeight } = window;
+    return { innerWidth, innerHeight };
+  }
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
   // 모든 날짜가 이전 날짜인 경우
   const isPast = useMemo(() => {
     if (!eventTimeCandidates.length) {
@@ -100,7 +112,7 @@ function PendingEventCard({ event }: Props) {
     return lastEventStartTime < new Date().getTime();
   }, [eventTimeCandidates]);
 
-  const isDisabled = useMemo(() => isPast || isCanceled , [isPast, isCanceled]);
+  const isDisabled = useMemo(() => isPast || isCanceled, [isPast, isCanceled]);
 
   return (
     <section
@@ -108,7 +120,7 @@ function PendingEventCard({ event }: Props) {
         'is-host': isHost,
         canceled: isDisabled,
       })}
-      onClick={isDisabled ? handleInfoClick : undefined}
+      onClick={handleInfoClick}
     >
       <div className={classNames({ canceled: isDisabled })}>
         {eventLocation}
@@ -116,64 +128,138 @@ function PendingEventCard({ event }: Props) {
           <span>취소된 미팅</span>
         ) : isPast ? (
           <span>만료된 미팅</span>
-        ) : (
-          <span
-            className={'pending-participant-info'}
-            onClick={handleParticipantsShow}
-          >
-            참여
-            <span className={'pending-participant-info-num'}>
-              {participantsNum}
-            </span>
-            <span className={'pending-participant-info-divider'} />
-            미정
-            <span className={'pending-participant-info-num'}>
-              {declinedUsers.length}
-            </span>
-          </span>
-        )}
+        ) : null}
       </div>
-      <div className={classNames({ canceled: isDisabled })}>{eventTitle}</div>
-      <div>
-        {isHost ? (
-          <Button
-            className={classNames('pending-event-confirm', {
+      <div className="pending-event-card-body">
+        <div
+          className={classNames('pending-event-card-left', {
+            canceled: isDisabled,
+          })}
+        >
+          <div
+            className={classNames('pending-event-card-title', {
               canceled: isDisabled,
             })}
-            onClick={handleConfirmClick}
-            disabled={isDisabled}
           >
-            시간 확정하기
-          </Button>
-        ) : (
-          <Button
-            className={classNames('pending-event-change', {
+            {eventTitle}
+          </div>
+          <div
+            className={classNames('fixed-event-card-avatars', 'pending', {
               canceled: isDisabled,
             })}
-            onClick={handleChangeTime}
-            disabled={isDisabled}
           >
-            투표 수정하기
-          </Button>
-        )}
-        <Button
-          startIcon={isDisabled ? <InfoIconGrey /> : <InfoIcon />}
-          className={classNames('pending-event-info', { canceled: isDisabled })}
-          onClick={handleInfoClick}
-          disabled={isDisabled}
-          classes={{ startIcon: 'pending-event-icon' }}
-        >
-          미팅정보
-        </Button>
-        <Button
-          startIcon={isDisabled ? <SendIconGrey /> : <SendIcon />}
-          className={classNames('pending-event-info', { canceled: isDisabled })}
-          onClick={handleInviteClick}
-          disabled={isDisabled}
-          classes={{ startIcon: 'pending-event-icon' }}
-        >
-          공유하기
-        </Button>
+            <div className={'fixed-event-card-host'}>
+              <Avatar
+                classes={{
+                  root: classNames(
+                    'fixed-event-card-avatar-num',
+                    'host',
+                    'pending'
+                  ),
+                }}
+                className={'fixed-event-card-avatar'}
+                key={hostId}
+                alt={hostName}
+                src={hostProfileImage}
+              />
+              <div className={classNames('fixed-event-card-host-desc')}>
+                호스트
+              </div>
+            </div>
+            {windowSize.innerWidth > 340 ? (
+              <div>
+                <AvatarGroup
+                  max={
+                    windowSize.innerWidth > 390
+                      ? 4
+                      : windowSize.innerWidth > 370
+                      ? 3
+                      : 2
+                  }
+                  classes={{
+                    avatar: classNames(
+                      'fixed-event-card-avatar-num',
+                      'pending'
+                    ),
+                  }}
+                >
+                  {participants?.map(
+                    (p: User) =>
+                      p.canceled === false && (
+                        <Avatar
+                          className={'fixed-event-card-avatar'}
+                          key={p.userId}
+                          alt={p.userName}
+                          src={p.userProfileImage}
+                        />
+                      )
+                  )}
+                </AvatarGroup>
+                {participants.filter((el) => !el.canceled).length > 0 && (
+                  <div className={classNames('fixed-event-card-guest-desc')}>
+                    참여자
+                  </div>
+                )}
+              </div>
+            ) : participants.length === 1 ? (
+              participants.map(
+                (p: User) =>
+                  p.canceled === false && (
+                    <Avatar
+                      className={'fixed-event-card-avatar'}
+                      classes={{
+                        root: classNames(
+                          'fixed-event-card-avatar-num',
+                          'pending'
+                        ),
+                      }}
+                      key={p.userId}
+                      alt={p.userName}
+                      src={p.userProfileImage}
+                    />
+                  )
+              )
+            ) : (
+              participants.length > 1 && (
+                <Avatar
+                  classes={{
+                    root: classNames('fixed-event-card-avatar-num', 'pending'),
+                  }}
+                  alt={`+${participants.filter((el) => !el.canceled).length}`}
+                >
+                  {`+${participants.filter((el) => !el.canceled).length}`}
+                </Avatar>
+              )
+            )}
+          </div>
+        </div>
+        <div className="pending-event-card-right">
+          {isHost ? (
+            <Button
+              className={classNames('pending-event-confirm', {
+                canceled: isDisabled,
+              })}
+              onClick={handleConfirmClick}
+              disabled={isDisabled}
+            >
+              시간 확정하기
+              <br />
+              {`(${participantsNum + declinedUsers.length}명 투표완료)`}
+            </Button>
+          ) : (
+            <Button
+              className={classNames('pending-event-change', {
+                canceled: isDisabled,
+              })}
+              onClick={handleChangeTime}
+              disabled={isDisabled}
+            >
+              투표 수정하기
+              <br />
+              {`(${participantsNum + declinedUsers.length}명 투표완료)`}
+            </Button>
+          )}
+        </div>
       </div>
     </section>
   );

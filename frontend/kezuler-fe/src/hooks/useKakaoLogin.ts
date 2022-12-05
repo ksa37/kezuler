@@ -61,7 +61,11 @@ const useKakaoLogin = () => {
             //     funcToDo(...funcVars);
             //   });
             // }
-            location.replace(`${CURRENT_HOST}${path}`);
+            if (path === PathName.mainFixed || path === PathName.mainPending) {
+              location.replace(`${CURRENT_HOST}${path}?tutorial=true`);
+            } else {
+              location.replace(`${CURRENT_HOST}${path}`);
+            }
           })
           .catch((e) => {
             console.log('소셜로그인 에러', e);

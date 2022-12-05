@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
+import { TUTORIAL_DISABLE_KEY } from 'src/constants/Popup';
 import { mainFixedActions } from 'src/reducers/mainFixed';
 import { mainPendingActions } from 'src/reducers/mainPending';
 import { AppDispatch } from 'src/store';
 
 import MainAppBar from 'src/components/common/MainAppBar';
 import MainTab from 'src/components/main-page/MainTab';
+import Tutorials from 'src/components/Tutorials';
 
 import 'src/styles/main.scss';
 
@@ -17,7 +19,11 @@ function MainPage() {
   const { destroy: fixedDestroy } = mainFixedActions;
   const { destroy: pendingDestroy } = mainPendingActions;
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const tutorialShow =
+    new URLSearchParams(location.search).get('tutorial') === 'true' &&
+    localStorage.getItem(TUTORIAL_DISABLE_KEY) === null;
   // 페이지 나갈 때 redux 스토어 초기화
   useEffect(() => {
     return () => {
@@ -40,6 +46,7 @@ function MainPage() {
         <MainAppBar />
         <MainTab />
         <Outlet />
+        {tutorialShow && <Tutorials />}
         {/* <footer className={'main-footer'}>
         <b>(주)올렌다</b> 대표이사 구자룡
         <br />

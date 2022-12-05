@@ -322,12 +322,18 @@
 .fixed-event-card-avatars {
   display: flex;
   align-items: flex-start;
+
+  &.pending {
+    margin-top: 6px;
+  }
+  &.canceled {
+    opacity: 0.5;
+  }
 }
 
 .fixed-event-card-avatar-num {
   width: 32px;
   height: 32px;
-  // box-sizing: border-box;
   background: $color-highlight;
   color: $color-main;
   font-size: $font-12;
@@ -343,6 +349,18 @@
       margin-right: 6px;
     }
   }
+
+  &.pending {
+    width: 26px;
+    height: 26px;
+  }
+
+  &.canceled {
+    // background-color: #bfbfbf !important;
+    color: $color-main;
+    font-size: $font-12;
+    border: 1px solid white !important;
+  }
 }
 
 .fixed-event-card-host-desc {
@@ -354,6 +372,13 @@
   @media (max-width: 300px) {
     margin-right: 6px;
   }
+}
+
+.fixed-event-card-guest-desc {
+  margin-top: 2px;
+  font-size: 8px;
+  margin-left: 2px;
+  color: $color-highlight;
 }
 
 .fixed-event-card-avatar {
@@ -385,6 +410,77 @@
     }
   }
 
+  .pending-event-card-body {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .pending-event-card-left {
+      width: 45%;
+      display: flex;
+      flex-direction: column;
+      padding-left: 8px;
+      display: block;
+
+      .pending-event-card-title {
+        font-weight: bold;
+        font-size: $font-16;
+        color: $color-highlight;
+        word-break: break-all;
+        width: 100%;
+
+        overflow: clip;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        &.canceled {
+          color: #bfbfbf;
+        }
+      }
+    }
+
+    .pending-event-card-right {
+      color: $color-highlight;
+      font-size: $font-12;
+      width: 45%;
+      display: flex;
+      align-items: center;
+      @mixin pending-event-button {
+        width: 100%;
+        height: 70%;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba($color-highlight, 0.1);
+        color: inherit;
+        font-size: inherit;
+      }
+
+      .pending-event-confirm {
+        @include pending-event-button;
+        background-color: $color-main-dark;
+        flex: 1;
+        font-family: unset;
+        line-height: unset;
+        // word-break: keep-all;
+        &.canceled {
+          background-color: #eaeaea;
+          color: #c3c3c3;
+        }
+      }
+
+      .pending-event-change {
+        @include pending-event-button;
+        background-color: $color-main;
+        flex: 1;
+        font-family: unset;
+        line-height: unset;
+        // word-break: keep-all;
+        &.canceled {
+          background-color: #eaeaea;
+          color: #c3c3c3;
+        }
+      }
+    }
+  }
+
   > div {
     &:first-child {
       display: flex;
@@ -413,78 +509,6 @@
         margin: 0 8px;
         padding-left: 1px;
         background: #bfbfbf;
-      }
-    }
-
-    &:nth-child(2) {
-      padding-left: 8px;
-
-      font-weight: bold;
-      font-size: $font-16;
-      color: $color-highlight;
-      word-break: break-all;
-
-      &.canceled {
-        color: #bfbfbf;
-      }
-    }
-
-    &:nth-child(3) {
-      color: $color-highlight;
-      font-size: $font-12;
-      display: flex;
-
-      margin-top: 14px;
-
-      @mixin pending-event-button {
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba($color-highlight, 0.1);
-        color: inherit;
-        font-size: inherit;
-
-        &:not(:last-child) {
-          margin-right: 8px;
-        }
-      }
-
-      .pending-event-icon {
-        margin: 0 2px 0 0;
-      }
-
-      .pending-event-confirm {
-        @include pending-event-button;
-        background-color: $color-main-dark;
-        flex: 1;
-        font-family: unset;
-        line-height: unset;
-        // word-break: keep-all;
-        &.canceled {
-          background-color: #eaeaea;
-          color: #c3c3c3;
-        }
-      }
-
-      .pending-event-change {
-        @include pending-event-button;
-        background-color: $color-main;
-        flex: 1;
-        font-family: unset;
-        line-height: unset;
-        // word-break: keep-all;
-        &.canceled {
-          background-color: #eaeaea;
-          color: #c3c3c3;
-        }
-      }
-
-      .pending-event-info {
-        @include pending-event-button;
-        font-family: unset;
-        line-height: unset;
-        // word-break: keep-all;
-        &.canceled {
-          color: #c2c2c2;
-        }
       }
     }
   }

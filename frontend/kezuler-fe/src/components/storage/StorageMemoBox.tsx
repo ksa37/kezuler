@@ -3,13 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
+import { StorageType } from '../../types/Storage';
 
 import 'src/styles/components.scss';
 
-interface StorageMemoBox {
+interface Props {
   id: string;
   storageTitle: string;
-  storageType: string;
+  storageType: StorageType;
   storageMemoContent: string;
 }
 
@@ -18,7 +19,7 @@ function StorageMemoBox({
   storageTitle,
   storageType,
   storageMemoContent,
-}: StorageMemoBox) {
+}: Props) {
   const navigate = useNavigate();
   const { eventId } = useParams();
 
