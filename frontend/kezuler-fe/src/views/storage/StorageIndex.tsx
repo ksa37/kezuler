@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 
 import KezulerStorageInstance from 'src/constants/api-storage';
-import { StorageChildProps } from 'src/types/Storage';
+import { RStorage, StorageChildProps } from 'src/types/Storage';
 
 import StorageAddBtn from 'src/components/storage/StorageAddBtn';
 import StorageLinkBox from 'src/components/storage/StorageLinkBox';
@@ -12,35 +12,35 @@ import StorageMemoBox from 'src/components/storage/StorageMemoBox';
 import 'src/styles/Storage.scss';
 
 function StorageIndex() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<RStorage | null>(null);
   const { eventId } = useParams();
   const { setTextAppBarTitle } = useOutletContext<StorageChildProps>();
 
   useEffect(() => {
     setTextAppBarTitle('test');
-    KezulerStorageInstance.get(`/storage/${eventId}`).then((res) => {
+    KezulerStorageInstance.get<RStorage>(`/storage/${eventId}`).then((res) => {
       setData(res.data);
     });
   }, []);
-  console.log(data?.storage?.links);
+
   return (
     <div className="storage-wrapper">
-      {data?.storage?.memos.reverse().map((el: any) => (
+      {data?.storage?.memos.reverse().map(({ _id, title, content }) => (
         <StorageMemoBox
-          key={el._id}
-          id={el._id}
+          key={_id}
+          id={_id}
           storageType={'memo'}
-          storageTitle={el.title}
-          storageMemoContent={el.content}
+          storageTitle={title}
+          storageMemoContent={content}
         />
       ))}
-      {data?.storage?.links.reverse().map((el: any) => (
+      {data?.storage?.links.reverse().map(({ _id, title, metaImageUrl }) => (
         <StorageLinkBox
-          key={el._id}
-          id={el._id}
+          key={_id}
+          id={_id}
           storageType={'link'}
-          storageTitle={el.title}
-          storageMetaImageUrl={el.metaImageUrl}
+          storageTitle={title}
+          storageMetaImageUrl={metaImageUrl}
         />
       ))}
       <StorageAddBtn />

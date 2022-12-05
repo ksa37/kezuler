@@ -3,14 +3,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
+import { StorageType } from '../../types/Storage';
 
 import WarningImg from 'src/assets/image/warning.png';
 import 'src/styles/components.scss';
 
-interface StorageLinkBox {
+interface Props {
   id: string;
   storageTitle: string;
-  storageType: string;
+  storageType: StorageType;
   storageMetaImageUrl: string;
 }
 
@@ -19,7 +20,7 @@ function StorageLinkBox({
   storageTitle,
   storageType,
   storageMetaImageUrl,
-}: StorageLinkBox) {
+}: Props) {
   const navigate = useNavigate();
   const { eventId } = useParams();
 

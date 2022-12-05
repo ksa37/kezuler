@@ -8,13 +8,13 @@ import KezulerStorageInstance from 'src/constants/api-storage';
 import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
 import { RootState } from 'src/reducers';
+import { alertAction } from 'src/reducers/alert';
 import { createStorageActions } from 'src/reducers/CreateStorage';
 import { AppDispatch } from 'src/store';
 
 import TextAppBar from 'src/components/common/TextAppBar';
 
 import 'src/styles/Storage.scss';
-import { alertAction } from 'src/reducers/alert';
 
 function StoragePage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -27,7 +27,9 @@ function StoragePage() {
 
   const [currentUrl, setCurrentUrl] = useState('');
   const [isClickedMenu, setIsClickedMenu] = useState(false);
-  const [commentOrDots, setCommentOrDots] = useState('null');
+  const [commentOrDots, setCommentOrDots] = useState<'comment' | 'dots' | null>(
+    null
+  );
   const [testAppBarTitle, setTextAppBarTitle] = useState('');
   const typeFromPath = location.pathname.split('/')[3];
 
@@ -56,14 +58,14 @@ function StoragePage() {
         break;
       }
       default:
-        setCommentOrDots('null');
+        setCommentOrDots(null);
     }
   }, [location]);
 
   useEffect(() => {
     switch (location.pathname) {
       case `${PathName.storage}/${eventId}/memo`: {
-        if (storageType === '') {
+        if (!storageType) {
           navigate(`${PathName.storage}/${eventId}/type`);
         }
         break;
@@ -129,41 +131,45 @@ function StoragePage() {
           mainColored={true}
         />
         <div className="comment-icon">
-          {commentOrDots === 'comment' && (
+          {commentOrDots === 'comment' ? (
             <Comment onClick={handleCommentClick} />
-          )}
-          {commentOrDots === 'dots' && (
-            <div className="dots-wrapper">
-              <MoreHoriz onClick={() => setIsClickedMenu((prev) => !prev)} />
-              {isClickedMenu && (
-                <div className="dots-menu">
-                  {typeFromPath === 'memo' && (
-                    <div
-                      onClick={handleEditClick}
-                      className="dots-menu-content"
-                    >
-                      편집하기
-                    </div>
-                  )}
-                  {typeFromPath === 'memo' && (
-                    <div
-                      onClick={handleDeleteClick}
-                      className={classNames('dots-menu-content', 'border-top')}
-                    >
-                      삭제하기
-                    </div>
-                  )}
-                  {typeFromPath !== 'memo' && (
-                    <div
-                      onClick={handleDeleteClick}
-                      className={classNames('dots-menu-content')}
-                    >
-                      삭제하기
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+          ) : (
+            commentOrDots === 'dots' && (
+              <div className="dots-wrapper">
+                <MoreHoriz onClick={() => setIsClickedMenu((prev) => !prev)} />
+                {isClickedMenu && (
+                  <div className="dots-menu">
+                    {typeFromPath === 'memo' && (
+                      <div
+                        onClick={handleEditClick}
+                        className="dots-menu-content"
+                      >
+                        편집하기
+                      </div>
+                    )}
+                    {typeFromPath === 'memo' && (
+                      <div
+                        onClick={handleDeleteClick}
+                        className={classNames(
+                          'dots-menu-content',
+                          'border-top'
+                        )}
+                      >
+                        삭제하기
+                      </div>
+                    )}
+                    {typeFromPath !== 'memo' && (
+                      <div
+                        onClick={handleDeleteClick}
+                        className={classNames('dots-menu-content')}
+                      >
+                        삭제하기
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )
           )}
         </div>
         <Outlet context={{ setTextAppBarTitle }} />
