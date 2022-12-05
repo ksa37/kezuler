@@ -6,6 +6,8 @@ import PathName from 'src/constants/PathName';
 
 import Alim1 from 'src/assets/image/alimtalk1.png';
 import Alim2 from 'src/assets/image/alimtalk2.png';
+import Cloud1 from 'src/assets/image/cloud1.png';
+import Cloud2 from 'src/assets/image/cloud2.png';
 import Calendar1 from 'src/assets/image/connect_calendar1.png';
 import Calendar2 from 'src/assets/image/connect_calendar2.png';
 import Create1 from 'src/assets/image/create_meeting1.png';
@@ -207,6 +209,26 @@ function LandingPage() {
           </div>
         </div>
         {getOverlapImgs(Calendar1, Calendar2)}
+
+        <div>
+          <h1>
+            <span className={classNames('font-30')}>보관함 클라우드</span>
+          </h1>
+          <div>
+            <p>
+              <span className={classNames('font-15')}>
+                모든 일정에는 참여자들과 공유할 수 있는
+              </span>
+            </p>
+            <p>
+              <span className={classNames('font-15')}>
+                <span className={'font-light-blue'}>보관함 클라우드</span>가
+                있어요!
+              </span>
+            </p>
+          </div>
+        </div>
+        {getOverlapImgs(Cloud1, Cloud2)}
       </section>
       <section className={'landing-bottom-section'}>
         <h1>
