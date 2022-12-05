@@ -50,6 +50,10 @@
   align-items: center;
   justify-content: center;
 
+  &.left {
+    align-self: flex-start;
+  }
+
   path {
     fill: white;
   }
@@ -558,6 +562,12 @@
   margin-left: 4px;
 }
 
+.tutorial-top-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .tutorial-arrow {
   position: absolute;
   z-index: 3000;
@@ -570,4 +580,5 @@
     right: 2%;
     rotate: 180deg;
   }
+  cursor: pointer;
 }

@@ -16,6 +16,7 @@ import Tutorial5 from 'src/assets/image/tutorial5.png';
 import Tutorial6 from 'src/assets/image/tutorial6.png';
 import { ReactComponent as ArrowLeftIcon } from 'src/assets/left_arrow.svg';
 import 'src/styles/OverviewModal.scss';
+import { TUTORIAL_DISABLE_KEY } from 'src/constants/Popup';
 
 function Tutorials() {
   const location = useLocation();
@@ -42,13 +43,27 @@ function Tutorials() {
       setIndex(index + 1);
     }
   };
+
+  const handleNotShow = () => {
+    localStorage.setItem(TUTORIAL_DISABLE_KEY, 'true');
+    navigate(isFixedMeeting ? PathName.mainFixed : PathName.mainPending);
+  };
+
   return (
     <KezulerPaper open onClose={handleClose}>
       <div className={'overview'}>
-        <button className={'overview-close-btn'} onClick={handleClose}>
-          닫기
-          <CloseIcon />
-        </button>
+        <div className={'tutorial-top-buttons'}>
+          <button
+            className={classNames('overview-close-btn', 'left')}
+            onClick={handleNotShow}
+          >
+            다시보지 않기
+          </button>
+          <button className={'overview-close-btn'} onClick={handleClose}>
+            닫기
+            <CloseIcon />
+          </button>
+        </div>
         <div className={'overview-container'}>
           {index > 0 && (
             <ArrowLeftIcon
