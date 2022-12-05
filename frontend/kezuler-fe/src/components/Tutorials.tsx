@@ -39,7 +39,7 @@ function Tutorials() {
     }
   };
   const handleRightClick = () => {
-    if (index < 5) {
+    if (index < 4) {
       setIndex(index + 1);
     }
   };
@@ -71,7 +71,7 @@ function Tutorials() {
               onClick={handleLeftClick}
             />
           )}
-          {index < 5 && (
+          {index < 4 && (
             <ArrowLeftIcon
               className={classNames('tutorial-arrow', 'right')}
               onClick={handleRightClick}
@@ -87,7 +87,7 @@ function Tutorials() {
             <img src={Tutorial3} style={{ width: '100%' }} />
             <img src={Tutorial4} style={{ width: '100%' }} />
             <img src={Tutorial5} style={{ width: '100%' }} />
-            <img src={Tutorial6} style={{ width: '100%' }} />
+            {/* <img src={Tutorial6} style={{ width: '100%' }} /> */}
           </SwipeableViews>
         </div>
       </div>
