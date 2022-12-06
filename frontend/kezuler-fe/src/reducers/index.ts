@@ -4,6 +4,7 @@ import AcceptMeeting from './AcceptMeeting';
 import alert from './alert';
 import calendarList from './calendarList';
 import ConfirmTime from './ConfirmTime';
+import CreateComment from './CreateComment';
 import CreateMeeting from './CreateMeeting';
 import CreateStorage from './CreateStorage';
 import dialog from './dialog';
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   acceptMeeting: AcceptMeeting,
   createMeeting: CreateMeeting,
   createStorage: CreateStorage,
+  createComment: CreateComment,
   historyStorage: HistoryStorage,
   mainFixed: mainFixed,
   mainPending: mainPending,

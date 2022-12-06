@@ -147,13 +147,15 @@ function TimeListSelector({ isModification }: Props) {
     } else {
       if (isModification) {
         confirmMeeting = () => {
-          deleteEventTimeCandidate(eventId, DeleteData);
-          navigate(PathName.mainPending);
+          deleteEventTimeCandidate(eventId, DeleteData, PathName.mainPending);
         };
       } else {
         confirmMeeting = () => {
-          deleteEventTimeCandidate(eventId, DeleteData);
-          navigate(`${PathName.invite}/${eventId}/complete`);
+          deleteEventTimeCandidate(
+            eventId,
+            DeleteData,
+            `${PathName.invite}/${eventId}/complete`
+          );
         };
       }
     }

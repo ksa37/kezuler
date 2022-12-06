@@ -2,10 +2,9 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
-import useDialog from 'src/hooks/useDialog';
-import { StorageType } from '../../types/Storage';
+import { StorageType } from 'src/types/Storage';
 
-import WarningImg from 'src/assets/image/warning.png';
+import NoImg from 'src/assets/image/no_image.jpeg';
 import 'src/styles/components.scss';
 
 interface Props {
@@ -15,17 +14,12 @@ interface Props {
   storageMetaImageUrl: string;
 }
 
-function StorageLinkBox({
-  id,
-  storageTitle,
-  storageType,
-  storageMetaImageUrl,
-}: Props) {
+function StorageLinkBox({ id, storageTitle, storageMetaImageUrl }: Props) {
   const navigate = useNavigate();
   const { eventId } = useParams();
 
   const handleImgError = (e: any) => {
-    e.target.src = WarningImg;
+    e.target.src = NoImg;
   };
 
   return (
@@ -37,7 +31,7 @@ function StorageLinkBox({
       <div className="storage-box-wrapper">
         <img
           onError={handleImgError}
-          src={storageMetaImageUrl !== '' ? storageMetaImageUrl : WarningImg}
+          src={storageMetaImageUrl !== '' ? storageMetaImageUrl : NoImg}
           className="storage-box-image"
         />
       </div>
