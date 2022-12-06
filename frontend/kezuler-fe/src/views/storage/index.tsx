@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { BottomSheet } from 'react-spring-bottom-sheet';
 import { Comment, MoreHoriz } from '@mui/icons-material';
 import classNames from 'classnames';
 
@@ -14,7 +13,6 @@ import { AppDispatch } from 'src/store';
 
 import TextAppBar from 'src/components/common/TextAppBar';
 
-import 'react-spring-bottom-sheet/dist/style.css';
 import 'src/styles/Storage.scss';
 
 function StoragePage() {
@@ -25,8 +23,11 @@ function StoragePage() {
   const navigate = useNavigate();
   const location = useLocation();
   const menuRef = useRef<any>(null);
+  const commentRef = useRef<any>(null);
+  const bottomSheetRef = useRef<any>(null);
 
   const [open, setOpen] = useState(false);
+  const [data, setData] = useState<any>(null);
   const [currentUrl, setCurrentUrl] = useState('');
   const [isClickedMenu, setIsClickedMenu] = useState(false);
   const [commentOrDots, setCommentOrDots] = useState('null');
@@ -114,9 +115,11 @@ function StoragePage() {
   };
   useEffect(() => {
     document.addEventListener('mousedown', clickMenuOutside);
+    document.addEventListener('mousedown', clickCommetsOutside);
 
     return () => {
       document.removeEventListener('mousedown', clickMenuOutside);
+      document.removeEventListener('mousedown', clickCommetsOutside);
     };
   });
 
@@ -129,6 +132,18 @@ function StoragePage() {
       setIsClickedMenu(false);
     }
   };
+
+  const clickCommetsOutside = (e: MouseEvent) => {
+    if (
+      open &&
+      commentRef.current &&
+      !commentRef.current.contains(e.target) &&
+      !bottomSheetRef.current.contains(e.target)
+    ) {
+      setOpen(false);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -139,7 +154,15 @@ function StoragePage() {
         />
         <div className="comment-icon">
           {commentOrDots === 'comment' && (
-            <Comment onClick={() => setOpen((prev) => !prev)} />
+            <>
+              {data?.storage?.comments.length !== 0 && (
+                <div>{data?.storage?.comments.length}</div>
+              )}
+              <Comment
+                ref={commentRef}
+                onClick={() => setOpen((prev) => !prev)}
+              />
+            </>
           )}
           {commentOrDots === 'dots' && (
             <div className="dots-wrapper" ref={menuRef}>
@@ -167,8 +190,9 @@ function StoragePage() {
             </div>
           )}
         </div>
-        <Outlet context={{ setTextAppBarTitle }} />
-        <BottomSheet open={open}>My awesome content here</BottomSheet>
+        <Outlet
+          context={{ setTextAppBarTitle, setData, data, open, bottomSheetRef }}
+        />
       </div>
     </div>
   );

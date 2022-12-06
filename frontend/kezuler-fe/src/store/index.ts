@@ -20,6 +20,7 @@ const persistConfig = {
     'acceptMeeting',
     'createMeeting',
     'createStorage',
+    'createComment',
     'historyStorage',
     'confirmTime',
     'participantsPopup',

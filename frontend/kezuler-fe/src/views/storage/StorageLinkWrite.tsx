@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
+import useIOSScroll from 'src/hooks/useIOSScroll';
 import { RootState } from 'src/reducers';
 import { createStorageActions } from 'src/reducers/CreateStorage';
 import { AppDispatch } from 'src/store';
@@ -12,6 +13,7 @@ import BottomButton from 'src/components/common/BottomButton';
 import 'src/styles/Storage.scss';
 
 function StorageLinkWrite() {
+  useIOSScroll();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -21,7 +23,6 @@ function StorageLinkWrite() {
   const { storageType, storageLinkContent } = useSelector(
     (state: RootState) => state.createStorage
   );
-
   const handleNextClick = () => {
     navigate(`${PathName.storage}/${eventId}/${storageType}/title`);
   };
