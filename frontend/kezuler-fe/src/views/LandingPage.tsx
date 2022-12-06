@@ -14,11 +14,15 @@ import Create1 from 'src/assets/image/create_meeting1.png';
 import Create2 from 'src/assets/image/create_meeting2.png';
 import Invite1 from 'src/assets/image/invite_meeting1.png';
 import Invite2 from 'src/assets/image/invite_meeting2.png';
-import KakaoTeam from 'src/assets/image/kakao_team.png';
-import KezulerLink from 'src/assets/image/kezuler_link.png';
-import Participants1 from 'src/assets/image/participants1.png';
-import Participants2 from 'src/assets/image/participants2.png';
+// import KakaoTeam from 'src/assets/image/kakao_team.png';
+// import KezulerLink from 'src/assets/image/kezuler_link.png';
+import ImgOverview from 'src/assets/image/landing-overview.png';
+import ImgStorageView from 'src/assets/image/landing-storage.png';
+// import Participants1 from 'src/assets/image/participants1.png';
+// import Participants2 from 'src/assets/image/participants2.png';
 import Schedule1 from 'src/assets/image/schedule_manage1.png';
+import ImgYearEndKezuler from 'src/assets/image/year-end-kezuler-talk.png';
+import ImgYearEndTalk from 'src/assets/image/year-end-talk.png';
 import { ReactComponent as KezulerLogo } from 'src/assets/logo_kezuler.svg';
 import 'src/styles/landing.scss';
 
@@ -51,16 +55,16 @@ function LandingPage() {
       <section className={'landing-head-section'}>
         <h1>
           <span>
-            <span className={classNames('font-20')}>미팅,</span>
+            <span className={classNames('font-20')}>모임,</span>
             <br />
             <span className={classNames('font-25', 'font-red')}>
-              말도 안했는데
+              시작도 안했는데
             </span>
             <br />
             <span className={classNames('font-35')}>벌써 숨막히니?😿</span>
           </span>
         </h1>
-        <img src={KakaoTeam} className={'landing-image'} />
+        <img src={ImgYearEndTalk} className={'landing-image'} />
         <h1>
           <span>
             <span className={classNames('font-20')}>케:줄러는</span>
@@ -74,8 +78,23 @@ function LandingPage() {
             <span className={classNames('font-35')}>😆</span>
           </span>
         </h1>
-        <img src={KezulerLink} className={'landing-image'} />
+        <img src={ImgYearEndKezuler} className={'landing-image'} />
+        <h1>
+          <span>
+            <span className={classNames('font-20')}>
+              시간 조율 뿐만 아니라,{' '}
+            </span>
+            <br />
+            <span className={classNames('font-30')}>관련 정보를 </span>
+            <span className={classNames('font-30', 'font-highlight')}>
+              한눈에!
+            </span>
+            <br />
+          </span>
+        </h1>
+        {getOverlapImgs(ImgOverview, ImgStorageView)}
       </section>
+
       <section className={'landing-main-section'}>
         <div>
           <h1>
@@ -114,29 +133,6 @@ function LandingPage() {
           </div>
         </div>
         {getOverlapImgs(Invite1, Invite2)}
-
-        <div>
-          <h1>
-            <span className={classNames('font-30')}>참여자 관리</span>
-          </h1>
-          <div>
-            <p>
-              <span className={classNames('font-15')}>
-                그룹원들의{' '}
-                <span className={'font-light-blue'}>
-                  가능한 시간대를 한눈에 보고
-                </span>
-              </span>
-            </p>
-            <p>
-              <span className={classNames('font-15')}>
-                <span className={'font-light-blue'}>딱 맞는 미팅 시간</span>을
-                찾을 수 있어요.
-              </span>
-            </p>
-          </div>
-        </div>
-        {getOverlapImgs(Participants1, Participants2)}
 
         <div>
           <h1>
@@ -187,11 +183,6 @@ function LandingPage() {
             <span className={classNames('font-30')}>캘린더 연동</span>
           </h1>
           <div>
-            <p>
-              <span className={classNames('font-15')}>
-                구글 캘린더와 연동하여
-              </span>
-            </p>
             <p>
               <span className={classNames('font-15')}>
                 케줄러의 일정이{' '}
