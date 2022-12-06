@@ -55,7 +55,6 @@ function BottomSheetContent({ currentUserId, comments, event }: Props) {
       }
     }
   }, [event]);
-  console.log(eventParticipants);
 
   const findUser = (userId: string) => {
     return eventParticipants?.filter((el) => el.userId === userId)[0];

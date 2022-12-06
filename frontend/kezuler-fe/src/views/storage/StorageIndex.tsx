@@ -38,14 +38,6 @@ function StorageIndex() {
   const [event, setEvent] = useState<PendingEvent | BFixedEvent>();
 
   useEffect(() => {
-    KezulerStorageInstance.get(`/storage/${eventId}`).then((res) => {
-      setData(res.data);
-    });
-    if (eventId)
-      getInvitationById(eventId).then((res) => {
-        setEvent(res.data.result);
-      });
-
     return () => {
       dispatch(destroyStorageInput());
       dispatch(destroyStorageCommentInput());
@@ -70,6 +62,7 @@ function StorageIndex() {
           KezulerStorageInstance.get<RStorage>(`/storage/${eventId}`).then(
             (res) => {
               setData(res.data);
+              setEvent(event);
             }
           );
         } else {
