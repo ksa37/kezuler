@@ -34,6 +34,7 @@ function StorageIndex() {
     useOutletContext<StorageChildProps>();
   const { destroy: destroyStorageInput } = createStorageActions;
   const { destroy: destroyStorageCommentInput } = createCommentActions;
+  const { setTextAppBarTitle } = useOutletContext<StorageChildProps>();
 
   const [event, setEvent] = useState<PendingEvent | BFixedEvent>();
 
@@ -56,6 +57,7 @@ function StorageIndex() {
             (res) => {
               setData(res.data);
               setEvent(event);
+              setTextAppBarTitle(event.eventTitle);
             }
           );
         } else {

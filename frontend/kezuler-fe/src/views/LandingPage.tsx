@@ -232,9 +232,9 @@ function LandingPage() {
         </h1>
       </section>
       <footer className={'landing-footer'}>
-        <b>(주)올렌다</b> 대표이사 구자룡
+        <b>(주)올렌다</b> 대표이사 김수아, 오태인
         <br />
-        서울특별시 성북구 오패산로3길 136-12(하월곡동) <br />
+        서울특별시 관악구 신림로 140 2층(신림동) <br />
         사업자 등록번호 736-87-01642 <br />
         <a href={PathName.privacyPolicy}>개인정보 보호정책</a> <span> / </span>
         <a href={PathName.serviceTerm}>이용약관</a>
