@@ -157,10 +157,15 @@ function StoragePage() {
         />
         <div className="comment-icon">
           {commentOrDots === 'comment' && (
-            <Comment
-              ref={commentRef}
-              onClick={() => setOpen((prev) => !prev)}
-            />
+            <>
+              {data?.storage?.comments.length !== 0 && (
+                <div>{data?.storage?.comments.length}</div>
+              )}
+              <Comment
+                ref={commentRef}
+                onClick={() => setOpen((prev) => !prev)}
+              />
+            </>
           )}
           {commentOrDots === 'dots' && (
             <div className="dots-wrapper">
