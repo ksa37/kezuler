@@ -402,6 +402,7 @@
   background-color: white;
   border-radius: $common-border-radius;
   box-shadow: 0 15px 35px $color-highlight-light;
+  cursor: pointer;
 
   &.is-host {
     &::before {
