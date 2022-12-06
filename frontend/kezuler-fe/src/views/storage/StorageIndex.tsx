@@ -38,13 +38,6 @@ function StorageIndex() {
   const [event, setEvent] = useState<PendingEvent | BFixedEvent>();
 
   useEffect(() => {
-    return () => {
-      dispatch(destroyStorageInput());
-      dispatch(destroyStorageCommentInput());
-    };
-  }, []);
-
-  useEffect(() => {
     if (eventId) {
       getInvitationById(eventId).then((res) => {
         const event = res.data.result;
@@ -76,6 +69,10 @@ function StorageIndex() {
         }
       });
     }
+    return () => {
+      dispatch(destroyStorageInput());
+      dispatch(destroyStorageCommentInput());
+    };
   }, []);
 
   const reversedMemos = useMemo(() => {
