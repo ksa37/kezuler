@@ -1,9 +1,14 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useOutletContext } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import KezulerStorageInstance from 'src/constants/api-storage';
-import { RStorage, StorageChildProps } from 'src/types/Storage';
+import PathName from 'src/constants/PathName';
+import { alertAction } from 'src/reducers/alert';
+import { AppDispatch } from 'src/store';
+import { RStorage } from 'src/types/Storage';
+import { isModification, isParticipant } from 'src/utils/joinMeeting';
+import { isFixedEvent } from 'src/utils/typeGuard';
 
 import StorageAddBtn from 'src/components/storage/StorageAddBtn';
 import StorageLinkBox from 'src/components/storage/StorageLinkBox';
@@ -11,16 +16,47 @@ import StorageMemoBox from 'src/components/storage/StorageMemoBox';
 
 import 'src/styles/Storage.scss';
 
+import { getInvitationById } from 'src/api/invitation';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
+
 function StorageIndex() {
   const [data, setData] = useState<RStorage | null>(null);
   const { eventId } = useParams();
-  const { setTextAppBarTitle } = useOutletContext<StorageChildProps>();
+  const dispatch = useDispatch<AppDispatch>();
+  const { show } = alertAction;
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setTextAppBarTitle('test');
-    KezulerStorageInstance.get<RStorage>(`/storage/${eventId}`).then((res) => {
-      setData(res.data);
-    });
+    if (eventId) {
+      getInvitationById(eventId).then((res) => {
+        const event = res.data.result;
+        let isJoining;
+        const isHost = event.eventHost.userId === getCurrentUserInfo()?.userId;
+        if (isFixedEvent(event)) {
+          isJoining = isParticipant(event.participants);
+        } else {
+          isJoining = isModification(
+            event.eventTimeCandidates,
+            event.declinedUsers
+          );
+        }
+        if (isHost || isJoining) {
+          KezulerStorageInstance.get<RStorage>(`/storage/${eventId}`).then(
+            (res) => {
+              setData(res.data);
+            }
+          );
+        } else {
+          dispatch(
+            show({
+              title: '보관함 열람 불가',
+              description: '해당 미팅에 참여중이어야 열람이 가능합니다.',
+            })
+          );
+          navigate(PathName.mainFixed, { replace: true });
+        }
+      });
+    }
   }, []);
 
   return (
