@@ -6,17 +6,14 @@ import PathName from 'src/constants/PathName';
 import NoImg from 'src/assets/image/no_image.jpeg';
 import 'src/styles/components.scss';
 
-interface StorageLinkBox {
+interface Props {
   id: string;
   storageTitle: string;
+  storageType: string;
   storageMetaImageUrl: string;
 }
 
-function StorageLinkBox({
-  id,
-  storageTitle,
-  storageMetaImageUrl,
-}: StorageLinkBox) {
+function StorageLinkBox({ id, storageTitle, storageMetaImageUrl }: Props) {
   const navigate = useNavigate();
   const { eventId } = useParams();
 

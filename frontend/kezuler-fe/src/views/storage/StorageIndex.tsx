@@ -1,15 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 
 import KezulerStorageInstance from 'src/constants/api-storage';
+import PathName from 'src/constants/PathName';
+import { alertAction } from 'src/reducers/alert';
 import { createCommentActions } from 'src/reducers/CreateComment';
 import { createStorageActions } from 'src/reducers/CreateStorage';
 import { AppDispatch } from 'src/store';
-import { BFixedEvent, RGetFixedEvent } from 'src/types/fixedEvent';
-import { PendingEvent, RPendingEvent } from 'src/types/pendingEvent';
-import { StorageChildProps } from 'src/types/Storage';
+import { BFixedEvent } from 'src/types/fixedEvent';
+import { PendingEvent } from 'src/types/pendingEvent';
+import { RStorage, StorageChildProps } from 'src/types/Storage';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
+import { isModification, isParticipant } from 'src/utils/joinMeeting';
+import { isFixedEvent } from 'src/utils/typeGuard';
 
 import BottomSheet from 'src/components/bottom-sheet';
 import StorageAddBtn from 'src/components/storage/StorageAddBtn';
@@ -23,6 +28,8 @@ import { getInvitationById } from 'src/api/invitation';
 function StorageIndex() {
   const dispatch = useDispatch<AppDispatch>();
   const { eventId } = useParams();
+  const { show } = alertAction;
+  const navigate = useNavigate();
   const { open, data, setData, bottomSheetRef } =
     useOutletContext<StorageChildProps>();
   const { destroy: destroyStorageInput } = createStorageActions;
@@ -45,6 +52,39 @@ function StorageIndex() {
     };
   }, []);
 
+  useEffect(() => {
+    if (eventId) {
+      getInvitationById(eventId).then((res) => {
+        const event = res.data.result;
+        let isJoining;
+        const isHost = event.eventHost.userId === getCurrentUserInfo()?.userId;
+        if (isFixedEvent(event)) {
+          isJoining = isParticipant(event.participants);
+        } else {
+          isJoining = isModification(
+            event.eventTimeCandidates,
+            event.declinedUsers
+          );
+        }
+        if (isHost || isJoining) {
+          KezulerStorageInstance.get<RStorage>(`/storage/${eventId}`).then(
+            (res) => {
+              setData(res.data);
+            }
+          );
+        } else {
+          dispatch(
+            show({
+              title: '보관함 열람 불가',
+              description: '해당 미팅에 참여중이어야 열람이 가능합니다.',
+            })
+          );
+          navigate(PathName.mainFixed, { replace: true });
+        }
+      });
+    }
+  }, []);
+
   const reversedMemos = useMemo(() => {
     if (data) {
       const memos = data.storage?.memos;
@@ -64,6 +104,7 @@ function StorageIndex() {
       {reversedMemos?.map((el: any) => (
         <StorageMemoBox
           key={el._id}
+          storageType="memo"
           id={el._id}
           storageTitle={el.title}
           storageMemoContent={el.content}
@@ -72,6 +113,7 @@ function StorageIndex() {
       {reversedLinks?.map((el: any) => (
         <StorageLinkBox
           key={el._id}
+          storageType="link"
           id={el._id}
           storageTitle={el.title}
           storageMetaImageUrl={el.metaImageUrl}

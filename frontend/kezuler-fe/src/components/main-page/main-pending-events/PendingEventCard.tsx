@@ -25,6 +25,7 @@ function PendingEventCard({ event }: Props) {
     },
     addressType,
     eventTimeCandidates,
+    declinedUsers,
     disable: isCanceled,
   } = event;
 
@@ -243,7 +244,7 @@ function PendingEventCard({ event }: Props) {
             >
               시간 확정하기
               <br />
-              {`(${participantsNum}명 투표완료)`}
+              {`(${participantsNum + declinedUsers.length}명 투표완료)`}
             </Button>
           ) : (
             <Button
@@ -255,7 +256,7 @@ function PendingEventCard({ event }: Props) {
             >
               투표 수정하기
               <br />
-              {`(${participantsNum}명 투표완료)`}
+              {`(${participantsNum + declinedUsers.length}명 투표완료)`}
             </Button>
           )}
         </div>

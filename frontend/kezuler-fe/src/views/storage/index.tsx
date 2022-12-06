@@ -8,6 +8,7 @@ import KezulerStorageInstance from 'src/constants/api-storage';
 import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
 import { RootState } from 'src/reducers';
+import { alertAction } from 'src/reducers/alert';
 import { createStorageActions } from 'src/reducers/CreateStorage';
 import { AppDispatch } from 'src/store';
 
@@ -18,6 +19,7 @@ import 'src/styles/Storage.scss';
 function StoragePage() {
   const dispatch = useDispatch<AppDispatch>();
   const { destroy } = createStorageActions;
+  const { show } = alertAction;
   const { eventId, id } = useParams();
   const { openDialog } = useDialog();
   const navigate = useNavigate();
@@ -30,7 +32,9 @@ function StoragePage() {
   const [data, setData] = useState<any>(null);
   const [currentUrl, setCurrentUrl] = useState('');
   const [isClickedMenu, setIsClickedMenu] = useState(false);
-  const [commentOrDots, setCommentOrDots] = useState('null');
+  const [commentOrDots, setCommentOrDots] = useState<'comment' | 'dots' | null>(
+    null
+  );
   const [testAppBarTitle, setTextAppBarTitle] = useState('');
   const typeFromPath = location.pathname.split('/')[3];
 
@@ -59,14 +63,14 @@ function StoragePage() {
         break;
       }
       default:
-        setCommentOrDots('null');
+        setCommentOrDots(null);
     }
   }, [location]);
 
   useEffect(() => {
     switch (location.pathname) {
       case `${PathName.storage}/${eventId}/memo`: {
-        if (storageType === '') {
+        if (!storageType) {
           navigate(`${PathName.storage}/${eventId}/type`);
         }
         break;
@@ -104,6 +108,15 @@ function StoragePage() {
       if (!prevUrl) navigate(`${PathName.mainFixed}`);
       else navigate(prevUrl);
     } else navigate(-1);
+  };
+
+  const handleCommentClick = () => {
+    dispatch(
+      show({
+        title: '댓글 기능은 현재 준비중입니다',
+        description: '조금만 기다려주세요!',
+      })
+    );
   };
 
   window.onpopstate = function () {
@@ -153,19 +166,9 @@ function StoragePage() {
           mainColored={true}
         />
         <div className="comment-icon">
-          {commentOrDots === 'comment' && (
-            <>
-              {data?.storage?.comments.length !== 0 && (
-                <div>{data?.storage?.comments.length}</div>
-              )}
-              <Comment
-                ref={commentRef}
-                onClick={() => setOpen((prev) => !prev)}
-              />
-            </>
-          )}
+          {commentOrDots === 'comment' && <Comment />}
           {commentOrDots === 'dots' && (
-            <div className="dots-wrapper" ref={menuRef}>
+            <div className="dots-wrapper">
               <MoreHoriz onClick={() => setIsClickedMenu((prev) => !prev)} />
               {isClickedMenu && (
                 <div className="dots-menu">
@@ -177,14 +180,22 @@ function StoragePage() {
                       편집하기
                     </div>
                   )}
-                  <div
-                    onClick={handleDeleteClick}
-                    className={classNames('dots-menu-content', {
-                      'border-top': typeFromPath === 'memo',
-                    })}
-                  >
-                    삭제하기
-                  </div>
+                  {typeFromPath === 'memo' && (
+                    <div
+                      onClick={handleDeleteClick}
+                      className={classNames('dots-menu-content', 'border-top')}
+                    >
+                      삭제하기
+                    </div>
+                  )}
+                  {typeFromPath !== 'memo' && (
+                    <div
+                      onClick={handleDeleteClick}
+                      className={classNames('dots-menu-content')}
+                    >
+                      삭제하기
+                    </div>
+                  )}
                 </div>
               )}
             </div>

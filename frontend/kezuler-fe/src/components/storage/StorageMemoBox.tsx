@@ -2,21 +2,17 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
-import useDialog from 'src/hooks/useDialog';
 
 import 'src/styles/components.scss';
 
-interface StorageMemoBox {
+interface Props {
   id: string;
   storageTitle: string;
+  storageType: string;
   storageMemoContent: string;
 }
 
-function StorageMemoBox({
-  id,
-  storageTitle,
-  storageMemoContent,
-}: StorageMemoBox) {
+function StorageMemoBox({ id, storageTitle, storageMemoContent }: Props) {
   const navigate = useNavigate();
   const { eventId } = useParams();
 

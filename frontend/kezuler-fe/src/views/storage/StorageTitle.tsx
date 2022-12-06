@@ -28,43 +28,51 @@ function StorageTitle() {
     useSelector((state: RootState) => state.createStorage);
 
   useEffect(() => {
-    if (storageType === 'photo') setTitleWord('사진을');
-    if (storageType === 'memo') setTitleWord('메모를');
-    if (storageType === 'link') setTitleWord('링크를');
-    if (storageType === 'file') setTitleWord('파일을');
+    switch (storageType) {
+      case 'photo':
+        setTitleWord('사진을');
+        break;
+      case 'memo':
+        setTitleWord('메모를');
+        break;
+      case 'link':
+        setTitleWord('링크를');
+        break;
+      case 'file':
+        setTitleWord('파일을');
+        break;
+    }
   }, []);
 
   const handleClickConfirm = () => {
     openDialog({
       title: `새로운 ${titleWord} 생성하시겠어요?`,
       onConfirm: () => {
-        if (storageType === 'memo') {
-          KezulerStorageInstance.post(`/memo`, {
-            eventId,
-            title: storageTitle,
-            content: storageMemoContent,
-          }).then(() => {
-            dispatch(destroy());
-            navigate(`${PathName.storage}/${eventId}`);
-          });
-        }
-        if (storageType === 'link') {
-          KezulerStorageInstance.post(`/link`, {
-            eventId,
-            title: storageTitle,
-            url: storageLinkContent,
-          })
-            .then(() => {
+        switch (storageType) {
+          case 'memo':
+            KezulerStorageInstance.post(`/memo`, {
+              eventId,
+              title: storageTitle,
+              content: storageMemoContent,
+            }).then(() => {
               dispatch(destroy());
               navigate(`${PathName.storage}/${eventId}`);
-            })
-            .catch(() => {
-              dispatch(
-                show({
-                  title: 'URL을 확인해주세요!',
-                })
-              );
             });
+            break;
+          case 'link':
+            KezulerStorageInstance.post(`/link`, {
+              eventId,
+              title: storageTitle,
+              url: storageLinkContent,
+            }).then(() => {
+              dispatch(destroy());
+              navigate(`${PathName.storage}/${eventId}`);
+            });
+            break;
+          case 'photo':
+            break;
+          case 'file':
+            break;
         }
       },
     });

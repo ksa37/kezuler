@@ -116,18 +116,23 @@ const usePutPendingEventGuest = () => {
 
   const putEventTimeCandidate = (
     eventId: string,
-    ppendingEvent: PPutPendingEvent
+    ppendingEvent: PPutPendingEvent,
+    navigatePath: string
   ) => {
-    putPendingEventCandidateById(eventId, ppendingEvent).catch((err) => {
-      console.log('미팅 수락/수정 에러', err);
-      dispatch(
-        show({
-          title: '미팅 참여 오류',
-          description: '미팅 참여 과정 중 오류가 생겼습니다.',
-        })
-      );
-      navigate(`${PathName.invite}/${eventId}/invitation`, { replace: true });
-    });
+    putPendingEventCandidateById(eventId, ppendingEvent)
+      .then(() => {
+        navigate(navigatePath);
+      })
+      .catch((err) => {
+        console.log('미팅 수락/수정 에러', err);
+        dispatch(
+          show({
+            title: '미팅 참여 오류',
+            description: '미팅 참여 과정 중 오류가 생겼습니다.',
+          })
+        );
+        navigate(`${PathName.invite}/${eventId}/invitation`, { replace: true });
+      });
   };
   return putEventTimeCandidate;
 };
@@ -139,19 +144,26 @@ const useDeletePendingEventGuest = () => {
 
   const deleteEventTimeCandidate = (
     eventId: string,
-    ppendingEvent?: PDeletePendingEvent
+    ppendingEvent?: PDeletePendingEvent,
+    navigatePath?: string
   ) => {
-    if (ppendingEvent) {
-      deletePendingEventCandidateById(eventId, ppendingEvent).catch((err) => {
-        console.log('미팅 수락/수정 에러', err);
-        dispatch(
-          show({
-            title: '미팅 참여 오류',
-            description: '미팅 참여 과정 중 오류가 생겼습니다.',
-          })
-        );
-        navigate(`${PathName.invite}/${eventId}/invitation`, { replace: true });
-      });
+    if (ppendingEvent && navigatePath) {
+      deletePendingEventCandidateById(eventId, ppendingEvent)
+        .then(() => {
+          navigate(navigatePath);
+        })
+        .catch((err) => {
+          console.log('미팅 수락/수정 에러', err);
+          dispatch(
+            show({
+              title: '미팅 참여 오류',
+              description: '미팅 참여 과정 중 오류가 생겼습니다.',
+            })
+          );
+          navigate(`${PathName.invite}/${eventId}/invitation`, {
+            replace: true,
+          });
+        });
     } else {
       deletePendingEventCandidateById(eventId).catch((err) => {
         console.log('미팅 수락/수정 에러', err);
