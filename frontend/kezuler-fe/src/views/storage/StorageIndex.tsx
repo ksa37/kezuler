@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 
 import KezulerStorageInstance from 'src/constants/api-storage';
 import PathName from 'src/constants/PathName';
 import { alertAction } from 'src/reducers/alert';
+import { createCommentActions } from 'src/reducers/CreateComment';
+import { createStorageActions } from 'src/reducers/CreateStorage';
 import { AppDispatch } from 'src/store';
-import { RStorage } from 'src/types/Storage';
+import { BFixedEvent } from 'src/types/fixedEvent';
+import { PendingEvent } from 'src/types/pendingEvent';
+import { RStorage, StorageChildProps } from 'src/types/Storage';
+import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 import { isModification, isParticipant } from 'src/utils/joinMeeting';
 import { isFixedEvent } from 'src/utils/typeGuard';
 
+import BottomSheet from 'src/components/bottom-sheet';
 import StorageAddBtn from 'src/components/storage/StorageAddBtn';
 import StorageLinkBox from 'src/components/storage/StorageLinkBox';
 import StorageMemoBox from 'src/components/storage/StorageMemoBox';
@@ -17,14 +24,18 @@ import StorageMemoBox from 'src/components/storage/StorageMemoBox';
 import 'src/styles/Storage.scss';
 
 import { getInvitationById } from 'src/api/invitation';
-import getCurrentUserInfo from 'src/utils/getCurrentUserInfo';
 
 function StorageIndex() {
-  const [data, setData] = useState<RStorage | null>(null);
-  const { eventId } = useParams();
   const dispatch = useDispatch<AppDispatch>();
+  const { eventId } = useParams();
   const { show } = alertAction;
   const navigate = useNavigate();
+  const { open, data, setData, bottomSheetRef } =
+    useOutletContext<StorageChildProps>();
+  const { destroy: destroyStorageInput } = createStorageActions;
+  const { destroy: destroyStorageCommentInput } = createCommentActions;
+
+  const [event, setEvent] = useState<PendingEvent | BFixedEvent>();
 
   useEffect(() => {
     if (eventId) {
@@ -44,6 +55,7 @@ function StorageIndex() {
           KezulerStorageInstance.get<RStorage>(`/storage/${eventId}`).then(
             (res) => {
               setData(res.data);
+              setEvent(event);
             }
           );
         } else {
@@ -57,29 +69,54 @@ function StorageIndex() {
         }
       });
     }
+    return () => {
+      dispatch(destroyStorageInput());
+      dispatch(destroyStorageCommentInput());
+    };
   }, []);
+
+  const reversedMemos = useMemo(() => {
+    if (data) {
+      const memos = data.storage?.memos;
+      if (Array.isArray(memos)) return [...memos].reverse();
+    }
+  }, [data]);
+
+  const reversedLinks = useMemo(() => {
+    if (data) {
+      const links = data.storage?.links;
+      if (Array.isArray(links)) return [...links].reverse();
+    }
+  }, [data]);
 
   return (
     <div className="storage-wrapper">
-      {data?.storage?.memos.reverse().map(({ _id, title, content }) => (
+      {reversedMemos?.map((el: any) => (
         <StorageMemoBox
-          key={_id}
-          id={_id}
-          storageType={'memo'}
-          storageTitle={title}
-          storageMemoContent={content}
+          key={el._id}
+          storageType="memo"
+          id={el._id}
+          storageTitle={el.title}
+          storageMemoContent={el.content}
         />
       ))}
-      {data?.storage?.links.reverse().map(({ _id, title, metaImageUrl }) => (
+      {reversedLinks?.map((el: any) => (
         <StorageLinkBox
-          key={_id}
-          id={_id}
-          storageType={'link'}
-          storageTitle={title}
-          storageMetaImageUrl={metaImageUrl}
+          key={el._id}
+          storageType="link"
+          id={el._id}
+          storageTitle={el.title}
+          storageMetaImageUrl={el.metaImageUrl}
         />
       ))}
       <StorageAddBtn />
+      <BottomSheet
+        open={open}
+        comments={data?.storage?.comments}
+        event={event}
+        setData={setData}
+        bottomSheetRef={bottomSheetRef}
+      />
     </div>
   );
 }

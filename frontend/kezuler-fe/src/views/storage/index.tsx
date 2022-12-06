@@ -19,12 +19,16 @@ import 'src/styles/Storage.scss';
 function StoragePage() {
   const dispatch = useDispatch<AppDispatch>();
   const { destroy } = createStorageActions;
-  const { show } = alertAction;
   const { eventId, id } = useParams();
   const { openDialog } = useDialog();
   const navigate = useNavigate();
   const location = useLocation();
+  const menuRef = useRef<any>(null);
+  const commentRef = useRef<any>(null);
+  const bottomSheetRef = useRef<any>(null);
 
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState<any>(null);
   const [currentUrl, setCurrentUrl] = useState('');
   const [isClickedMenu, setIsClickedMenu] = useState(false);
   const [commentOrDots, setCommentOrDots] = useState<'comment' | 'dots' | null>(
@@ -105,20 +109,41 @@ function StoragePage() {
     } else navigate(-1);
   };
 
-  const handleCommentClick = () => {
-    dispatch(
-      show({
-        title: '댓글 기능은 현재 준비중입니다',
-        description: '조금만 기다려주세요!',
-      })
-    );
-  };
-
   window.onpopstate = function () {
     //뒤로가기를 한 페이지가 미팅일정선택완료 페이지면 메인페이지(fixed)로 이동.
     if (currentUrl === `${PathName.storage}/${eventId}`) {
       if (!prevUrl) navigate(`${PathName.mainFixed}`);
       else navigate(prevUrl);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('mousedown', clickMenuOutside);
+    document.addEventListener('mousedown', clickCommetsOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', clickMenuOutside);
+      document.removeEventListener('mousedown', clickCommetsOutside);
+    };
+  });
+
+  const clickMenuOutside = (e: MouseEvent) => {
+    if (
+      isClickedMenu &&
+      menuRef.current &&
+      !menuRef.current.contains(e.target)
+    ) {
+      setIsClickedMenu(false);
+    }
+  };
+
+  const clickCommetsOutside = (e: MouseEvent) => {
+    if (
+      open &&
+      commentRef.current &&
+      !commentRef.current.contains(e.target) &&
+      !bottomSheetRef.current.contains(e.target)
+    ) {
+      setOpen(false);
     }
   };
 
@@ -131,48 +156,49 @@ function StoragePage() {
           mainColored={true}
         />
         <div className="comment-icon">
-          {commentOrDots === 'comment' ? (
-            <Comment onClick={handleCommentClick} />
-          ) : (
-            commentOrDots === 'dots' && (
-              <div className="dots-wrapper">
-                <MoreHoriz onClick={() => setIsClickedMenu((prev) => !prev)} />
-                {isClickedMenu && (
-                  <div className="dots-menu">
-                    {typeFromPath === 'memo' && (
-                      <div
-                        onClick={handleEditClick}
-                        className="dots-menu-content"
-                      >
-                        편집하기
-                      </div>
-                    )}
-                    {typeFromPath === 'memo' && (
-                      <div
-                        onClick={handleDeleteClick}
-                        className={classNames(
-                          'dots-menu-content',
-                          'border-top'
-                        )}
-                      >
-                        삭제하기
-                      </div>
-                    )}
-                    {typeFromPath !== 'memo' && (
-                      <div
-                        onClick={handleDeleteClick}
-                        className={classNames('dots-menu-content')}
-                      >
-                        삭제하기
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )
+          {commentOrDots === 'comment' && (
+            <Comment
+              ref={commentRef}
+              onClick={() => setOpen((prev) => !prev)}
+            />
+          )}
+          {commentOrDots === 'dots' && (
+            <div className="dots-wrapper">
+              <MoreHoriz onClick={() => setIsClickedMenu((prev) => !prev)} />
+              {isClickedMenu && (
+                <div className="dots-menu">
+                  {typeFromPath === 'memo' && (
+                    <div
+                      onClick={handleEditClick}
+                      className="dots-menu-content"
+                    >
+                      편집하기
+                    </div>
+                  )}
+                  {typeFromPath === 'memo' && (
+                    <div
+                      onClick={handleDeleteClick}
+                      className={classNames('dots-menu-content', 'border-top')}
+                    >
+                      삭제하기
+                    </div>
+                  )}
+                  {typeFromPath !== 'memo' && (
+                    <div
+                      onClick={handleDeleteClick}
+                      className={classNames('dots-menu-content')}
+                    >
+                      삭제하기
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           )}
         </div>
-        <Outlet context={{ setTextAppBarTitle }} />
+        <Outlet
+          context={{ setTextAppBarTitle, setData, data, open, bottomSheetRef }}
+        />
       </div>
     </div>
   );

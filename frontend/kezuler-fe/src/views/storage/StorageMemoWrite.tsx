@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import KezulerStorageInstance from 'src/constants/api-storage';
 import PathName from 'src/constants/PathName';
 import useDialog from 'src/hooks/useDialog';
+import useIOSScroll from 'src/hooks/useIOSScroll';
 import { RootState } from 'src/reducers';
 import { createStorageActions } from 'src/reducers/CreateStorage';
 import { AppDispatch } from 'src/store';
@@ -14,6 +15,7 @@ import BottomButton from 'src/components/common/BottomButton';
 import 'src/styles/Storage.scss';
 
 function StorageMemoWrite() {
+  useIOSScroll();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { openDialog } = useDialog();
@@ -64,7 +66,11 @@ function StorageMemoWrite() {
         onChange={(e) => dispatch(setMemoContent(e.target.value))}
         value={storageMemoContent}
       />
-      <BottomButton onClick={handleNextClick} text={isEdit ? '확인' : '다음'} />
+      <BottomButton
+        disabled={storageMemoContent === ''}
+        onClick={handleNextClick}
+        text={isEdit ? '확인' : '다음'}
+      />
     </div>
   );
 }
