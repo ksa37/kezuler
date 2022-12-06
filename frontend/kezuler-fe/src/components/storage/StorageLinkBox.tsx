@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import PathName from 'src/constants/PathName';
+import { StorageType } from 'src/types/Storage';
 
 import NoImg from 'src/assets/image/no_image.jpeg';
 import 'src/styles/components.scss';
@@ -9,7 +10,7 @@ import 'src/styles/components.scss';
 interface Props {
   id: string;
   storageTitle: string;
-  storageType: string;
+  storageType: StorageType;
   storageMetaImageUrl: string;
 }
 
