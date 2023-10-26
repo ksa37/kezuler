@@ -1,0 +1,385 @@
+@import './constants.scss';
+
+.accept-wrapper {
+  margin-top: $app-bar-height;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  &.in-participants {
+    margin-top: 0;
+  }
+
+  @media (max-height: $short-height-size) {
+    margin-top: $app-bar-height--short;
+  }
+}
+
+// Invitation
+
+// .invitation {
+//   overflow-y: scroll;
+// }
+
+.invitation-message {
+  color: $color-highlight;
+  font-size: $font-24;
+  text-align: left;
+  padding: 40px 0 0 40px;
+
+  b {
+    width: 100%;
+    word-break: break-all;
+  }
+
+  @media (max-width: 340px) {
+    padding-right: 40px;
+    font-size: $font-20;
+  }
+
+  @media (max-height: 620px) {
+    padding-top: 40px;
+  }
+}
+
+.invitation-avatar {
+  border-radius: 28px;
+  border: 1px solid #ffff;
+  width: 54px;
+  height: 54px;
+
+  position: absolute;
+  top: -34px;
+  right: 24px;
+  // margin-top: -12px;
+}
+
+.invitation-card {
+  position: relative;
+  padding: 20px;
+  text-align: left;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 15px 35px #282f390d;
+  border-radius: 16px;
+  margin-top: 24px;
+  margin-inline: 32px;
+  &.is-showmore-need {
+    padding: 20px 20px 30px 20px;
+    @media (max-width: 340px) {
+      padding: 20px 20px 25px 20px;
+    }
+  }
+  @media (max-width: 340px) {
+    margin-top: 40px;
+    padding: 16px;
+  }
+
+  .invitation-section-wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .invitation-title-place {
+    font-size: $font-14;
+    line-height: 17px;
+    color: #9f9f9f;
+    &.place {
+      margin-top: 16px;
+      @media (max-width: 340px) {
+        font-size: $font-12;
+        margin-top: 8px;
+      }
+    }
+  }
+
+  .invitation-title-text {
+    margin-top: 8px;
+    font-size: $font-18;
+    line-height: 21px;
+    font-weight: bold;
+    word-break: break-all;
+    @media (max-width: 340px) {
+      font-size: $font-16;
+      margin-top: 4px;
+    }
+  }
+
+  .invitation-description-text-ellipsis {
+    height: 30px;
+    overflow: auto;
+    overflow-y: hidden;
+    margin-top: 8px;
+    font-size: $font-16;
+    line-height: 21px;
+    word-break: break-word;
+    white-space: pre-line;
+    &.is-showmore-need {
+      border-bottom: 1px solid #f3f3f3;
+    }
+    @media (max-width: 340px) {
+      margin-top: 4px;
+    }
+    background: linear-gradient(to bottom, #000000, #f9f9f9);
+    color: transparent;
+    background-clip: text;
+  }
+
+  .invitation-description-text {
+    margin-top: 8px;
+    font-size: $font-16;
+    line-height: 21px;
+    word-break: break-word;
+    white-space: pre-line;
+    @media (max-width: 340px) {
+      margin-top: 4px;
+    }
+  }
+
+  .invitation-place {
+    margin-top: 8px;
+    font-size: $font-16;
+    line-height: 19px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    @media (max-width: 340px) {
+      font-size: $font-14;
+      margin-top: 4px;
+    }
+
+    .invitation-place-text {
+      width: 100%;
+      padding-left: 6px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: break-all;
+      &.is-ellipsis {
+        padding-left: 2px;
+      }
+      &.is-fold {
+        text-overflow: clip;
+        white-space: normal;
+        word-break: break-all;
+        word-wrap: normal;
+      }
+
+      span {
+        word-break: break-all;
+      }
+    }
+
+    .invitation-place-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      &.is-ellipsis {
+        color: $color-66;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        &:hover {
+          background-color: #00000011;
+        }
+      }
+    }
+  }
+
+  .invitation-showmore {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    cursor: pointer;
+    @media (max-width: 340px) {
+      bottom: 4px;
+    }
+    .invitation-showmore-text {
+      font-size: $font-14;
+      line-height: 17px;
+      color: #9f9f9f;
+      @media (max-width: 340px) {
+        font-size: $font-12;
+      }
+    }
+
+    .invitation-showmore-icon {
+      font-size: $font-18;
+      line-height: 17px;
+      color: #9f9f9f;
+      @media (max-width: 340px) {
+        font-size: $font-16;
+      }
+    }
+  }
+
+  .invitation-link {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
+// AcceptanceCompletion
+
+.acceptance-completion {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.acceptance-completion-bottom-area {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.acceptance-completion-sub-description {
+  flex: 1;
+  &.fixed {
+    flex: none;
+  }
+  font: normal normal normal 16px/24px Pretendard;
+  color: #9f9f9f;
+  text-align: left;
+  margin-top: 32px;
+  margin-left: 20px;
+}
+
+.acceptance-complete-imgs {
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 407px;
+  bottom: 79px;
+
+  @media (max-width: 320px), (max-height: 720px) {
+    height: 270px;
+  }
+
+  @media (max-height: 540px) {
+    display: none;
+  }
+}
+
+.acceptance-bell-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  top: 0;
+  right: 13px;
+
+  .acceptance-bell {
+    width: 275px;
+    height: 275px;
+  }
+
+  @media (max-width: 320px), (max-height: 720px) {
+    width: 120px;
+    height: 120px;
+    right: 8px;
+
+    .acceptance-bell {
+      width: 180px;
+      height: 180px;
+    }
+  }
+}
+
+.acceptance-circle {
+  position: absolute;
+  top: 68px;
+  right: -45px;
+  z-index: 0;
+
+  @media (max-width: 320px), (max-height: 720px) {
+    width: 198px;
+    height: 198px;
+    top: 46px;
+    right: -30px;
+  }
+}
+
+.acceptance-talking {
+  position: absolute;
+  top: 0;
+  right: 79px;
+  z-index: 1;
+
+  @media (max-width: 320px), (max-height: 720px) {
+    width: 150px;
+    height: 150px;
+    top: 120px;
+    right: 52px;
+  }
+}
+
+.acceptance-talking-people {
+  position: absolute;
+  top: 180px;
+  right: 79px;
+  z-index: 1;
+
+  width: 227px;
+  height: 227px;
+
+  @media (max-width: 320px), (max-height: 720px) {
+    width: 150px;
+    height: 150px;
+    top: 120px;
+    right: 52px;
+  }
+}
+
+.celebrate-smile-icon-confirm {
+  position: absolute;
+  overflow: hidden;
+  right: 180px;
+  bottom: 200px;
+  width: 85px;
+  height: 85px;
+
+  @media (max-height: $short-height-size), (max-width: 329px) {
+    width: 50px;
+    height: 50px;
+    right: 130px;
+    bottom: 164px;
+  }
+
+  @media (max-height: 490px) {
+    display: none;
+  }
+}
+
+.celebrate-icon-confirm {
+  position: absolute;
+  overflow: hidden;
+  right: -30px;
+  bottom: 48px;
+  width: 290px;
+  height: 290px;
+
+  @media (max-height: $short-height-size), (max-width: 329px) {
+    width: 220px;
+    height: 220px;
+  }
+
+  @media (max-height: 490px) {
+    display: none;
+  }
+}

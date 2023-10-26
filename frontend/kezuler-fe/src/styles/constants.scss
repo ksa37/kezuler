@@ -1,0 +1,43 @@
+$color-background: #f6f6f6;
+
+$color-highlight: #282f39;
+$color-highlight-light: rgba($color-highlight, 0.05);
+$color-66: #666666;
+
+$color-text: #7f828c;
+
+$color-main: #fad94f;
+$color-main-dark: #fdba41;
+$color-main-light: rgba($color-main, 0.2);
+
+$color-alert: #e1525b;
+
+$common-border-radius: 16px;
+
+$font-24: 24px;
+$font-20: 20px;
+$font-18: 18px;
+$font-16: 16px;
+$font-14: 14px;
+$font-13: 13px;
+$font-12: 12px;
+$font-10: 10px;
+
+$pc-view-width: 800px;
+$intro-show-width: 980px;
+
+$pc-view-main-width: 414px;
+$pc-view-main-height: 767px;
+
+$app-bar-height: 72px;
+$app-bar-height--short: 56px;
+
+$short-height-size: 600px;
+
+@mixin error-text {
+  margin-top: 4px;
+  font-size: $font-12;
+  line-height: $font-14;
+  font-weight: normal;
+  color: $color-alert;
+}

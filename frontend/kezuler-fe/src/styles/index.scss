@@ -1,0 +1,273 @@
+@import 'constants';
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+* {
+  word-break: keep-all;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR',
+    'Malgun Gothic', sans-serif !important;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+.App {
+  overflow-x: hidden;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  position: relative;
+  background: $color-background;
+  @media (min-width: $pc-view-width) {
+    @media (min-width: $pc-view-main-width + 1px) {
+      width: $pc-view-main-width;
+    }
+    @media (min-height: $pc-view-main-height + 1px) {
+      height: $pc-view-main-height;
+      overflow-y: hidden;
+    }
+    box-shadow: 0 2px 50px rgba($color-highlight, 0.3);
+    border-radius: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 2.5px solid rgba($color-highlight, 0.3);
+  }
+}
+
+.app-inner {
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.app-wrapper {
+  @media (min-width: $pc-view-width) {
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+    background-color: #ffffff;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+  }
+}
+
+.kezuler-intro {
+  @media (max-width: $intro-show-width) {
+    display: none;
+  }
+  .kezuler-intro-img text {
+    font-family: Pretendard;
+  }
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: left;
+  margin-right: 40px;
+  .kezuler-intro-title {
+    font-size: 70px;
+    color: $color-highlight;
+    span {
+      color: #6d4be5;
+    }
+    .kezuler-intro-title-bold {
+      font-weight: bold;
+      font-size: 120px;
+    }
+  }
+  .kezuler-intro-decription {
+    font-size: 30px;
+  }
+  .kezuler-intro-login-kakao-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: $color-highlight;
+    // height: 84px;
+    // padding-inline: 5px;
+    margin-top: 20px;
+    width: 400px;
+    color: #fae301;
+    border-radius: 24px;
+    font-size: 30px;
+  }
+
+  .kezuler-intro-login-kakao-icn {
+    padding-right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.common-app-bar {
+  width: 100%;
+  // position: fixed;
+  position: sticky;
+  top: 0;
+  right: 0;
+  z-index: 1100;
+  height: $app-bar-height;
+
+  @media (max-height: $short-height-size) {
+    height: $app-bar-height--short;
+  }
+}
+
+.main-app-bar {
+  box-sizing: border-box;
+  // height: 100%;
+  height: $app-bar-height;
+  padding: 0 20px;
+  border-radius: 0 0 12px 12px;
+  background: white;
+  box-shadow: 0 3px 30px rgba($color-highlight, 0.1);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-height: $short-height-size) {
+    height: $app-bar-height--short;
+  }
+
+  .main-app-bar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+      text-decoration: none;
+      position: relative;
+
+      &.new::after {
+        position: absolute;
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        top: 2px;
+        right: 2px;
+        background: $color-main;
+      }
+
+      // &:first-child {
+      //   margin-right: 20px;
+      // }
+    }
+  }
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  // min-height: -webkit-fill-available;
+  background-color: $color-background;
+}
+
+main {
+  // height: calc(100% - #{$app-bar-height});
+  height: 100%;
+  // min-height: -webkit-fill-available;
+  // padding-top: $app-bar-height;
+  background: $color-background;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  @media (min-width: $pc-view-width) {
+    padding-top: 0;
+  }
+}
+
+textarea {
+  resize: none;
+}
+
+$common-tab-size: 64px;
+
+.common-tab {
+  box-sizing: border-box;
+  padding: 24px 20px 8px;
+  position: sticky;
+  top: $app-bar-height;
+  background: $color-background;
+  left: 0;
+  width: 100%;
+  // min-height: 64px;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+
+  @media (max-height: $short-height-size) {
+    top: $app-bar-height--short;
+    padding-top: 16px;
+  }
+
+  .common-tab-buttons-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .common-tab-button {
+    color: #bfbfbf;
+    font-size: $font-20;
+    border: none;
+    background: none;
+    cursor: pointer;
+    min-height: 30px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    @media (max-width: 350px) {
+      font-size: $font-18;
+    }
+
+    &.left {
+      padding: 0;
+
+      &::after {
+        padding: 0 12px 0 0;
+        content: '';
+        height: 20px;
+        border-right: 1px solid #bfbfbf;
+      }
+    }
+
+    &.right {
+      padding: 0 0 0 12px;
+    }
+
+    &.selected {
+      color: $color-highlight;
+      font-size: $font-24;
+      font-weight: bold;
+      @media (max-width: 350px) {
+        font-size: $font-20;
+      }
+    }
+
+    &.disabled {
+      pointer-events: none;
+    }
+  }
+}
+
+.circular-progress-bar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  .circular-progress-bar {
+    color: $color-highlight;
+  }
+}
+
+.login-kakao-icn {
+  padding-right: 12px;
+}

@@ -1,0 +1,577 @@
+@import './constants';
+
+@mixin main-host-badge {
+  position: absolute;
+  transform: translateY(-50%);
+  content: '호스트';
+  font-size: $font-10;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-highlight;
+  background: #ffffff;
+  height: 20px;
+  width: 48px;
+  border-radius: 8px;
+  border: 2px solid #fad94f;
+  box-sizing: border-box;
+}
+
+.main-tab {
+  justify-content: space-between;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+
+  height: 62px;
+
+  @media (max-height: $short-height-size) {
+    height: 54px;
+  }
+}
+
+.main-tab-today {
+  padding: 0;
+}
+
+.main-page-wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background-color: $color-background;
+}
+
+.main-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: $color-background;
+}
+
+.main-fixed {
+  // margin-top: 88px; // 64 + 24
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 16px;
+  flex: 1;
+}
+
+.main-fixed-empty {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.main-fixed-month-divider {
+  margin: 16px 28px 21px;
+  position: relative;
+  font-size: $font-20;
+
+  &::after {
+    position: absolute;
+    width: calc(100% - 28px);
+    top: 50%;
+    transform: translateY(50%) - 1px; // border-thinkness / 2
+    margin-left: 16px;
+    content: '';
+    border-top: 2px dashed #70707033;
+  }
+}
+
+.main-empty-h2 {
+  margin: 40px 0 0;
+  text-align: center;
+  white-space: pre;
+  font-size: $font-18;
+  font-weight: normal;
+  color: #bec1c7;
+
+  // &.pending {
+  //   margin: unset;
+  // }
+}
+
+.fixed-event-card {
+  text-align: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: stretch;
+  position: relative;
+
+  min-height: 96px;
+  width: calc(100% - 40px);
+  box-sizing: border-box;
+  margin: 0 20px 16px;
+  padding: 14px 12px;
+
+  background-color: white;
+  border-radius: $common-border-radius;
+  box-shadow: 0 15px 35px $color-highlight-light;
+
+  @media (max-width: 300px) {
+    padding: 12px 10px;
+  }
+
+  &.is-host {
+    &::before {
+      top: 0;
+      left: 15px; // 12 (padding) + 3
+      @include main-host-badge;
+    }
+  }
+
+  &.passed {
+    &.is-host {
+      &::before {
+        border-color: #bfbfbf;
+      }
+    }
+    .fixed-event-card-date {
+      box-shadow: 0 0 10px #282f391a;
+      color: #9f9f9f;
+
+      > span {
+        color: #9f9f9f;
+      }
+    }
+
+    .fixed-event-card-info {
+      > div:first-child {
+        color: #bfbfbf;
+      }
+    }
+
+    .fixed-event-card-avatars {
+      opacity: 0.5;
+    }
+  }
+
+  &.canceled {
+    &.is-host {
+      &::before {
+        border-color: #bfbfbf;
+      }
+    }
+    .fixed-event-card-date {
+      background-color: #eaeaea;
+      box-shadow: 0 0 10px #282f391a;
+      color: #bfbfbf;
+
+      > span {
+        color: #bfbfbf;
+      }
+    }
+
+    .fixed-event-card-info {
+      > div {
+        &:first-child {
+          color: #bfbfbf;
+        }
+        &:nth-child(2) {
+          color: #bfbfbf;
+        }
+      }
+    }
+
+    .fixed-event-card-time {
+      color: #bfbfbf;
+    }
+  }
+
+  &.canceled-guest {
+    .fixed-event-card-info {
+      > div {
+        &:first-child {
+          color: #bfbfbf;
+        }
+        &:nth-child(2) {
+          color: #bfbfbf;
+        }
+      }
+    }
+
+    .fixed-event-card-time {
+      color: #bfbfbf;
+    }
+  }
+
+  &.today {
+    .fixed-event-card-date {
+      background-color: $color-main;
+      box-shadow: 0 0 10px #0000001a;
+    }
+  }
+}
+
+.fixed-event-card-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  width: 56px;
+  min-width: 56px;
+  margin-right: 16px;
+
+  border-radius: $common-border-radius;
+  background-color: white;
+  box-shadow: 0 0 10px #282f391a;
+
+  font-size: 16px;
+  color: $color-66;
+
+  @media (max-width: 300px) {
+    margin-right: 8px;
+  }
+
+  > span {
+    color: $color-highlight;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+}
+
+.fixed-event-card-empty-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  color: $color-text;
+  font-size: $font-16;
+}
+
+.fixed-event-card-empty-day {
+  font-size: $font-16;
+  color: $color-highlight;
+  font-weight: bold;
+}
+
+.fixed-event-card-info {
+  flex: 1;
+
+  > div {
+    &:first-child {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: $font-14;
+      color: $color-highlight;
+    }
+
+    &:nth-child(2) {
+      margin-top: 4px;
+      width: 100%;
+      color: $color-text;
+      font-size: $font-16;
+      word-break: break-all;
+    }
+
+    &:last-child {
+      margin-top: 12px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  &.is-canceled {
+    > div {
+      &:last-child {
+        margin-top: 4px;
+      }
+    }
+  }
+}
+
+.fixed-event-card-time {
+  color: $color-highlight;
+  font-weight: bold;
+
+  &.is-passed {
+    color: #bfbfbf;
+  }
+}
+
+.fixed-event-card-place {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #8d8d8d;
+  font-size: 14px;
+  max-width: 100px;
+
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex: 1;
+    white-space: nowrap;
+  }
+
+  svg {
+    margin-right: 4px;
+  }
+
+  @media (max-width: 300px) {
+    max-width: 80px;
+  }
+}
+
+.fixed-event-card-avatars {
+  display: flex;
+  align-items: flex-start;
+
+  &.pending {
+    margin-top: 6px;
+  }
+  &.canceled {
+    opacity: 0.5;
+  }
+}
+
+.fixed-event-card-avatar-num {
+  width: 32px;
+  height: 32px;
+  background: $color-highlight;
+  color: $color-main;
+  font-size: $font-12;
+  border: 1px solid white !important;
+  margin-top: 3px;
+
+  &.host {
+    margin-top: 0;
+    border: 3px solid $color-main !important;
+    margin-right: 12px;
+
+    @media (max-width: 300px) {
+      margin-right: 6px;
+    }
+  }
+
+  &.pending {
+    width: 26px;
+    height: 26px;
+  }
+
+  &.canceled {
+    // background-color: #bfbfbf !important;
+    color: $color-main;
+    font-size: $font-12;
+    border: 1px solid white !important;
+  }
+}
+
+.fixed-event-card-host-desc {
+  text-align: center;
+  margin-top: 2px;
+  font-size: 8px;
+  margin-right: 12px;
+  color: $color-highlight;
+  @media (max-width: 300px) {
+    margin-right: 6px;
+  }
+}
+
+.fixed-event-card-guest-desc {
+  margin-top: 2px;
+  font-size: 8px;
+  margin-left: 1.5px;
+  color: $color-highlight;
+}
+
+.fixed-event-card-avatar {
+  background: #bfbfbf;
+  color: white;
+}
+
+.main-pending {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 16px;
+  flex: 1;
+}
+
+.pending-event-card {
+  margin: 0 20px 20px;
+  padding: 16px;
+  position: relative;
+
+  background-color: white;
+  border-radius: $common-border-radius;
+  box-shadow: 0 15px 35px $color-highlight-light;
+  cursor: pointer;
+
+  &.is-host {
+    &::before {
+      top: 0;
+      @include main-host-badge;
+    }
+  }
+
+  .pending-event-card-body {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .pending-event-card-left {
+      width: 45%;
+      display: flex;
+      flex-direction: column;
+      padding-left: 8px;
+      display: block;
+
+      .pending-event-card-title {
+        font-weight: bold;
+        font-size: $font-16;
+        color: $color-highlight;
+        word-break: break-all;
+        width: 100%;
+
+        overflow: clip;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        &.canceled {
+          color: #bfbfbf;
+        }
+      }
+    }
+
+    .pending-event-card-right {
+      color: $color-highlight;
+      font-size: $font-12;
+      width: 45%;
+      display: flex;
+      align-items: center;
+      @mixin pending-event-button {
+        width: 100%;
+        height: 70%;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba($color-highlight, 0.1);
+        color: inherit;
+        font-size: inherit;
+      }
+
+      .pending-event-confirm {
+        @include pending-event-button;
+        background-color: $color-main-dark;
+        flex: 1;
+        font-family: unset;
+        line-height: unset;
+        // word-break: keep-all;
+        &.canceled {
+          background-color: #eaeaea;
+          color: #c3c3c3;
+        }
+      }
+
+      .pending-event-change {
+        @include pending-event-button;
+        background-color: $color-main;
+        flex: 1;
+        font-family: unset;
+        line-height: unset;
+        // word-break: keep-all;
+        &.canceled {
+          background-color: #eaeaea;
+          color: #c3c3c3;
+        }
+      }
+    }
+  }
+
+  > div {
+    &:first-child {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-left: 8px;
+
+      color: $color-text;
+      font-size: $font-12;
+
+      &.canceled {
+        color: #bfbfbf;
+      }
+
+      .pending-participant-info {
+        color: $color-highlight;
+        cursor: pointer;
+      }
+
+      .pending-participant-info-num {
+        padding-left: 4px;
+        color: #808080;
+      }
+
+      .pending-participant-info-divider {
+        margin: 0 8px;
+        padding-left: 1px;
+        background: #bfbfbf;
+      }
+    }
+  }
+}
+
+.main-floating-button-container {
+  position: sticky;
+  bottom: 0;
+  right: 0;
+  text-align: right;
+  padding: 24px;
+  pointer-events: none;
+}
+
+.main-floating-button {
+  background: none;
+  padding: 0;
+  border: none;
+  outline: none;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  color: $color-highlight;
+  font-weight: bold;
+  font-size: $font-14;
+
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.main-floating-button-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 0 5px 10px #00000029;
+  background: $color-highlight;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-floating-button-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-highlight;
+  color: $color-main;
+  border-radius: 10px;
+  padding: 2px 5px;
+  box-shadow: 0 5px 30px #00000029;
+}
+
+.main-footer {
+  background-color: #eaeaea;
+  font-size: 12px;
+  padding: 20px 16px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

@@ -1,0 +1,309 @@
+@import './constants';
+
+.bottom-card {
+  background-color: #ffffff;
+  margin-inline: 30px;
+  border-radius: 16px;
+  padding: 14px;
+  filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.160784));
+  margin-top: 5rem;
+
+  .bottom-card-description {
+    font-size: $font-16;
+    font-weight: 500;
+
+    // &:last-child {
+    margin-bottom: 16px;
+    // }
+
+    em {
+      font-size: inherit;
+      font-weight: bold;
+      color: inherit;
+      font-style: unset;
+      position: relative;
+
+      &::after {
+        z-index: -1;
+        width: calc(100% + 2px);
+        height: 4px;
+        left: -1px;
+        bottom: 0;
+
+        border-radius: 2px;
+        position: absolute;
+        content: '';
+        color: $color-main;
+        background-color: $color-main;
+      }
+    }
+  }
+
+  .bottom-card-btn-wrapper {
+    // margin-left: ;
+    display: flex;
+    justify-content: flex-end;
+
+    .bottom-card-btn {
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: bold;
+      background-color: #fee500;
+      border-radius: 16px;
+      padding-block: 6px;
+      text-align: center;
+      min-width: 130px;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.bottom-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: $color-highlight;
+  color: $color-main;
+  height: 56px;
+  font-family: Pretendard;
+  font-size: 16px;
+  text-align: center;
+  z-index: 1;
+  // position: fixed;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+
+  &.ios-keyboard-focus {
+    position: fixed;
+  }
+
+  &.not-fixed {
+    position: unset;
+  }
+
+  &.disabled {
+    color: #9f9f9f;
+    pointer-events: none;
+  }
+
+  &.sub-exist {
+    justify-content: unset;
+
+    .btn-text-area {
+      display: flex;
+      text-align: left;
+
+      .btn-text {
+        padding-right: 40px;
+      }
+    }
+  }
+
+  .btn-text-area {
+    width: 100%;
+
+    .btn-subtext {
+      font-size: 14px;
+      padding-left: 32px;
+      flex: 1;
+    }
+  }
+}
+
+.text-app-bar {
+  color: $color-highlight;
+  background-color: $color-background;
+  height: calc(#{$app-bar-height} - 4px);
+  z-index: 3;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+
+  @media (max-height: $short-height-size) {
+    height: calc(#{$app-bar-height--short} - 4px);
+  }
+
+  &.main-colored {
+    background-color: $color-main;
+  }
+
+  .text-app-bar-content {
+    margin-top: 20px;
+
+    @media (max-height: $short-height-size) {
+      margin-top: 4px;
+    }
+
+    .text-app-bar-content-text {
+      padding-top: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 19px;
+      align-items: center;
+      text-align: center;
+      margin-left: 25%;
+      width: 50%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .text-app-bar-content-bbtn {
+      cursor: pointer;
+      position: absolute;
+      left: 28px;
+      padding-block: 17px;
+    }
+  }
+}
+
+.progress-bar {
+  width: 100%;
+  position: absolute;
+  top: calc(#{$app-bar-height} - 4px);
+  z-index: 3;
+  background-color: #ffffff;
+
+  @media (max-height: $short-height-size) {
+    top: calc(#{$app-bar-height--short} - 4px);
+  }
+}
+
+.share-icons {
+  display: block;
+  margin-block: 48px;
+  // justify-content: space-between;
+  &.for-popup {
+    margin-top: 24px;
+    margin-bottom: 36px;
+  }
+}
+
+.share-icon {
+  box-sizing: border-box;
+  background-color: #fae301;
+  box-shadow: 0px 15px 35px #282f391a;
+  border-radius: 28px;
+  aspect-ratio: 1;
+  position: relative;
+
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 8px;
+
+  @media (min-width: 340px) {
+    width: 80px;
+
+    &.for-popup {
+      width: unset;
+    }
+  }
+
+  &.for-popup {
+    @media (max-width: 340px) {
+      min-width: 50px;
+      svg {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+
+  &:hover {
+    background: 'none';
+  }
+
+  .share-text {
+    position: absolute;
+    bottom: -28px;
+    font-size: $font-14;
+    color: $color-highlight;
+    font-weight: 500;
+    line-height: 1.75;
+  }
+}
+
+.google-login-on {
+  border: 1px solid #282f39;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  .google-login-on-logo {
+    width: 18px;
+    width: 18px;
+    margin-right: 10px;
+  }
+
+  .google-login-on-text {
+    height: 10px;
+    line-height: 10px;
+    font-size: 12px;
+  }
+}
+
+.google-login-off {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .google-login-off-logo {
+    width: 18px;
+    width: 18px;
+    margin-right: 10px;
+  }
+
+  .google-login-off-text {
+    height: 10px;
+    line-height: 10px;
+    font-size: 12px;
+  }
+
+  .google-login-off-info {
+    font-size: 12px;
+
+    .google-login-off-info-gray {
+      color: #9f9f9f;
+    }
+  }
+
+  .google-login-off-disconnect {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 10px;
+    cursor: pointer;
+    svg {
+      width: 12px;
+      color: #9f9f9f;
+    }
+    .google-login-off-disconnect-gray {
+      color: #9f9f9f;
+    }
+  }
+}
